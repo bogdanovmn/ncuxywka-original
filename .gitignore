@@ -1,0 +1,7 @@
+*.swp
+startup.pl
+.htaccess
+conf/
+cache/
+logs/
+sessions/
