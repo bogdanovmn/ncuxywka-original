@@ -1,7 +1,7 @@
 package CACHE;
 
 use Data::Dumper;
-use PSY::ERRORS;
+use Psy::Errors;
 use NICE_VALUES;
 
 use constant FRESH_TIME_MINUTE => 60;

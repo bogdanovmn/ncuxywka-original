@@ -1,4 +1,4 @@
-package PSY::DB;
+package Psy::DB;
 
 use DBI;
 use strict;
@@ -9,7 +9,7 @@ use lib '/home/users1/r/rednikovp/domains/ncuxywka.com/conf';
 use DB_CONF;
 use Time::HiRes;
 
-use PSY::ERRORS;
+use Psy::Errors;
 
 my $__STATISTIC = {
 	sql_count => 0,

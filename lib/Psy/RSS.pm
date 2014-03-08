@@ -1,10 +1,10 @@
-package PSY::RSS;
+package Psy::RSS;
 
 use strict;
 use warnings;
 
-use PSY::DB;
-use PSY::ERRORS;
+use Psy::DB;
+use Psy::Errors;
 use XML::RSS;
 
 use Data::Dumper;

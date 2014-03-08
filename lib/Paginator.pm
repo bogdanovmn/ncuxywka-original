@@ -9,7 +9,7 @@ use strict;
 # Объект для создания удобочитаемого списка страниц
 # с навигацией
 #
-package PAGINATOR;
+package Paginator;
 
 #
 # Конструктор

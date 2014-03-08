@@ -5,15 +5,15 @@ use warnings;
 
 use Psy::Errors;
 use Date;
-use Psy::TEXT;
-use Psy::TEXT::GENERATOR;
-use Psy::PERSONAL_MESSAGES;
-use Psy::NAVIGATION;
-use Psy::CREO;
-use Psy::SKIN;
-use Psy::AUDITOR;
-use Psy::STATISTIC::USER;
-use Psy::STATISTIC::CREO;
+use Psy::Text;
+use Psy::Text::Generator;
+use Psy::PersonalMessages;
+use Psy::Navigation;
+use Psy::Creo;
+use Psy::Skin;
+use Psy::Auditor;
+use Psy::Statistic::User;
+use Psy::Statistic::Creo;
 use Cache;
 use NICE_VALUES;
 
@@ -58,21 +58,21 @@ use constant MODERATOR_SCOPE_QUARANTINE => "quarantine";
 use constant MODERATOR_SCOPE_CREO_DELETE=> "creo_delete";
 use constant MODERATOR_SCOPE_PLAGIARISM => "plagiarism";
 
-use base "Psy::AUTH", "Psy::STATISTIC", "Psy::ADMIN_INFO", "Psy::SEARCH";
+use base "Psy::Auth", "Psy::Statistic", "Psy::ADMIN_INFO", "Psy::SEARCH";
 
 sub enter {
 	my ($class, %p) = @_;
 
 	$p{check_ban} = not defined $p{check_ban} ? 1 : 0;
 
-	my $self = Psy::AUTH::info($class);
+	my $self = Psy::Auth::info($class);
 	
 	if ($p{check_ban} and $self->banned) {
 		pn_goto(URL_BANNED);
 	}
 
-	$self->{personal_messages} = Psy::PERSONAL_MESSAGES->constructor(user_id => $self->{user_data}->{user_id});
-	$self->{auditor} = Psy::AUDITOR->constructor(user_id => $self->{user_data}->{user_id});
+	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
+	$self->{auditor} = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{cache} = Cache->constructor(
 		storage => './cache',
 		fresh_time => 30
@@ -122,7 +122,7 @@ sub online_list {
 	@sessions = sort { $a->{o_action_time_raw} <=> $b->{o_action_time_raw} } @sessions;
 
 	push(@sessions, {
-		o_user_id => Psy::AUTH::ANNONIMUS_ID,
+		o_user_id => Psy::Auth::ANNONIMUS_ID,
 		o_user_name => undef,
 		o_action_time => undef,
 		#o_count => $anonimous{count}
@@ -146,9 +146,9 @@ sub common_info {
 		$self->last_gb_comment(),
 		$self->last_comment(),
 		$self->last_comment_by_spec_room(),
-		#Psy::SKIN::get_skin($p{skin} || "feb14"),
-		Psy::SKIN::get_skin($p{skin} || "original"),
-		mad_phrase => Psy::TEXT::GENERATOR::attention_phrase(),
+		#Psy::Skin::get_skin($p{skin} || "feb14"),
+		Psy::Skin::get_skin($p{skin} || "original"),
+		mad_phrase => Psy::Text::Generator::attention_phrase(),
 		%{$self->{user_data}}
 	);
 
@@ -279,17 +279,17 @@ sub comments {
     while (my $row = $sth->fetchrow_hashref) {
 		my $text_original_length = length $row->{lc_msg};
 		
-		#$row->{lc_msg} = Psy::TEXT::SHUFFLE::comment($row->{lc_msg}, words_power => 40, chars_power => 10);
-		$row->{lc_msg} = Psy::TEXT::convert_to_html($row->{lc_msg});
-		$row->{lc_msg} = Psy::TEXT::cut_top_lines($row->{lc_msg}, TM_PREVIEW_LINES) if $p{cut} eq 1;
-		$row->{lc_msg} = Psy::TEXT::cut_first_chars($row->{lc_msg}, TM_PREVIEW_MAX_SIZE) if $p{cut} eq 1;
-		$row->{lc_msg} = Psy::TEXT::activate_inside_links($row->{lc_msg});
+		#$row->{lc_msg} = Psy::Text::SHUFFLE::comment($row->{lc_msg}, words_power => 40, chars_power => 10);
+		$row->{lc_msg} = Psy::Text::convert_to_html($row->{lc_msg});
+		$row->{lc_msg} = Psy::Text::cut_top_lines($row->{lc_msg}, TM_PREVIEW_LINES) if $p{cut} eq 1;
+		$row->{lc_msg} = Psy::Text::cut_first_chars($row->{lc_msg}, TM_PREVIEW_MAX_SIZE) if $p{cut} eq 1;
+		$row->{lc_msg} = Psy::Text::activate_inside_links($row->{lc_msg});
         	
 		$row->{lc_cuted} = 1 if $text_original_length > 10 + length $row->{lc_msg};
 		
 		$row->{lc_alias} = OP_ANONIM_NAME unless $row->{lc_alias};
 		
-		$row->{lc_major} = 1 if $row->{lc_user_id} eq Psy::AUTH::MAIN_DOCTOR_ID;
+		$row->{lc_major} = 1 if $row->{lc_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
 		
 		push(@comments, $row);
     }
@@ -341,14 +341,14 @@ sub load_last_creos {
 		else {
 			my $text_original_length = length $row->{lc_body};
 			
-			#$row->{lc_body} = Psy::TEXT::SHUFFLE::text($row->{lc_body}, words_power => 30, chars_power => 5);
-			$row->{lc_body} = Psy::TEXT::convert_to_html($row->{lc_body});
-			$row->{lc_body} = Psy::TEXT::cut_top_lines($row->{lc_body}, TM_PREVIEW_LINES);
-			$row->{lc_body} = Psy::TEXT::cut_first_chars($row->{lc_body}, TM_PREVIEW_MAX_SIZE);
+			#$row->{lc_body} = Psy::Text::SHUFFLE::text($row->{lc_body}, words_power => 30, chars_power => 5);
+			$row->{lc_body} = Psy::Text::convert_to_html($row->{lc_body});
+			$row->{lc_body} = Psy::Text::cut_top_lines($row->{lc_body}, TM_PREVIEW_LINES);
+			$row->{lc_body} = Psy::Text::cut_first_chars($row->{lc_body}, TM_PREVIEW_MAX_SIZE);
 			
 			$row->{lc_cuted} = 1 if $text_original_length > length $row->{lc_body};
 			
-			my $user = Psy::USER->choose($row->{lc_user_id});
+			my $user = Psy::User->choose($row->{lc_user_id});
 			$row->{lc_avatar} = $user->avatar_file_name;
 		
 			push(@creo, $row);
@@ -372,7 +372,7 @@ sub black_copy_creo_list {
 		AND c.user_id = ?
 		ORDER BY c.post_date 
 		|,
-		[Psy::CREO::CT_BLACK_COPY, $self->user_id],
+		[Psy::Creo::CT_BLACK_COPY, $self->user_id],
 		{error_msg => "Черновики не найдены..."}
 	);
 	return $list;
@@ -534,7 +534,7 @@ sub check_vote_power {
 	
 	return undef if $self->is_annonimus;
 
-	return 1 if $self->user_id eq Psy::AUTH::MAIN_SISTER_ID;
+	return 1 if $self->user_id eq Psy::Auth::MAIN_SISTER_ID;
 	
 	my $user_statistic = $self->query(qq|
 		SELECT
@@ -575,13 +575,13 @@ sub vote {
 		{error_msg => "Право ты имеешь, али тварь дрожащая?"}
 	);
 
-	my $stats = Psy::STATISTIC::CREO->constructor(creo_id => $p{creo_id});
-	$stats->increment(Psy::STATISTIC::CREO::V_VOTES);
-	$stats->set(Psy::STATISTIC::CREO::V_VOTES_RANK);
+	my $stats = Psy::Statistic::Creo->constructor(creo_id => $p{creo_id});
+	$stats->increment(Psy::Statistic::Creo::V_VOTES);
+	$stats->set(Psy::Statistic::Creo::V_VOTES_RANK);
 	
-	$stats = Psy::STATISTIC::USER->constructor(user_id => $self->user_id);
-	$stats->increment(Psy::STATISTIC::USER::V_VOTES_OUT);
-	$stats->set(Psy::STATISTIC::USER::V_VOTES_OUT_RANK);
+	$stats = Psy::Statistic::User->constructor(user_id => $self->user_id);
+	$stats->increment(Psy::Statistic::User::V_VOTES_OUT);
+	$stats->set(Psy::Statistic::User::V_VOTES_OUT_RANK);
 	
 	my $creo_user_id = $self->query(
 		'SELECT user_id FROM creo WHERE id = ?',
@@ -589,9 +589,9 @@ sub vote {
 		{only_field => 'user_id'}
 	);
 
-	$stats = Psy::STATISTIC::USER->constructor(user_id => $creo_user_id);
-	$stats->increment(Psy::STATISTIC::USER::V_VOTES_IN);
-	$stats->set(Psy::STATISTIC::USER::V_VOTES_IN_RANK);
+	$stats = Psy::Statistic::User->constructor(user_id => $creo_user_id);
+	$stats->increment(Psy::Statistic::User::V_VOTES_IN);
+	$stats->set(Psy::Statistic::User::V_VOTES_IN_RANK);
 }
 #
 # Get day quota for post creo
@@ -708,7 +708,7 @@ sub is_plagiarist {
 #
 sub is_annonimus {
 	my $self = shift;
-	return $self->user_id eq Psy::AUTH::ANNONIMUS_ID;
+	return $self->user_id eq Psy::Auth::ANNONIMUS_ID;
 }
 #
 # Is curreent user a God?

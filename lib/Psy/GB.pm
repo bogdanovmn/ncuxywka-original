@@ -1,21 +1,21 @@
-package PSY::GB;
+package Psy::GB;
 
 use strict;
 use warnings;
 
 use lib 'inc';
 
-use PSY::ERRORS;
-use PSY::TEXT;
-use PSY::TEXT::GENERATOR;
-use PSY::STATISTIC::USER;
+use Psy::Errors;
+use Psy::Text;
+use Psy::Text::Generator;
+use Psy::Statistic::User;
 
-use base "PSY";
+use base "Psy";
 
 sub enter {
 	my ($class, %p) = @_;
 
-	my $self = PSY::enter($class);
+	my $self = Psy::enter($class);
 	return $self;
 }
 #
@@ -36,7 +36,7 @@ sub post_comment {
 	
 	return 'dub' if $self->last_msg eq $p{msg};
 	
-	$p{alias} = $self->is_annonimus ? PSY::TEXT::GENERATOR::modify_alias($p{alias}) : "";
+	$p{alias} = $self->is_annonimus ? Psy::Text::Generator::modify_alias($p{alias}) : "";
 
 	$self->query(qq|
 		INSERT INTO gb 
@@ -49,7 +49,7 @@ sub post_comment {
 		{error_msg => "ѕсихи слова не дают сказать!"}
 	);
 
-	PSY::STATISTIC::USER->constructor(user_id => $self->user_id)->increment(PSY::STATISTIC::USER::V_GB_COMMENTS);
+	Psy::Statistic::User->constructor(user_id => $self->user_id)->increment(Psy::Statistic::User::V_GB_COMMENTS);
 }
 #
 # Load guest book messages 
@@ -58,7 +58,7 @@ sub load_comments {
 	my ($self, %p) = @_;
 	
 	my $page = $p{page} || 1;
-	my $offset = ($page - 1) * PSY::OP_RECS_PER_PAGE;
+	my $offset = ($page - 1) * Psy::OP_RECS_PER_PAGE;
 
 	my $comments = $self->query(qq|
 		SELECT 
@@ -82,21 +82,21 @@ sub load_comments {
 		
 		LIMIT ?, ?
 		|,
-		[PSY::G_PLAGIARIST, $offset, PSY::OP_RECS_PER_PAGE]
+		[Psy::G_PLAGIARIST, $offset, Psy::OP_RECS_PER_PAGE]
 	);
 
 	my @gb = ();
 	for (my $i = 0; $i < @$comments; $i++) {
 		$comments->[$i]->{cm_reply} = 1 if $p{reply};
 		
-		$comments->[$i]->{cm_msg} = PSY::TEXT::convert_to_html($comments->[$i]->{cm_msg});
-		$comments->[$i]->{cm_msg} = PSY::TEXT::fuck_filter($comments->[$i]->{cm_msg});
-		$comments->[$i]->{cm_msg} = PSY::TEXT::activate_inside_links($comments->[$i]->{cm_msg});
+		$comments->[$i]->{cm_msg} = Psy::Text::convert_to_html($comments->[$i]->{cm_msg});
+		$comments->[$i]->{cm_msg} = Psy::Text::fuck_filter($comments->[$i]->{cm_msg});
+		$comments->[$i]->{cm_msg} = Psy::Text::activate_inside_links($comments->[$i]->{cm_msg});
 #
 		$comments->[$i]->{cm_alias} = $comments->[$i]->{cm_user_name} if $comments->[$i]->{cm_user_name};
-		$comments->[$i]->{cm_alias} = PSY::OP_ANONIM_NAME unless $comments->[$i]->{cm_alias};
+		$comments->[$i]->{cm_alias} = Psy::OP_ANONIM_NAME unless $comments->[$i]->{cm_alias};
 
-		$comments->[$i]->{cm_major} = 1 if defined $comments->[$i]->{cm_user_id} and $comments->[$i]->{cm_user_id} eq PSY::AUTH::MAIN_DOCTOR_ID;
+		$comments->[$i]->{cm_major} = 1 if defined $comments->[$i]->{cm_user_id} and $comments->[$i]->{cm_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
 	}
 	return $comments;
 }

@@ -1,9 +1,9 @@
-package PSY::ERRORS;
+package Psy::Errors;
 
 use strict;
 use warnings;
 
-use PSY::SKIN;
+use Psy::Skin;
 
 use TEMPLATE;
 use Data::Dumper;
@@ -21,7 +21,7 @@ sub error {
 	my $tpl = TEMPLATE->new('error');
 	$tpl->params(
 		msg => $msg,
-		PSY::SKIN::get_skin('original')
+		Psy::Skin::get_skin('original')
 	);
 	$tpl->show;
 	exit;
@@ -32,7 +32,7 @@ sub debug {
 	$tpl->params(
 		msg => "ѕсихи рисуют на стенах странные письмена:",
 		debug => Dumper(\@_),
-		PSY::SKIN::get_skin('original')
+		Psy::Skin::get_skin('original')
 		);
 	$tpl->show;
 	exit;
@@ -45,7 +45,7 @@ sub debug_sql_explain {
 	$tpl->params(
 		msg => "ѕсихи рисуют на стенах странные письмена:",
 		explains => [sort { $b->{total_rows} <=> $a->{total_rows} } @$data],
-		PSY::SKIN::get_skin('original')
+		Psy::Skin::get_skin('original')
 		);
 	$tpl->show;
 	exit;
