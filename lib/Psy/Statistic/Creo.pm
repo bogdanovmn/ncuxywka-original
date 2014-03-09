@@ -12,14 +12,14 @@ use constant V_COMMENTS => 'comments';
 use constant V_VIEWS => 'views';
 use constant V_VIEWS_BY_USERS => 'views_by_users';
 
-use base 'Psy::Statistic::UPDATER';
+use base 'Psy::Statistic::Updater';
 #
 # object constructor
 #
 sub constructor {
 	my ($class, %p) = @_;
 
-	return Psy::Statistic::UPDATER::constructor($class,
+	return Psy::Statistic::Updater::constructor($class,
 		table_name => 'creo_stats',
 		key_name => 'creo_id',
 		key_value => $p{creo_id} || 0,

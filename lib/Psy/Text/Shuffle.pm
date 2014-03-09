@@ -1,9 +1,9 @@
-package Psy::Text::SHUFFLE;
+package Psy::Text::Shuffle;
 
 use strict;
 use warnings;
 
-use LIST;
+use List;
 
 
 #
@@ -65,15 +65,15 @@ sub chars {
 	if (@chars > 5) {
 		my $chars_count = int(@chars * $power / 100);
 		for (my $i = 0; $i < $chars_count; $i++) {
-			my $index_1 = LIST::random_element_index(\@chars);
-			my $index_2 = LIST::random_element_index(\@chars);
+			my $index_1 = List::random_element_index(\@chars);
+			my $index_2 = List::random_element_index(\@chars);
 			
 			next if $index_1 eq $index_2;
 			next if ($index_1 eq 0 or $index_2 eq 0);
 			next if $chars[$index_1] =~ /\s|\d|[!,.'"?]|[A-ZÀ-ß]/;
 			next if $chars[$index_2] =~ /\s|\d|[!,.'"?]|[A-ZÀ-ß]/;
 
-			LIST::swap_elements(\@chars, $index_1, $index_2);
+			List::swap_elements(\@chars, $index_1, $index_2);
 		}
 	}
 
@@ -91,8 +91,8 @@ sub words {
 	
 	my $words_count = int(@$words * $power / 100);
 	for (my $i = 0; $i < $words_count; $i++) {
-		my $index_1 = LIST::random_element_index($words);
-		my $index_2 = LIST::random_element_index($words);
+		my $index_1 = List::random_element_index($words);
+		my $index_2 = List::random_element_index($words);
 		
 		next if $index_1 eq $index_2;
 		next if $index_1 eq 0;
@@ -101,7 +101,7 @@ sub words {
 		next if $words->[$index_1] =~ /[!;,.:'")(?\-]/;
 		next if $words->[$index_2] =~ /[!;,.:'")(?\-]/;
 
-		LIST::swap_elements($words, $index_1, $index_2);
+		List::swap_elements($words, $index_1, $index_2);
 	}
 }
 

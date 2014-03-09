@@ -1,4 +1,4 @@
-package Psy::Statistic::UPDATER;
+package Psy::Statistic::Updater;
 
 use strict;
 use warnings;

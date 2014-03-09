@@ -1,4 +1,4 @@
-package Psy::ADMIN_INFO;
+package Psy::Admin::Info;
 
 use strict;
 use warnings;

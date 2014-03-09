@@ -1,4 +1,4 @@
-package Psy::Statistic::WORDS;
+package Psy::Statistic::Words;
 
 use strict;
 use warnings;

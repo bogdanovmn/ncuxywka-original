@@ -99,7 +99,7 @@ sub load_comments {
 
     my @comments = ();
 	for my $row (@$result_set) {
-		#$row->{cm_msg} = Psy::Text::SHUFFLE::comment($row->{cm_msg}, words_power => 70, chars_power => 10);
+		#$row->{cm_msg} = Psy::Text::Shuffle::comment($row->{cm_msg}, words_power => 70, chars_power => 10);
 		$row->{cm_msg} = Psy::Text::convert_to_html($row->{cm_msg});
 		$row->{cm_msg} = Psy::Text::activate_inside_links($row->{cm_msg});
 		

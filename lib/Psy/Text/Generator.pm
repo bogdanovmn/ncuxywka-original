@@ -3,7 +3,7 @@ package Psy::Text::Generator;
 use strict;
 use warnings;
 
-use Psy::Text::LEXICON;
+use Psy::Text::Lexicon;
 
 sub attention_phrase {	
 	my $phrase = random_element(@ATTENTION_TEMPLATE);

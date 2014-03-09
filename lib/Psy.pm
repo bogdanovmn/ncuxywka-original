@@ -58,7 +58,7 @@ use constant MODERATOR_SCOPE_QUARANTINE => "quarantine";
 use constant MODERATOR_SCOPE_CREO_DELETE=> "creo_delete";
 use constant MODERATOR_SCOPE_PLAGIARISM => "plagiarism";
 
-use base "Psy::Auth", "Psy::Statistic", "Psy::ADMIN_INFO", "Psy::SEARCH";
+use base "Psy::Auth", "Psy::Statistic", "Psy::Admin::Info", "Psy::Search";
 
 sub enter {
 	my ($class, %p) = @_;
@@ -279,7 +279,7 @@ sub comments {
     while (my $row = $sth->fetchrow_hashref) {
 		my $text_original_length = length $row->{lc_msg};
 		
-		#$row->{lc_msg} = Psy::Text::SHUFFLE::comment($row->{lc_msg}, words_power => 40, chars_power => 10);
+		#$row->{lc_msg} = Psy::Text::Shuffle::comment($row->{lc_msg}, words_power => 40, chars_power => 10);
 		$row->{lc_msg} = Psy::Text::convert_to_html($row->{lc_msg});
 		$row->{lc_msg} = Psy::Text::cut_top_lines($row->{lc_msg}, TM_PREVIEW_LINES) if $p{cut} eq 1;
 		$row->{lc_msg} = Psy::Text::cut_first_chars($row->{lc_msg}, TM_PREVIEW_MAX_SIZE) if $p{cut} eq 1;
@@ -341,7 +341,7 @@ sub load_last_creos {
 		else {
 			my $text_original_length = length $row->{lc_body};
 			
-			#$row->{lc_body} = Psy::Text::SHUFFLE::text($row->{lc_body}, words_power => 30, chars_power => 5);
+			#$row->{lc_body} = Psy::Text::Shuffle::text($row->{lc_body}, words_power => 30, chars_power => 5);
 			$row->{lc_body} = Psy::Text::convert_to_html($row->{lc_body});
 			$row->{lc_body} = Psy::Text::cut_top_lines($row->{lc_body}, TM_PREVIEW_LINES);
 			$row->{lc_body} = Psy::Text::cut_first_chars($row->{lc_body}, TM_PREVIEW_MAX_SIZE);

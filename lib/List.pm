@@ -1,4 +1,4 @@
-package LIST;
+package List;
 
 use strict;
 use warnings;

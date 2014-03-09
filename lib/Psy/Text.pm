@@ -6,7 +6,7 @@ use warnings;
 use Psy::Creo;
 use Psy::Errors; 
 
-use LIST;
+use List;
 
 use locale;
 use POSIX qw(setlocale LC_ALL LC_CTYPE);
@@ -205,9 +205,9 @@ sub fuck_filter {
 	for my $template (@FUCK_FILTER_TEMPLATE) {
 		for my $word (@{$template->{word}}) {
 			my $word_regexp = make_word_regexp($word);
-			my $random_alt_word = LIST::random_element(@{$template->{alt}});
+			my $random_alt_word = List::random_element(@{$template->{alt}});
 			while ($text =~ s/$word_regexp/$random_alt_word/i) {
-				$random_alt_word = LIST::random_element(@{$template->{alt}});
+				$random_alt_word = List::random_element(@{$template->{alt}});
 			}
 		}
 	}

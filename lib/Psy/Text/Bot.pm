@@ -1,4 +1,4 @@
-package Psy::Text::BOT;
+package Psy::Text::Bot;
 
 use strict;
 use warnings;

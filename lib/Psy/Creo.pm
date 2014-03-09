@@ -299,7 +299,7 @@ sub comments {
 	my @comments = ();
 	my $i = 1;
 	for my $row (@$comments_result_set) {
-		#$row->{cm_msg} = Psy::Text::SHUFFLE::comment($row->{cm_msg}, words_power => 50, chars_power => 20);
+		#$row->{cm_msg} = Psy::Text::Shuffle::comment($row->{cm_msg}, words_power => 50, chars_power => 20);
 		$row->{cm_msg} = Psy::Text::convert_to_html($row->{cm_msg});
 		$row->{cm_msg} = Psy::Text::activate_inside_links($row->{cm_msg});
 

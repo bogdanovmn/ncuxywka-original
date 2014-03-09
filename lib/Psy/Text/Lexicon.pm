@@ -1,4 +1,4 @@
-package Psy::Text::LEXICON;
+package Psy::Text::Lexicon;
 
 use strict;
 use warnings;

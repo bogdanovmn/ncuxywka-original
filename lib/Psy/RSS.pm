@@ -9,9 +9,9 @@ use XML::RSS;
 
 use Data::Dumper;
 
-use constant RSS_CREO_LIST_FILE => "rss/creo_list.rdf";
+use constant RSS_CREO_List_FILE => "rss/creo_list.rdf";
 use constant RSS_COMMENTS_FILE => "rss/comments.rdf";
-use constant RSS_CREO_LIST_LIMIT => 20;
+use constant RSS_CREO_List_LIMIT => 20;
 use constant RSS_COMMENTS_LIMIT => 20;
 
 #
@@ -67,9 +67,9 @@ sub update_creo_list {
 	my (%creo) = @_;
 
 	my $rss = XML::RSS->new;
-	$rss->parsefile(RSS_CREO_LIST_FILE);
+	$rss->parsefile(RSS_CREO_List_FILE);
 
-	while (@{$rss->{'items'}} >= RSS_CREO_LIST_LIMIT) {
+	while (@{$rss->{'items'}} >= RSS_CREO_List_LIMIT) {
 		pop(@{$rss->{'items'});
 	}
 

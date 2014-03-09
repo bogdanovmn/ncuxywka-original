@@ -1,4 +1,4 @@
-package Psy::SEARCH;
+package Psy::Search;
 
 use strict;
 use warnings;
