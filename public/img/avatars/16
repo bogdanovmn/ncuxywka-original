@@ -1,0 +1,37 @@
+#!/bin/sh
+
+CXX="gcc" \
+CFLAGS="-O3 -march=prescott -march=prescott -mfpmath=sse -mmmx -msse -msse2 -msse3 -fomit-frame-pointer -ffixed-ebp -pipe" \
+CXXFLAGS="-O3 -march=prescott -march=prescott -mfpmath=sse -mmmx -msse -msse2 -msse3 -fomit-frame-pointer -ffixed-ebp -pipe" \
+./configure \
+--prefix=/usr/local/mysql-5.1.26-static-optimized \
+--exec-prefix=/usr/local/mysql-5.1.26-static-optimized \
+--mandir=/usr/local/man \
+--localstatedir=/var/mysql \
+--enable-static \
+--enable-shared \
+--enable-thread-safe-client \
+--enable-assembler \
+--enable-local-infile \
+--enable-largefile \
+--with-plugins=heap,innobase,myisam \
+--with-atomic-ops=smp \
+--with-mysqld-ldflags=-all-static \
+--with-charset=koi8r \
+--with-collation=koi8r_general_ci \
+--with-extra-charsets=none \
+--with-unix-socket-path=/tmp/mysql.sock \
+--with-tcp-port=3306 \
+--with-mysqld-user=mysql \
+--with-server-suffix=-SHADOW5 \
+--with-pthread \
+--with-query-cache \
+--with-comment \
+--without-ndb-debug \
+--without-geometry \
+--without-docs \
+--without-big-tables \
+--without-debug \
+--without-ssl \
+--without-uca \
+--without-berkeley-db
