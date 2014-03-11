@@ -46,7 +46,7 @@ sub post_comment {
 			ip = ?
 		|,
 		[$self->user_id, $p{msg}, $p{alias}, $self->{ip}],
-		{error_msg => "Ïñèõè ñëîâà íå äàþò ñêàçàòü!"}
+		{error_msg => "ÐŸÑÐ¸Ñ…Ð¸ ÑÐ»Ð¾Ð²Ð° Ð½Ðµ Ð´Ð°ÑŽÑ‚ ÑÐºÐ°Ð·Ð°Ñ‚ÑŒ!"}
 	);
 
 	Psy::Statistic::User->constructor(user_id => $self->user_id)->increment(Psy::Statistic::User::V_GB_COMMENTS);

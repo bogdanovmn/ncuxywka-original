@@ -59,7 +59,7 @@ sub save {
 		[$self->{author_user_id}, $self->{title}, $self->{body}, $self->{ip}, $self->{type}],
 		{
 			return_last_id => 1,
-			error_msg => "Анализы сдавать - это хорошо, но зайдите попойже: перерыв на обед!"
+			error_msg => "РђРЅР°Р»РёР·С‹ СЃРґР°РІР°С‚СЊ - СЌС‚Рѕ С…РѕСЂРѕС€Рѕ, РЅРѕ Р·Р°Р№РґРёС‚Рµ РїРѕРїРѕР№Р¶Рµ: РїРµСЂРµСЂС‹РІ РЅР° РѕР±РµРґ!"
 		}
 	);
 	Psy::Statistic::Creo->constructor(creo_id => $creo_id)->add_object;
@@ -77,7 +77,7 @@ sub select_by_user {
 			creo_id = ?
 		|,
 		[$p{user_id}, $self->{id}],
-        {error_msg => "Ваши карманы заболели дырками. Класть туда бесполезно!"}
+        {error_msg => "Р’Р°С€Рё РєР°СЂРјР°РЅС‹ Р·Р°Р±РѕР»РµР»Рё РґС‹СЂРєР°РјРё. РљР»Р°СЃС‚СЊ С‚СѓРґР° Р±РµСЃРїРѕР»РµР·РЅРѕ!"}
 	);
 
 	return 1;
@@ -94,7 +94,7 @@ sub deselect_by_user {
         AND creo_id = ?
 		|,
 		[$p{user_id}, $self->{id}],
-        {error_msg => "Ваши карманы заболели дырками - там пусто!"}
+        {error_msg => "Р’Р°С€Рё РєР°СЂРјР°РЅС‹ Р·Р°Р±РѕР»РµР»Рё РґС‹СЂРєР°РјРё - С‚Р°Рј РїСѓСЃС‚Рѕ!"}
 	);
 
     return 1;
@@ -112,7 +112,7 @@ sub already_selected_by_user {
         AND creo_id = ?
 		|,
 		[$p{user_id}, $self->{id}],
-        {error_msg => "В ваших карманах ветает неизвестность!"}
+        {error_msg => "Р’ РІР°С€РёС… РєР°СЂРјР°РЅР°С… РІРµС‚Р°РµС‚ РЅРµРёР·РІРµСЃС‚РЅРѕСЃС‚СЊ!"}
 	);
 
     return $result->[0]->{cnt};
@@ -132,7 +132,7 @@ sub selections_info {
 		AND sc.user_id <> c.user_id
 		|,
 		[$self->{id}],
-        {error_msg => "В ваших карманах ветает неизвестность!"}
+        {error_msg => "Р’ РІР°С€РёС… РєР°СЂРјР°РЅР°С… РІРµС‚Р°РµС‚ РЅРµРёР·РІРµСЃС‚РЅРѕСЃС‚СЊ!"}
 	);
 
     return $result;
@@ -144,7 +144,7 @@ sub selections_info {
 sub update_type {
     my ($self, %p) = @_;
 
-	error("Неверный тип анализа") unless $p{type} =~ /^\d+$/;
+	error("РќРµРІРµСЂРЅС‹Р№ С‚РёРї Р°РЅР°Р»РёР·Р°") unless $p{type} =~ /^\d+$/;
 
     $self->query(qq|
         UPDATE creo 
@@ -153,7 +153,7 @@ sub update_type {
 		WHERE id = ?
 		|,
 		[$p{type}, $self->{id}],
-        {error_msg => "Ошибка концелярии!"}
+        {error_msg => "РћС€РёР±РєР° РєРѕРЅС†РµР»СЏСЂРёРё!"}
 	);
 }
 #
@@ -192,7 +192,7 @@ sub update {
 		WHERE id = ?
 		|,
 		\@values,
-        {error_msg => "Ошибка концелярии!"}
+        {error_msg => "РћС€РёР±РєР° РєРѕРЅС†РµР»СЏСЂРёРё!"}
 	);
 }
 #
@@ -220,7 +220,7 @@ sub load {
 		WHERE c.id = ? 
 		|,
 		[$self->{id}],
-		{error_msg => "Анализы нечитабельны!", only_first_row => 1}
+		{error_msg => "РђРЅР°Р»РёР·С‹ РЅРµС‡РёС‚Р°Р±РµР»СЊРЅС‹!", only_first_row => 1}
 	);
 	
 	if ($creo) {
@@ -260,7 +260,7 @@ sub load_headers {
 		WHERE id = ? 
 		|,
 		[$self->{id}],
-		{error_msg => "Анализы нечитабельны!"}
+		{error_msg => "РђРЅР°Р»РёР·С‹ РЅРµС‡РёС‚Р°Р±РµР»СЊРЅС‹!"}
 	);
 
 	return scalar @$creo_result_set ? $creo_result_set->[0] : undef;
@@ -293,7 +293,7 @@ sub comments {
 		ORDER BY post_date 
 		|,
 		[$self->{id}],
-		{error_msg => "Диагнозы нечитабельны!"}
+		{error_msg => "Р”РёР°РіРЅРѕР·С‹ РЅРµС‡РёС‚Р°Р±РµР»СЊРЅС‹!"}
 	);
 
 	my @comments = ();
@@ -339,7 +339,7 @@ sub post_comment {
 			post_date = $post_date
 		|,
 		[$self->{id}, $p{user_id}, $p{msg}, $p{alias}, $self->{ip} || $p{ip}],
-		{error_msg => "Психи не дают диагноз высказать!"}
+		{error_msg => "РџСЃРёС…Рё РЅРµ РґР°СЋС‚ РґРёР°РіРЅРѕР· РІС‹СЃРєР°Р·Р°С‚СЊ!"}
 	);
 
 	my $user_stats = Psy::Statistic::User->constructor(user_id => $p{user_id});
@@ -363,7 +363,7 @@ sub votes {
 	my $votes = $self->query(
 		qq| SELECT * FROM vote WHERE creo_id = ? |,
 		[$self->{id}],
-		{error_msg => "Голоса затерялись в унитазе"}
+		{error_msg => "Р“РѕР»РѕСЃР° Р·Р°С‚РµСЂСЏР»РёСЃСЊ РІ СѓРЅРёС‚Р°Р·Рµ"}
 	);
 
 	return $votes;

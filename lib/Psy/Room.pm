@@ -19,37 +19,37 @@ my %ROOM_ATTRIBUTES = (
 	(R_FAQ) => {
 		id => 1,
 		name => "FAQ",
-		post_button_caption => "Ñïðîñèòü" 
+		post_button_caption => "Ð¡Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ" 
 	},		
 	(R_WISH) => {
 		id => 2,
-		name => "Êíèãà æåëàíèé",
-		post_button_caption => "Ïîæåëàòü" 
+		name => "ÐšÐ½Ð¸Ð³Ð° Ð¶ÐµÐ»Ð°Ð½Ð¸Ð¹",
+		post_button_caption => "ÐŸÐ¾Ð¶ÐµÐ»Ð°Ñ‚ÑŒ" 
 	},		
 	(R_FRENIZM) => {
 		id => 3,
-		name => "Îëèãîôðåíèçìû",
-		post_button_caption => "Ñïðîñèòü" 
+		name => "ÐžÐ»Ð¸Ð³Ð¾Ñ„Ñ€ÐµÐ½Ð¸Ð·Ð¼Ñ‹",
+		post_button_caption => "Ð¡Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ" 
 	},		
 	(R_PETR) => {
 		id => 4,
-		name => "Ïîõîæäåíèÿ Ïîðîñåíêà Ïåòðà",
-		post_button_caption => "Ïðîäîëæèòü" 
+		name => "ÐŸÐ¾Ñ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ ÐŸÐ¾Ñ€Ð¾ÑÐµÐ½ÐºÐ° ÐŸÐµÑ‚Ñ€Ð°",
+		post_button_caption => "ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÑŒ" 
 	},		
 	(R_MAINSHIT) => {
 		id => 5,
-		name => "Ãëàâñðà÷",
-		post_button_caption => "Îáîñðàòüñÿ" 
+		name => "Ð“Ð»Ð°Ð²ÑÑ€Ð°Ñ‡",
+		post_button_caption => "ÐžÐ±Ð¾ÑÑ€Ð°Ñ‚ÑŒÑÑ" 
 	},		
 	(R_PROC) => {
 		id => 6,
-		name => "Ïðîöåäóðíàÿ",
-		post_button_caption => "Óäàðèòüñÿ îá ñòåíó" 
+		name => "ÐŸÑ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ð½Ð°Ñ",
+		post_button_caption => "Ð£Ð´Ð°Ñ€Ð¸Ñ‚ÑŒÑÑ Ð¾Ð± ÑÑ‚ÐµÐ½Ñƒ" 
 	},
 	(R_NEO_FAQ) => {
 		id => 7,
-		name => "Íåîôóòóðèçì",
-		post_button_caption => "Ñïðîñèòü" 
+		name => "ÐÐµÐ¾Ñ„ÑƒÑ‚ÑƒÑ€Ð¸Ð·Ð¼",
+		post_button_caption => "Ð¡Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ" 
 	}
 );
 
@@ -94,7 +94,7 @@ sub load_comments {
 		LIMIT ?, ?
 		|,
 		[Psy::G_PLAGIARIST, $self->{room_mnemonic}, $offset, $recs_per_page],
-        {error_msg => "Äèàãíîçû íå÷èòàáåëüíû!"}
+        {error_msg => "Ð”Ð¸Ð°Ð³Ð½Ð¾Ð·Ñ‹ Ð½ÐµÑ‡Ð¸Ñ‚Ð°Ð±ÐµÐ»ÑŒÐ½Ñ‹!"}
 	);
 
     my @comments = ();
@@ -138,7 +138,7 @@ sub post_comment {
 			type = ?
 		|,
 		[$self->{user_data}->{user_id}, $p{msg}, $p{alias}, $self->{ip}, $self->{room_mnemonic}],
-		{error_msg => "Ïñèõè íå äàþò ñëîâà ñêàçàòü!", debug => 0}
+		{error_msg => "ÐŸÑÐ¸Ñ…Ð¸ Ð½Ðµ Ð´Ð°ÑŽÑ‚ ÑÐ»Ð¾Ð²Ð° ÑÐºÐ°Ð·Ð°Ñ‚ÑŒ!", debug => 0}
 	);
 
 	Psy::Statistic::User->constructor(user_id => $self->user_id)->increment(Psy::Statistic::User::V_SPEC_COMMENTS);	

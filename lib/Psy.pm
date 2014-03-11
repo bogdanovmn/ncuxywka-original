@@ -23,11 +23,11 @@ use FindBin;
 # Votes rank titles
 #
 my %VOTES_RANK_TITLES = (
-	1 => 'Брат/Сестра по разуму',
-	2 => 'Шизофрения',
-	3 => 'паФрейду',
-	4 => 'Параноя',
-	5 => 'Пациэнту требуется лоботомия!'
+	1 => 'Р‘СЂР°С‚/РЎРµСЃС‚СЂР° РїРѕ СЂР°Р·СѓРјСѓ',
+	2 => 'РЁРёР·РѕС„СЂРµРЅРёСЏ',
+	3 => 'РїР°Р¤СЂРµР№РґСѓ',
+	4 => 'РџР°СЂР°РЅРѕСЏ',
+	5 => 'РџР°С†РёСЌРЅС‚Сѓ С‚СЂРµР±СѓРµС‚СЃСЏ Р»РѕР±РѕС‚РѕРјРёСЏ!'
 );
 #
 # Constants
@@ -46,7 +46,7 @@ use constant TM_PREVIEW_MAX_SIZE => 528; # 66*8
 #
 use constant OP_RECS_PER_PAGE => 19;
 use constant OP_RECS_PER_PAGE_FOR_PETR_MOBILE => 5;
-use constant OP_ANONIM_NAME => 'Я буйный, в рот мне клизму';
+use constant OP_ANONIM_NAME => 'РЇ Р±СѓР№РЅС‹Р№, РІ СЂРѕС‚ РјРЅРµ РєР»РёР·РјСѓ';
 #
 # Groups
 #
@@ -208,7 +208,7 @@ sub load_users {
 		ORDER BY $order_by_date u.name
 		|,
 		[],
-        {error_msg => "Регистратура временно не работает!"}
+        {error_msg => "Р РµРіРёСЃС‚СЂР°С‚СѓСЂР° РІСЂРµРјРµРЅРЅРѕ РЅРµ СЂР°Р±РѕС‚Р°РµС‚!"}
 	);
 	
 	if ($p{id} and defined $users->[0]) { 
@@ -227,7 +227,7 @@ sub comments {
     my ($self, %p) = @_;
 
 	if ((defined $p{for} and $p{for} =~ /\D/) or (defined $p{from} and $p{from} =~ /\D/)) {
-		error("Вы явно заблудились, голубчик...");	
+		error("Р’С‹ СЏРІРЅРѕ Р·Р°Р±Р»СѓРґРёР»РёСЃСЊ, РіРѕР»СѓР±С‡РёРє...");	
 	}
 
 	$p{cut} ||= 0;
@@ -274,7 +274,7 @@ sub comments {
     $sth->execute($offset, OP_RECS_PER_PAGE);
 
     if ($sth->err) {
-        error("Диагнозы нечитабельны!");
+        error("Р”РёР°РіРЅРѕР·С‹ РЅРµС‡РёС‚Р°Р±РµР»СЊРЅС‹!");
     }
 
     my @comments = ();
@@ -314,8 +314,8 @@ sub load_last_creos {
 			c.title lc_title,
 			c.body lc_body,
             CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
-				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
-				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
+				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'РЎРµРіРѕРґРЅСЏ'
+				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Р’С‡РµСЂР°'
 				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
 			END lc_post_date,
 			c.neofuturism lc_neofuturism,
@@ -330,7 +330,7 @@ sub load_last_creos {
 		LIMIT 25 
 		|,
 		[Psy::G_PLAGIARIST],
-		{error_msg => "Последние анализы нечитабельны!"}
+		{error_msg => "РџРѕСЃР»РµРґРЅРёРµ Р°РЅР°Р»РёР·С‹ РЅРµС‡РёС‚Р°Р±РµР»СЊРЅС‹!"}
 	);
     my @creo = ();
 	my $i = 1;
@@ -374,7 +374,7 @@ sub black_copy_creo_list {
 		ORDER BY c.post_date 
 		|,
 		[Psy::Creo::CT_BLACK_COPY, $self->user_id],
-		{error_msg => "Черновики не найдены..."}
+		{error_msg => "Р§РµСЂРЅРѕРІРёРєРё РЅРµ РЅР°Р№РґРµРЅС‹..."}
 	);
 	return $list;
 }
@@ -451,9 +451,9 @@ sub bot_detected {
 			$msg =~ /(http:\/\/)|(<a href=)|(\[url=)|(\[link=)/i 
 			||
 			!(
-				(($alias eq '') || $alias =~ /[0-9а-я]/i) 
+				(($alias eq '') || $alias =~ /[0-9Р°-СЏ]/i) 
 				&& 
-				$msg =~ /[0-9а-я]/i
+				$msg =~ /[0-9Р°-СЏ]/i
 			)
 		);
 	}
@@ -524,7 +524,7 @@ sub ban {
 			end = NOW() + INTERVAL ? MINUTE
 		|,
 		[$ip, $user_id, $duration],
-		{error_msg => "Запись в процедурную не работает!"}
+		{error_msg => "Р—Р°РїРёСЃСЊ РІ РїСЂРѕС†РµРґСѓСЂРЅСѓСЋ РЅРµ СЂР°Р±РѕС‚Р°РµС‚!"}
 	);
 }
 #
@@ -546,7 +546,7 @@ sub check_vote_power {
 			( SELECT COUNT(id) cnt FROM comments WHERE user_id = ? ) cm
 		|,
 		[$self->user_id, $self->user_id],
-		{error_msg => "Главврач потерял свои очки и не может проверить подлинность анализа!"}
+		{error_msg => "Р“Р»Р°РІРІСЂР°С‡ РїРѕС‚РµСЂСЏР» СЃРІРѕРё РѕС‡РєРё Рё РЅРµ РјРѕР¶РµС‚ РїСЂРѕРІРµСЂРёС‚СЊ РїРѕРґР»РёРЅРЅРѕСЃС‚СЊ Р°РЅР°Р»РёР·Р°!"}
 	);
 	
 	$user_statistic = $user_statistic->[0];
@@ -573,7 +573,7 @@ sub vote {
 			ip = ?
 		|,
 		[$self->user_id, $p{creo_id}, $p{vote_id}, $self->{ip}],
-		{error_msg => "Право ты имеешь, али тварь дрожащая?"}
+		{error_msg => "РџСЂР°РІРѕ С‚С‹ РёРјРµРµС€СЊ, Р°Р»Рё С‚РІР°СЂСЊ РґСЂРѕР¶Р°С‰Р°СЏ?"}
 	);
 
 	my $stats = Psy::Statistic::Creo->constructor(creo_id => $p{creo_id});
@@ -616,7 +616,7 @@ sub day_creo_quota {
 		WHERE user_id = ?
 		|,
 		[$self->user_id],
-		{error_msg => "Невозможо определить квоту для пациэнта!"}
+		{error_msg => "РќРµРІРѕР·РјРѕР¶Рѕ РѕРїСЂРµРґРµР»РёС‚СЊ РєРІРѕС‚Сѓ РґР»СЏ РїР°С†РёСЌРЅС‚Р°!"}
 	);
 
     my $row = $sql_result_set->[0];
@@ -657,7 +657,7 @@ sub can_creo_add {
 	my $sql = $quota > 0 ? $positive_sql : $negative_sql;
     my $sql_result_set = $self->query($sql, 
 		[$self->{user_data}->{user_id}], 
-		{error_msg => "Психиатр отказался принять ваши анализы!"}
+		{error_msg => "РџСЃРёС…РёР°С‚СЂ РѕС‚РєР°Р·Р°Р»СЃСЏ РїСЂРёРЅСЏС‚СЊ РІР°С€Рё Р°РЅР°Р»РёР·С‹!"}
 	);
 
 	my $row = $sql_result_set->[0];
@@ -687,7 +687,7 @@ sub logit {
 		close(F);
 	}
 	else {
-		error('Журналы не пишутся!');
+		error('Р–СѓСЂРЅР°Р»С‹ РЅРµ РїРёС€СѓС‚СЃСЏ!');
 	}
 }
 #

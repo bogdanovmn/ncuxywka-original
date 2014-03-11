@@ -36,7 +36,7 @@ sub process_template {
 
 		if ($p{up_first} and $first_word and $w ne '') {
 			my @letters = split(//, $text);
-			$letters[0] =~ tr/а-я/А-Я/;
+			$letters[0] =~ tr/Р°-СЏ/Рђ-РЇ/;
 			$text = join("", @letters);
 			$first_word = 0;
 		}
@@ -50,7 +50,7 @@ sub process_template {
 sub modify_alias {
 	my ($alias) = @_;
 
-	return "Робот-спаммер" if $alias =~ m|\.\w+|;
+	return "Р РѕР±РѕС‚-СЃРїР°РјРјРµСЂ" if $alias =~ m|\.\w+|;
 
 	my $rang = user_rang();
 	

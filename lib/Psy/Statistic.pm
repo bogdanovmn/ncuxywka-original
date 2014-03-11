@@ -46,8 +46,8 @@ sub creo_list {
             u.name cl_alias,
             c.title cl_title,
             CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
-				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN '—Â„Ó‰Ìˇ'
-				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN '¬˜Â‡'
+				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN '–°–µ–≥–æ–¥–Ω—è'
+				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN '–í—á–µ—Ä–∞'
 				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
 			END cl_post_date,
             cs.comments cl_comments_count,
@@ -70,7 +70,7 @@ sub creo_list {
 		$limit
 		|,
 		[@query_params],
-		{error_msg => "—ÔËÒÓÍ ‡Ì‡ÎËÁÓ‚ ÛÚÓÌÛÎ ‚ ÒÎË‚ÌÓÏ ·Ó˜ÍÂ!"}
+		{error_msg => "–°–ø–∏—Å–æ–∫ –∞–Ω–∞–ª–∏–∑–æ–≤ —É—Ç–æ–Ω—É–ª –≤ —Å–ª–∏–≤–Ω–æ–º –±–æ—á–∫–µ!"}
 	);
 
     return $list;
@@ -121,7 +121,7 @@ sub random_creo_list {
 		GROUP BY cl_user_id
 		|,
 		[@query_params],
-		{error_msg  => "—ÎÛ˜‡ÈÌ˚Â ‡Ì‡ÎËÁ˚ ÓÍ‡Á‡ÎËÒ¸ ÒÓ‚ÒÂÏ ÌÂ ÒÎÛ˜‡ÈÌ˚ÏË!"}
+		{error_msg  => "–°–ª—É—á–∞–π–Ω—ã–µ –∞–Ω–∞–ª–∏–∑—ã –æ–∫–∞–∑–∞–ª–∏—Å—å —Å–æ–≤—Å–µ–º –Ω–µ —Å–ª—É—á–∞–π–Ω—ã–º–∏!"}
 	);
 
     return $list;
@@ -160,7 +160,7 @@ sub popular_creo_list {
 		ORDER BY pcl_select.post_date_for_order DESC
 		|,
 		[$p{count} || 10],
-        {error_msg => "—‡Ï˚Â „Ó‚ÓÎË‚˚Â ÔÒËıË ÛÒÍ‡Í‡ÎË ÔÓ˜¸!"}
+        {error_msg => "–°–∞–º—ã–µ –≥–æ–≤–æ—Ä–ª–∏–≤—ã–µ –ø—Å–∏—Ö–∏ —É—Å–∫–∞–∫–∞–ª–∏ –ø—Ä–æ—á—å!"}
 	);
 
     for (my $i = 0; $i < scalar @$list; $i++) {
@@ -194,7 +194,7 @@ sub most_commented_creo_list {
         LIMIT ?
 		|,
 		[Psy::G_PLAGIARIST, $p{count}],
-        {error_msg => "—‡Ï˚Â „Ó‚ÓÎË‚˚Â ÔÒËıË ÛÒÍ‡Í‡ÎË ÔÓ˜¸!"}
+        {error_msg => "–°–∞–º—ã–µ –≥–æ–≤–æ—Ä–ª–∏–≤—ã–µ –ø—Å–∏—Ö–∏ —É—Å–∫–∞–∫–∞–ª–∏ –ø—Ä–æ—á—å!"}
 	);
 
     return $list;
@@ -228,7 +228,7 @@ sub top_creo_list {
         LIMIT ?
 		|,
 		[$self->user_id, $self->user_id, $self->user_id, Psy::G_PLAGIARIST, $p{min_votes}, $p{count}],
-        {error_msg => "—‡Ï˚Â ·ÛÈÌ˚Â ÔÒËıË ÛÒÍ‡Í‡ÎË ÔÓ˜¸!"}
+        {error_msg => "–°–∞–º—ã–µ –±—É–π–Ω—ã–µ –ø—Å–∏—Ö–∏ —É—Å–∫–∞–∫–∞–ª–∏ –ø—Ä–æ—á—å!"}
 	);
 
     return $list;
@@ -255,7 +255,7 @@ sub top_users_by_votes {
         LIMIT ?
 		|,
 		[Psy::G_PLAGIARIST, $p{min_votes}, $p{count}],
-        {error_msg => "—‡Ï˚Â Û‚‡Ê‡ÂÏ˚Â ÔÒËıË ÛÒÍ‡Í‡ÎË ÔÓ˜¸!"}
+        {error_msg => "–°–∞–º—ã–µ —É–≤–∞–∂–∞–µ–º—ã–µ –ø—Å–∏—Ö–∏ —É—Å–∫–∞–∫–∞–ª–∏ –ø—Ä–æ—á—å!"}
 	);
 
     return $users;
@@ -282,7 +282,7 @@ sub last_comment_by_spec_room {
 		LEFT JOIN users u ON u.id = sc.user_id
 		|,
         [],
-		{error_msg => "—‡Ï˚Â ·ÛÈÌ˚Â ÔÒËıË ÛÒÍ‡Í‡ÎË ÔÓ˜¸!"}
+		{error_msg => "–°–∞–º—ã–µ –±—É–π–Ω—ã–µ –ø—Å–∏—Ö–∏ —É—Å–∫–∞–∫–∞–ª–∏ –ø—Ä–æ—á—å!"}
 	);
 	
 	my %list = ();
@@ -310,7 +310,7 @@ sub last_comment {
 		LIMIT 1
 		|,
         [],
-		{error_msg => "Œ ÔÓÒÎÂ‰ÌÂÏ ‰ËÒÔÛÚÂ œÒËıÛ˛¯Í‡ ÛÏ‡Î˜Ë‚‡ÂÚ!"}
+		{error_msg => "–û –ø–æ—Å–ª–µ–¥–Ω–µ–º –¥–∏—Å–ø—É—Ç–µ –ü—Å–∏—Ö—É—é—à–∫–∞ —É–º–∞–ª—á–∏–≤–∞–µ—Ç!"}
 	);
 
     return %{$result_set->[0]};
@@ -332,7 +332,7 @@ sub last_gb_comment {
         LIMIT 1
 		|,
 		[],
-        {error_msg => "¬ Ô‡Î‡ÚÂ ÌÓÏË ¯ÂÒÚ¸ - “»’Œ....!"}
+        {error_msg => "–í –ø–∞–ª–∞—Ç–µ –Ω–æ–º–∏—Ä —à–µ—Å—Ç—å - –¢–ò–•–û....!"}
 	);
 
     return %{$result_set->[0]};
@@ -355,7 +355,7 @@ sub last_comment_for_me {
 		LIMIT 1
 		|,
 		[$self->user_id],
-        {error_msg => "—ÔÎÂÚÌË ÔÓ ‚‡Ò ÌÂ Ì‡È‰ÂÌ˚!"}
+        {error_msg => "–°–ø–ª–µ—Ç–Ω–∏ –ø—Ä–æ –≤–∞—Å –Ω–µ –Ω–∞–π–¥–µ–Ω—ã!"}
 	);
 
     if (scalar @$result_set > 0 and defined $result_set->[0]->{lcfm_post_date}) {
@@ -392,7 +392,7 @@ sub users_by_rank {
 		ORDER BY ru_name
 		|,
         [],
-		{error_msg => "¿Ï·ÛÎ‡ÚÓÌÓÂ ÓÚ‰ÂÎÂÌËÂ Ò„ÓÂÎÓ!"}
+		{error_msg => "–ê–º–±—É–ª–∞—Ç–æ—Ä–Ω–æ–µ –æ—Ç–¥–µ–ª–µ–Ω–∏–µ —Å–≥–æ—Ä–µ–ª–æ!"}
 	);
     
 	my %list = ();
@@ -440,7 +440,7 @@ sub new_users {
 		LIMIT ?
 		|,
 		[Psy::G_PLAGIARIST, $p{count} || 3],
-        {error_msg => "»ÒÚÓËˇ ÔÓÒÚÛÔÎÂÌËˇ ·ÓÎ¸Ì˚ı ÛÌË˜ÚÓÊÂÌ‡!"}
+        {error_msg => "–ò—Å—Ç–æ—Ä–∏—è –ø–æ—Å—Ç—É–ø–ª–µ–Ω–∏—è –±–æ–ª—å–Ω—ã—Ö —É–Ω–∏—á—Ç–æ–∂–µ–Ω–∞!"}
 	);
     
 	return $users;
@@ -505,7 +505,7 @@ sub most_active_users {
 		LIMIT ?
 		|,
 		[Psy::G_PLAGIARIST, $p{limit} || 15],
-        {error_msg => "¿ÍÚË‚ÌÓÒÚ¸ Ô‡ˆË˝ÌÚÓ‚ ÌÂ ÔÓ‰‰‡ÂÚÒˇ ‡Ì‡ÎËÁÛ!"}
+        {error_msg => "–ê–∫—Ç–∏–≤–Ω–æ—Å—Ç—å –ø–∞—Ü–∏—ç–Ω—Ç–æ–≤ –Ω–µ –ø–æ–¥–¥–∞–µ—Ç—Å—è –∞–Ω–∞–ª–∏–∑—É!"}
 	);
 
     return $users;
@@ -527,7 +527,7 @@ sub top_users_by_creos_count {
 		LIMIT ?
 		|,
 		[Psy::G_PLAGIARIST, $p{limit} || 15],
-		{error_msg => "œÓ‰Ò˜ÂÚ ‡Ì‡ÎËÁÓ‚ ÌÂ ‰‡Î ‰ÓÎÊÌÓ„Ó ÂÁÛÎ¸Ú‡Ú‡!"}
+		{error_msg => "–ü–æ–¥—Å—á–µ—Ç –∞–Ω–∞–ª–∏–∑–æ–≤ –Ω–µ –¥–∞–ª –¥–æ–ª–∂–Ω–æ–≥–æ —Ä–µ–∑—É–ª—å—Ç–∞—Ç–∞!"}
 	);
 
     return $users;
@@ -538,7 +538,7 @@ sub ban_total_list {
 
     my $sql = qq|
     SELECT 
-		IFNULL(u.name, 'ÕÂËÁ‚ÂÒÚÌ˚È Ô‡ˆË˝ÌÚ') btl_name,
+		IFNULL(u.name, '–ù–µ–∏–∑–≤–µ—Å—Ç–Ω—ã–π –ø–∞—Ü–∏—ç–Ω—Ç') btl_name,
 		u.id btl_user_id,
 		SUM(UNIX_TIMESTAMP(b.end) - UNIX_TIMESTAMP(b.begin)) btl_time
 	FROM 
@@ -554,7 +554,7 @@ sub ban_total_list {
     $sth->execute;
 
     if ($sth->err) {
-        ERRORS::html_error("œÓˆÂ‰ÛÌ‡ˇ ‚ Ô‡ÌËÍÂ!");
+        ERRORS::html_error("–ü—Ä–æ—Ü–µ–¥—É—Ä–Ω–∞—è –≤ –ø–∞–Ω–∏–∫–µ!");
     }
 
     my @list = ();
@@ -592,7 +592,7 @@ sub anti_top_votes {
 		LIMIT 10
 		|,
 		[$self->user_id, $self->user_id, Psy::G_PLAGIARIST],
-        {error_msg => "¿ıË‚ ÒÔÎÂÚÂÌ ÛÌË˜ÚÓÊÂÌ!"}
+        {error_msg => "–ê—Ä—Ö–∏–≤ —Å–ø–ª–µ—Ç–µ–Ω —É–Ω–∏—á—Ç–æ–∂–µ–Ω!"}
 	);
 
     return $result_set;

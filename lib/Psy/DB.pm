@@ -52,7 +52,7 @@ sub connect {
 sub query {
 	my ($self, $sql, $params, $settings) = @_;
 
-	my $sql_error_msg = $settings->{error_msg} || "Îøèáêà sql-çàïðîñà [". (caller(1))[3]. "]";
+	my $sql_error_msg = $settings->{error_msg} || "ÐžÑˆÐ¸Ð±ÐºÐ° sql-Ð·Ð°Ð¿Ñ€Ð¾ÑÐ° [". (caller(1))[3]. "]";
 	my $sql_debug = $settings->{debug} || 0;
 	my $only_field = $settings->{only_field} || 0;
 	my $only_first_row = $settings->{only_first_row} || 0;

@@ -29,10 +29,10 @@ sub new {
 #
 sub create_creo_list {
 	$rss->channel(
-		title          => 'Íîâûå àíàëèçû',
+		title          => 'ÐÐ¾Ð²Ñ‹Ðµ Ð°Ð½Ð°Ð»Ð¸Ð·Ñ‹',
 		link           => 'http://ncuxywka.com/',
 		language       => 'ru',
-		description    => 'Ëåíòà íîâûõ àíàëèçîâ íà Ïñèõóþøêå',
+		description    => 'Ð›ÐµÐ½Ñ‚Ð° Ð½Ð¾Ð²Ñ‹Ñ… Ð°Ð½Ð°Ð»Ð¸Ð·Ð¾Ð² Ð½Ð° ÐŸÑÐ¸Ñ…ÑƒÑŽÑˆÐºÐµ',
 		copyright      => 'Copyright 2012, ncuxywka.com',
 		#pubDate        => 'Thu, 23 Aug 1999 07:00:00 GMT',
 		#lastBuildDate  => 'Thu, 23 Aug 1999 16:20:26 GMT',

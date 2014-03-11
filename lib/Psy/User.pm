@@ -111,7 +111,7 @@ sub save {
 			$self->{city}, 
 			$self->{ip}
 		],
-        {error_msg => "–Â„ËÒÚ‡ÚÛ‡ - ·˛‡Í‡ÚË˜ÂÒÍ‡ˇ Ï‡¯ËÌ‡! œË‰ÂÚÒˇ ÔÓ‰ÓÊ‰‡Ú¸..."}
+        {error_msg => "–†–µ–≥–∏—Å—Ç—Ä–∞—Ç—É—Ä–∞ - –±—é—Ä–∞–∫—Ä–∞—Ç–∏—á–µ—Å–∫–∞—è –º–∞—à–∏–Ω–∞! –ü—Ä–∏–¥–µ—Ç—Å—è –ø–æ–¥–æ–∂–¥–∞—Ç—å..."}
 	);
 	Psy::Statistic::User->constructor(user_name => $self->{name})->add_object;
 
@@ -141,7 +141,7 @@ sub update {
 		($change_pass) ?
 			[md5_hex($p{password}), $p{email}, $p{about}, $p{loves}, $p{hates}, $p{city}, $self->{ip}, $self->{id}] :
 			[$p{email}, $p{about}, $p{loves}, $p{hates}, $p{city}, $self->{ip}, $self->{id}],
-        {error_msg => "–Â„ËÒÚ‡ÚÛ‡ - ·˛‡Í‡ÚË˜ÂÒÍ‡ˇ Ï‡¯ËÌ‡! œË‰ÂÚÒˇ ÔÓ‰ÓÊ‰‡Ú¸.."}
+        {error_msg => "–†–µ–≥–∏—Å—Ç—Ä–∞—Ç—É—Ä–∞ - –±—é—Ä–∞–∫—Ä–∞—Ç–∏—á–µ—Å–∫–∞—è –º–∞—à–∏–Ω–∞! –ü—Ä–∏–¥–µ—Ç—Å—è –ø–æ–¥–æ–∂–¥–∞—Ç—å.."}
 	);
 }
 #
@@ -165,7 +165,7 @@ sub creo_list {
 
 	my $looker_user_id = $p{looker_user_id} || 0;
 
-	error("¬˚ ÌÂ Á‡·ÎÛ‰ËÎËÒ¸?") unless defined $p{type};
+	error("–í—ã –Ω–µ –∑–∞–±–ª—É–¥–∏–ª–∏—Å—å?") unless defined $p{type};
 
 	my $where_type = sprintf("AND c.type IN (%s)", join(", ", @{$p{type}}));
 	
@@ -178,8 +178,8 @@ sub creo_list {
             u.name cl_alias,
             c.title cl_title,
             CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
-				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN '—Â„Ó‰Ìˇ'
-				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN '¬˜Â‡'
+				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN '–°–µ–≥–æ–¥–Ω—è'
+				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN '–í—á–µ—Ä–∞'
 				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
 			END cl_post_date,
             cs.comments cl_comments_count,
@@ -195,7 +195,7 @@ sub creo_list {
         ORDER BY c.post_date DESC
 		|,
 		[$looker_user_id, $looker_user_id, $looker_user_id, $self->{id}],
-		{error_msg => "—ÔËÒÓÍ ‡Ì‡ÎËÁÓ‚ ÛÚÓÌÛÎ ‚ ÒÎË‚ÌÓÏ ·Ó˜ÍÂ!"}
+		{error_msg => "–°–ø–∏—Å–æ–∫ –∞–Ω–∞–ª–∏–∑–æ–≤ —É—Ç–æ–Ω—É–ª –≤ —Å–ª–∏–≤–Ω–æ–º –±–æ—á–∫–µ!"}
 	);
     return $list;
 }
@@ -218,7 +218,7 @@ sub favorites {
 		ORDER BY uf_cnt DESC
 		|,
 		[$self->{id}, $self->{id}],
-        {error_msg => "ÕÂ‚ÓÁÏÓÊÌÓ ÛÁÌ‡Ú¸ ÔÓ Î˛·ËÏ˜ËÍÓ‚ Ô‡ˆË˝ÌÚ‡!"}
+        {error_msg => "–ù–µ–≤–æ–∑–º–æ–∂–Ω–æ —É–∑–Ω–∞—Ç—å –ø—Ä–æ –ª—é–±–∏–º—á–∏–∫–æ–≤ –ø–∞—Ü–∏—ç–Ω—Ç–∞!"}
 	);
     
 	for (my $i = 0; $i < scalar @$favors; $i++) {
@@ -265,7 +265,7 @@ sub selected_creo_list {
         ORDER BY c.post_date DESC
 		|,
 		[$self->{id}],
-        {error_msg => "—ÔËÒÓÍ ËÁ·‡ÌÌ˚ı ‡Ì‡ÎËÁÓ‚ ÔÓÔ‡Î Á‡ Û„ÎÓÏ!"}
+        {error_msg => "–°–ø–∏—Å–æ–∫ –∏–∑–±—Ä–∞–Ω–Ω—ã—Ö –∞–Ω–∞–ª–∏–∑–æ–≤ –ø—Ä–æ—Ä–ø–∞–ª –∑–∞ —É–≥–ª–æ–º!"}
 	);
 	
 	for (my $i = 0; $i < scalar @$list; $i++) {
@@ -310,7 +310,7 @@ sub ban_left_time {
 		|,
 		[$self->{id}], 
 		{
-			error_msg => "¬ ÔÓˆÂ‰ÛÌÓÏ Í‡·ËÌÂÚÂ ·ÛÌÚ!",
+			error_msg => "–í –ø—Ä–æ—Ü–µ–¥—É—Ä–Ω–æ–º –∫–∞–±–∏–Ω–µ—Ç–µ –±—É–Ω—Ç!",
 			only_field => "ban_end"
 		}
 	);

@@ -22,8 +22,8 @@ sub creo_search {
             IFNULL(u.name, c.alias) cl_alias,
             c.title cl_title,
             CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
-				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
-				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
+				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'РЎРµРіРѕРґРЅСЏ'
+				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Р’С‡РµСЂР°'
 				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
 			END cl_post_date
         FROM creo c
@@ -41,7 +41,7 @@ sub creo_search {
 		LIMIT 50
 		|,
 		[Psy::G_PLAGIARIST, _convert_string_to_boolean_search($p{text})],
-		{error_msg => "Список анализов утонул в сливном бочке!"}
+		{error_msg => "РЎРїРёСЃРѕРє Р°РЅР°Р»РёР·РѕРІ СѓС‚РѕРЅСѓР» РІ СЃР»РёРІРЅРѕРј Р±РѕС‡РєРµ!"}
 	);
 
     return $list;

@@ -62,7 +62,7 @@ sub process_words {
 	my ($self, $text) = @_;
 	for my $line (split /\n/, $text) {
 		for my $word (split /[ .,"':;<>?!(){}\-_]+/,  $line) {
-			if (length $word > 2 || $word =~ /ÿ/) {
+			if (length $word > 2 || $word =~ /Ñ/) {
 				$self->{words}->{$word}++;
 			}
 		}

@@ -43,7 +43,7 @@ sub _log {
 			user_agent = ?
 		|,
 		[$self->{type}, $self->{id}, $self->{viewer_user_id}, $self->{ip}, $ENV{HTTP_USER_AGENT}],
-        {error_msg => "Писарь не поспевает за Вами..."}
+        {error_msg => "РџРёСЃР°СЂСЊ РЅРµ РїРѕСЃРїРµРІР°РµС‚ Р·Р° Р’Р°РјРё..."}
 	);
 }
 

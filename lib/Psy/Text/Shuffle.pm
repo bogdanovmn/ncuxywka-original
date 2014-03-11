@@ -70,8 +70,8 @@ sub chars {
 			
 			next if $index_1 eq $index_2;
 			next if ($index_1 eq 0 or $index_2 eq 0);
-			next if $chars[$index_1] =~ /\s|\d|[!,.'"?]|[A-ZÀ-ß]/;
-			next if $chars[$index_2] =~ /\s|\d|[!,.'"?]|[A-ZÀ-ß]/;
+			next if $chars[$index_1] =~ /\s|\d|[!,.'"?]|[A-ZĞ-Ğ¯]/;
+			next if $chars[$index_2] =~ /\s|\d|[!,.'"?]|[A-ZĞ-Ğ¯]/;
 
 			List::swap_elements(\@chars, $index_1, $index_2);
 		}
@@ -96,8 +96,8 @@ sub words {
 		
 		next if $index_1 eq $index_2;
 		next if $index_1 eq 0;
-		next if $words->[$index_1] =~ /^[A-ZÀ-ß]/;
-		next if $words->[$index_2] =~ /^[A-ZÀ-ß]/;
+		next if $words->[$index_1] =~ /^[A-ZĞ-Ğ¯]/;
+		next if $words->[$index_2] =~ /^[A-ZĞ-Ğ¯]/;
 		next if $words->[$index_1] =~ /[!;,.:'")(?\-]/;
 		next if $words->[$index_2] =~ /[!;,.:'")(?\-]/;
 

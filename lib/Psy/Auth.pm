@@ -71,8 +71,8 @@ sub login {
 	my ($self, %p) = @_;
 
 	if (!$p{user_name} or !$p{password}) {
-		#$self->{login_error_msg} = "Ââåäèòå ëîãèí è ïàğîëü!";
-		error("Ââåäèòå ëîãèí è ïàğîëü!");
+		#$self->{login_error_msg} = "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ»Ğ¾Ğ³Ğ¸Ğ½ Ğ¸ Ğ¿Ğ°Ñ€Ğ¾Ğ»ÑŒ!";
+		error("Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ»Ğ¾Ğ³Ğ¸Ğ½ Ğ¸ Ğ¿Ğ°Ñ€Ğ¾Ğ»ÑŒ!");
 		return 0;
 	}
 
@@ -97,8 +97,8 @@ sub login {
 		$self->store_login_event($user_info->[0]->{id}, LOGIN_EVENT_TYPE_IN);
 	}
 	else {
-		#$self->{login_error_msg} =  "Íåïğàâèëüíûé ëîãèí/ïàğîëü!";
-		error("Íåïğàâèëüíûé ëîãèí/ïàğîëü!");
+		#$self->{login_error_msg} =  "ĞĞµĞ¿Ñ€Ğ°Ğ²Ğ¸Ğ»ÑŒĞ½Ñ‹Ğ¹ Ğ»Ğ¾Ğ³Ğ¸Ğ½/Ğ¿Ğ°Ñ€Ğ¾Ğ»ÑŒ!";
+		error("ĞĞµĞ¿Ñ€Ğ°Ğ²Ğ¸Ğ»ÑŒĞ½Ñ‹Ğ¹ Ğ»Ğ¾Ğ³Ğ¸Ğ½/Ğ¿Ğ°Ñ€Ğ¾Ğ»ÑŒ!");
 	}
 	
 	#my @cookie_header = split(/\n/, $self->{session}->header);
@@ -159,7 +159,7 @@ sub banned {
 		$self->success_in ? 
 			[$self->{user_data}->{user_id}, $self->{ip}] : 
 			[$self->{ip}],
-		{error_msg => "Â ïğîöåäóğíîì êàáèíåòå áóíò!"}
+		{error_msg => "Ğ’ Ğ¿Ñ€Ğ¾Ñ†ĞµĞ´ÑƒÑ€Ğ½Ğ¾Ğ¼ ĞºĞ°Ğ±Ğ¸Ğ½ĞµÑ‚Ğµ Ğ±ÑƒĞ½Ñ‚!"}
 	);
 	return ((scalar @$ban_info > 0 and defined $ban_info->[0]->{ban_end})? $ban_info->[0]->{ban_end} - time : 0);
 }

@@ -63,7 +63,7 @@ sub log {
 			ip = ?
 		|,
 		[$self->{user_id}, $p{event_type}, $p{object_id}, $self->{ip}],
-        {error_msg => "¿Û‰ËÚÓ - ÍÓ‚‡‚‡ˇ √˝·Ìˇ!"}
+        {error_msg => "–ê—É–¥–∏—Ç–æ—Ä - –∫—Ä–æ–≤–∞–≤–∞—è –ì—ç–±–Ω—è!"}
 	);
 }
 #
