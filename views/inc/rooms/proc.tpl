@@ -8,34 +8,34 @@
 <tr>
 <td class=content>
 	<center>
-	<h1>П<span class=letter>Р</span>ОЦЕДУ<span class=letter>Р</span>НАЯ</h1>
+	<h1>Рџ<span class=letter>Р </span>РћР¦Р•Р”РЈ<span class=letter>Р </span>РќРђРЇ</h1>
 
 	<TMPL_UNLESS NAME="inside">
-		<p class=note>Уважаемый пациэнт, если вам надоели окружающие вас психи и прочие личности, обитающие в Психуюшке или если вы чувствуете, что вам необходима шокотерапия - используйте процедурный кабинет: наши врачи сделают вам легкую лоботомию и дадут сладкую таблетку.</p>
+		<p class=note>РЈРІР°Р¶Р°РµРјС‹Р№ РїР°С†РёСЌРЅС‚, РµСЃР»Рё РІР°Рј РЅР°РґРѕРµР»Рё РѕРєСЂСѓР¶Р°СЋС‰РёРµ РІР°СЃ РїСЃРёС…Рё Рё РїСЂРѕС‡РёРµ Р»РёС‡РЅРѕСЃС‚Рё, РѕР±РёС‚Р°СЋС‰РёРµ РІ РџСЃРёС…СѓСЋС€РєРµ РёР»Рё РµСЃР»Рё РІС‹ С‡СѓРІСЃС‚РІСѓРµС‚Рµ, С‡С‚Рѕ РІР°Рј РЅРµРѕР±С…РѕРґРёРјР° С€РѕРєРѕС‚РµСЂР°РїРёСЏ - РёСЃРїРѕР»СЊР·СѓР№С‚Рµ РїСЂРѕС†РµРґСѓСЂРЅС‹Р№ РєР°Р±РёРЅРµС‚: РЅР°С€Рё РІСЂР°С‡Рё СЃРґРµР»Р°СЋС‚ РІР°Рј Р»РµРіРєСѓСЋ Р»РѕР±РѕС‚РѕРјРёСЋ Рё РґР°РґСѓС‚ СЃР»Р°РґРєСѓСЋ С‚Р°Р±Р»РµС‚РєСѓ.</p>
 		<br>
 		<img src='/img/<TMPL_VAR NAME="skin_pic_proc">' width=400>
 		<br><br><form name=proc_in type=post action='/procedure.cgi'>
 			<select name=duration>
-				<option value='5'>5 минут</option>
-				<option value='15'>15 минут</option>
-				<option value='30'>30 минут</option>
-				<option value='60'>1 час</option>
-				<option value='180'>3 часа</option>
-				<option value='1440'>1 день</option>
+				<option value='5'>5 РјРёРЅСѓС‚</option>
+				<option value='15'>15 РјРёРЅСѓС‚</option>
+				<option value='30'>30 РјРёРЅСѓС‚</option>
+				<option value='60'>1 С‡Р°СЃ</option>
+				<option value='180'>3 С‡Р°СЃР°</option>
+				<option value='1440'>1 РґРµРЅСЊ</option>
 			</select>
-			<input type=submit value='Начать процедуры'>
+			<input type=submit value='РќР°С‡Р°С‚СЊ РїСЂРѕС†РµРґСѓСЂС‹'>
 		</form>
 		<br><br>
 	<TMPL_ELSE>
-		<p class=note>Вы находитесь в процедурном кабинете. Как вы сюда попали? Возможно сами и добровольно, а возможно вас сюда принудительно отправил Главврач. В любом случае, расслабтесь: у вас выпал замечательный шанс отдохнуть от общества Психуюшки.</p>
-		<p class=proc_left_time>Осталось <span id='left_time'><TMPL_VAR NAME="ban_left_time"></span> секунд</p>
+		<p class=note>Р’С‹ РЅР°С…РѕРґРёС‚РµСЃСЊ РІ РїСЂРѕС†РµРґСѓСЂРЅРѕРј РєР°Р±РёРЅРµС‚Рµ. РљР°Рє РІС‹ СЃСЋРґР° РїРѕРїР°Р»Рё? Р’РѕР·РјРѕР¶РЅРѕ СЃР°РјРё Рё РґРѕР±СЂРѕРІРѕР»СЊРЅРѕ, Р° РІРѕР·РјРѕР¶РЅРѕ РІР°СЃ СЃСЋРґР° РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ РѕС‚РїСЂР°РІРёР» Р“Р»Р°РІРІСЂР°С‡. Р’ Р»СЋР±РѕРј СЃР»СѓС‡Р°Рµ, СЂР°СЃСЃР»Р°Р±С‚РµСЃСЊ: Сѓ РІР°СЃ РІС‹РїР°Р» Р·Р°РјРµС‡Р°С‚РµР»СЊРЅС‹Р№ С€Р°РЅСЃ РѕС‚РґРѕС…РЅСѓС‚СЊ РѕС‚ РѕР±С‰РµСЃС‚РІР° РџСЃРёС…СѓСЋС€РєРё.</p>
+		<p class=proc_left_time>РћСЃС‚Р°Р»РѕСЃСЊ <span id='left_time'><TMPL_VAR NAME="ban_left_time"></span> СЃРµРєСѓРЅРґ</p>
 		<br>
 		<img src='/img/<TMPL_VAR NAME="skin_pic_proc">' width=400>
-		<h1>ПОБ<span class=letter>Y</span>ЯНЬ!</h1>
+		<h1>РџРћР‘<span class=letter>Y</span>РЇРќР¬!</h1>
 		<center>
 		<TMPL_INCLUDE NAME='../comments_post_form.tpl'>
 		</center>
-		<h1>Дисп<span class=letter>у</span>т:</h1>
+		<h1>Р”РёСЃРї<span class=letter>Сѓ</span>С‚:</h1>
 		<TMPL_INCLUDE NAME='../comments.tpl'>
 		
 		<script type=text/javascript> 
@@ -58,7 +58,7 @@
     <table class=bottom>
         <tr>
             <td class=copyright>&copy;2010-2013 ncuxywka.com
-            <td class=note>Минздрав предупреждает: использование Психуюшки опасно для вашего здоровья!
+            <td class=note>РњРёРЅР·РґСЂР°РІ РїСЂРµРґСѓРїСЂРµР¶РґР°РµС‚: РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РџСЃРёС…СѓСЋС€РєРё РѕРїР°СЃРЅРѕ РґР»СЏ РІР°С€РµРіРѕ Р·РґРѕСЂРѕРІСЊСЏ!
     </table>
     <p>&nbsp;
 

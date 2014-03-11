@@ -3,8 +3,8 @@
 	<hr>
 	<table class=bottom>
 		<tr>
-			<td class=copyright>&copy;2010-2013 ncuxywka.com &nbsp;&nbsp;&nbsp;<a href='http://m.ncuxywka.com/'>Мобильная версия</a>
-			<td class=note>Минздрав предупреждает: использование Психуюшки опасно для вашего здоровья!
+			<td class=copyright>&copy;2010-2013 ncuxywka.com &nbsp;&nbsp;&nbsp;<a href='http://m.ncuxywka.com/'>РњРѕР±РёР»СЊРЅР°СЏ РІРµСЂСЃРёСЏ</a>
+			<td class=note>РњРёРЅР·РґСЂР°РІ РїСЂРµРґСѓРїСЂРµР¶РґР°РµС‚: РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РџСЃРёС…СѓСЋС€РєРё РѕРїР°СЃРЅРѕ РґР»СЏ РІР°С€РµРіРѕ Р·РґРѕСЂРѕРІСЊСЏ!
 	</table>
 	<p>&nbsp;
 </tr>

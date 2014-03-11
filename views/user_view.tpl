@@ -2,7 +2,7 @@
 <!-- Content -->
 <td class=content> 
 	<center>
-	<h1>ИСТОРИ<span class=letter>Я</span> БОЛЕ<span class=letter>Z</span>НИ</h1>
+	<h1>РРЎРўРћР Р<span class=letter>РЇ</span> Р‘РћР›Р•<span class=letter>Z</span>РќР</h1>
 	</center>
 
 
@@ -10,43 +10,43 @@
 		<p><img src='/<TMPL_VAR NAME="avatar">_thumb'><br><br>
 	</TMPL_IF>
 
-	<p><b>Имя:</b><br><TMPL_VAR NAME="u_name"><br><br>
-	<TMPL_IF NAME="u_city"><p><b>Город:</b><br><TMPL_VAR NAME="u_city"><br><br></TMPL_IF>
-	<TMPL_IF NAME="u_hates"><p><b>Жалуется:</b><br><TMPL_VAR ESCAPE="NONE" NAME="u_hates"><br><br></TMPL_IF>
-	<TMPL_IF NAME="u_loves"><p><b>Отношение к лекарствам:</b><br><TMPL_VAR ESCAPE="NONE" NAME="u_loves"><br><br></TMPL_IF>
-	<TMPL_IF NAME="u_about"><p><b>О себе:</b><br><TMPL_VAR ESCAPE="NONE" NAME="u_about"><br><br></TMPL_IF>
+	<p><b>РРјСЏ:</b><br><TMPL_VAR NAME="u_name"><br><br>
+	<TMPL_IF NAME="u_city"><p><b>Р“РѕСЂРѕРґ:</b><br><TMPL_VAR NAME="u_city"><br><br></TMPL_IF>
+	<TMPL_IF NAME="u_hates"><p><b>Р–Р°Р»СѓРµС‚СЃСЏ:</b><br><TMPL_VAR ESCAPE="NONE" NAME="u_hates"><br><br></TMPL_IF>
+	<TMPL_IF NAME="u_loves"><p><b>РћС‚РЅРѕС€РµРЅРёРµ Рє Р»РµРєР°СЂСЃС‚РІР°Рј:</b><br><TMPL_VAR ESCAPE="NONE" NAME="u_loves"><br><br></TMPL_IF>
+	<TMPL_IF NAME="u_about"><p><b>Рћ СЃРµР±Рµ:</b><br><TMPL_VAR ESCAPE="NONE" NAME="u_about"><br><br></TMPL_IF>
 	
 	<table class=user_info>
 	<tr>
 	<td class=about>
-		<p><b>Дата регистрации:</b><br><TMPL_VAR NAME="u_reg_date"><br><br>
-		<p><b>Дата изменения данных:</b><br><TMPL_VAR NAME="u_edit_date"><br><br>
+		<p><b>Р”Р°С‚Р° СЂРµРіРёСЃС‚СЂР°С†РёРё:</b><br><TMPL_VAR NAME="u_reg_date"><br><br>
+		<p><b>Р”Р°С‚Р° РёР·РјРµРЅРµРЅРёСЏ РґР°РЅРЅС‹С…:</b><br><TMPL_VAR NAME="u_edit_date"><br><br>
 	<td class=statistic>
-		Пульс пациэнта
+		РџСѓР»СЊСЃ РїР°С†РёСЌРЅС‚Р°
 		<div id=user_activity_plot class=user_activity_plot></div>
 	</table>
 	
-	<p><b>Диагнозы:</b><br>
-	<a href='/talks/from/<TMPL_VAR NAME="u_id">'>Отправленные пациэнтом (<TMPL_VAR NAME="u_from_comments_count">)</a><br>
-	<a href='/talks/for/<TMPL_VAR NAME="u_id">'>Полученные пациэнтом (<TMPL_VAR NAME="u_for_comments_count">)</a><br>
+	<p><b>Р”РёР°РіРЅРѕР·С‹:</b><br>
+	<a href='/talks/from/<TMPL_VAR NAME="u_id">'>РћС‚РїСЂР°РІР»РµРЅРЅС‹Рµ РїР°С†РёСЌРЅС‚РѕРј (<TMPL_VAR NAME="u_from_comments_count">)</a><br>
+	<a href='/talks/for/<TMPL_VAR NAME="u_id">'>РџРѕР»СѓС‡РµРЅРЅС‹Рµ РїР°С†РёСЌРЅС‚РѕРј (<TMPL_VAR NAME="u_for_comments_count">)</a><br>
 	<br>
-	<p><b>Отношение к окружающим пациэнтам:</b><br>
+	<p><b>РћС‚РЅРѕС€РµРЅРёРµ Рє РѕРєСЂСѓР¶Р°СЋС‰РёРј РїР°С†РёСЌРЅС‚Р°Рј:</b><br>
 	<TMPL_VAR NAME="user_votes_out_rank_title">
 	
 	<TMPL_IF NAME="user_auth">
 		<br>
 		<br>
 		<TMPL_UNLESS NAME="can_delete">
-			[ <a href="/pm/dialog/<TMPL_VAR NAME='u_id'>/">Отправить этому пациэнту личное сообщение</a> ]
+			[ <a href="/pm/dialog/<TMPL_VAR NAME='u_id'>/">РћС‚РїСЂР°РІРёС‚СЊ СЌС‚РѕРјСѓ РїР°С†РёСЌРЅС‚Сѓ Р»РёС‡РЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ</a> ]
 		</TMPL_UNLESS>
 	</TMPL_IF>
 
 
 	<TMPL_IF NAME="creo_list">
-	<center><h1>АНАЛИ<span class=letter>Z</span>Ы:</h1></center>
+	<center><h1>РђРќРђР›Р<span class=letter>Z</span>Р«:</h1></center>
 	<table class=user_creo_list>
 		<tr>
-		<th class=date>Дата<th class=title>Название<th class=comments>Диаг<th class=resume>Голоса
+		<th class=date>Р”Р°С‚Р°<th class=title>РќР°Р·РІР°РЅРёРµ<th class=comments>Р”РёР°Рі<th class=resume>Р“РѕР»РѕСЃР°
     <TMPL_LOOP NAME="creo_list">
         <tr>
             <td class=date>
@@ -66,14 +66,14 @@
 	</TMPL_IF>
 
 	<TMPL_IF NAME="selected_creo_list">
-	<center><h1>И<span class=letter>Z</span>БРАН<span class=letter>Н</span>ОE:</h1></center>
+	<center><h1>Р<span class=letter>Z</span>Р‘Р РђРќ<span class=letter>Рќ</span>РћE:</h1></center>
 	<table class=creo_list>
 		<tr>
-			<th class=date>Дата
-			<th class=user>Пациэнт
-			<th class=title>Название
-			<th class=comments>Диаг
-			<th class=resume>Голоса
+			<th class=date>Р”Р°С‚Р°
+			<th class=user>РџР°С†РёСЌРЅС‚
+			<th class=title>РќР°Р·РІР°РЅРёРµ
+			<th class=comments>Р”РёР°Рі
+			<th class=resume>Р“РѕР»РѕСЃР°
 			<TMPL_IF NAME="can_delete"><th class=action>...</TMPL_IF>
     <TMPL_LOOP NAME="selected_creo_list">
         <tr>

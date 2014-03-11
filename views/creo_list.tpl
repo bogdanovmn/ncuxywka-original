@@ -1,32 +1,32 @@
 <div class=search_menu>
 	<form method=post action="/search/">
 		<input type=text name=search_text>
-		<input type=submit value="Найти">
+		<input type=submit value="РќР°Р№С‚Рё">
 	</form>
 </div>
 
 <center>
 	<TMPL_IF NAME=quarantine>
-		<h1>К<span class=letter>А</span>Р<span class=letter>A</span>НТИН</h1>
-		<p class=note>Здесь находятся все анализы, которые по мнению Главврача, являются ужасными и опасными для пациэнтов Психуюшки.</p>
+		<h1>Рљ<span class=letter>Рђ</span>Р <span class=letter>A</span>РќРўРРќ</h1>
+		<p class=note>Р—РґРµСЃСЊ РЅР°С…РѕРґСЏС‚СЃСЏ РІСЃРµ Р°РЅР°Р»РёР·С‹, РєРѕС‚РѕСЂС‹Рµ РїРѕ РјРЅРµРЅРёСЋ Р“Р»Р°РІРІСЂР°С‡Р°, СЏРІР»СЏСЋС‚СЃСЏ СѓР¶Р°СЃРЅС‹РјРё Рё РѕРїР°СЃРЅС‹РјРё РґР»СЏ РїР°С†РёСЌРЅС‚РѕРІ РџСЃРёС…СѓСЋС€РєРё.</p>
 		<p>&nbsp;</p>
 	</TMPL_IF>
 
 	<TMPL_IF NAME=deleted>
-		<h1>МУС<span class=letter>О</span>РНЫЙ К<span class=letter>О</span>НТЕЙНЕР</h1>
-		<p class=note>Здесь находятся все забракованные анализы</p>
+		<h1>РњРЈРЎ<span class=letter>Рћ</span>Р РќР«Р™ Рљ<span class=letter>Рћ</span>РќРўР•Р™РќР•Р </h1>
+		<p class=note>Р—РґРµСЃСЊ РЅР°С…РѕРґСЏС‚СЃСЏ РІСЃРµ Р·Р°Р±СЂР°РєРѕРІР°РЅРЅС‹Рµ Р°РЅР°Р»РёР·С‹</p>
 		<p>&nbsp;</p>
 	</TMPL_IF>
 
 	<TMPL_IF NAME=regular_creo_list>
-		<h1>АНАЛИ<span class=letter>Z</span>Ы</h1>
-		<p class=note>Здесь находятся все анализы. Если вы хотите сдать свои анализы - жмите <a href='/add_creo/'>сюда</a></p>
+		<h1>РђРќРђР›Р<span class=letter>Z</span>Р«</h1>
+		<p class=note>Р—РґРµСЃСЊ РЅР°С…РѕРґСЏС‚СЃСЏ РІСЃРµ Р°РЅР°Р»РёР·С‹. Р•СЃР»Рё РІС‹ С…РѕС‚РёС‚Рµ СЃРґР°С‚СЊ СЃРІРѕРё Р°РЅР°Р»РёР·С‹ - Р¶РјРёС‚Рµ <a href='/add_creo/'>СЃСЋРґР°</a></p>
 		<p>&nbsp;</p>
 	</TMPL_IF>
 	
 	<TMPL_IF NAME=neofuturism>
-		<h1><span class=letter>NEO</span>ФУТУРИ<span class=letter>Z</span>М</h1>
-		<p class=note>Здесь находятся все неофутуризмы. Подробнее читайте <a href='/neo_faq_room/'>тут</a></p>
+		<h1><span class=letter>NEO</span>Р¤РЈРўРЈР Р<span class=letter>Z</span>Рњ</h1>
+		<p class=note>Р—РґРµСЃСЊ РЅР°С…РѕРґСЏС‚СЃСЏ РІСЃРµ РЅРµРѕС„СѓС‚СѓСЂРёР·РјС‹. РџРѕРґСЂРѕР±РЅРµРµ С‡РёС‚Р°Р№С‚Рµ <a href='/neo_faq_room/'>С‚СѓС‚</a></p>
 		<p>&nbsp;</p>
 	</TMPL_IF>
 </center>
@@ -43,7 +43,7 @@
 
 <table class=creo_list>
 	<tr>
-	<th class=date>Дата<TMPL_UNLESS NAME=alex_jile><th class=user>Пациэнт</TMPL_UNLESS><th class=title>Название<th class=comments>Диаг<th class=resume>Голосов
+	<th class=date>Р”Р°С‚Р°<TMPL_UNLESS NAME=alex_jile><th class=user>РџР°С†РёСЌРЅС‚</TMPL_UNLESS><th class=title>РќР°Р·РІР°РЅРёРµ<th class=comments>Р”РёР°Рі<th class=resume>Р“РѕР»РѕСЃРѕРІ
 <TMPL_LOOP NAME=creo_list>
 	<tr>
 		<td class=date>
@@ -70,6 +70,6 @@
 
 <TMPL_IF NAME=quarantine>
 	<div class=deleted_creos_link>
-		<a href="/deleted/">Мусорный контейнер</a>
+		<a href="/deleted/">РњСѓСЃРѕСЂРЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ</a>
 	</div>
 </TMPL_IF>

@@ -3,18 +3,18 @@
 <td class=content>
 
 <center>
-<h1>ГЛАВ<span class=letter>С</span>РАЧ</h1>
+<h1>Р“Р›РђР’<span class=letter>РЎ</span>Р РђР§</h1>
 
-<p class=note>Специальная палата для ругательств и прочей нецензурщинины в адрес других пациэнтов. Здесь вам никто не сделает замечание. Ругайтесь на здоровье.</p>
+<p class=note>РЎРїРµС†РёР°Р»СЊРЅР°СЏ РїР°Р»Р°С‚Р° РґР»СЏ СЂСѓРіР°С‚РµР»СЊСЃС‚РІ Рё РїСЂРѕС‡РµР№ РЅРµС†РµРЅР·СѓСЂС‰РёРЅРёРЅС‹ РІ Р°РґСЂРµСЃ РґСЂСѓРіРёС… РїР°С†РёСЌРЅС‚РѕРІ. Р—РґРµСЃСЊ РІР°Рј РЅРёРєС‚Рѕ РЅРµ СЃРґРµР»Р°РµС‚ Р·Р°РјРµС‡Р°РЅРёРµ. Р СѓРіР°Р№С‚РµСЃСЊ РЅР° Р·РґРѕСЂРѕРІСЊРµ.</p>
 <br>
 <img src='/img/<TMPL_VAR NAME="skin_pic_mainshit">' width=350 height=200>
 
-<h1>СК<span class=letter>А</span>ЖИ!</h1>
+<h1>РЎРљ<span class=letter>Рђ</span>Р–Р!</h1>
 <center>
 <TMPL_INCLUDE NAME='../comments_post_form.tpl'>
 </center>
 
-<h1>ДИСП<span class=letter>Y</span>Т:</h1>
+<h1>Р”РРЎРџ<span class=letter>Y</span>Рў:</h1>
 
 <TMPL_INCLUDE NAME='../comments.tpl'>
 <TMPL_INCLUDE NAME='bottom.tpl'>

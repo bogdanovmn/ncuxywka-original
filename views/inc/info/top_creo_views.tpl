@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Топ просмотров
+	<td class=title>РўРѕРї РїСЂРѕСЃРјРѕС‚СЂРѕРІ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="top_creo_views">

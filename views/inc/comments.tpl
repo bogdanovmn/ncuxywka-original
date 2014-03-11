@@ -16,7 +16,7 @@
 					<span class=anonim><TMPL_VAR NAME="cm_alias"></span>
 				</TMPL_IF>
 			<td class=stamp>
-				<TMPL_IF NAME='cm_reply'><a href='#' onclick="reply_to('<TMPL_VAR ESCAPE=JS NAME=cm_alias> <TMPL_VAR ESCAPE=JS NAME=cm_inner_id>')">Ответить</a>&nbsp;&nbsp;&nbsp;</TMPL_IF><i><TMPL_VAR NAME="cm_inner_id"></i>
+				<TMPL_IF NAME='cm_reply'><a href='#' onclick="reply_to('<TMPL_VAR ESCAPE=JS NAME=cm_alias> <TMPL_VAR ESCAPE=JS NAME=cm_inner_id>')">РћС‚РІРµС‚РёС‚СЊ</a>&nbsp;&nbsp;&nbsp;</TMPL_IF><i><TMPL_VAR NAME="cm_inner_id"></i>
 				&nbsp;	
 				<span class=post_date><TMPL_VAR NAME="cm_post_date"></span>
 		<tr>

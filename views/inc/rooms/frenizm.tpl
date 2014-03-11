@@ -4,17 +4,17 @@
 
 <center>
 
-<h1><span class=letter>О</span>ЛИГ<span class=letter>О</span>ФРЕНИ<span class=letter>Z</span>МЫ</h1>
+<h1><span class=letter>Рћ</span>Р›РР“<span class=letter>Рћ</span>Р¤Р Р•РќР<span class=letter>Z</span>РњР«</h1>
 
-<p class=note>Умные мысли мудрых людей. Палата для буйных философов им. Иешуа Га-Ноцри.</p>
+<p class=note>РЈРјРЅС‹Рµ РјС‹СЃР»Рё РјСѓРґСЂС‹С… Р»СЋРґРµР№. РџР°Р»Р°С‚Р° РґР»СЏ Р±СѓР№РЅС‹С… С„РёР»РѕСЃРѕС„РѕРІ РёРј. РРµС€СѓР° Р“Р°-РќРѕС†СЂРё.</p>
 <br>
 <img src='/img/<TMPL_VAR NAME="skin_pic_nizm">' width=350 height=200>
-<h1>ПО<span class=letter>Y</span>МНИЧАЙ<span class=letter>!</span></h1>
+<h1>РџРћ<span class=letter>Y</span>РњРќРР§РђР™<span class=letter>!</span></h1>
 <center>
 <TMPL_INCLUDE NAME='../comments_post_form.tpl'>
 </center>
 
-<h1>ДИСП<span class=letter>Y</span>Т:</h1>
+<h1>Р”РРЎРџ<span class=letter>Y</span>Рў:</h1>
 
 <TMPL_INCLUDE NAME='../comments.tpl'>
 <TMPL_INCLUDE NAME='bottom.tpl'>

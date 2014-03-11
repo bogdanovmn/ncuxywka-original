@@ -1,35 +1,35 @@
 <TMPL_INCLUDE NAME="top.tpl">
 <!-- Content -->
 <td class=content> 
-	<center><h1>СДА<span class=letter>Й</span> АНАЛИ<span class=letter>Z</span>Ы:</h1>
+	<center><h1>РЎР”Рђ<span class=letter>Р™</span> РђРќРђР›Р<span class=letter>Z</span>Р«:</h1>
 	<TMPL_UNLESS NAME="user_auth">
-		<div class=strict>Чтобы сдать свои анализы вам необходимо <a href='/register/'>зерегистрироваться</a> <br>и войти на Психуюшку под своим именем.</div>
+		<div class=strict>Р§С‚РѕР±С‹ СЃРґР°С‚СЊ СЃРІРѕРё Р°РЅР°Р»РёР·С‹ РІР°Рј РЅРµРѕР±С…РѕРґРёРјРѕ <a href='/register/'>Р·РµСЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊСЃСЏ</a> <br>Рё РІРѕР№С‚Рё РЅР° РџСЃРёС…СѓСЋС€РєСѓ РїРѕРґ СЃРІРѕРёРј РёРјРµРЅРµРј.</div>
 	<TMPL_ELSE>
 		<TMPL_UNLESS NAME="can_add">
-			<div class=strict>Ваши предыдущие анализы показали нам что Вы достаточно здоровы!<br>Мы советуем Вам сдать следующий анализ<br>не ранее чем через <TMPL_VAR NAME="time_to_post"></div> 
+			<div class=strict>Р’Р°С€Рё РїСЂРµРґС‹РґСѓС‰РёРµ Р°РЅР°Р»РёР·С‹ РїРѕРєР°Р·Р°Р»Рё РЅР°Рј С‡С‚Рѕ Р’С‹ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р·РґРѕСЂРѕРІС‹!<br>РњС‹ СЃРѕРІРµС‚СѓРµРј Р’Р°Рј СЃРґР°С‚СЊ СЃР»РµРґСѓСЋС‰РёР№ Р°РЅР°Р»РёР·<br>РЅРµ СЂР°РЅРµРµ С‡РµРј С‡РµСЂРµР· <TMPL_VAR NAME="time_to_post"></div> 
 			<p>&nbsp;
 		</TMPL_UNLESS>
-		<div class=strict>Перед тем как сдать анализы обязательно прочьтите <a href='/faq_room/'>FAQ</a>!</div>
+		<div class=strict>РџРµСЂРµРґ С‚РµРј РєР°Рє СЃРґР°С‚СЊ Р°РЅР°Р»РёР·С‹ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РїСЂРѕС‡СЊС‚РёС‚Рµ <a href='/faq_room/'>FAQ</a>!</div>
 		<p>&nbsp;
 		<form onsubmit="return check_post_data();" name='add_history' method=post>
 			<table class=form>
 				<tr>	
-					<td><span class=note>Пациэнт:</span>
+					<td><span class=note>РџР°С†РёСЌРЅС‚:</span>
 					<td>
 						<span class=user_name><TMPL_VAR NAME='alias'></span>
 						<input type=hidden maxlength=50 name=alias value="<TMPL_VAR NAME='alias'>">
 				<tr>
-					<td><span class=note>Название:</span>
+					<td><span class=note>РќР°Р·РІР°РЅРёРµ:</span>
 					<td>
 					<input id=creo_title size=75 maxlength=250 type=text name=title value=''>
 				<tr>
-					<td><span class=note>Анализы:</span>
+					<td><span class=note>РђРЅР°Р»РёР·С‹:</span>
 					<td>
 					<textarea id=creo_body name=body value='' cols=75 rows=25></textarea>
 				<tr>
 					<td>&nbsp;
 					<td>
-					<input id=faq_read type=checkbox name='faq'> C <a href='/faq_room/'>FAQ'ом</a> ознакомлен и согласен!
+					<input id=faq_read type=checkbox name='faq'> C <a href='/faq_room/'>FAQ'РѕРј</a> РѕР·РЅР°РєРѕРјР»РµРЅ Рё СЃРѕРіР»Р°СЃРµРЅ!
 				<tr>
 					<td>&nbsp;
 					<td>
@@ -37,10 +37,10 @@
 							<tr>
 								<td class=first>
 									<TMPL_IF NAME="can_add">
-										<input type=submit name='white_copy' value='Сдать анализы'>
+										<input type=submit name='white_copy' value='РЎРґР°С‚СЊ Р°РЅР°Р»РёР·С‹'>
 									</TMPL_IF>
 								<td class=second>
-									<input type=submit name='black_copy' value='Оставить в черновиках'>
+									<input type=submit name='black_copy' value='РћСЃС‚Р°РІРёС‚СЊ РІ С‡РµСЂРЅРѕРІРёРєР°С…'>
 						</table>
 			</table>
 			<input type=hidden name=action value='add'>
@@ -52,12 +52,12 @@
 <!--
 function check_post_data() {
     if (document.getElementById('creo_title').value == '' || document.getElementById('creo_body').value == '') {
-        alert('Название анализа и текст анализа должны быть заполнены!');
+        alert('РќР°Р·РІР°РЅРёРµ Р°РЅР°Р»РёР·Р° Рё С‚РµРєСЃС‚ Р°РЅР°Р»РёР·Р° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р·Р°РїРѕР»РЅРµРЅС‹!');
 		return false;
     }
 	
 	if (!document.getElementById('faq_read').checked) {
-        alert('Настоятельно рекомендуем вам прочесть FAQ!');
+        alert('РќР°СЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЂРµРєРѕРјРµРЅРґСѓРµРј РІР°Рј РїСЂРѕС‡РµСЃС‚СЊ FAQ!');
 		return false;
     }
 	

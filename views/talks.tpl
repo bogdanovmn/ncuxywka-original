@@ -1,7 +1,7 @@
 <TMPL_INCLUDE NAME="top.tpl">
 <!-- Content -->
 <td class=content> 
-	<center><h1>ДИАГНО<span class=letter>Z</span>Ы:</h1></center>
+	<center><h1>Р”РРђР“РќРћ<span class=letter>Z</span>Р«:</h1></center>
 	
 	<TMPL_IF NAME="multi_page">
 		<TMPL_INCLUDE NAME="pages.tpl">
@@ -29,7 +29,7 @@
 					</TMPL_IF>
 					<TMPL_VAR ESCAPE="NONE" NAME="lc_msg">
 					<TMPL_IF NAME="lc_cuted">
-						<br><span class=note>--> Ампутировано <--</span>
+						<br><span class=note>--> РђРјРїСѓС‚РёСЂРѕРІР°РЅРѕ <--</span>
 					</TMPL_IF>
 		</table>
 	</TMPL_LOOP>

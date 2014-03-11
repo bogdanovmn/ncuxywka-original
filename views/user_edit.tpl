@@ -1,27 +1,27 @@
 <TMPL_INCLUDE NAME="top.tpl">
 <!-- Content -->
 <td class=content> 
-	<center><h1>И<span class=letter>Z</span>МЕНИТЬ ДАННЫЕ</h1>
+	<center><h1>Р<span class=letter>Z</span>РњР•РќРРўР¬ Р”РђРќРќР«Р•</h1>
 	<form name='edit_user' method=post enctype='multipart/form-data'>
 		<table class=user_edit_menu>
 		<tr>
-			<td id="m_password" class=selected onclick="select_block('password');">Пароль
-			<td id="m_avatar" onclick="select_block('avatar');">Аватар
-			<td id="m_contact" onclick="select_block('contact');">Контакты
-			<td id="m_about" onclick="select_block('about');">О себе
+			<td id="m_password" class=selected onclick="select_block('password');">РџР°СЂРѕР»СЊ
+			<td id="m_avatar" onclick="select_block('avatar');">РђРІР°С‚Р°СЂ
+			<td id="m_contact" onclick="select_block('contact');">РљРѕРЅС‚Р°РєС‚С‹
+			<td id="m_about" onclick="select_block('about');">Рћ СЃРµР±Рµ
 		</table>
 		<div class="edit_elements_open" id="password">
 			<table class=form>
 				<tr>
-					<td>Cтарый пароль <span class=require>*</span>
+					<td>CС‚Р°СЂС‹Р№ РїР°СЂРѕР»СЊ <span class=require>*</span>
 					<td>
 					<input size=35 type=password name=old_password value='' autocomplete=off >
 				<tr>
-					<td>Новый пароль <span class=require>*</span>
+					<td>РќРѕРІС‹Р№ РїР°СЂРѕР»СЊ <span class=require>*</span>
 					<td>
 					<input size=35 type=password name=new_password value=''>
 				<tr>
-					<td>Новый пароль (повтор) <span class=require>*</span>
+					<td>РќРѕРІС‹Р№ РїР°СЂРѕР»СЊ (РїРѕРІС‚РѕСЂ) <span class=require>*</span>
 					<td>
 					<input size=35 type=password name=new_password_check value=''>
 			</table>
@@ -32,12 +32,12 @@
 				<td>
 					<TMPL_IF NAME="avatar">
 						<p><img src='/<TMPL_VAR NAME="avatar">_thumb'>
-						<br><input type=checkbox name=delete_avatar> Удалить аватар
+						<br><input type=checkbox name=delete_avatar> РЈРґР°Р»РёС‚СЊ Р°РІР°С‚Р°СЂ
 					</TMPL_IF>
 				<td class=change_avatar>
-					Изменить аватар 
+					РР·РјРµРЅРёС‚СЊ Р°РІР°С‚Р°СЂ 
 					<br>
-					<span class=note>(файл должен быть в формате jpeg и размером не более 200Kb)</span>
+					<span class=note>(С„Р°Р№Р» РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ С„РѕСЂРјР°С‚Рµ jpeg Рё СЂР°Р·РјРµСЂРѕРј РЅРµ Р±РѕР»РµРµ 200Kb)</span>
 					<br><br>
 					<input size=35 type=file name=avatar>
 			</table>
@@ -53,25 +53,25 @@
 		<div class=edit_elements id="about">
 			<table class=form>
 				<tr>
-					<td>Город:
+					<td>Р“РѕСЂРѕРґ:
 					<td>
 					<input size=35 type=text maxlength=50 name=city value='<TMPL_VAR NAME="city">'>
 				<tr>
-					<td>На что жалуемся, товарищ?
+					<td>РќР° С‡С‚Рѕ Р¶Р°Р»СѓРµРјСЃСЏ, С‚РѕРІР°СЂРёС‰?
 					<td>
 					<textarea name=hates value='' cols=60 rows=6><TMPL_VAR NAME="hates"></textarea>
 				<tr>
-					<td>Отношение к лекарствам:
+					<td>РћС‚РЅРѕС€РµРЅРёРµ Рє Р»РµРєР°СЂСЃС‚РІР°Рј:
 					<td>
 					<textarea name=loves value='' cols=60 rows=6><TMPL_VAR NAME="loves"></textarea>
 				<tr>
-					<td>О себе:
+					<td>Рћ СЃРµР±Рµ:
 					<td>
 					<textarea name=about value='' cols=60 rows=6><TMPL_VAR NAME="about"></textarea>
 			</table>
 		</div>
 		<input type=hidden name=action value='add'>
-		<input type=submit value='Обновить свои данные'>
+		<input type=submit value='РћР±РЅРѕРІРёС‚СЊ СЃРІРѕРё РґР°РЅРЅС‹Рµ'>
 	</form>
 	</center>
 

@@ -2,21 +2,21 @@
 <!-- Content -->
 <td class=content> 
 	<center>
-		<h1>КОР<span class=letter>Р</span>ЕКЦИ<span class=letter>Я</span></h1>
+		<h1>РљРћР <span class=letter>Р </span>Р•РљР¦Р<span class=letter>РЇ</span></h1>
 		<form onsubmit="return check_post_data();" name='edit_save' method=post>
 			<table class=form>
 				<tr>
-					<td><span class=note>Название:</span>
+					<td><span class=note>РќР°Р·РІР°РЅРёРµ:</span>
 					<td>
 					<input id=creo_title size=75 maxlength=250 type=text name=title value='<TMPL_VAR NAME="c_title">'>
 				<tr>
-					<td><span class=note>Анализы:</span>
+					<td><span class=note>РђРЅР°Р»РёР·С‹:</span>
 					<td>
 					<textarea id=creo_body name=body value='' cols=75 rows=25><TMPL_VAR NAME="c_body"></textarea>
 				<tr>
 					<td>&nbsp;
 					<td>
-						<input type=submit name='update' value='Сохранить изменения'>
+						<input type=submit name='update' value='РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ'>
 			</table>
 			<input type=hidden name=action value='edit_save'>
 			<input type=hidden name=id value='<TMPL_VAR NAME="c_id">'>
@@ -27,7 +27,7 @@
 <!--
 function check_post_data() {
     if (document.getElementById('creo_title').value == '' || document.getElementById('creo_body').value == '') {
-        alert('Название анализа и текст анализа должны быть заполнены!');
+        alert('РќР°Р·РІР°РЅРёРµ Р°РЅР°Р»РёР·Р° Рё С‚РµРєСЃС‚ Р°РЅР°Р»РёР·Р° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р·Р°РїРѕР»РЅРµРЅС‹!');
 		return false;
     }
     return true;

@@ -2,21 +2,21 @@
 
 <table class="info creo_statistic">
 	<tr>
-	<td class=title>Кэш
+	<td class=title>РљСЌС€
 	<tr>
 	<td>
 		<p>
-			Кол-во элементов: 
+			РљРѕР»-РІРѕ СЌР»РµРјРµРЅС‚РѕРІ: 
 			<br>
 			<span class=value><TMPL_VAR NAME="cache_elements_count"></span>
 		</p>
 		<p>
-			Общий объем:
+			РћР±С‰РёР№ РѕР±СЉРµРј:
 			<br>
 			<span class=value><TMPL_VAR NAME="cache_total_size"></span>
 		</p>
 		<p>
-			Максимальный объем:
+			РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РѕР±СЉРµРј:
 			<br>
 			<span class=value><TMPL_VAR NAME="cache_max_size"></span>
 		</p>

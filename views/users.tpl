@@ -2,14 +2,14 @@
 <!-- Content -->
 <td class=content> 
 	<center>
-	<h1>ПАЦИЭ<span class=letter>N</span>ТЫ</h1>
+	<h1>РџРђР¦РР­<span class=letter>N</span>РўР«</h1>
 	</center>
 	
 	<table class=user_edit_menu>
 	<tr>
-		<td id="m_diag" class=selected onclick="select_block('diag');">По диагнозу
-		<td id="m_date" onclick="select_block('date');">По дате поступления
-		<td id="m_letter" onclick="select_block('letter');">По алфавиту
+		<td id="m_diag" class=selected onclick="select_block('diag');">РџРѕ РґРёР°РіРЅРѕР·Сѓ
+		<td id="m_date" onclick="select_block('date');">РџРѕ РґР°С‚Рµ РїРѕСЃС‚СѓРїР»РµРЅРёСЏ
+		<td id="m_letter" onclick="select_block('letter');">РџРѕ Р°Р»С„Р°РІРёС‚Сѓ
 	</table>
 
 	<div class="user_list_open" id="diag">
@@ -18,7 +18,7 @@
 		<tr>
 		<td>
 		<TMPL_IF NAME="rank_1">
-			<h2 class=user_rank>Легенды Психуюшки</h2>
+			<h2 class=user_rank>Р›РµРіРµРЅРґС‹ РџСЃРёС…СѓСЋС€РєРё</h2>
 			<TMPL_LOOP NAME="rank_1">
 				<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
 			</TMPL_LOOP>
@@ -29,21 +29,21 @@
 		<tr>
 		<td>
 			<TMPL_IF NAME="rank_2">
-				<h2 class=user_rank>Шизофреники</h2>
+				<h2 class=user_rank>РЁРёР·РѕС„СЂРµРЅРёРєРё</h2>
 				<TMPL_LOOP NAME="rank_2">
 					<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
 				</TMPL_LOOP>
 			</TMPL_IF>
 			<td>
 			<TMPL_IF NAME="rank_3">
-				<h2 class=user_rank>Пациэнты Фрейда</h2>
+				<h2 class=user_rank>РџР°С†РёСЌРЅС‚С‹ Р¤СЂРµР№РґР°</h2>
 				<TMPL_LOOP NAME="rank_3">
 					<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
 				</TMPL_LOOP>
 			</TMPL_IF>
 			<td>
 			<TMPL_IF NAME="rank_4">
-				<h2 class=user_rank>Параноики</h2>
+				<h2 class=user_rank>РџР°СЂР°РЅРѕРёРєРё</h2>
 				<TMPL_LOOP NAME="rank_4">
 					<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
 				</TMPL_LOOP>
@@ -54,7 +54,7 @@
 		<tr>
 		<td>
 		<TMPL_IF NAME="rank_5">
-			<h2 class=user_rank>Тяжелый случай (нуждаются в срочной лоботомии)</h2>
+			<h2 class=user_rank>РўСЏР¶РµР»С‹Р№ СЃР»СѓС‡Р°Р№ (РЅСѓР¶РґР°СЋС‚СЃСЏ РІ СЃСЂРѕС‡РЅРѕР№ Р»РѕР±РѕС‚РѕРјРёРё)</h2>
 			<TMPL_LOOP NAME="rank_5">
 				<TMPL_IF NAME="ru_plagiarist"><s></TMPL_IF>
 				<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
@@ -67,14 +67,14 @@
 		<tr>
 		<td>
 		<TMPL_IF NAME="rank_0">
-			<h2 class=user_rank>Диагноз пока не ясен</h2>
+			<h2 class=user_rank>Р”РёР°РіРЅРѕР· РїРѕРєР° РЅРµ СЏСЃРµРЅ</h2>
 			<TMPL_LOOP NAME="rank_0">
 				<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
 			</TMPL_LOOP>
 		</TMPL_IF>
 		<td>
 		<TMPL_IF NAME="rank_100">
-			<h2 class=user_rank>Сидят в очереди на сдачу анализов</h2>
+			<h2 class=user_rank>РЎРёРґСЏС‚ РІ РѕС‡РµСЂРµРґРё РЅР° СЃРґР°С‡Сѓ Р°РЅР°Р»РёР·РѕРІ</h2>
 			<TMPL_LOOP NAME="rank_100">
 				<p><a href='/users/<TMPL_VAR NAME="ru_id">.html'><TMPL_VAR NAME="ru_name"></a></p>
 			</TMPL_LOOP>

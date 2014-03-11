@@ -2,7 +2,7 @@
 
 <table class="info_gray">
 	<tr>
-	<td class=title>Профайлер
+	<td class=title>РџСЂРѕС„Р°Р№Р»РµСЂ
 	<tr>
 	<td>
 		<p>
@@ -14,15 +14,15 @@
 			<b><TMPL_VAR NAME="profiler_db_connect_time"></b>
 		</p>
 		<p>
-			Время SQL:
+			Р’СЂРµРјСЏ SQL:
 			<b><TMPL_VAR NAME="profiler_sql_time"></b>
 		</p>
 		<p>
-			Общее время: 
+			РћР±С‰РµРµ РІСЂРµРјСЏ: 
 			<b><TMPL_VAR NAME="profiler_gen_time"></b>
 		</p>
 		<p>
-			Кол-во SQL:
+			РљРѕР»-РІРѕ SQL:
 			<b><TMPL_VAR NAME="profiler_sql_count"></b>
 		</p>
 

@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Топ избранного
+	<td class=title>РўРѕРї РёР·Р±СЂР°РЅРЅРѕРіРѕ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="top_selected_creos">

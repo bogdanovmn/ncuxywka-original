@@ -2,17 +2,17 @@
 
 <table class="info creo_statistic">
 	<tr>
-	<td class=title>Статистика
+	<td class=title>РЎС‚Р°С‚РёСЃС‚РёРєР°
 	<tr>
 	<td>
 		<p>
-			Кол-во просмотров: 
+			РљРѕР»-РІРѕ РїСЂРѕСЃРјРѕС‚СЂРѕРІ: 
 			<br>
 			<span class=value><TMPL_VAR NAME="views_total"></span>
 		</p>
 		<TMPL_IF NAME="selections_total">
 			<p title="<TMPL_LOOP NAME='selections_info'><TMPL_VAR NAME='si_user_name'>&#10;&#13;</TMPL_LOOP>">
-				Добавили в избранное:
+				Р”РѕР±Р°РІРёР»Рё РІ РёР·Р±СЂР°РЅРЅРѕРµ:
 				<br>
 				<span class=value><TMPL_VAR NAME="selections_total"></span>
 			</p>

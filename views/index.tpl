@@ -4,25 +4,25 @@
 	<center>
 	<table class=info_about>
 		<tr>
-		<td class=title>КУДА Я ПОПАЛ?
+		<td class=title>РљРЈР”Рђ РЇ РџРћРџРђР›?
 		<tr>
-		<td><b>Психуюшка</b> - это литературное онлайн сообщество, полная свобода слова и отсутствие цензуры. <a href='/faq_room/'>Подробнее...</a>
+		<td><b>РџСЃРёС…СѓСЋС€РєР°</b> - СЌС‚Рѕ Р»РёС‚РµСЂР°С‚СѓСЂРЅРѕРµ РѕРЅР»Р°Р№РЅ СЃРѕРѕР±С‰РµСЃС‚РІРѕ, РїРѕР»РЅР°СЏ СЃРІРѕР±РѕРґР° СЃР»РѕРІР° Рё РѕС‚СЃСѓС‚СЃС‚РІРёРµ С†РµРЅР·СѓСЂС‹. <a href='/faq_room/'>РџРѕРґСЂРѕР±РЅРµРµ...</a>
 	</table>
 	<table class=info_about>
 	<tr>
-	<td class=title>ЗАЧЕМ?
+	<td class=title>Р—РђР§Р•Рњ?
 	<tr>
-	<td><p><a href='/creos/'>Почитать анализы</a>
-		<p><a href='/talks/'>Поставить диагнозы</a>
-		<p><a href='/add_creo/'>Прислать свои анализы</a>
+	<td><p><a href='/creos/'>РџРѕС‡РёС‚Р°С‚СЊ Р°РЅР°Р»РёР·С‹</a>
+		<p><a href='/talks/'>РџРѕСЃС‚Р°РІРёС‚СЊ РґРёР°РіРЅРѕР·С‹</a>
+		<p><a href='/add_creo/'>РџСЂРёСЃР»Р°С‚СЊ СЃРІРѕРё Р°РЅР°Р»РёР·С‹</a>
 	</table>
 	</center>
 <td>
-	<center><img alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR NAME=skin_pic_main>'></center>
+	<center><img alt='РџРЎРРҐРЈР®РЁРљРђ.COM' src='/img/<TMPL_VAR NAME=skin_pic_main>'></center>
 <td class=user_news>
 	<table class=info_news>
 	<tr>
-	<td class=title>Новички
+	<td class=title>РќРѕРІРёС‡РєРё
 	<tr>
 	<td>
 		<TMPL_LOOP NAME=new_users>
@@ -37,23 +37,23 @@
 
 <table class=news>
 <tr>
-	<td class=title>Пси-Новости
+	<td class=title>РџСЃРё-РќРѕРІРѕСЃС‚Рё
 <tr>
 	<td class=info>
 		<TMPL_LOOP NAME=news>
 			<p>
 			<b><TMPL_VAR NAME=n_post_date></b>
-			от <a class=author href="/users/<TMPL_VAR NAME=n_user_id>.html"><TMPL_VAR NAME=n_user_name></a>
+			РѕС‚ <a class=author href="/users/<TMPL_VAR NAME=n_user_id>.html"><TMPL_VAR NAME=n_user_name></a>
 			<br>
 			<TMPL_VAR NAME=n_msg>
 			</p>
 		</TMPL_LOOP>
 		<div class=more>
-			<a href="/news/">Архив новостей</a>
+			<a href="/news/">РђСЂС…РёРІ РЅРѕРІРѕСЃС‚РµР№</a>
 		</div>
 </table>
 
-<div class=last_creos_title>Последние <a href='/creos/'>анализы</a>:</div>
+<div class=last_creos_title>РџРѕСЃР»РµРґРЅРёРµ <a href='/creos/'>Р°РЅР°Р»РёР·С‹</a>:</div>
 <TMPL_LOOP NAME=last_creos>
 	<table class=creo_preview>
 		<tr class=info>
@@ -65,7 +65,7 @@
 				<b><TMPL_VAR NAME=lc_post_date></b>
 		<tr class=info>
 			<td colspan=2 class=diag>
-				Диагнозов: <TMPL_VAR NAME=lc_comments_count>
+				Р”РёР°РіРЅРѕР·РѕРІ: <TMPL_VAR NAME=lc_comments_count>
 		<tr class=text>
 			<td colspan=2>
 				<table class=creo_preview_text>
@@ -79,7 +79,7 @@
 					<td class=text>
 						<TMPL_VAR ESCAPE="NONE" NAME=lc_body>
 						<TMPL_IF NAME=lc_cuted>
-							<br><span class=note>--> Ампутировано <--</span>
+							<br><span class=note>--> РђРјРїСѓС‚РёСЂРѕРІР°РЅРѕ <--</span>
 						</TMPL_IF>
 				</table>
 		<TMPL_IF NAME=lc_more>
@@ -90,7 +90,7 @@
 						<a href="/creos/<TMPL_VAR ESCAPE=URL NAME=lc_id>.html">
 							<TMPL_VAR NAME=lc_title>
 						</a>
-						<i>&nbsp;(<TMPL_VAR NAME=lc_comments_count> диаг.)</i><TMPL_UNLESS NAME=__last__>,&nbsp;</TMPL_UNLESS>
+						<i>&nbsp;(<TMPL_VAR NAME=lc_comments_count> РґРёР°Рі.)</i><TMPL_UNLESS NAME=__last__>,&nbsp;</TMPL_UNLESS>
 					</TMPL_LOOP>
 		</TMPL_IF>
 	</table>

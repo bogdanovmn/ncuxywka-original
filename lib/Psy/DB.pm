@@ -30,7 +30,7 @@ sub connect {
 			PSY_DB_CONF::PASS
 		) or die $!;
 		#$__DBH->do("SET NAMES cp1251");
-		#$__DBH->do("SET NAMES utf8");
+		$__DBH->do("SET NAMES utf8");
 		$__DBH->do("SET SQL_BIG_SELECTS=1");
 		$__STATISTIC->{db_connect_time} += Time::HiRes::time - $begin_time;
 		$__STATISTIC->{db_connections}++;

@@ -1,49 +1,49 @@
 <TMPL_INCLUDE NAME="top.tpl">
 <!-- Content -->
 <td class=content> 
-	<center><h1><span class=letter>Z</span>АРЕГИСТРИР<span class=letter>Y</span>ЙСЯ!</h1>
+	<center><h1><span class=letter>Z</span>РђР Р•Р“РРЎРўР РР <span class=letter>Y</span>Р™РЎРЇ!</h1>
 	<TMPL_IF NAME="user_auth">
-		<p>Вы уже зарегистрированы!<br>Перед регистрацией другого пациэнта вам необходимо <a href='/auth/out'>выйти</a>.</p>
+		<p>Р’С‹ СѓР¶Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅС‹!<br>РџРµСЂРµРґ СЂРµРіРёСЃС‚СЂР°С†РёРµР№ РґСЂСѓРіРѕРіРѕ РїР°С†РёСЌРЅС‚Р° РІР°Рј РЅРµРѕР±С…РѕРґРёРјРѕ <a href='/auth/out'>РІС‹Р№С‚Рё</a>.</p>
 	<TMPL_ELSE>
-		<p>Прежде чем регистрироваться, прочитайте пожалуйста <a href='/faq_room/'>FAQ</a><br><br></p>
+		<p>РџСЂРµР¶РґРµ С‡РµРј СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊСЃСЏ, РїСЂРѕС‡РёС‚Р°Р№С‚Рµ РїРѕР¶Р°Р»СѓР№СЃС‚Р° <a href='/faq_room/'>FAQ</a><br><br></p>
 		<form onsubmit="return check_post_data();" name='add_user' method=post action=''>
 			<table class=form>
 				<tr>
-					<td>Имя <span class=require>*</span><br><span class=note>Будет вашим логином и отображаться<br>на Психуюшке (не более 50 символов)</span>
+					<td>РРјСЏ <span class=require>*</span><br><span class=note>Р‘СѓРґРµС‚ РІР°С€РёРј Р»РѕРіРёРЅРѕРј Рё РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ<br>РЅР° РџСЃРёС…СѓСЋС€РєРµ (РЅРµ Р±РѕР»РµРµ 50 СЃРёРјРІРѕР»РѕРІ)</span>
 					<td>
 					<input id=reg_name size=35 type=text maxlength=50 name=name>
 				<tr>
-					<td>Пароль <span class=require>*</span><br><span class=note>Для входа на Психуюшку под<br>своим именем</span>
+					<td>РџР°СЂРѕР»СЊ <span class=require>*</span><br><span class=note>Р”Р»СЏ РІС…РѕРґР° РЅР° РџСЃРёС…СѓСЋС€РєСѓ РїРѕРґ<br>СЃРІРѕРёРј РёРјРµРЅРµРј</span>
 					<td>
 					<input id=reg_pass size=35 type=password name=password value=''>
 				<tr>
-					<td>Пароль (повтор) <span class=require>*</span><br><span class=note>Это на случай, если вы во время<br>ввода пароля случайно уронили<br>шкаф на клавиатуру</span>
+					<td>РџР°СЂРѕР»СЊ (РїРѕРІС‚РѕСЂ) <span class=require>*</span><br><span class=note>Р­С‚Рѕ РЅР° СЃР»СѓС‡Р°Р№, РµСЃР»Рё РІС‹ РІРѕ РІСЂРµРјСЏ<br>РІРІРѕРґР° РїР°СЂРѕР»СЏ СЃР»СѓС‡Р°Р№РЅРѕ СѓСЂРѕРЅРёР»Рё<br>С€РєР°С„ РЅР° РєР»Р°РІРёР°С‚СѓСЂСѓ</span>
 					<td>
 					<input id=reg_pass_check size=35 type=password name=password_check value=''>
 				<tr>
-					<td>e-mail <span class=require>*</span><br><span class=note>Не будет отображаться на Психуюшке,<br>но пригодится, например, если вы<br>забудите пароль...</span>
+					<td>e-mail <span class=require>*</span><br><span class=note>РќРµ Р±СѓРґРµС‚ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ РЅР° РџСЃРёС…СѓСЋС€РєРµ,<br>РЅРѕ РїСЂРёРіРѕРґРёС‚СЃСЏ, РЅР°РїСЂРёРјРµСЂ, РµСЃР»Рё РІС‹<br>Р·Р°Р±СѓРґРёС‚Рµ РїР°СЂРѕР»СЊ...</span>
 					<td>
 					<input id=reg_email size=35 type=text maxlength=40 name=email>
 				<tr>
-					<td>Город<br><span class=note>Где проживаете в данный<br>момент (душой и/или телом)</span>
+					<td>Р“РѕСЂРѕРґ<br><span class=note>Р“РґРµ РїСЂРѕР¶РёРІР°РµС‚Рµ РІ РґР°РЅРЅС‹Р№<br>РјРѕРјРµРЅС‚ (РґСѓС€РѕР№ Рё/РёР»Рё С‚РµР»РѕРј)</span>
 					<td>
 					<input size=35 type=text maxlength=50 name=city>
 				<tr>
-					<td>На что жалуемся, товарищ?
+					<td>РќР° С‡С‚Рѕ Р¶Р°Р»СѓРµРјСЃСЏ, С‚РѕРІР°СЂРёС‰?
 					<td>
 					<textarea name=hates cols=60 rows=6></textarea>
 				<tr>
-					<td>Отношение к лекарствам 
+					<td>РћС‚РЅРѕС€РµРЅРёРµ Рє Р»РµРєР°СЂСЃС‚РІР°Рј 
 					<td>
 					<textarea name=loves cols=60 rows=6></textarea>
 				<tr>
-					<td>О себе<br><span class=note>Можете похвалить себя<br>или поругать :)</span>
+					<td>Рћ СЃРµР±Рµ<br><span class=note>РњРѕР¶РµС‚Рµ РїРѕС…РІР°Р»РёС‚СЊ СЃРµР±СЏ<br>РёР»Рё РїРѕСЂСѓРіР°С‚СЊ :)</span>
 					<td>
 					<textarea name=about cols=60 rows=6></textarea>
 				<tr>
 					<td>&nbsp;
 					<td>
-					<input type=submit value='Оформиться'>
+					<input type=submit value='РћС„РѕСЂРјРёС‚СЊСЃСЏ'>
 			</table>
 			<input type=hidden name=ses value='<TMPL_VAR NAME="ses">'>
 			<input type=hidden name=action value='add'>
@@ -54,18 +54,18 @@
 <SCRIPT language='javascript' type="text/javascript">
 <!--
 function check_post_data() {
-	var phrase = 'Не заполнено обязательное поле ';
+	var phrase = 'РќРµ Р·Р°РїРѕР»РЅРµРЅРѕ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕРµ РїРѕР»Рµ ';
     
 	if (document.getElementById('reg_name').value == '') {
-        alert(phrase + '"Имя"!');
+        alert(phrase + '"РРјСЏ"!');
 		return false;
     }
 	if (document.getElementById('reg_pass').value == '') {
-        alert(phrase + '"Пароль"!');
+        alert(phrase + '"РџР°СЂРѕР»СЊ"!');
 		return false;
     }
 	if (document.getElementById('reg_pass_check').value == '') {
-        alert(phrase + '"Пароль (повтор)"!');
+        alert(phrase + '"РџР°СЂРѕР»СЊ (РїРѕРІС‚РѕСЂ)"!');
 		return false;
     }
 	if (document.getElementById('reg_email').value == '') {
@@ -73,7 +73,7 @@ function check_post_data() {
 		return false;
     }
 	if (document.getElementById('reg_pass').value != document.getElementById('reg_pass_check').value) {
-        alert('Повторный ввод пароля неверен!');
+        alert('РџРѕРІС‚РѕСЂРЅС‹Р№ РІРІРѕРґ РїР°СЂРѕР»СЏ РЅРµРІРµСЂРµРЅ!');
 		return false;
     }
 	

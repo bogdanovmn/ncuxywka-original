@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Словарь
+	<td class=title>РЎР»РѕРІР°СЂСЊ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="words_statistic">

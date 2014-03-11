@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Активно сдают анализы
+	<td class=title>РђРєС‚РёРІРЅРѕ СЃРґР°СЋС‚ Р°РЅР°Р»РёР·С‹
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="top_users_by_creos_count">

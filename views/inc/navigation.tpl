@@ -1,51 +1,51 @@
 <table class=main_menu_block>
 <tr class=title>
-	<td>Основные кабинеты
+	<td>РћСЃРЅРѕРІРЅС‹Рµ РєР°Р±РёРЅРµС‚С‹
 <tr>
 	<td>
 		<table class=main_menu>
 		<tr><td>
-			<a href='/main/'>Приемная</a>
+			<a href='/main/'>РџСЂРёРµРјРЅР°СЏ</a>
 		<tr><td>
-			<a href='/faq_room/'>Справочная</a>
+			<a href='/faq_room/'>РЎРїСЂР°РІРѕС‡РЅР°СЏ</a>
 			<span class=note>(FAQ)</span>
 		<TMPL_UNLESS NAME="user_auth">
 			<tr><td>
-				<a href='/register/'>Регистратура</a>
+				<a href='/register/'>Р РµРіРёСЃС‚СЂР°С‚СѓСЂР°</a>
 		<TMPL_ELSE>
 			<TMPL_UNLESS NAME='is_plagiarist'>
 				<tr><td>
-					<a href='/add_creo/'>Лабораторная</a>
+					<a href='/add_creo/'>Р›Р°Р±РѕСЂР°С‚РѕСЂРЅР°СЏ</a>
 					<br>
-					<span class=note>(Сдать анализы)</span>
+					<span class=note>(РЎРґР°С‚СЊ Р°РЅР°Р»РёР·С‹)</span>
 			</TMPL_UNLESS>
 		</TMPL_UNLESS>
 		<tr><td>
-			<a href='/gb/'>Палата #6</a>
+			<a href='/gb/'>РџР°Р»Р°С‚Р° #6</a>
 			<TMPL_IF NAME="lgbc_post_date">
-				<br><span class=subnote>Последнее: <TMPL_VAR NAME="lgbc_post_date"> от <TMPL_VAR NAME="lgbc_alias"></span>
+				<br><span class=subnote>РџРѕСЃР»РµРґРЅРµРµ: <TMPL_VAR NAME="lgbc_post_date"> РѕС‚ <TMPL_VAR NAME="lgbc_alias"></span>
 			</TMPL_IF>
 		</table>
 </table>
 
 <table class=main_menu_block>
 <tr class=title>
-	<td>Картотека
+	<td>РљР°СЂС‚РѕС‚РµРєР°
 <tr>
 	<td>
 		<table class=main_menu>
 			<tr><td>
-			<a href='/users/'>Пациэнты</a>
+			<a href='/users/'>РџР°С†РёСЌРЅС‚С‹</a>
 			<tr><td>
-			<a href='/creos/'>Анализы</a>
+			<a href='/creos/'>РђРЅР°Р»РёР·С‹</a>
 			<!--tr><td>
-			<a class=alex_jile href='/alex_jile/'>Палата Жиля</a-->
+			<a class=alex_jile href='/alex_jile/'>РџР°Р»Р°С‚Р° Р–РёР»СЏ</a-->
 			<tr><td>
-			<a href='/quarantine/'>Карантин</a>
+			<a href='/quarantine/'>РљР°СЂР°РЅС‚РёРЅ</a>
 			<tr><td>
-			<a href='/talks/'>Диагнозы</a>
+			<a href='/talks/'>Р”РёР°РіРЅРѕР·С‹</a>
 			<TMPL_IF NAME="lcm_post_date">
-				<br><span class=subnote>Последнее: <TMPL_VAR NAME="lcm_post_date"> от <TMPL_VAR NAME="lcm_alias"></span>
+				<br><span class=subnote>РџРѕСЃР»РµРґРЅРµРµ: <TMPL_VAR NAME="lcm_post_date"> РѕС‚ <TMPL_VAR NAME="lcm_alias"></span>
 			</TMPL_IF>
 		</table>
 </table>
@@ -55,36 +55,36 @@
 <table class=info>
 <tr>
 <TMPL_IF NAME="user_auth">
-	<td class=title>Бюллетень 
+	<td class=title>Р‘СЋР»Р»РµС‚РµРЅСЊ 
 	<tr>
 	<td>
-	<p class=hello>Хайц, <a href="/users/<TMPL_VAR NAME='user_id'>.html"><span class=user_name><TMPL_VAR NAME="alias"></span></a>!<br><br>
-	<p class=submenu>&#149;&nbsp;<a href="/user_edit/">Настройки</a>
+	<p class=hello>РҐР°Р№С†, <a href="/users/<TMPL_VAR NAME='user_id'>.html"><span class=user_name><TMPL_VAR NAME="alias"></span></a>!<br><br>
+	<p class=submenu>&#149;&nbsp;<a href="/user_edit/">РќР°СЃС‚СЂРѕР№РєРё</a>
 	<p class=submenu>&#149;
 		<TMPL_IF NAME="new_messages">
-			<a href='/pm/in/'><span class=new_messages>Личные сообщения</span></a>
+			<a href='/pm/in/'><span class=new_messages>Р›РёС‡РЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ</span></a>
 			<br>
-			<span class=subnote>Новые: <TMPL_VAR NAME="new_messages"></span>
+			<span class=subnote>РќРѕРІС‹Рµ: <TMPL_VAR NAME="new_messages"></span>
 		<TMPL_ELSE>
-			<a href='/pm/in/'>Личные сообщения</a>
+			<a href='/pm/in/'>Р›РёС‡РЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ</a>
 		</TMPL_IF>
-	<p class=submenu>&#149;&nbsp;<a href="/talks/from/<TMPL_VAR NAME='user_id'>">Мои диагнозы</a>
-	<p class=submenu>&#149;&nbsp;<a href="/talks/for/<TMPL_VAR NAME='user_id'>">Диагнозы к моим анализам</a>
+	<p class=submenu>&#149;&nbsp;<a href="/talks/from/<TMPL_VAR NAME='user_id'>">РњРѕРё РґРёР°РіРЅРѕР·С‹</a>
+	<p class=submenu>&#149;&nbsp;<a href="/talks/for/<TMPL_VAR NAME='user_id'>">Р”РёР°РіРЅРѕР·С‹ Рє РјРѕРёРј Р°РЅР°Р»РёР·Р°Рј</a>
 	<TMPL_IF NAME="lcfm_post_date">
-		<br><span class=subnote><TMPL_VAR NAME="lcfm_post_date"> от <TMPL_VAR NAME="lcfm_alias"></span>
+		<br><span class=subnote><TMPL_VAR NAME="lcfm_post_date"> РѕС‚ <TMPL_VAR NAME="lcfm_alias"></span>
 	</TMPL_IF>
-	<p class=submenu>&#149;&nbsp;<a href="/auth/out">Выйти</a>
+	<p class=submenu>&#149;&nbsp;<a href="/auth/out">Р’С‹Р№С‚Рё</a>
 <TMPL_ELSE>
-	<td class=title>Вход 
+	<td class=title>Р’С…РѕРґ 
 	<tr>
 	<td>
 	<form name=login method=post action='/auth.cgi'>
 	<table class=form>
 		<tr>
-		<td>Имя:
+		<td>РРјСЏ:
 		<br><input size=16 type=text name=name value=''>
 		<tr>
-		<td>Пароль:
+		<td>РџР°СЂРѕР»СЊ:
 		<br><input size=16 type=password name=password value=''>
 		<tr>
 		<td class=login_ok_button><input type=submit name=login_submit value='ok'>
@@ -98,45 +98,45 @@
 <!-- Spec rooms -->
 <table class=info>
 <tr>
-<td class=title>Другие палаты
+<td class=title>Р”СЂСѓРіРёРµ РїР°Р»Р°С‚С‹
 <tr>
 <td>
 	<p class=spec_submenu>&#149;&nbsp;
-		<a href='/wish_room/'>Книга Желаний</a>
+		<a href='/wish_room/'>РљРЅРёРіР° Р–РµР»Р°РЅРёР№</a>
 		<TMPL_IF NAME="srlc_wish_post_date">
-			<br><span class=subnote><TMPL_VAR NAME='srlc_wish_post_date'> от <TMPL_VAR NAME='srlc_wish_alias'></span>
+			<br><span class=subnote><TMPL_VAR NAME='srlc_wish_post_date'> РѕС‚ <TMPL_VAR NAME='srlc_wish_alias'></span>
 		</TMPL_IF>
 	</p>
 	<p class=spec_submenu>&#149;&nbsp;
-		<a href='/petr_room/'>Похождения Поросенка Петра</a>
+		<a href='/petr_room/'>РџРѕС…РѕР¶РґРµРЅРёСЏ РџРѕСЂРѕСЃРµРЅРєР° РџРµС‚СЂР°</a>
 		<TMPL_IF NAME="srlc_petr_post_date">
-			<br><span class=subnote><TMPL_VAR NAME='srlc_petr_post_date'> от <TMPL_VAR NAME='srlc_petr_alias'></span>
+			<br><span class=subnote><TMPL_VAR NAME='srlc_petr_post_date'> РѕС‚ <TMPL_VAR NAME='srlc_petr_alias'></span>
 		</TMPL_IF>
 	</p>
 	<p class=spec_submenu>&#149;&nbsp;
-		<a href='/frenizm_room/'>Олигофренизмы</a>
+		<a href='/frenizm_room/'>РћР»РёРіРѕС„СЂРµРЅРёР·РјС‹</a>
 		<TMPL_IF NAME="srlc_frenizm_post_date">
-			<br><span class=subnote><TMPL_VAR NAME='srlc_frenizm_post_date'> от <TMPL_VAR NAME='srlc_frenizm_alias'></span>
+			<br><span class=subnote><TMPL_VAR NAME='srlc_frenizm_post_date'> РѕС‚ <TMPL_VAR NAME='srlc_frenizm_alias'></span>
 		</TMPL_IF>
 	</p>
 	<p class=spec_submenu>&#149;&nbsp;
-		<a href='/mainshit_room/'>Главсрач</a>
+		<a href='/mainshit_room/'>Р“Р»Р°РІСЃСЂР°С‡</a>
 		<TMPL_IF NAME="srlc_mainshit_post_date">
-			<br><span class=subnote><TMPL_VAR NAME='srlc_mainshit_post_date'> от <TMPL_VAR NAME='srlc_mainshit_alias'></span>
+			<br><span class=subnote><TMPL_VAR NAME='srlc_mainshit_post_date'> РѕС‚ <TMPL_VAR NAME='srlc_mainshit_alias'></span>
 		</TMPL_IF>
 	</p>
 	<p class=spec_submenu>&#149;&nbsp;
-		<a href='/proc_room/'>Процедурная</a>
+		<a href='/proc_room/'>РџСЂРѕС†РµРґСѓСЂРЅР°СЏ</a>
 		<TMPL_IF NAME="srlc_proc_post_date">
-			<br><span class=subnote><TMPL_VAR NAME='srlc_proc_post_date'> от <TMPL_VAR NAME='srlc_proc_alias'></span>
+			<br><span class=subnote><TMPL_VAR NAME='srlc_proc_post_date'> РѕС‚ <TMPL_VAR NAME='srlc_proc_alias'></span>
 		</TMPL_IF>
 	</p>
 	<p class=spec_submenu>&#149;&nbsp;
-		<a href='/neofuturism/'>Неофутуризм</a>
+		<a href='/neofuturism/'>РќРµРѕС„СѓС‚СѓСЂРёР·Рј</a>
 	</p>
 	<TMPL_IF NAME="god">
 		<p class=spec_submenu>&#149;&nbsp;
-			<a href='/maindoctor/'>Кабинет Главврача</a>
+			<a href='/maindoctor/'>РљР°Р±РёРЅРµС‚ Р“Р»Р°РІРІСЂР°С‡Р°</a>
 		</p>
 	</TMPL_IF>
 </table>
@@ -144,13 +144,13 @@
 <TMPL_IF NAME="counter">
 <table class=info>
 <tr>
-<td class=title>Статистико
+<td class=title>РЎС‚Р°С‚РёСЃС‚РёРєРѕ
 <tr>
 <td>
 <center>
 <!--LiveInternet logo-->
 <a href="http://www.liveinternet.ru/click" target="_blank">
-	<img src="//counter.yadro.ru/logo?14.15" title="Статистико =)" alt="" width="88" height="31"/>
+	<img src="//counter.yadro.ru/logo?14.15" title="РЎС‚Р°С‚РёСЃС‚РёРєРѕ =)" alt="" width="88" height="31"/>
 </a>
 </center>
 <!--/LiveInternet-->

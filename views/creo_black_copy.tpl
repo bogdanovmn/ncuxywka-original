@@ -3,28 +3,28 @@
 <td class=content> 
 	<center>
 	<TMPL_IF NAME="black_copy_edit">
-		<h1>ЧЕРН<span class=letter>О</span>ВИ<span class=letter>К</span></h1>
+		<h1>Р§Р•Р Рќ<span class=letter>Рћ</span>Р’Р<span class=letter>Рљ</span></h1>
 		<form onsubmit="return check_post_data();" name='update_black_copy' method=post>
 			<table class=form>
 				<tr>
-					<td><span class=note>Название:</span>
+					<td><span class=note>РќР°Р·РІР°РЅРёРµ:</span>
 					<td>
 					<input id=creo_title size=75 maxlength=250 type=text name=title value='<TMPL_VAR NAME="c_title">'>
 				<tr>
-					<td><span class=note>Анализы:</span>
+					<td><span class=note>РђРЅР°Р»РёР·С‹:</span>
 					<td>
 					<textarea id=creo_body name=body value='' cols=75 rows=25><TMPL_VAR NAME="c_body"></textarea>
 				<tr>
 					<td>&nbsp;
 					<td>
-						<input type=submit name='update' value='Сохранить изменения'>
+						<input type=submit name='update' value='РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ'>
 			</table>
 			<input type=hidden name=action value='add'>
 			<input type=hidden name=id value='<TMPL_VAR NAME="creo_id">'>
 		</form>
 	<TMPL_ELSE>
 		<TMPL_UNLESS NAME="can_public">
-			<div class=strict>Ваши предыдущие анализы показали нам что Вы достаточно здоровы!<br>Мы советуем Вам сдать следующий анализ<br>не ранее чем через <TMPL_VAR NAME="time_to_public"></div> 
+			<div class=strict>Р’Р°С€Рё РїСЂРµРґС‹РґСѓС‰РёРµ Р°РЅР°Р»РёР·С‹ РїРѕРєР°Р·Р°Р»Рё РЅР°Рј С‡С‚Рѕ Р’С‹ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р·РґРѕСЂРѕРІС‹!<br>РњС‹ СЃРѕРІРµС‚СѓРµРј Р’Р°Рј СЃРґР°С‚СЊ СЃР»РµРґСѓСЋС‰РёР№ Р°РЅР°Р»РёР·<br>РЅРµ СЂР°РЅРµРµ С‡РµРј С‡РµСЂРµР· <TMPL_VAR NAME="time_to_public"></div> 
 			<p>&nbsp;
 		</TMPL_UNLESS>
 		<table class=black_copy_menu>
@@ -32,21 +32,21 @@
 			<td class=public>
 				<form method=post onsubmit="return check_public_data();">
 					<TMPL_IF NAME="can_public">
-						<input type=submit value="Сдать этот анализ">
+						<input type=submit value="РЎРґР°С‚СЊ СЌС‚РѕС‚ Р°РЅР°Р»РёР·">
 					</TMPL_IF>
 					<input type=hidden name="id" value="<TMPL_VAR NAME='creo_id'>">
 					<input type=hidden name="action" value="public">
 					<TMPL_IF NAME="can_public">
 						<br>
-						<input id=faq_read type=checkbox name='faq'> C <a href='/faq_room/'>FAQ'ом</a> ознакомлен и согласен!
+						<input id=faq_read type=checkbox name='faq'> C <a href='/faq_room/'>FAQ'РѕРј</a> РѕР·РЅР°РєРѕРјР»РµРЅ Рё СЃРѕРіР»Р°СЃРµРЅ!
 					</TMPL_IF>
 				</form>
 			<td class=edit>
 				<a href="/black_copy/edit/<TMPL_VAR NAME='creo_id'>.html">
-					<input type=button value="Внести правки">
+					<input type=button value="Р’РЅРµСЃС‚Рё РїСЂР°РІРєРё">
 				</a>
 		</table>
-		<h1>ЧЕРН<span class=letter>О</span>ВИ<span class=letter>К</span></h1>
+		<h1>Р§Р•Р Рќ<span class=letter>Рћ</span>Р’Р<span class=letter>Рљ</span></h1>
 		<span class=creo_title><TMPL_VAR NAME="c_title"></span>
 		<br><br>
 		<div class=creo_body><TMPL_VAR ESCAPE="NONE" NAME="c_body"></div>
@@ -58,14 +58,14 @@
 <!--
 function check_post_data() {
     if (document.getElementById('creo_title').value == '' || document.getElementById('creo_body').value == '') {
-        alert('Название анализа и текст анализа должны быть заполнены!');
+        alert('РќР°Р·РІР°РЅРёРµ Р°РЅР°Р»РёР·Р° Рё С‚РµРєСЃС‚ Р°РЅР°Р»РёР·Р° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р·Р°РїРѕР»РЅРµРЅС‹!');
 		return false;
     }
     return true;
 }
 function check_public_data() {
 	if (!document.getElementById('faq_read').checked) {
-        alert('Настоятельно рекомендуем вам прочесть FAQ!');
+        alert('РќР°СЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЂРµРєРѕРјРµРЅРґСѓРµРј РІР°Рј РїСЂРѕС‡РµСЃС‚СЊ FAQ!');
 		return false;
     }
     return true;

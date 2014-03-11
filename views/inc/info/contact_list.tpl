@@ -2,13 +2,13 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Ваши диалоги с ...
+	<td class=title>Р’Р°С€Рё РґРёР°Р»РѕРіРё СЃ ...
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="contact_list">
 		<p class=user_creo_list>
 		<a href="/pm/dialog/<TMPL_VAR NAME='cl_user_id'>/"><b><TMPL_VAR NAME="cl_user_name"></b></a>
-		<br><span class=subnote>Сообщений: <TMPL_VAR NAME="cl_cnt"></span>
+		<br><span class=subnote>РЎРѕРѕР±С‰РµРЅРёР№: <TMPL_VAR NAME="cl_cnt"></span>
 		</p>
 	</TMPL_LOOP>
 	

@@ -4,20 +4,20 @@
 	<div class=search_menu>
 		<form method=post action="/search/">
 			<input type=text name=search_text value="<TMPL_VAR NAME='search_text'>">
-			<input type=submit value="Найти">
+			<input type=submit value="РќР°Р№С‚Рё">
 		</form>
 	</div>
 	<center>
-			<h1>РЕ<span class=letter>ЗY</span>ЛЬТАТ П<span class=letter>О</span>ИСКА</h1>
+			<h1>Р Р•<span class=letter>Р—Y</span>Р›Р¬РўРђРў Рџ<span class=letter>Рћ</span>РРЎРљРђ</h1>
 	</center>
 
 	<TMPL_IF NAME="creo_list">
 		<table class="creo_list search_creo_list">
 			<tr>
 
-			<th class=date>Дата
-			<th class=user>Пациэнт
-			<th class=title>Название
+			<th class=date>Р”Р°С‚Р°
+			<th class=user>РџР°С†РёСЌРЅС‚
+			<th class=title>РќР°Р·РІР°РЅРёРµ
 		
 		<TMPL_LOOP NAME="creo_list">
 			<tr>
@@ -39,7 +39,7 @@
 		</TMPL_LOOP>
 		</table>
 	<TMPL_ELSE>
-		<center><div class=strict>Ничего не найдено</div></center>
+		<center><div class=strict>РќРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ</div></center>
 	</TMPL_IF>
 <!-- Bottom -->
 <TMPL_INCLUDE NAME="bottom.tpl">

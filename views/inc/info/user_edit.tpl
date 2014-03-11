@@ -2,25 +2,25 @@
 
 <table class=info_red>
 	<tr>
-	<td class=title>Особые процедуры
+	<td class=title>РћСЃРѕР±С‹Рµ РїСЂРѕС†РµРґСѓСЂС‹
 	<tr>
 	<td>
 		<TMPL_IF NAME="ms_user_ban">
 			<p class=submenu>&#149;&nbsp;
 			<TMPL_IF NAME="user_ban_left_time">
-				До окончания процедур осталось
+				Р”Рѕ РѕРєРѕРЅС‡Р°РЅРёСЏ РїСЂРѕС†РµРґСѓСЂ РѕСЃС‚Р°Р»РѕСЃСЊ
 				<span class=note><TMPL_VAR NAME="user_ban_left_time"></span>
 			<TMPL_ELSE>
-				<a href="/procedure.cgi?user_id=<TMPL_VAR NAME='u_id'>">Назначить процедуры</a>
+				<a href="/procedure.cgi?user_id=<TMPL_VAR NAME='u_id'>">РќР°Р·РЅР°С‡РёС‚СЊ РїСЂРѕС†РµРґСѓСЂС‹</a>
 				<br>
-				<span class=note>Продолжительность: 6 часов</span>
+				<span class=note>РџСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ: 6 С‡Р°СЃРѕРІ</span>
 			</TMPL_IF>
 			</p>
 		</TMPL_IF>
 		
 		<TMPL_IF NAME="god">
 			<p class=submenu>&#149;&nbsp;
-				<a target=_blank href="http://ip-whois.net/ip_geo.php?ip=<TMPL_VAR NAME='u_ip'>">География</a>
+				<a target=_blank href="http://ip-whois.net/ip_geo.php?ip=<TMPL_VAR NAME='u_ip'>">Р“РµРѕРіСЂР°С„РёСЏ</a>
 			</p>
 		</TMPL_IF>
 </table>

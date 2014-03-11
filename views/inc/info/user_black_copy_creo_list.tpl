@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Черновик
+	<td class=title>Р§РµСЂРЅРѕРІРёРє
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="user_black_copy_creo_list">

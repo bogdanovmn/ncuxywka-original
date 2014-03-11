@@ -1,14 +1,14 @@
 <TMPL_IF NAME="online">
 <table class=info>
 	<tr>
-	<td class=title>На проводе
+	<td class=title>РќР° РїСЂРѕРІРѕРґРµ
 	<tr>
 	<td>
 		<TMPL_LOOP NAME="online">
 			<p class=user_creo_list>
 			<TMPL_IF NAME="o_count">
 				<br>
-				<span class=note><b>Случайные прохожие:</b> <TMPL_VAR NAME="o_count"></span>
+				<span class=note><b>РЎР»СѓС‡Р°Р№РЅС‹Рµ РїСЂРѕС…РѕР¶РёРµ:</b> <TMPL_VAR NAME="o_count"></span>
 			<TMPL_ELSE>
 				<TMPL_IF NAME="o_user_id">
 					<a class=user_online href='/users/<TMPL_VAR NAME="o_user_id">.html'><TMPL_VAR NAME="o_user_name"></a>

@@ -2,9 +2,9 @@
 <table class=pages <TMPL_IF NAME="width">style='width:<TMPL_VAR NAME="width">px'</TMPL_IF>>
 <tr>
 <TMPL_IF NAME="no_empty">
-<td class=pages_navigation><span class=note>Страницы:&nbsp;&nbsp;</span>
+<td class=pages_navigation><span class=note>РЎС‚СЂР°РЅРёС†С‹:&nbsp;&nbsp;</span>
 <TMPL_IF NAME="prev_page">
-	<a href='<TMPL_VAR NAME="uri">page<TMPL_VAR NAME="prev_page">.html'>< сюда</a> |
+	<a href='<TMPL_VAR NAME="uri">page<TMPL_VAR NAME="prev_page">.html'>< СЃСЋРґР°</a> |
 </TMPL_IF>
 
 <TMPL_IF NAME="many">
@@ -44,7 +44,7 @@
 </TMPL_IF>
 
 <TMPL_IF NAME="next_page">
-	| <a href='<TMPL_VAR NAME="uri">page<TMPL_VAR NAME="next_page">.html'>туда ></a>
+	| <a href='<TMPL_VAR NAME="uri">page<TMPL_VAR NAME="next_page">.html'>С‚СѓРґР° ></a>
 </TMPL_IF>
 
 <TMPL_ELSE>
@@ -52,7 +52,7 @@
 </TMPL_IF>
 
 <TMPL_IF NAME="show_pages_count">
-	<td class=pages_rows_count>Записей: <TMPL_VAR NAME="rows_count">
+	<td class=pages_rows_count>Р—Р°РїРёСЃРµР№: <TMPL_VAR NAME="rows_count">
 </TMPL_IF>
 
 </table>

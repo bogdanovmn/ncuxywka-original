@@ -5,7 +5,7 @@
 	<center><p class=error_title><TMPL_VAR NAME="msg"></p></center>
 	<TMPL_LOOP NAME="explains">
 		<p>Caller: <b><TMPL_VAR NAME="caller"></b>
-		<br>Предполагается обработать ~<b><TMPL_VAR NAME="nice_total_rows"></b> строк
+		<br>РџСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ ~<b><TMPL_VAR NAME="nice_total_rows"></b> СЃС‚СЂРѕРє
 		</p>
 		<table class=sql_explain>
 			<tr>

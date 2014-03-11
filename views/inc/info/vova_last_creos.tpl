@@ -2,7 +2,7 @@
 
 <table class=vova_last_info>
 	<tr>
-	<td class=title>Тепленькое от Жиля
+	<td class=title>РўРµРїР»РµРЅСЊРєРѕРµ РѕС‚ Р–РёР»СЏ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="vova_last_creos">

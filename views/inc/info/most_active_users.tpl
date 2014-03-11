@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Самые буйные
+	<td class=title>РЎР°РјС‹Рµ Р±СѓР№РЅС‹Рµ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="most_active_users">

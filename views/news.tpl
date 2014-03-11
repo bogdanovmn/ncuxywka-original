@@ -3,18 +3,18 @@
 <td class=content> 
 	<TMPL_IF NAME="god">
 		<center>
-		<h1>НОВОС<span class=letter>T</span>Ь</h1>
+		<h1>РќРћР’РћРЎ<span class=letter>T</span>Р¬</h1>
 		
 		<form id=news_post_form name=news_post_form method=post action=''>
 			<table class=form>
 				<tr>
-					<td><span class=note>Новость:</span>
+					<td><span class=note>РќРѕРІРѕСЃС‚СЊ:</span>
 					<td>
 					<textarea id=post_text rows=10 cols=60 name=msg></textarea>
 				<tr>
 					<td>&nbsp;
 					<td>
-					<input type=submit id=submit_add name=add value='Сообщить эту замечательную новость!'>
+					<input type=submit id=submit_add name=add value='РЎРѕРѕР±С‰РёС‚СЊ СЌС‚Сѓ Р·Р°РјРµС‡Р°С‚РµР»СЊРЅСѓСЋ РЅРѕРІРѕСЃС‚СЊ!'>
 			</table>
 			<input type=hidden id=action name=action value='add'>
 		</form>
@@ -22,7 +22,7 @@
 	</TMPL_IF>
 
 	<center>
-		<h1>АР<span class=letter>Х</span>ИВ <span class=letter>ПСИ</span> - НОВОС<span class=letter>Т</span>ЕЙ</h1>
+		<h1>РђР <span class=letter>РҐ</span>РР’ <span class=letter>РџРЎР</span> - РќРћР’РћРЎ<span class=letter>Рў</span>Р•Р™</h1>
 	</center>
 
 	<table class=news_archive>
@@ -30,10 +30,10 @@
 		<tr>
 		<td class=info>
 			<b><TMPL_VAR NAME="n_post_date"></b> 
-			от <a href="/users/<TMPL_VAR NAME='n_user_id'>.html"><TMPL_VAR NAME="n_user_name"></a>
+			РѕС‚ <a href="/users/<TMPL_VAR NAME='n_user_id'>.html"><TMPL_VAR NAME="n_user_name"></a>
 		<td class=menu>
 			<TMPL_IF NAME="god">
-				<a href="/news.cgi?action=hide&id=<TMPL_VAR NAME='n_id'>">Удалить</a>
+				<a href="/news.cgi?action=hide&id=<TMPL_VAR NAME='n_id'>">РЈРґР°Р»РёС‚СЊ</a>
 			</TMPL_IF>
 		<tr>
 		<td class=text colspan=2>

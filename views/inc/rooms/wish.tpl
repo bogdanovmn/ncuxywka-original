@@ -3,16 +3,16 @@
 <td class=content>
 
 <center>
-<h1>КНИГ<span class=letter>А</span> ЖЕЛ<span class=letter>А</span>НИЙ</h1>
+<h1>РљРќРР“<span class=letter>Рђ</span> Р–Р•Р›<span class=letter>Рђ</span>РќРР™</h1>
 
-<p class=note>Любой пациэнт может высказать тут свои желания по улучшению Психуюшки.</p>
+<p class=note>Р›СЋР±РѕР№ РїР°С†РёСЌРЅС‚ РјРѕР¶РµС‚ РІС‹СЃРєР°Р·Р°С‚СЊ С‚СѓС‚ СЃРІРѕРё Р¶РµР»Р°РЅРёСЏ РїРѕ СѓР»СѓС‡С€РµРЅРёСЋ РџСЃРёС…СѓСЋС€РєРё.</p>
 
-<h1>П<span class=letter>О</span>ЖЕЛАЙ<span class=letter>!</span></h1>
+<h1>Рџ<span class=letter>Рћ</span>Р–Р•Р›РђР™<span class=letter>!</span></h1>
 <center>
 <TMPL_INCLUDE NAME='../comments_post_form.tpl'>
 </center>
 
-<h1><span class=letter>Y</span>ЖЕ ПОЖЕЛ<span class=letter>А</span>ЛИ:</h1>
+<h1><span class=letter>Y</span>Р–Р• РџРћР–Р•Р›<span class=letter>Рђ</span>Р›Р:</h1>
 
 <TMPL_INCLUDE NAME='../comments.tpl'>
 <TMPL_INCLUDE NAME='bottom.tpl'>

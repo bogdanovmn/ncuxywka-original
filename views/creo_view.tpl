@@ -3,15 +3,15 @@
 <td class=content> 
 	<center>
 	<TMPL_IF NAME="quarantine">
-		<h1>ЛЕТ<span class=letter>А</span>ЛЬНЫЙ ИС<span class=letter>X</span>OД:</h1>
+		<h1>Р›Р•Рў<span class=letter>Рђ</span>Р›Р¬РќР«Р™ РРЎ<span class=letter>X</span>OР”:</h1>
 	<TMPL_ELSE>
 		<TMPL_IF NAME="deleted">
-			<h1>МУС<span class=letter>О</span>РНЫЙ К<span class=letter>О</span>НТЕЙНЕР</h1>
+			<h1>РњРЈРЎ<span class=letter>Рћ</span>Р РќР«Р™ Рљ<span class=letter>Рћ</span>РќРўР•Р™РќР•Р </h1>
 		<TMPL_ELSE>
 			<TMPL_IF NAME="neofuturism">
-				<h1><span class=letter>NEO</span>ФУТУРИ<span class=letter>Z</span>М:</h1>
+				<h1><span class=letter>NEO</span>Р¤РЈРўРЈР Р<span class=letter>Z</span>Рњ:</h1>
 			<TMPL_ELSE>
-				<h1>АНАЛИ<span class=letter>Z</span>:</h1>
+				<h1>РђРќРђР›Р<span class=letter>Z</span>:</h1>
 			</TMPL_IF>
 		</TMPL_IF>
 	</TMPL_IF>
@@ -19,7 +19,7 @@
 	<a href='/users/<TMPL_VAR NAME="c_user_id">.html'>
 		<span class=creo_author><TMPL_VAR NAME="c_alias"></span></a>, 
 		<span class=creo_date><TMPL_VAR NAME="c_post_date"></span>
-		&nbsp;&nbsp;<a href='/print/<TMPL_VAR NAME="c_id">.html'><img alt='Для печати' src='/img/printer.gif'></a>
+		&nbsp;&nbsp;<a href='/print/<TMPL_VAR NAME="c_id">.html'><img alt='Р”Р»СЏ РїРµС‡Р°С‚Рё' src='/img/printer.gif'></a>
 	<br>
 	<br>
 	<span class=creo_title><TMPL_VAR NAME="c_title"></span>
@@ -31,9 +31,9 @@
 	<TMPL_IF NAME='deleted'>
 		<p class='deleted_msg'>
 			<TMPL_IF NAME="plagiarist">
-				Анализ отправлен в регистратуру для поиска хозяина
+				РђРЅР°Р»РёР· РѕС‚РїСЂР°РІР»РµРЅ РІ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂСѓ РґР»СЏ РїРѕРёСЃРєР° С…РѕР·СЏРёРЅР°
 			<TMPL_ELSE>
-				Уборщица шваброй махнула и случайно удалила этот анализ...
+				РЈР±РѕСЂС‰РёС†Р° С€РІР°Р±СЂРѕР№ РјР°С…РЅСѓР»Р° Рё СЃР»СѓС‡Р°Р№РЅРѕ СѓРґР°Р»РёР»Р° СЌС‚РѕС‚ Р°РЅР°Р»РёР·...
 			</TMPL_IF>
 		</p>
 	<TMPL_ELSE>
@@ -48,7 +48,7 @@
 
 	<TMPL_IF NAME="can_select">
 	<form method=post action='/select.cgi'>
-		<input type=submit value='Добавить этот анализ в мое избранное!'><br><br>
+		<input type=submit value='Р”РѕР±Р°РІРёС‚СЊ СЌС‚РѕС‚ Р°РЅР°Р»РёР· РІ РјРѕРµ РёР·Р±СЂР°РЅРЅРѕРµ!'><br><br>
 		<input type=hidden name=creo_id value="<TMPL_VAR NAME='creo_id'>">
 		<input type=hidden name=action value="add">
 	</form>
@@ -56,14 +56,14 @@
 	<table class=creo_vote_result>
 	<tr>
 	<td>
-		<p class=note>Уже проголосовало <TMPL_VAR NAME="votes"> пациэнтов</p>
+		<p class=note>РЈР¶Рµ РїСЂРѕРіРѕР»РѕСЃРѕРІР°Р»Рѕ <TMPL_VAR NAME="votes"> РїР°С†РёСЌРЅС‚РѕРІ</p>
 		
 		<TMPL_UNLESS NAME="has_vote_power">
-			<p class=note>У вас еще слишком мало опыта чтобы голосовать!</p>
+			<p class=note>РЈ РІР°СЃ РµС‰Рµ СЃР»РёС€РєРѕРј РјР°Р»Рѕ РѕРїС‹С‚Р° С‡С‚РѕР±С‹ РіРѕР»РѕСЃРѕРІР°С‚СЊ!</p>
 		</TMPL_UNLESS>
 
 		<TMPL_IF NAME="already_voted">
-			<p class=note>Вы уже голосовали за этот анализ...</p>
+			<p class=note>Р’С‹ СѓР¶Рµ РіРѕР»РѕСЃРѕРІР°Р»Рё Р·Р° СЌС‚РѕС‚ Р°РЅР°Р»РёР·...</p>
 
 		
 			<TMPL_IF NAME="votes_rank">
@@ -73,22 +73,22 @@
 		</TMPL_IF>
 	</table>
 	<TMPL_IF NAME="can_vote">
-		<h1><span class=letter>О</span>ЦЕНИ:</h1>
+		<h1><span class=letter>Рћ</span>Р¦Р•РќР:</h1>
 		<p>
 		<form method=post action='/vote.cgi'>
 			<table class=vote> 
 			<tr>
-			<td><input type=radio name=vote_id value='1'><td>Психоз!
+			<td><input type=radio name=vote_id value='1'><td>РџСЃРёС…РѕР·!
 			<tr>
-			<td><input type=radio name=vote_id value='2'><td>Шизофрения
+			<td><input type=radio name=vote_id value='2'><td>РЁРёР·РѕС„СЂРµРЅРёСЏ
 			<tr>
-			<td><input type=radio name=vote_id value='3'><td>паФрейду
+			<td><input type=radio name=vote_id value='3'><td>РїР°Р¤СЂРµР№РґСѓ
 			<tr>
-			<td><input type=radio name=vote_id value='4'><td>Параноя
+			<td><input type=radio name=vote_id value='4'><td>РџР°СЂР°РЅРѕСЏ
 			<tr>
-			<td><input type=radio name=vote_id value='5'><td>Пациэнт нуждается в лоботомии!
+			<td><input type=radio name=vote_id value='5'><td>РџР°С†РёСЌРЅС‚ РЅСѓР¶РґР°РµС‚СЃСЏ РІ Р»РѕР±РѕС‚РѕРјРёРё!
 			<tr>
-			<td colspan=2><br><input type=submit value='Оценить'>
+			<td colspan=2><br><input type=submit value='РћС†РµРЅРёС‚СЊ'>
 			</table>
 			<input type=hidden name=creo_id value="<TMPL_VAR NAME='creo_id'>">
 		</form>
@@ -114,13 +114,13 @@
 	<TMPL_INCLUDE NAME="social_networks.tpl">
 
 	<TMPL_IF NAME="comments">
-		<h1>ДИАГНО<span class=letter>Z</span>Ы:</h1>
+		<h1>Р”РРђР“РќРћ<span class=letter>Z</span>Р«:</h1>
 	</TMPL_IF>
 
 	<TMPL_INCLUDE NAME="comments.tpl">
 
 	<TMPL_UNLESS NAME='deleted'>
-		<h1>П<span class=letter>О</span>СТАВЬ Д<span class=letter>И</span>АГНО<span class=letter>Z</span>!</h1>
+		<h1>Рџ<span class=letter>Рћ</span>РЎРўРђР’Р¬ Р”<span class=letter>Р</span>РђР“РќРћ<span class=letter>Z</span>!</h1>
 		
 		<TMPL_INCLUDE NAME="comments_post_form.tpl">
 	</TMPL_UNLESS>

@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Мало диагнозов
+	<td class=title>РњР°Р»Рѕ РґРёР°РіРЅРѕР·РѕРІ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="most_commented_creo_list_revert">
@@ -16,7 +16,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Самое обсуждаемое
+	<td class=title>РЎР°РјРѕРµ РѕР±СЃСѓР¶РґР°РµРјРѕРµ
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="most_commented_creo_list">

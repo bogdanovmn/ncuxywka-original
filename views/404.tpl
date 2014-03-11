@@ -2,7 +2,7 @@
 <!-- Content -->
 <td class=content> 
 	<center>
-	<h1>ÂÛ <span class=letter>Z</span>ÀÁË<span class=letter>Y</span>ÄÈËÈÑÜ</h1>
+	<h1>Ð’Ð« <span class=letter>Z</span>ÐÐ‘Ð›<span class=letter>Y</span>Ð”Ð˜Ð›Ð˜Ð¡Ð¬</h1>
 	</center>
 <!-- Bottom -->
 <TMPL_INCLUDE NAME="bottom.tpl">

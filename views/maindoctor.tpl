@@ -1,14 +1,14 @@
 <TMPL_INCLUDE NAME="top.tpl">
 
-<!-- подгружаем Flot -->
+<!-- РїРѕРґРіСЂСѓР¶Р°РµРј Flot -->
 
 
 <!-- Content -->
 <td class=content> 
-	<center><h1>К<span class=letter>А</span>БИНЕТ ГЛ<span class=letter>А</span>ВВР<span class=letter>А</span>ЧА</h1></center>
+	<center><h1>Рљ<span class=letter>Рђ</span>Р‘РРќР•Рў Р“Р›<span class=letter>Рђ</span>Р’Р’Р <span class=letter>Рђ</span>Р§Рђ</h1></center>
 
-<!-- тут будет выводится график -->
-<h1>Пульсация Психуюшки</h1>
+<!-- С‚СѓС‚ Р±СѓРґРµС‚ РІС‹РІРѕРґРёС‚СЃСЏ РіСЂР°С„РёРє -->
+<h1>РџСѓР»СЊСЃР°С†РёСЏ РџСЃРёС…СѓСЋС€РєРё</h1>
 <div id="plot_total" class=maindocotor_plot></div>
 
 <script language="javascript" type="text/javascript">
@@ -37,10 +37,10 @@ var plot_conf_total = {
 $.plot(
 	$("#plot_total"), 
 	[
-		{ data: <TMPL_VAR NAME="chart_new_users" ESCAPE="JS">, yaxis: 1, label: "Пациэнты" },
-		{ data: <TMPL_VAR NAME="chart_creos" ESCAPE="JS">, yaxis: 1, label: "Анализы" },
-		{ data: <TMPL_VAR NAME="chart_comments" ESCAPE="JS">, yaxis: 2, label: "Диагнозы" },
-		{ data: <TMPL_VAR NAME="chart_votes" ESCAPE="JS">, yaxis: 2, label: "Голоса" },
+		{ data: <TMPL_VAR NAME="chart_new_users" ESCAPE="JS">, yaxis: 1, label: "РџР°С†РёСЌРЅС‚С‹" },
+		{ data: <TMPL_VAR NAME="chart_creos" ESCAPE="JS">, yaxis: 1, label: "РђРЅР°Р»РёР·С‹" },
+		{ data: <TMPL_VAR NAME="chart_comments" ESCAPE="JS">, yaxis: 2, label: "Р”РёР°РіРЅРѕР·С‹" },
+		{ data: <TMPL_VAR NAME="chart_votes" ESCAPE="JS">, yaxis: 2, label: "Р“РѕР»РѕСЃР°" },
 	], 
 	plot_conf_total
 );

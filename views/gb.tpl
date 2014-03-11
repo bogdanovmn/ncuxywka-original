@@ -2,17 +2,17 @@
 <!-- Content -->
 <td class=content> 
 	<center>
-	<h1>ПА<span class=letter>L</span>АТА <span class=letter>#6</span></h1>
+	<h1>РџРђ<span class=letter>L</span>РђРўРђ <span class=letter>#6</span></h1>
 
-	<p class=note>В этой палате происходит свободное и непринужденное общение пациэнтов и врачей.</p>
+	<p class=note>Р’ СЌС‚РѕР№ РїР°Р»Р°С‚Рµ РїСЂРѕРёСЃС…РѕРґРёС‚ СЃРІРѕР±РѕРґРЅРѕРµ Рё РЅРµРїСЂРёРЅСѓР¶РґРµРЅРЅРѕРµ РѕР±С‰РµРЅРёРµ РїР°С†РёСЌРЅС‚РѕРІ Рё РІСЂР°С‡РµР№.</p>
 	<br>
 	<img alt='img_palata_6' src='/img/<TMPL_VAR NAME="skin_pic_gb">' width=350 height=200>
 	
-	<h1>СКАЖИ<span class=letter>!</span></h1>
+	<h1>РЎРљРђР–Р<span class=letter>!</span></h1>
 	
 	<TMPL_INCLUDE NAME="comments_post_form.tpl">
 	
-	<h1>ДИСП<span class=letter>Y</span>Т:</h1>
+	<h1>Р”РРЎРџ<span class=letter>Y</span>Рў:</h1>
 	
 	</center>
 	

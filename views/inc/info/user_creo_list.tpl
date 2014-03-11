@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Анализы пациэнта
+	<td class=title>РђРЅР°Р»РёР·С‹ РїР°С†РёСЌРЅС‚Р°
 	<tr>
 	<td>
 	<TMPL_IF NAME="avatar">
@@ -17,7 +17,7 @@
 			&#149;&nbsp;<TMPL_VAR NAME="cl_title">
 			<TMPL_IF NAME="cl_quarantine"></s></TMPL_IF>
 		<TMPL_ELSE>
-			<a title="Диагнозов: <TMPL_VAR NAME='cl_comments_count'>" href="/creos/<TMPL_VAR NAME='cl_id'>.html">
+			<a title="Р”РёР°РіРЅРѕР·РѕРІ: <TMPL_VAR NAME='cl_comments_count'>" href="/creos/<TMPL_VAR NAME='cl_id'>.html">
 				<TMPL_IF NAME="cl_quarantine"><s></TMPL_IF>
 				<TMPL_VAR NAME="cl_title"><TMPL_IF NAME="cl_quarantine"></s></TMPL_IF></a>
 		</TMPL_IF>

@@ -9,9 +9,9 @@
 <td class=content> 
 	<center>
 	<TMPL_IF NAME="quarantine">
-		<h1>ЛЕТ<span class=letter>А</span>ЛЬНЫЙ ИС<span class=letter>X</span>OД:</h1>
+		<h1>Р›Р•Рў<span class=letter>Рђ</span>Р›Р¬РќР«Р™ РРЎ<span class=letter>X</span>OР”:</h1>
 	<TMPL_ELSE>
-		<h1>АНАЛИ<span class=letter>Z</span>:</h1>
+		<h1>РђРќРђР›Р<span class=letter>Z</span>:</h1>
 	</TMPL_IF>
 	<p>
 	<a href='/users/<TMPL_VAR NAME="c_user_id">.html'><span class=creo_author><TMPL_VAR NAME="c_alias"></span></a>, <TMPL_VAR NAME="c_post_date">
@@ -21,14 +21,14 @@
 	</center>
 
 	<TMPL_IF NAME='deleted'>
-		<p class='deleted_msg'>Уборщица шваброй махнула и случайно удалила этот анализ...</p>
+		<p class='deleted_msg'>РЈР±РѕСЂС‰РёС†Р° С€РІР°Р±СЂРѕР№ РјР°С…РЅСѓР»Р° Рё СЃР»СѓС‡Р°Р№РЅРѕ СѓРґР°Р»РёР»Р° СЌС‚РѕС‚ Р°РЅР°Р»РёР·...</p>
 	<TMPL_ELSE>
 		<div class=creo_body><TMPL_VAR ESCAPE="NONE" NAME="c_body"></div>
 	</TMPL_IF>
 
 	<TMPL_IF NAME="comments">
 		<hr>
-		<h1>ДИАГНО<span class=letter>Z</span>Ы:</h1>
+		<h1>Р”РРђР“РќРћ<span class=letter>Z</span>Р«:</h1>
 		
 		<TMPL_INCLUDE NAME="comments.tpl">
 	</TMPL_IF>
@@ -38,7 +38,7 @@
     <table class=bottom>
         <tr>
             <td class=copyright>&copy;2010-2013 ncuxywka.com
-            <td class=note>Минздрав предупреждает: использование Психуюшки опасно для вашего здоровья!
+            <td class=note>РњРёРЅР·РґСЂР°РІ РїСЂРµРґСѓРїСЂРµР¶РґР°РµС‚: РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РџСЃРёС…СѓСЋС€РєРё РѕРїР°СЃРЅРѕ РґР»СЏ РІР°С€РµРіРѕ Р·РґРѕСЂРѕРІСЊСЏ!
     </table>
     <p>&nbsp;
 

@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Лучшие друзья Петра
+	<td class=title>Р›СѓС‡С€РёРµ РґСЂСѓР·СЊСЏ РџРµС‚СЂР°
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="petr_top_users_list">

@@ -2,7 +2,7 @@
 
 <table class=info>
 	<tr>
-	<td class=title>Случайные анализы
+	<td class=title>РЎР»СѓС‡Р°Р№РЅС‹Рµ Р°РЅР°Р»РёР·С‹
 	<tr>
 	<td>
 	<TMPL_LOOP NAME="random_creo_list">
