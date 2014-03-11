@@ -3,6 +3,7 @@ package Psy;
 use strict;
 use warnings;
 
+use Utils;
 use Psy::Errors;
 use Date;
 use Psy::Text;
@@ -16,6 +17,7 @@ use Psy::Statistic::User;
 use Psy::Statistic::Creo;
 use Cache;
 use NICE_VALUES;
+use FindBin;
 
 #
 # Votes rank titles
@@ -32,7 +34,7 @@ my %VOTES_RANK_TITLES = (
 #
 # Log file 
 #
-use constant LOG_FILE => 'logs/psy.log';
+use constant LOG_FILE => $FindBin::Bin. '/../logs/psy.log';
 
 #
 # Text modification params
@@ -66,7 +68,7 @@ sub enter {
 	$p{check_ban} = not defined $p{check_ban} ? 1 : 0;
 
 	my $self = Psy::Auth::info($class);
-	
+
 	if ($p{check_ban} and $self->banned) {
 		pn_goto(URL_BANNED);
 	}
@@ -74,7 +76,7 @@ sub enter {
 	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{auditor} = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{cache} = Cache->constructor(
-		storage => './cache',
+		storage => $FindBin::Bin. '/../cache',
 		fresh_time => 30
 	);
     
@@ -111,7 +113,7 @@ sub online_list {
 			}
 			else {
 				#$anonimous{count}++;
-				$ip{$ses->param("ip")}++;
+				$ip{$ses->param("ip") || ''}++;
 			}
 		}
 		elsif (not $login) {
@@ -330,7 +332,6 @@ sub load_last_creos {
 		[Psy::G_PLAGIARIST],
 		{error_msg => "Последние анализы нечитабельны!"}
 	);
-
     my @creo = ();
 	my $i = 1;
 	my $prev_user_id = 0;

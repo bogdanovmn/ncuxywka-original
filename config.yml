@@ -18,7 +18,12 @@ charset: "UTF-8"
 # simple: default and very basic template engine
 # template_toolkit: TT
 
-template: "simple"
+#template: "simple"
+template: "HtmlTemplate"
+engines:
+    HtmlTemplate:
+        extension: 'tpl'
+        global_vars: 1
 
 # template: "template_toolkit"
 # engines:
@@ -26,3 +31,4 @@ template: "simple"
 #     start_tag: '[%'
 #     end_tag:   '%]'
 
+session: "YAML"

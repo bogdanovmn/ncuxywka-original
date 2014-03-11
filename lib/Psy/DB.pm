@@ -4,12 +4,10 @@ use DBI;
 use strict;
 use warnings;
 
-use lib 'conf';
-use lib '/home/users1/r/rednikovp/domains/ncuxywka.com/conf';
-use DB_CONF;
+use PSY_DB_CONF;
 use Time::HiRes;
-
 use Psy::Errors;
+use Utils;
 
 my $__STATISTIC = {
 	sql_count => 0,
@@ -27,11 +25,12 @@ sub connect {
 	unless ($__DBH) {
 		my $begin_time = Time::HiRes::time;
 		$__DBH = DBI->connect(
-			sprintf('dbi:mysql:%s:%s', DB_CONF::NAME, DB_CONF::HOST), 
-			DB_CONF::USER, 
-			DB_CONF::PASS
-		) or error("Что то с базой данных...");
-		$__DBH->do("SET NAMES cp1251");
+			sprintf('dbi:mysql:%s:%s', PSY_DB_CONF::NAME, PSY_DB_CONF::HOST), 
+			PSY_DB_CONF::USER, 
+			PSY_DB_CONF::PASS
+		) or die $!;
+		#$__DBH->do("SET NAMES cp1251");
+		#$__DBH->do("SET NAMES utf8");
 		$__DBH->do("SET SQL_BIG_SELECTS=1");
 		$__STATISTIC->{db_connect_time} += Time::HiRes::time - $begin_time;
 		$__STATISTIC->{db_connections}++;
@@ -42,10 +41,10 @@ sub connect {
 		ip => $ENV{REMOTE_ADDR},
 		sql_empty_result => 1
 	};
-
+	
 	$self->{console} = $p{console} || 0;
 
-	return bless($self, $class);
+	return bless $self, $class;
 }
 #
 #
@@ -60,7 +59,7 @@ sub query {
 	my $return_last_id = $settings->{return_last_id} || 0;
 
 	if ($sql_debug) { 
-		debug($params, $sql); 
+		webug($params, $sql); 
 	}
 	
 	my $begin_time = Time::HiRes::time;

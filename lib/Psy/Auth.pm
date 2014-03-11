@@ -33,7 +33,7 @@ use base 'Psy::DB';
 sub info {
 	my ($class, %p) = @_;
 
-	my $self = Psy::DB::connect($class);
+	my $self = Psy::DB::connect($class) or die;
 
 	$self->{user_data} = {};
 	$self->{session} = CGI::Session->new;

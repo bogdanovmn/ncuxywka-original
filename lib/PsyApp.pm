@@ -1,10 +1,21 @@
 package PsyApp;
 
+use strict;
+use warnings;
+
 use Dancer ':syntax';
 
+use Psy;
 use PsyApp::Action::Index;
+use Utils;
 
 our $VERSION = '0.1';
+
+sub _template {
+	my $content = Dancer::template(@_);
+	utf8::decode($content);
+	return $content;
+}
 
 
 sub controller {
@@ -33,6 +44,21 @@ sub controller {
 		return $action_class->main($action_params);
 	}
 }
+
+hook 'before' => sub {
+	var psy => Psy->enter;
+};
+
+hook 'before_template_render' => sub {
+	my ($template_params) = @_;
+
+	if (vars->{psy}) {
+		my $common_info = vars->{psy}->common_info;
+		while (my ($k, $v) = each %$common_info) {
+			$template_params->{$k} = $v;
+		}
+	}
+};
 
 get '/' => sub { controller(template => 'index', action => 'Index') };
 

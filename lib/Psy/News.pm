@@ -1,4 +1,4 @@
-package Psy::NEWS;
+package Psy::News;
 
 use strict;
 use warnings;

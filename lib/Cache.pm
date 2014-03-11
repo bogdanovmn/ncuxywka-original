@@ -1,4 +1,4 @@
-package CACHE;
+package Cache;
 
 use Data::Dumper;
 use Psy::Errors;
@@ -68,11 +68,11 @@ sub get {
 }
 
 sub try_get {
-	my ($self, $id, $fresh_time, $get_value_sub) = @_;
+	my ($self, $id, $get_value_sub, $fresh_time) = @_;
 	
 	$self->select($id, $fresh_time);
 	
-	return $self->fresh ? $self->get : $self->update($chart_data->votes);
+	return $self->fresh ? $self->get : $self->update(&$get_value_sub());
 }	
 
 sub clear {

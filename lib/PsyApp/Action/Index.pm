@@ -5,32 +5,36 @@ use warnings;
 
 use Psy;
 use Psy::News;
-
+use Utils;
 
 sub main {
 	my ($class, $params) = @_;
-
+	
 	my $psy = $params->{psy};
+#webug $psy;
+	my $top_creo_list = $psy->cache->try_get(
+		'top_creo_list__for_user_'. $psy->user_id,
+		sub { $psy->top_creo_list(count => 10) },
+		Cache::FRESH_TIME_HOUR
+	);
 
-	$psy->cache->select('top_creo_list__for_user_'. $psy->user_id, Cache::FRESH_TIME_HOUR);
-	my $top_creo_list = $psy->cache->fresh
-		? $psy->cache->get
-		: $psy->cache->update($psy->top_creo_list(count => 10));
+	my $anti_top_creo_list = $psy->cache->try_get(
+		'anti_top_creo_list__for_user_'. $psy->user_id,
+		sub { $psy->top_creo_list(count => 10, anti => 1) },
+		Cache::FRESH_TIME_HOUR
+	);
 
-	$psy->cache->select('anti_top_creo_list__for_user_'. $psy->user_id, Cache::FRESH_TIME_HOUR);
-	my $anti_top_creo_list = $psy->cache->fresh
-		? $psy->cache->get
-		: $psy->cache->update($psy->top_creo_list(count => 10, anti => 1));
+	my $new_users = $psy->cache->try_get(
+		'new_users',
+		sub { $psy->new_users(count => 5) },
+		Cache::FRESH_TIME_HOUR
+	);
 
-	$psy->cache->select('new_users', Cache::FRESH_TIME_HOUR);
-	my $new_users = $psy->cache->fresh
-		? $psy->cache->get
-		: $psy->cache->update($psy->new_users(count => 5));
-
-	$psy->cache->select('last_news');
-	my $news = $psy->cache->fresh
-		? $psy->cache->get
-		: $psy->cache->update(Psy::News->constructor->load(2));
+	my $news = $psy->cache->try_get(
+		'last_news',
+		sub { Psy::News->constructor->load(2) },
+		Cache::FRESH_TIME_HOUR
+	);
 
 	return {
 		last_creos => $psy->load_last_creos(10),
