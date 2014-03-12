@@ -2,8 +2,10 @@ package PsyApp;
 
 use strict;
 use warnings;
+use utf8;
 
 use Dancer ':syntax';
+use Dancer::Plugin::Controller;
 
 use Psy;
 use PsyApp::Action::Index;
@@ -18,7 +20,7 @@ sub _template {
 }
 
 
-sub controller {
+sub ___controller {
 	my (%p) = @_;
 	
 	my $template_name = $p{template} || '';
@@ -30,8 +32,6 @@ sub controller {
 		%{Dancer::vars()}
 	};
 
-	# Р•СЃР»Рё Р·Р°РґР°РЅ С€Р°Р±Р»РѕРЅ - РІРѕР·СЂР°С‰Р°РµРј СЂРµР·СѓР»СЊС‚Р°С‚ СЂРµРЅРґРµСЂР°
-	# Р•СЃР»Рё С€Р°Р±Р»РѕРЅР° РЅРµ Р·Р°РґР°РЅ - РІРѕР·РІСЂР°С‰Р°РµРј СЂРµСѓР»СЊС‚Р°С‚ СЌРєС€РµРЅР°
 	if ($template_name) {
 		return _template( 
 			$template_name,
@@ -60,6 +60,7 @@ hook 'before_template_render' => sub {
 	}
 };
 
-get '/' => sub { controller(template => 'index', action => 'Index') };
+get '/creos/:id.html' => sub { controller(template => 'creo_view', action => 'CreoView') };
+get '/'               => sub { controller(template => 'index',     action => 'Index') };
 
 true;

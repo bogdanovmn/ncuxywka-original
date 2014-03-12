@@ -32,3 +32,8 @@ engines:
 #     end_tag:   '%]'
 
 session: "YAML"
+
+plugins:
+    "Controller":
+        action_prefix: 'Action'
+        force_utf8: 1

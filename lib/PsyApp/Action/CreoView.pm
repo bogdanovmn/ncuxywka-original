@@ -1,10 +1,9 @@
-#!/usr/bin/perl
+package PsyApp::Action::CreoView;
 
 use strict;
 use warnings;
-use lib 'inc';
-use CGI;
-use PSY;
+use utf8;
+
 use PSY::CREO;
 use PSY::USER;
 use PSY::ERRORS;
@@ -12,14 +11,15 @@ use PSY::NAVIGATION;
 use PSY::VIEWS_LOG::CREO;
 use TEMPLATE;
 
-my $cgi = CGI->new;
-my $id = $cgi->param('id');
-my $action = $cgi->param('action') || 'read';
-my $msg = $cgi->param('msg');
-my $alias = $cgi->param('alias');
+sub main {
+	my ($class, $params) = @_;
 
+my $id = $params->{id};
+my $action = $params->{action};
+my $msg = $params{msg};
+my $alias = $params->{alias};
+my $psy = $params->{psy};
 
-my $psy = PSY->enter;
 my $creo = PSY::CREO->choose($id);
 my $tpl = TEMPLATE->new('creo_view');
 
