@@ -16,19 +16,19 @@ my $cgi = CGI->new;
 my $action = $cgi->param('action') || 'bot';
 my $creo_id = $cgi->param('creo_id');
 
-error("Ñîâñåì îõóåëè? =)") if ($ENV{REQUEST_METHOD} ne 'POST' and $action eq 'add');
+error("Ð¡Ð¾Ð²ÑÐµÐ¼ Ð¾Ñ…ÑƒÐµÐ»Ð¸? =)") if ($ENV{REQUEST_METHOD} ne 'POST' and $action eq 'add');
 
 my $psy = Psy->enter;
 my $creo = Psy::Creo->choose($creo_id);
 
-error("Çàáûëè ïàðîëü? Êëèçüìî÷êà äóìàþ âàì ïîìîæåò...") if $psy->is_annonimus;
-error("Ìîæåò âû çàáëóäèëèñü?") if (!$creo_id);
+error("Ð—Ð°Ð±Ñ‹Ð»Ð¸ Ð¿Ð°Ñ€Ð¾Ð»ÑŒ? ÐšÐ»Ð¸Ð·ÑŒÐ¼Ð¾Ñ‡ÐºÐ° Ð´ÑƒÐ¼Ð°ÑŽ Ð²Ð°Ð¼ Ð¿Ð¾Ð¼Ð¾Ð¶ÐµÑ‚...") if $psy->is_annonimus;
+error("ÐœÐ¾Ð¶ÐµÑ‚ Ð²Ñ‹ Ð·Ð°Ð±Ð»ÑƒÐ´Ð¸Ð»Ð¸ÑÑŒ?") if (!$creo_id);
 
 if ($action eq 'add') {
-	error("×òî çà àõèíåþ âû íåñåòå?") unless $creo->select_by_user(user_id => $psy->user_id);
+	error("Ð§Ñ‚Ð¾ Ð·Ð° Ð°Ñ…Ð¸Ð½ÐµÑŽ Ð²Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ?") unless $creo->select_by_user(user_id => $psy->user_id);
 }
 if ($action eq 'del') {
-	error("×òî çà àõèíåþ âû íåñåòå?") unless $creo->deselect_by_user(user_id => $psy->user_id);
+	error("Ð§Ñ‚Ð¾ Ð·Ð° Ð°Ñ…Ð¸Ð½ÐµÑŽ Ð²Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ?") unless $creo->deselect_by_user(user_id => $psy->user_id);
 }
 
 goto_back();

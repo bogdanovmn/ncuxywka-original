@@ -51,7 +51,7 @@ my $comments = $gb->load_comments(
 $tpl->params(
 	comments => $comments, 
 	multi_page => 'yes',
-	post_button_caption => 'Êðÿ-êðÿ!',
+	post_button_caption => 'ÐšÑ€Ñ-ÐºÑ€Ñ!',
 	anti_top_votes => $gb->is_annonimus ? [] : $gb->anti_top_votes,
 	$pages->html_template_params,
 	%{$gb->common_info}

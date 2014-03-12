@@ -35,7 +35,7 @@ my $common_info = $psy->common_info;
 # Case action
 #
 if ($action eq 'public') {
-	error("Íàñ íå íàåáåøü!") unless $can_creo_add->{can};
+	error("ÐÐ°Ñ Ð½Ðµ Ð½Ð°ÐµÐ±ÐµÑˆÑŒ!") unless $can_creo_add->{can};
 
 	$creo->update(
 		type => $psy->user_id eq Psy::Auth::KRAB_ID ? Psy::Creo::CT_ALEX_JILE : Psy::Creo::CT_CREO,

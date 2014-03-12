@@ -17,7 +17,7 @@ my $page = $cgi->param('page') || 1;
 my $from_id = $cgi->param('from');
 my $for_id = $cgi->param('for');
 
-error("Âû íå çàáëóäèëèñü, ãîëóá÷èê?") if (($from_id and not $from_id =~ /^\d+$/) or ($for_id and not $for_id =~ /^\d+$/));
+error("Ð’Ñ‹ Ð½Ðµ Ð·Ð°Ð±Ð»ÑƒÐ´Ð¸Ð»Ð¸ÑÑŒ, Ð³Ð¾Ð»ÑƒÐ±Ñ‡Ð¸Ðº?") if (($from_id and not $from_id =~ /^\d+$/) or ($for_id and not $for_id =~ /^\d+$/));
 
 my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('talks');

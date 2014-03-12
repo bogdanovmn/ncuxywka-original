@@ -13,7 +13,7 @@ use CGI;
 
 my $cgi = CGI->new;
 
-error("Ñîâñåì îõóåëè? =)") if $ENV{REQUEST_METHOD} ne 'POST';
+error("Ð¡Ð¾Ð²ÑÐµÐ¼ Ð¾Ñ…ÑƒÐµÐ»Ð¸? =)") if $ENV{REQUEST_METHOD} ne 'POST';
 
 my $action = $cgi->param('action') || 'bot';
 my $creo_id = $cgi->param('creo_id');
@@ -21,7 +21,7 @@ my $vote_id = $cgi->param('vote_id');
 
 my $psy = Psy->enter;
 
-error("Ìîæåò âû çàáëóäèëèñü?") if (!$creo_id or !$vote_id);
+error("ÐœÐ¾Ð¶ÐµÑ‚ Ð²Ñ‹ Ð·Ð°Ð±Ð»ÑƒÐ´Ð¸Ð»Ð¸ÑÑŒ?") if (!$creo_id or !$vote_id);
 $psy->vote(creo_id => $creo_id, vote_id => $vote_id);
 
 goto_back();

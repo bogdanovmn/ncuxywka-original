@@ -46,13 +46,13 @@ else {
 	$psy_room = Psy::Room->enter(room_mnemonic => $room);
 }
 
-error("Âû îøèáëèñü ïàëàòîé!") unless $psy_room;
+error("Ð’Ñ‹ Ð¾ÑˆÐ¸Ð±Ð»Ð¸ÑÑŒ Ð¿Ð°Ð»Ð°Ñ‚Ð¾Ð¹!") unless $psy_room;
 
 #
 # Case action
 #
 if ($action eq 'add') {
-	error("Âàñ îãðåëè ýëåêòðîøîêåðîì!") if ($room eq Psy::Room::R_PROC and not defined $template_params->{inside});
+	error("Ð’Ð°Ñ Ð¾Ð³Ñ€ÐµÐ»Ð¸ ÑÐ»ÐµÐºÑ‚Ñ€Ð¾ÑˆÐ¾ÐºÐµÑ€Ð¾Ð¼!") if ($room eq Psy::Room::R_PROC and not defined $template_params->{inside});
 
 	unless ($psy_room->bot_detected($msg, $alias)) {
 		$psy_room->post_comment( 

@@ -25,7 +25,7 @@ my $type = $cgi->param('type');
 my $psy = Psy->enter;
 my $creo = Psy::Creo->choose($creo_id);
 
-error("Врачей не наипешь!") unless ($psy->auditor->can_edit_creo);
+error("Р’СЂР°С‡РµР№ РЅРµ РЅР°РёРїРµС€СЊ!") unless ($psy->auditor->can_edit_creo);
 
 if ($action eq 'to_quarantine' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_QUARANTINE)) {
 	$creo->update_type(type => Psy::Creo::CT_QUARANTINE);
@@ -112,7 +112,7 @@ elsif ($action eq 'to_plagiarism' and $psy->auditor->is_moderator_scope(Psy::Aud
 	goto_back();
 }
 else {
-	error("Очередь на лоботомию в другой палате!");
+	error("РћС‡РµСЂРµРґСЊ РЅР° Р»РѕР±РѕС‚РѕРјРёСЋ РІ РґСЂСѓРіРѕР№ РїР°Р»Р°С‚Рµ!");
 }
 
 exit;

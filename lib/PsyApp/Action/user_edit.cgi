@@ -29,7 +29,7 @@ my $delete_avatar = $cgi->param('delete_avatar');
 
 my $psy = Psy->enter;
 
-error("Вы не заблудились, голубчик?") if $psy->is_annonimus;
+error("Р’С‹ РЅРµ Р·Р°Р±Р»СѓРґРёР»РёСЃСЊ, РіРѕР»СѓР±С‡РёРє?") if $psy->is_annonimus;
 
 my $user = Psy::User->choose($psy->user_id);
 my $user_info = $user->info;
@@ -41,10 +41,10 @@ if ($action eq 'add') {
 		my $md5_cur_pass = $user_info->{u_pass_hash};
 		
 		if ($md5_old_pass ne $md5_cur_pass) {
-			error("Старый пароль введен неверно!");
+			error("РЎС‚Р°СЂС‹Р№ РїР°СЂРѕР»СЊ РІРІРµРґРµРЅ РЅРµРІРµСЂРЅРѕ!");
 		}
 
-		error("Повторный ввод пароля неверен!") if ($new_password ne $new_password_check);
+		error("РџРѕРІС‚РѕСЂРЅС‹Р№ РІРІРѕРґ РїР°СЂРѕР»СЏ РЅРµРІРµСЂРµРЅ!") if ($new_password ne $new_password_check);
 	}
 }
 
@@ -71,10 +71,10 @@ if ($action eq 'add') {
 		while (<$img_file_h>) {
 			$data .= $_;
 			if (length $data > (Psy::User::AVATAR_SIZE * 1024)) {
-				error("Размер изображения не должен превышать ".Psy::User::AVATAR_SIZE."kb");
+				error("Р Р°Р·РјРµСЂ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРІС‹С€Р°С‚СЊ ".Psy::User::AVATAR_SIZE."kb");
 			}
 		}
-		open(AVATAR_FILE, ">".$img_file_name) or error("Гардероб закрыт по техническим причинам!");
+		open(AVATAR_FILE, ">".$img_file_name) or error("Р“Р°СЂРґРµСЂРѕР± Р·Р°РєСЂС‹С‚ РїРѕ С‚РµС…РЅРёС‡РµСЃРєРёРј РїСЂРёС‡РёРЅР°Рј!");
 		print AVATAR_FILE $data;
 		close(AVATAR_FILE);
 		#
@@ -84,7 +84,7 @@ if ($action eq 'add') {
 
 	}
 	elsif ($delete_avatar) {
-		unlink $user->avatar_file_name or error("Аватар не удаляется =)");
+		unlink $user->avatar_file_name or error("РђРІР°С‚Р°СЂ РЅРµ СѓРґР°Р»СЏРµС‚СЃСЏ =)");
 	}
 	pn_goto(URL_MAIN);
 }
@@ -116,5 +116,5 @@ sub img_thumb {
 		my ($thumb, $x, $y) = Image::Magick::Thumbnail::create($src, 134);
 		$thumb->Write($img_file.'_thumb');
 	};
-	error("Только jpeg формат") if $@;
+	error("РўРѕР»СЊРєРѕ jpeg С„РѕСЂРјР°С‚") if $@;
 }

@@ -27,7 +27,7 @@ my $psy = Psy->enter;
 my $creo_add_info = $psy->can_creo_add;
 
 if ($action eq 'add' and $creo_add_info->{can}) {
-	error("Ñîâñåì îõóåëè? =)") if $ENV{REQUEST_METHOD} ne 'POST';
+	error("Ð¡Ð¾Ð²ÑÐµÐ¼ Ð¾Ñ…ÑƒÐµÐ»Ð¸? =)") if $ENV{REQUEST_METHOD} ne 'POST';
 	
 	unless($faq_flag) {
 		print $cgi->redirect(sprintf('http://%s/faq_room/', $ENV{SERVER_NAME}));

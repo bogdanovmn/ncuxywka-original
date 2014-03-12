@@ -19,7 +19,7 @@ my $user_id = $cgi->param('user_id');
 
 my $psy = Psy->enter;
 
-error("Âû óæå â ïðîöåäóðíîé!") if $psy->banned;
+error("Ð’Ñ‹ ÑƒÐ¶Ðµ Ð² Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ð½Ð¾Ð¹!") if $psy->banned;
 
 my $moderator_action = defined $user_id and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_USER_BAN);
 
@@ -28,7 +28,7 @@ my $moderator_action = defined $user_id and $psy->auditor->is_moderator_scope(Ps
 if ($moderator_action) {
 	my $user = Psy::User->choose($user_id);
 	my $user_info = $user->info;
-	error("Ïàöèýíò óñïåë óëèçíóòü!") unless $user_info;
+	error("ÐŸÐ°Ñ†Ð¸ÑÐ½Ñ‚ ÑƒÑÐ¿ÐµÐ» ÑƒÐ»Ð¸Ð·Ð½ÑƒÑ‚ÑŒ!") unless $user_info;
 
 	$psy->ban(
 		duration => 360, #$duration,
@@ -42,8 +42,8 @@ if ($moderator_action) {
 	goto_back();
 }
 else {
-	error("Â ïðîöåäóðíóþ õîäÿò ñòðîãî ïî âðåìåíè!") if not defined $duration;
-	error("Íåïîíÿòíîå âðåìÿ âû óêàçàëè...!") unless $duration =~ /^\d+$/;
+	error("Ð’ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ð½ÑƒÑŽ Ñ…Ð¾Ð´ÑÑ‚ ÑÑ‚Ñ€Ð¾Ð³Ð¾ Ð¿Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸!") if not defined $duration;
+	error("ÐÐµÐ¿Ð¾Ð½ÑÑ‚Ð½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ Ð²Ñ‹ ÑƒÐºÐ°Ð·Ð°Ð»Ð¸...!") unless $duration =~ /^\d+$/;
 	
 	$psy->ban(duration => $duration);
 	pn_goto(URL_BANNED);

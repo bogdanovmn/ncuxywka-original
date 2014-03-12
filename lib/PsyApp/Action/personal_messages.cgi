@@ -21,7 +21,7 @@ my $page = $cgi->param('page');
 my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('personal_messages');
 
-error("Ñîâñåì îõóåëè? =)") if $psy->is_annonimus;
+error("Ğ¡Ğ¾Ğ²ÑĞµĞ¼ Ğ¾Ñ…ÑƒĞµĞ»Ğ¸? =)") if $psy->is_annonimus;
 #
 # Case action
 #
@@ -46,7 +46,7 @@ my $total_rows = 0;
 my $pm_get_params = '/pm/';
 
 if ($action eq 'dialog') {
-	error("Âû çàáëóäèëèñü?") unless $to_user_id;
+	error("Ğ’Ñ‹ Ğ·Ğ°Ğ±Ğ»ÑƒĞ´Ğ¸Ğ»Ğ¸ÑÑŒ?") unless $to_user_id;
 
 	$messages = $psy->pm->load_dialog( 
 		from_user_id => $psy->user_id,

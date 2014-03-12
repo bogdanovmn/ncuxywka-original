@@ -24,7 +24,7 @@ elsif ($action eq 'out' and not $psy->is_annonimus) {
 	$psy->logout;
 }
 else {
-	error("Может вы заблудились?");
+	error("РњРѕР¶РµС‚ РІС‹ Р·Р°Р±Р»СѓРґРёР»РёСЃСЊ?");
 }
 
 my $redirect_to = $ENV{HTTP_REFERER};

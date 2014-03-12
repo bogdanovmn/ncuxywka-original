@@ -36,14 +36,14 @@ my $use_period = not (
 );
 
 my %periods_table = (
-	week => { value => 7, title => 'Çà íåäåëş', order => 0 },
-	month => { value => 30, title => 'Çà ìåñÿö', order => 1 }, 
-	#year => { value => 365, title => 'Çà ãîä' }
+	week => { value => 7, title => 'Ğ—Ğ° Ğ½ĞµĞ´ĞµĞ»Ñ', order => 0 },
+	month => { value => 30, title => 'Ğ—Ğ° Ğ¼ĞµÑÑÑ†', order => 1 }, 
+	#year => { value => 365, title => 'Ğ—Ğ° Ğ³Ğ¾Ğ´' }
 );
 
 my $order = 2;
 for (my $year = $last_year; $year >= $first_year; $year--) {
-	$periods_table{"y".$year} = {value => $year, title => $year."ã", order => $order};
+	$periods_table{"y".$year} = {value => $year, title => $year."Ğ³", order => $order};
 	$order++;
 }
 

@@ -25,7 +25,7 @@ my $common_info = $psy->common_info;
 # Case action
 #
 if ($action eq 'add') {
-	error("Âðà÷åé íå íàèïåøü!") unless $psy->is_god;
+	error("Ð’Ñ€Ð°Ñ‡ÐµÐ¹ Ð½Ðµ Ð½Ð°Ð¸Ð¿ÐµÑˆÑŒ!") unless $psy->is_god;
 
 	$news->add(
 		user_id => $psy->user_id,
@@ -36,7 +36,7 @@ if ($action eq 'add') {
 	goto_back();
 }
 elsif ($action eq 'hide') {
-	error("Âðà÷åé íå íàèïåøü!") unless $psy->is_god;
+	error("Ð’Ñ€Ð°Ñ‡ÐµÐ¹ Ð½Ðµ Ð½Ð°Ð¸Ð¿ÐµÑˆÑŒ!") unless $psy->is_god;
 
 	$news->hide($id);
 	$psy->cache->clear;
