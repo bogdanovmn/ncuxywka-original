@@ -5,9 +5,9 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::Errors;
+use Psy::Navigation;
 
 use CGI;
 
@@ -17,16 +17,16 @@ my $duration = $cgi->param('duration');
 my $ip = $cgi->param('ip');
 my $user_id = $cgi->param('user_id');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 
 error("Вы уже в процедурной!") if $psy->banned;
 
-my $moderator_action = defined $user_id and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_USER_BAN);
+my $moderator_action = defined $user_id and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_USER_BAN);
 
 
 
 if ($moderator_action) {
-	my $user = PSY::USER->choose($user_id);
+	my $user = Psy::User->choose($user_id);
 	my $user_info = $user->info;
 	error("Пациэнт успел улизнуть!") unless $user_info;
 
@@ -36,7 +36,7 @@ if ($moderator_action) {
 		user_id => $user_id
 	);
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_USER_BAN,
+		event_type => Psy::Auditor::EVENT_USER_BAN,
 		object_id => $user_id
 	);
 	goto_back();

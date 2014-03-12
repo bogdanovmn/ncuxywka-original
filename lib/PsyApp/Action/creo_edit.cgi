@@ -5,10 +5,10 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
-use PSY::CREO;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::Errors;
+use Psy::Creo;
+use Psy::Navigation;
 
 use CGI;
 use TEMPLATE;
@@ -22,44 +22,44 @@ my $err = $cgi->param('err');
 my $creo_id = $cgi->param('id');
 my $type = $cgi->param('type');
 #debug($cgi);
-my $psy = PSY->enter;
-my $creo = PSY::CREO->choose($creo_id);
+my $psy = Psy->enter;
+my $creo = Psy::Creo->choose($creo_id);
 
 error("Врачей не наипешь!") unless ($psy->auditor->can_edit_creo);
 
-if ($action eq 'to_quarantine' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_QUARANTINE)) {
-	$creo->update_type(type => PSY::CREO::CT_QUARANTINE);
+if ($action eq 'to_quarantine' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_QUARANTINE)) {
+	$creo->update_type(type => Psy::Creo::CT_QUARANTINE);
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_TO_QUARANTINE,
+		event_type => Psy::Auditor::EVENT_TO_QUARANTINE,
 		object_id => $creo_id
 	);
 	goto_back();	
 }
-elsif ($action eq 'from_quarantine' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_QUARANTINE)) {
-	$creo->update_type(type => PSY::CREO::CT_CREO);
+elsif ($action eq 'from_quarantine' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_QUARANTINE)) {
+	$creo->update_type(type => Psy::Creo::CT_CREO);
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_FROM_QUARANTINE,
+		event_type => Psy::Auditor::EVENT_FROM_QUARANTINE,
 		object_id => $creo_id
 	);
 	goto_back();
 }
-elsif ($action eq 'to_neofuturism' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_NEOFUTURISM)) {
+elsif ($action eq 'to_neofuturism' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_NEOFUTURISM)) {
 	$creo->add_to_neofuturism;
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_TO_NEOFUTURISM,
+		event_type => Psy::Auditor::EVENT_TO_NEOFUTURISM,
 		object_id => $creo_id
 	);
 	goto_back();
 }
-elsif ($action eq 'from_neofuturism' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_NEOFUTURISM)) {
+elsif ($action eq 'from_neofuturism' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_NEOFUTURISM)) {
 	$creo->remove_from_neofuturism;
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_FROM_NEOFUTURISM,
+		event_type => Psy::Auditor::EVENT_FROM_NEOFUTURISM,
 		object_id => $creo_id
 	);
 	goto_back();
 }
-elsif ($action eq 'full_edit' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_CREO_EDIT)) {
+elsif ($action eq 'full_edit' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_CREO_EDIT)) {
 	my $creo_data = $creo->load(
 		with_comments => 0,
 		for_edit => 1
@@ -76,7 +76,7 @@ elsif ($action eq 'full_edit' and $psy->auditor->is_moderator_scope(PSY::AUDITOR
 	);
 	$tpl->show;
 }
-elsif ($action eq 'edit_save' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_CREO_EDIT)) {
+elsif ($action eq 'edit_save' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_CREO_EDIT)) {
 	if (!$title or !$body) {
 		goto_back();
 	}
@@ -85,28 +85,28 @@ elsif ($action eq 'edit_save' and $psy->auditor->is_moderator_scope(PSY::AUDITOR
 		body => $body
 	);
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_CREO_EDIT,
+		event_type => Psy::Auditor::EVENT_CREO_EDIT,
 		object_id => $creo_id
 	);
 	pn_goto(sprintf("/creos/%d.html", $creo_id));
 }
-elsif ($action eq 'delete' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_CREO_DELETE)) {
-	$creo->update_type(type => PSY::CREO::CT_DELETE);
+elsif ($action eq 'delete' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_CREO_DELETE)) {
+	$creo->update_type(type => Psy::Creo::CT_DELETE);
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_CREO_DELETE,
+		event_type => Psy::Auditor::EVENT_CREO_DELETE,
 		object_id => $creo_id
 	);
 	goto_back();
 }
-elsif ($action eq 'to_plagiarism' and $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_PLAGIARISM)) {
-	$creo->update_type(type => PSY::CREO::CT_PLAGIARISM);
+elsif ($action eq 'to_plagiarism' and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_PLAGIARISM)) {
+	$creo->update_type(type => Psy::Creo::CT_PLAGIARISM);
 	
 	my $creo_info = $creo->load_headers;
-	my $author = PSY::USER->choose($creo_info->{c_user_id});
-	$author->set_group(PSY::G_PLAGIARIST);
+	my $author = Psy::User->choose($creo_info->{c_user_id});
+	$author->set_group(Psy::G_PLAGIARIST);
 	
 	$psy->auditor->log(
-		event_type => PSY::AUDITOR::EVENT_TO_PLAGIARISM,
+		event_type => Psy::Auditor::EVENT_TO_PLAGIARISM,
 		object_id => $creo_id
 	);
 	goto_back();

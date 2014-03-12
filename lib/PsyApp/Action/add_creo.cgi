@@ -7,10 +7,10 @@ use lib 'inc';
 
 use CGI;
 
-use PSY;
-use PSY::CREO;
-use PSY::NAVIGATION;
-use PSY::ERRORS;
+use Psy;
+use Psy::Creo;
+use Psy::Navigation;
+use Psy::Errors;
 
 use TEMPLATE;
 
@@ -23,7 +23,7 @@ my $err = $cgi->param('err');
 my $faq_flag = $cgi->param('faq');
 my $black_copy = $cgi->param('black_copy');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 my $creo_add_info = $psy->can_creo_add;
 
 if ($action eq 'add' and $creo_add_info->{can}) {
@@ -48,7 +48,7 @@ my $tpl = TEMPLATE->new('add_creo');
 # Case action
 #
 if ($action eq 'add' and ($black_copy or $creo_add_info->{can})) {
-	my $creo = PSY::CREO->new(
+	my $creo = Psy::Creo->new(
 		title => $title, 
 		body => $body,
 		user_id => $psy->user_id,

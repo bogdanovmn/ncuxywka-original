@@ -6,17 +6,17 @@ use warnings;
 use lib 'inc';
 
 use CGI;
-use PSY;
-use PSY::CHART::DATA::COMMON;
-use PSY::NAVIGATION;
-use PSY::ERRORS;
+use Psy;
+use Psy::Chart::DATA::COMMON;
+use Psy::Navigation;
+use Psy::Errors;
 use TEMPLATE;
 
 my $cgi = CGI->new;
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 
-my $chart_data = PSY::CHART::DATA::COMMON->constructor;
+my $chart_data = Psy::Chart::DATA::COMMON->constructor;
 
 $psy->cache->select('chart_new_users', CACHE::FRESH_TIME_DAY);
 my $chart_new_users = $psy->cache->fresh

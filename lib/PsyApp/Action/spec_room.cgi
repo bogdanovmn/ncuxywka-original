@@ -6,14 +6,14 @@ use warnings;
 use lib 'inc';
 
 use CGI;
-use PSY::ROOM;
-use PSY::ROOM::PROCEDURE;
-use PSY::ROOM::PIG_PETR;
-use PSY::ERRORS;
-use PSY::NAVIGATION;
+use Psy::Room;
+use Psy::Room::PROCEDURE;
+use Psy::Room::PIG_PETR;
+use Psy::Errors;
+use Psy::Navigation;
 
 use TEMPLATE;
-use PAGINATOR;
+use Paginator;
 
 my $cgi = CGI->new;
 my $action = $cgi->param('action') || 'read';
@@ -28,22 +28,22 @@ my $template_params = {
 };
 
 my $psy_room = undef;
-if ($room eq PSY::ROOM::R_PETR) {
-	$psy_room = PSY::ROOM::PIG_PETR->enter;
+if ($room eq Psy::Room::R_PETR) {
+	$psy_room = Psy::Room::PIG_PETR->enter;
 	$template_params->{petr_top_users_list} = $psy_room->top_users_list;
 }
-elsif ($room eq PSY::ROOM::R_PROC) {
-	$psy_room = PSY::ROOM::PROCEDURE->enter;
+elsif ($room eq Psy::Room::R_PROC) {
+	$psy_room = Psy::Room::PROCEDURE->enter;
 	$template_params->{ban_left_time} = $psy_room->{ban_left_time};
 	$template_params->{inside} = $template_params->{ban_left_time} ne 0;
 	
-	if ($psy_room->user_id eq PSY::AUTH::MAIN_DOCTOR_ID) {
+	if ($psy_room->user_id eq Psy::Auth::MAIN_DOCTOR_ID) {
 		$template_params->{ban_left_time} = 100500;
 		$template_params->{inside} = 1;
 	}
 }
 else {
-	$psy_room = PSY::ROOM->enter(room_mnemonic => $room);
+	$psy_room = Psy::Room->enter(room_mnemonic => $room);
 }
 
 error("Вы ошиблись палатой!") unless $psy_room;
@@ -52,7 +52,7 @@ error("Вы ошиблись палатой!") unless $psy_room;
 # Case action
 #
 if ($action eq 'add') {
-	error("Вас огрели электрошокером!") if ($room eq PSY::ROOM::R_PROC and not defined $template_params->{inside});
+	error("Вас огрели электрошокером!") if ($room eq Psy::Room::R_PROC and not defined $template_params->{inside});
 
 	unless ($psy_room->bot_detected($msg, $alias)) {
 		$psy_room->post_comment( 
@@ -67,10 +67,10 @@ if ($action eq 'add') {
 
 my $tpl = TEMPLATE->new("rooms/$room");
 my $comments_total = $psy_room->comments_total;
-my $pages = PAGINATOR->init(
+my $pages = Paginator->init(
 	total_rows => $comments_total,
 	current => $page,
-	rows_per_page => PSY::OP_RECS_PER_PAGE,
+	rows_per_page => Psy::OP_RECS_PER_PAGE,
 	uri => "/$room"."_room/"
 );
 #
@@ -89,7 +89,7 @@ $template_params->{post_button_caption} = $psy_room->attributes->{post_button_ca
 $tpl->params(
 	%{$template_params},
 	$pages->html_template_params,
-	%{$psy_room->common_info(skin => $room eq PSY::ROOM::R_NEO_FAQ ? 'neo' : undef)}
+	%{$psy_room->common_info(skin => $room eq Psy::Room::R_NEO_FAQ ? 'neo' : undef)}
 );
 
 $tpl->show;

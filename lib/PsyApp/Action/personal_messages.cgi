@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use lib 'inc';
 use CGI;
-use PSY;
-use PSY::ERRORS;
-use PSY::USER;
-use PSY::NAVIGATION;
-use PSY::PERSONAL_MESSAGES;
+use Psy;
+use Psy::Errors;
+use Psy::User;
+use Psy::Navigation;
+use Psy::PersonalMessages;
 use TEMPLATE;
-use PAGINATOR;
+use Paginator;
 
 my $cgi = CGI->new;
 my $to_user_id = $cgi->param('user_id');
@@ -18,7 +18,7 @@ my $action = $cgi->param('action') || 'last';
 my $msg = $cgi->param('msg');
 my $page = $cgi->param('page');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('personal_messages');
 
 error("Совсем охуели? =)") if $psy->is_annonimus;
@@ -59,7 +59,7 @@ if ($action eq 'dialog') {
 		to_user_id => $to_user_id
 	);
 
-	$recipient = PSY::USER->choose($to_user_id)->info;
+	$recipient = Psy::User->choose($to_user_id)->info;
 	$is_dialog = 1;
 
 	$pm_get_params .= 'dialog/'. $to_user_id. '/';
@@ -77,10 +77,10 @@ if ($action eq 'in' or $action eq 'out') {
 	$pm_get_params .= $action. '/';
 }
 
-my $pages = PAGINATOR->init(
+my $pages = Paginator->init(
 	total_rows => $total_rows,
 	current => $page,
-	rows_per_page => PSY::PERSONAL_MESSAGES::PM_RECS_PER_PAGE,
+	rows_per_page => Psy::PersonalMessages::PM_RECS_PER_PAGE,
 	uri => $pm_get_params
 );
 #

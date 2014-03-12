@@ -7,9 +7,9 @@ use lib 'inc';
 
 use CGI;
 
-use PSY;
-use PSY::NAVIGATION;
-use PSY::USER;
+use Psy;
+use Psy::Navigation;
+use Psy::User;
 
 use TEMPLATE;
 
@@ -24,7 +24,7 @@ my $loves = $cgi->param('loves');
 my $hates = $cgi->param('hates');
 my $city = $cgi->param('city');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 
 if ($action eq 'add') {
 	if (!$name or !$password or !$password_check or !$email) {
@@ -40,7 +40,7 @@ if ($action eq 'add') {
 # Case action
 #
 if ($action eq 'add') {
-	my $user = PSY::USER->new(
+	my $user = Psy::User->new(
 		name => $name, 
 		about => $about,
 		email => $email,

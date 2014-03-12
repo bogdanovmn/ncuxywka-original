@@ -6,11 +6,11 @@ use warnings;
 use lib 'inc';
 
 use CGI;
-use PSY::GB;
-use PSY::NAVIGATION;
-use PSY::ERRORS;
+use Psy::GB;
+use Psy::Navigation;
+use Psy::Errors;
 use TEMPLATE;
-use PAGINATOR;
+use Paginator;
 
 my $cgi = CGI->new;
 my $action = $cgi->param('action') || 'read';
@@ -18,7 +18,7 @@ my $msg = $cgi->param('msg');
 my $alias = $cgi->param('alias'); 
 my $page = $cgi->param('page') || 1;
 
-my $gb = PSY::GB->enter;
+my $gb = Psy::GB->enter;
 
 my $tpl = TEMPLATE->new('gb');
 #
@@ -32,10 +32,10 @@ if ($action eq 'add') {
 		goto_back();
 	}
 }
-my $pages = PAGINATOR->init(
+my $pages = Paginator->init(
 	total_rows => $gb->comments_total,
 	current => $page,
-	rows_per_page => PSY::OP_RECS_PER_PAGE,
+	rows_per_page => Psy::OP_RECS_PER_PAGE,
 	uri => '/gb/'
 );
 #

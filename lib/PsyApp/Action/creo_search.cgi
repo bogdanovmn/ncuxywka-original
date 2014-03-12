@@ -5,8 +5,8 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
+use Psy;
+use Psy::Errors;
 
 use TEMPLATE;
 use CGI;
@@ -15,7 +15,7 @@ use DATE;
 my $cgi = CGI->new;
 my $search_text = $cgi->param('search_text');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('creo_search');
 
 $tpl->params(

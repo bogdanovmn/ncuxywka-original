@@ -5,10 +5,10 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
-use PSY::USER;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::Errors;
+use Psy::User;
+use Psy::Navigation;
 
 use CGI;
 use TEMPLATE;
@@ -27,11 +27,11 @@ my $city = $cgi->param('city');
 my $avatar = $cgi->param('avatar');
 my $delete_avatar = $cgi->param('delete_avatar');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 
 error("Вы не заблудились, голубчик?") if $psy->is_annonimus;
 
-my $user = PSY::USER->choose($psy->user_id);
+my $user = Psy::User->choose($psy->user_id);
 my $user_info = $user->info;
 
 if ($action eq 'add') {
@@ -66,12 +66,12 @@ if ($action eq 'add') {
 	if ($avatar) {
 		my $img_file_h = $cgi->upload('avatar');
         my $img_file_type = $avatar =~ /^.*\.(\w+)$/ ? $1 : "image";	
-		my $img_file_name = PSY::USER::PATH_AVATARS."/". $psy->user_id;
+		my $img_file_name = Psy::User::PATH_AVATARS."/". $psy->user_id;
         my $data;
 		while (<$img_file_h>) {
 			$data .= $_;
-			if (length $data > (PSY::USER::AVATAR_SIZE * 1024)) {
-				error("Размер изображения не должен превышать ".PSY::USER::AVATAR_SIZE."kb");
+			if (length $data > (Psy::User::AVATAR_SIZE * 1024)) {
+				error("Размер изображения не должен превышать ".Psy::User::AVATAR_SIZE."kb");
 			}
 		}
 		open(AVATAR_FILE, ">".$img_file_name) or error("Гардероб закрыт по техническим причинам!");

@@ -3,11 +3,11 @@
 use strict;
 use warnings;
 use lib 'inc';
-use PSY;
-use PSY::ERRORS;
+use Psy;
+use Psy::Errors;
 use TEMPLATE;
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('users');
 my $users_by_reg_date = $psy->load_users(order_by_date => 1);
 #
@@ -85,5 +85,5 @@ $tpl->params(
 	%{$psy->common_info}
 );
 
-#debug_sql_explain($PSY::DB::__STATISTIC->{queries_details});
+#debug_sql_explain($Psy::DB::__STATISTIC->{queries_details});
 $tpl->show;

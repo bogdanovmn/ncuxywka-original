@@ -4,17 +4,17 @@ use strict;
 use warnings;
 use lib 'inc';
 use CGI;
-use PSY;
-use PSY::CREO;
-use PSY::ERRORS;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::Creo;
+use Psy::Errors;
+use Psy::Navigation;
 use TEMPLATE;
 
 my $cgi = CGI->new;
 my $id = $cgi->param('id');
 
-my $psy = PSY->enter;
-my $creo = PSY::CREO->choose($id);
+my $psy = Psy->enter;
+my $creo = Psy::Creo->choose($id);
 my $tpl = TEMPLATE->new('creo_print');
 
 my $common_info = $psy->common_info;
@@ -30,8 +30,8 @@ unless ($creo_data) {
 $tpl->params(
 	%$creo_data,
 	comments => [], #$comments || [],
-	quarantine => $creo_data->{c_type} eq PSY::CREO::CT_QUARANTINE,
-	deleted => $creo_data->{c_type} eq PSY::CREO::CT_DELETE,
+	quarantine => $creo_data->{c_type} eq Psy::Creo::CT_QUARANTINE,
+	deleted => $creo_data->{c_type} eq Psy::Creo::CT_DELETE,
 	creo_id => $id,
 	%$common_info
 );

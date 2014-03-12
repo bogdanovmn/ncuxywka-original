@@ -5,10 +5,10 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::NAVIGATION;
-use PSY::CREO;
-use PSY::ERRORS;
+use Psy;
+use Psy::Navigation;
+use Psy::Creo;
+use Psy::Errors;
 
 use CGI;
 
@@ -18,8 +18,8 @@ my $creo_id = $cgi->param('creo_id');
 
 error("Совсем охуели? =)") if ($ENV{REQUEST_METHOD} ne 'POST' and $action eq 'add');
 
-my $psy = PSY->enter;
-my $creo = PSY::CREO->choose($creo_id);
+my $psy = Psy->enter;
+my $creo = Psy::Creo->choose($creo_id);
 
 error("Забыли пароль? Клизьмочка думаю вам поможет...") if $psy->is_annonimus;
 error("Может вы заблудились?") if (!$creo_id);

@@ -5,9 +5,9 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::Errors;
+use Psy::Navigation;
 
 use TEMPLATE;
 use CGI;
@@ -23,7 +23,7 @@ my $search_text = $cgi->param('search_text');
 pn_goto(URL_404) unless $secret_flag;
 
 #ERRORS::html_debug(\%ENV);
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('creo_list');
 
 my $first_year = 2010;
@@ -31,8 +31,8 @@ my $last_year = unix_time_to_ymdhms(time, "%Y");
 
 my $use_period = not (
 	(defined $neofuturism and $neofuturism eq 1) or 
-	$type eq PSY::CREO::CT_QUARANTINE or 
-	$type eq PSY::CREO::CT_DELETE
+	$type eq Psy::Creo::CT_QUARANTINE or 
+	$type eq Psy::Creo::CT_DELETE
 );
 
 my %periods_table = (
@@ -70,8 +70,8 @@ my @jump_links = map {
 $tpl->params(
 	regular_creo_list => $use_period,
 	creo_list => $last_creos,
-	quarantine => $type eq PSY::CREO::CT_QUARANTINE,
-	deleted => $type eq PSY::CREO::CT_DELETE,
+	quarantine => $type eq Psy::Creo::CT_QUARANTINE,
+	deleted => $type eq Psy::Creo::CT_DELETE,
 	neofuturism => $neofuturism,
 	jump_links => $use_period ? [sort { $a->{order} <=> $b->{order} } @jump_links] : [],
 	top_users_by_creos_count => $psy->top_users_by_creos_count,

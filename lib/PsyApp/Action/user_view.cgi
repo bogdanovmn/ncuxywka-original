@@ -5,12 +5,12 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
-use PSY::USER;
-use PSY::NAVIGATION;
-use PSY::CHART::DATA::COMMON;
-use PSY::STATISTIC::WORDS;
+use Psy;
+use Psy::Errors;
+use Psy::User;
+use Psy::Navigation;
+use Psy::Chart::DATA::COMMON;
+use Psy::Statistic::Words;
 use TEMPLATE;
 use NICE_VALUES;
 use CGI;
@@ -19,8 +19,8 @@ my $cgi = CGI->new;
 my $id = $cgi->param('id') || error("Этот псих уже давно вылечился!");
 error("Вы совершили ошибку...") if ($id =~ /\D/);
 
-my $psy = PSY->enter;
-my $user = PSY::USER->choose($id);
+my $psy = Psy->enter;
+my $user = Psy::User->choose($id);
 my $tpl = TEMPLATE->new('user_view');
 
 my $details = $cgi->param("details") || 0;
@@ -37,7 +37,7 @@ unless ($user_info) {
 
 my $user_creos = $user->creo_list(
 	looker_user_id => $psy->user_id,
-	type => [PSY::CREO::CT_CREO, PSY::CREO::CT_QUARANTINE]
+	type => [Psy::Creo::CT_CREO, Psy::Creo::CT_QUARANTINE]
 );
 
 my $user_selected_creos = $user->selected_creo_list(looker_user_id => $common_info->{user_id});
@@ -49,7 +49,7 @@ my $user_favorites = $psy->cache->fresh
 #
 # User statistic
 #
-my $chart_data = PSY::CHART::DATA::COMMON->constructor;
+my $chart_data = Psy::Chart::DATA::COMMON->constructor;
 $psy->cache->select("user-$id-activity", CACHE::FRESH_TIME_DAY);
 my $user_activity_chart_data = $psy->cache->fresh
 	? $psy->cache->get
@@ -77,9 +77,9 @@ my $can_delete = (
 #
 # Format user info for HTML
 #
-$user_info->{u_about} = PSY::TEXT::convert_to_html($user_info->{u_about});
-$user_info->{u_hates} = PSY::TEXT::convert_to_html($user_info->{u_hates});
-$user_info->{u_loves} = PSY::TEXT::convert_to_html($user_info->{u_loves});
+$user_info->{u_about} = Psy::Text::convert_to_html($user_info->{u_about});
+$user_info->{u_hates} = Psy::Text::convert_to_html($user_info->{u_hates});
+$user_info->{u_loves} = Psy::Text::convert_to_html($user_info->{u_loves});
 #
 # User ban left time
 #
@@ -87,7 +87,7 @@ my $user_ban_left_time = $user->ban_left_time;
 #
 #
 #
-my $words_statistic = PSY::STATISTIC::WORDS->constructor(user_id => $id);
+my $words_statistic = Psy::Statistic::Words->constructor(user_id => $id);
 
 my $words_frequency = [];
 if (0 and $psy->is_god) {
@@ -106,7 +106,7 @@ $tpl->params(
 	user_favorites => $user_favorites,
 	user_votes_out_rank_title => $user_votes_out_rank_title,
 	user_ban_left_time => $user_ban_left_time ? full_time($user_ban_left_time) : undef, 
-	user_edit_menu => $psy->auditor->is_moderator_scope(PSY::AUDITOR::MODERATOR_SCOPE_USER_BAN),
+	user_edit_menu => $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_USER_BAN),
 	avatar => $user->avatar_file_name,
 	u_from_comments_count => $user_info->{u_comments_out},
 	u_for_comments_count => $user_info->{u_comments_in},
@@ -119,5 +119,5 @@ $tpl->params(
 	%$common_info
 );
 
-#debug_sql_explain($PSY::DB::__STATISTIC->{queries_details});
+#debug_sql_explain($Psy::DB::__STATISTIC->{queries_details});
 $tpl->show;

@@ -4,10 +4,10 @@ use strict;
 use warnings;
 use lib 'inc';
 use CGI;
-use PSY;
-use PSY::NEWS;
-use PSY::ERRORS;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::NEWS;
+use Psy::Errors;
+use Psy::Navigation;
 use TEMPLATE;
 
 my $cgi = CGI->new;
@@ -15,8 +15,8 @@ my $id = $cgi->param('id');
 my $action = $cgi->param('action') || 'read';
 my $msg = $cgi->param('msg');
 
-my $psy = PSY->enter;
-my $news = PSY::NEWS->constructor;
+my $psy = Psy->enter;
+my $news = Psy::NEWS->constructor;
 
 $psy->cache->select('news');
 

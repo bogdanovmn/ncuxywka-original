@@ -7,11 +7,11 @@ use lib 'inc';
 
 use CGI;
 
-use PSY;
-use PSY::CREO;
-use PSY::USER;
-use PSY::ERRORS;
-use PSY::NAVIGATION;
+use Psy;
+use Psy::Creo;
+use Psy::User;
+use Psy::Errors;
+use Psy::Navigation;
 use TEMPLATE;
 
 my $cgi = CGI->new;
@@ -25,8 +25,8 @@ my $creo_title = $cgi->param('title');
 my $creo_body = $cgi->param('body');
 
 #debug($cgi);
-my $psy = PSY->enter;
-my $creo = PSY::CREO->choose($id, black_copy => 1, user_id => $psy->user_id);
+my $psy = Psy->enter;
+my $creo = Psy::Creo->choose($id, black_copy => 1, user_id => $psy->user_id);
 my $can_creo_add = $psy->can_creo_add;
 my $tpl = TEMPLATE->new('creo_black_copy');
 
@@ -38,7 +38,7 @@ if ($action eq 'public') {
 	error("Нас не наебешь!") unless $can_creo_add->{can};
 
 	$creo->update(
-		type => $psy->user_id eq PSY::AUTH::KRAB_ID ? PSY::CREO::CT_ALEX_JILE : PSY::CREO::CT_CREO,
+		type => $psy->user_id eq Psy::Auth::KRAB_ID ? Psy::Creo::CT_ALEX_JILE : Psy::Creo::CT_CREO,
 		post_date => 1
 	);
 	$psy->update_post_time;

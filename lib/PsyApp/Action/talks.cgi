@@ -5,11 +5,11 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
-use PSY::CREO;
+use Psy;
+use Psy::Errors;
+use Psy::Creo;
 use TEMPLATE;
-use PAGINATOR;
+use Paginator;
 use CGI;
 
 my $cgi = CGI->new;
@@ -19,7 +19,7 @@ my $for_id = $cgi->param('for');
 
 error("Вы не заблудились, голубчик?") if (($from_id and not $from_id =~ /^\d+$/) or ($for_id and not $for_id =~ /^\d+$/));
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 my $tpl = TEMPLATE->new('talks');
 #
 # Load last comments 
@@ -29,7 +29,7 @@ my $last_comments = $psy->comments(
 	page => $page,
 	from => $from_id,
 	for => $for_id,
-	creo_types => [PSY::CREO::CT_CREO, PSY::CREO::CT_QUARANTINE]
+	creo_types => [Psy::Creo::CT_CREO, Psy::Creo::CT_QUARANTINE]
 );
 
 my $get_params = '';
@@ -37,10 +37,10 @@ $get_params = 'from/'.$from_id."/" if $from_id;
 $get_params = 'for/'.$for_id."/" if $for_id;
 $get_params = sprintf('for/%d/from/%d/', $for_id, $from_id) if ($for_id and $from_id);
 
-my $pages = PAGINATOR->init(
+my $pages = Paginator->init(
 	total_rows => $psy->get_comments_total( from => $from_id, for => $for_id),
 	current => $page,
-	rows_per_page => PSY::OP_RECS_PER_PAGE,
+	rows_per_page => Psy::OP_RECS_PER_PAGE,
 	uri => '/talks/'.$get_params
 );
 #
@@ -67,5 +67,5 @@ $tpl->params(
 	%{$psy->common_info}
 
 );
-#debug_sql_explain($PSY::DB::__STATISTIC->{queries_details});
+#debug_sql_explain($Psy::DB::__STATISTIC->{queries_details});
 $tpl->show;

@@ -5,8 +5,8 @@ use warnings;
 
 use lib 'inc';
 
-use PSY;
-use PSY::ERRORS;
+use Psy;
+use Psy::Errors;
 
 use CGI;
 
@@ -15,7 +15,7 @@ my $action = $cgi->param('action') || 'bot';
 my $name = $cgi->param('name');
 my $password = $cgi->param('password');
 
-my $psy = PSY->enter;
+my $psy = Psy->enter;
 
 if ($action eq 'in' and $psy->is_annonimus) {
 	$psy->login(user_name => $name, password => $password);
