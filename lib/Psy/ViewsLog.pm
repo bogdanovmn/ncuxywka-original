@@ -1,4 +1,4 @@
-package Psy::VIEWS_LOG;
+package Psy::ViewsLog;
 
 use strict;
 use warnings;

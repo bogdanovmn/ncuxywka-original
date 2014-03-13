@@ -1,4 +1,4 @@
-package Psy::VIEWS_LOG::CREO;
+package Psy::ViewsLog::Creo;
 
 use strict;
 use warnings;
@@ -6,15 +6,15 @@ use warnings;
 use Psy::Errors;
 use Psy::Statistic::Creo;
 
-use base 'Psy::VIEWS_LOG';
+use base 'Psy::ViewsLog';
 #
 # object constructor
 #
 sub constructor {
 	my ($class, %p) = @_;
 
-	$p{type} = Psy::VIEWS_LOG::OBJECT_TYPE_CREO;
-	return Psy::VIEWS_LOG::constructor($class, %p);
+	$p{type} = Psy::ViewsLog::OBJECT_TYPE_CREO;
+	return Psy::ViewsLog::constructor($class, %p);
 }
 
 sub _increment_statistic {
