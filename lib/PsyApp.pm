@@ -11,6 +11,7 @@ use Psy;
 use PsyApp::Action::Index;
 use PsyApp::Action::CreoView;
 use PsyApp::Action::CreoView::Post;
+use PsyApp::Action::User;
 use Utils;
 
 our $VERSION = '0.1';
@@ -36,6 +37,8 @@ post '/creos/:id.html' => sub {
 	controller(action => 'CreoView::Post');
 	redirect sprintf('/creos/%s.html', params->{id});
 };
+
+get  '/users/:id.html' => sub { controller(template => 'user_view', action => 'User') };
 
 get '/' => sub { controller(template => 'index',     action => 'Index') };
 

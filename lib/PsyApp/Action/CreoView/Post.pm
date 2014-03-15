@@ -9,6 +9,7 @@ use Psy::Creo;
 sub main {
 	my ($class, $params) = @_;
 
+
 	my $id = $params->{id};
 	my $action = $params->{action};
 	my $msg = $params->{msg};
@@ -18,7 +19,7 @@ sub main {
 	return unless $action eq 'add';
 
 	my $creo = Psy::Creo->choose($id);
-
+	
 	unless ($psy->bot_detected($msg, $alias)) {
 		$creo->post_comment( 
 			user_id => $psy->user_id, 

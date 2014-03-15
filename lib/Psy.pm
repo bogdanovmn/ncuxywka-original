@@ -2,6 +2,7 @@ package Psy;
 
 use strict;
 use warnings;
+use utf8;
 
 use Utils;
 use Psy::Errors;
