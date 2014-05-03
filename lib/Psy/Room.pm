@@ -58,7 +58,7 @@ use base "Psy";
 sub enter {
 	my ($class, %p) = @_;
 	
-	my $self = Psy::enter($class, %p);
+	my $self = Psy::DB::connect($class);
 	$self->{room_mnemonic} = $p{room_mnemonic};
 	
 	return valid_room_name($self->{room_mnemonic}) ? $self : undef;

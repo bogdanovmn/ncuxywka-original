@@ -1,7 +1,3 @@
-<TMPL_INCLUDE NAME='../top.tpl'>
-
-<td class=content>
-
 <center>
 <h1><span class=letter>И</span>СТОРИЯ ПРО П<span class=letter>О</span>РОСЕНКА<span class=letter> П</span>ЕТРА И ЕГО ДР<span class=letter>YZ</span>ЕЙ</h1>
 
@@ -37,11 +33,9 @@
 	</table>
 </TMPL_LOOP>
 
-<TMPL_INCLUDE NAME="../pages.tpl">
+<TMPL_INCLUDE NAME="../inc/pages.tpl">
 <h1>ТЫ <span class=letter>Z</span>НАЕШЬ ПРОДОЛЖЕНИЕ<span class=letter>?</span></h1>
 
 <center>
-<TMPL_INCLUDE NAME='../comments_post_form.tpl'>
+<TMPL_INCLUDE NAME='../inc/comments_post_form.tpl'>
 </center>
-
-<TMPL_INCLUDE NAME='../bottom.tpl'>

@@ -752,8 +752,6 @@ sub auditor {
 #
 sub DESTROY {
 	my $self = shift;
-
-	$self->{session}->flush;
 }
 #
 # End

@@ -1,7 +1,3 @@
-<TMPL_INCLUDE NAME='../top.tpl'>
-
-<td class=content>
-
 <center>
 <h1>ГЛАВ<span class=letter>С</span>РАЧ</h1>
 
@@ -11,10 +7,9 @@
 
 <h1>СК<span class=letter>А</span>ЖИ!</h1>
 <center>
-<TMPL_INCLUDE NAME='../comments_post_form.tpl'>
+<TMPL_INCLUDE NAME='../inc/comments_post_form.tpl'>
 </center>
 
 <h1>ДИСП<span class=letter>Y</span>Т:</h1>
 
-<TMPL_INCLUDE NAME='../comments.tpl'>
-<TMPL_INCLUDE NAME='bottom.tpl'>
+<TMPL_INCLUDE NAME='../inc/comments.tpl'>

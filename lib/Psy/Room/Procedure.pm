@@ -1,7 +1,8 @@
-package Psy::Room::PROCEDURE;
+package Psy::Room::Procedure;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Errors;
 use Psy::Text;
