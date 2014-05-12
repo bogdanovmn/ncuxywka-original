@@ -29,7 +29,7 @@ span.post_date{font-size:6pt}
 span.link_note{color:#798f7a;font-size:7pt}
 div.error{border:1px solid #cf3e3e;color:#240109;background-color:#ffe0e0;padding:15px}div.error p.error_title{font-size:10pt;font-weight:bold;margin:10px 0 20px 0}
 table{width:auto;table-layout:fixed;border-collapse:collapse;text-align:left}
-table.main_simple{width:650px}
+table.main_simple{width:650px;margin:0 auto}
 table.main{width:1000px}table.main td.lozung{width:150px;text-align:center;border-bottom:0 solid #dfe6df}
 table.main td.logo{width:650px;text-align:center;border-left:0 solid #dfe6df;border-bottom:0 solid #dfe6df}
 table.main td.menu{width:150px;vertical-align:top;padding:7px 0}

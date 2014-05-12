@@ -7,6 +7,7 @@ use utf8;
 use Utils;
 use Psy::Errors;
 use Date;
+use Psy::Group;
 use Psy::Text;
 use Psy::Text::Generator;
 use Psy::PersonalMessages;
@@ -48,10 +49,6 @@ use constant TM_PREVIEW_MAX_SIZE => 528; # 66*8
 use constant OP_RECS_PER_PAGE => 19;
 use constant OP_RECS_PER_PAGE_FOR_PETR_MOBILE => 5;
 use constant OP_ANONIM_NAME => 'Я буйный, в рот мне клизму';
-#
-# Groups
-#
-use constant G_PLAGIARIST => 4;
 #
 # Moderator's scope
 #
@@ -330,7 +327,7 @@ sub load_last_creos {
 		ORDER BY c.post_date DESC 
 		LIMIT 25 
 		|,
-		[Psy::G_PLAGIARIST],
+		[Psy::Group::PLAGIARIST],
 		{error_msg => "Последние анализы нечитабельны!"}
 	);
     my @creo = ();
@@ -696,14 +693,14 @@ sub logit {
 #
 sub user_id {
 	my $self = shift;
-	return $self->{user_data}->{user_id};
+	return $self->{user_data}->{user_id} || 0;
 }
 #
 # Return plagiarist flag
 #
 sub is_plagiarist {
 	my $self = shift;
-	return (exists $self->{user_data}->{user_group_id} and $self->{user_data}->{user_group_id} eq G_PLAGIARIST);
+	return (exists $self->{user_data}->{user_group_id} and $self->{user_data}->{user_group_id} eq Psy::Group::PLAGIARIST);
 }
 #
 # Is curreent user an annonimus?

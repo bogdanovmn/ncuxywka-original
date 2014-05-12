@@ -5,6 +5,7 @@ use warnings;
 use utf8;
 
 use Psy::Creo;
+use Psy::Group;
 use Psy::User;
 use Psy::ViewsLog::Creo;
 
@@ -108,7 +109,7 @@ sub main {
 		comments => $creo_comments,
 		quarantine => $creo_data->{c_type} eq Psy::Creo::CT_QUARANTINE,
 		neofuturism => $creo_data->{c_neofuturism} eq 1,
-		deleted => (($creo_data->{c_type} eq Psy::Creo::CT_DELETE) or ($author_info->{u_group_id} eq Psy::G_PLAGIARIST)),
+		deleted => (($creo_data->{c_type} eq Psy::Creo::CT_DELETE) or ($author_info->{u_group_id} eq Psy::Group::PLAGIARIST)),
 		already_voted => $already_voted,
 		can_vote => $can_vote, 
 		can_select => $can_select, 
@@ -125,7 +126,7 @@ sub main {
 		user_creo_list => $author_creo_list,
 		random_creo_list => $random_creo_list,
 		creo_edit_menu => ($psy->auditor->can_edit_creo),
-		plagiarist => $author_info->{u_group_id} eq Psy::G_PLAGIARIST,
+		plagiarist => $author_info->{u_group_id} eq Psy::Group::PLAGIARIST,
 		ad_votes => $admin_details,
 		creo_view => 1,
 	};

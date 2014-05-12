@@ -20,6 +20,12 @@ sub main {
 
 	return error("Вы ошиблись палатой!") unless $psy_room;
 
+	my $template_params = {
+		multi_page => 'yes',
+	};
+
+	$class->_custom_action($params, $psy_room, $template_params);
+
 	my $comments_total = $psy_room->comments_total;
 	my $pages = Paginator->init(
 		total_rows => $comments_total,
@@ -30,7 +36,7 @@ sub main {
 	#
 	# Load spec comments records
 	#
-	my $comments = $psy_room->load_comments( 
+	$template_params->{comments} = $psy_room->load_comments( 
 		total => $comments_total,
 		page => $page,
 		reply => 'yeaaah'
@@ -39,11 +45,14 @@ sub main {
 	# Set template params
 	#
 	return {
-		multi_page => 'yes',
-		comments => $comments,
+		%$template_params,
 		post_button_caption => $psy_room->attributes->{post_button_caption},
 		$pages->html_template_params,
 	};
+}
+
+sub _custom_action {
+	my ($class, $params, $room_obj, $template_params) = @_;
 }
 
 1;

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Psy::Errors;
+use Psy::Group;
 use Psy::Text;
 use Psy::Statistic::User;
 
@@ -93,7 +94,7 @@ sub load_comments {
         ORDER BY cm.post_date DESC
 		LIMIT ?, ?
 		|,
-		[Psy::G_PLAGIARIST, $self->{room_mnemonic}, $offset, $recs_per_page],
+		[Psy::Group::PLAGIARIST, $self->{room_mnemonic}, $offset, $recs_per_page],
         {error_msg => "Диагнозы нечитабельны!"}
 	);
 

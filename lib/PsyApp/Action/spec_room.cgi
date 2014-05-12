@@ -54,7 +54,7 @@ error("Вы ошиблись палатой!") unless $psy_room;
 if ($action eq 'add') {
 	error("Вас огрели электрошокером!") if ($room eq Psy::Room::R_PROC and not defined $template_params->{inside});
 
-	unless ($psy_room->bot_detected($msg, $alias)) {
+	unless ($params->{psy}->bot_detected($msg, $alias)) {
 		$psy_room->post_comment( 
 			msg => $msg,
 			alias => $alias

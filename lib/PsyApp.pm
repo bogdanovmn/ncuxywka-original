@@ -14,6 +14,7 @@ use PsyApp::Action::CreoView::Post;
 use PsyApp::Action::User;
 use PsyApp::Action::Room;
 use PsyApp::Action::Room::Proc;
+use PsyApp::Action::RoomPost;
 use Utils;
 
 our $VERSION = '0.1';
@@ -25,6 +26,13 @@ hook 'before' => sub {
 
 hook 'before_template_render' => sub {
 	my ($template_params) = @_;
+
+	if (vars->{room} and vars->{room} eq 'proc') {
+		set layout => 'minimal';
+	}
+	else {
+		set layout => 'main';
+	}
 
 	if (vars->{psy}) {
 		my $common_info = vars->{psy}->common_info;
@@ -68,7 +76,6 @@ get qr{/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?}
 	my $action = 'Room';
 
 	if ($room eq 'proc') {
-		set layout => 'minimal';
 		$action = 'Room::Proc';
 	}
 

@@ -2,8 +2,11 @@ package Psy::Statistic;
 
 use strict;
 use warnings;
+use utf8;
 
 use NICE_VALUES;
+
+use Psy::Group;
 
 use locale;
 use POSIX qw(setlocale LC_ALL LC_CTYPE);
@@ -30,7 +33,7 @@ sub creo_list {
 	
 	my $where_neofuturism = defined $p{neofuturism} ? "AND neofuturism = ?" : "";
 
-    my @query_params = ($self->user_id, $self->user_id, $self->user_id, Psy::G_PLAGIARIST);
+    my @query_params = ($self->user_id, $self->user_id, $self->user_id, Psy::Group::PLAGIARIST);
     push(@query_params, $p{user_id}) if defined $p{user_id};
     push(@query_params, $p{type}) if defined $p{type};
 	push(@query_params, $p{period}) if defined $p{period};
@@ -84,7 +87,7 @@ sub random_creo_list {
 	my $where_user = defined $p{user_id} ? 'AND c.user_id <> ?' : '';
 	my $where_type = defined $p{type} ? 'AND c.type = ?' : "AND c.type = '0'";
 
-	my @query_params = (Psy::G_PLAGIARIST);
+	my @query_params = (Psy::Group::PLAGIARIST);
 	push(@query_params, $p{user_id}) if defined $p{user_id};
 	push(@query_params, $p{count});
 	push(@query_params, $p{type}) if defined $p{type};
@@ -193,7 +196,7 @@ sub most_commented_creo_list {
         ORDER BY mccl_cnt $sort_order
         LIMIT ?
 		|,
-		[Psy::G_PLAGIARIST, $p{count}],
+		[Psy::Group::PLAGIARIST, $p{count}],
         {error_msg => "Самые говорливые психи ускакали прочь!"}
 	);
 
@@ -227,7 +230,7 @@ sub top_creo_list {
         ORDER BY tcl_average $desc, tcl_cnt DESC, tcl_title 
         LIMIT ?
 		|,
-		[$self->user_id, $self->user_id, $self->user_id, Psy::G_PLAGIARIST, $p{min_votes}, $p{count}],
+		[$self->user_id, $self->user_id, $self->user_id, Psy::Group::PLAGIARIST, $p{min_votes}, $p{count}],
         {error_msg => "Самые буйные психи ускакали прочь!"}
 	);
 
@@ -254,7 +257,7 @@ sub top_users_by_votes {
         ORDER BY tul_average
         LIMIT ?
 		|,
-		[Psy::G_PLAGIARIST, $p{min_votes}, $p{count}],
+		[Psy::Group::PLAGIARIST, $p{min_votes}, $p{count}],
         {error_msg => "Самые уважаемые психи ускакали прочь!"}
 	);
 
@@ -400,7 +403,7 @@ sub users_by_rank {
 		if ($u->{ru_id} eq Psy::Auth::MAIN_DOCTOR_ID) {
 			$u->{ru_rank} = 'x' 
 		}
-		elsif (defined $u->{ru_group} and $u->{ru_group} eq Psy::G_PLAGIARIST) {
+		elsif (defined $u->{ru_group} and $u->{ru_group} eq Psy::Group::PLAGIARIST) {
 			$u->{ru_rank} = '5';
 			$u->{ru_plagiarist} = 1;
 		}
@@ -439,7 +442,7 @@ sub new_users {
 		ORDER BY u.reg_date DESC
 		LIMIT ?
 		|,
-		[Psy::G_PLAGIARIST, $p{count} || 3],
+		[Psy::Group::PLAGIARIST, $p{count} || 3],
         {error_msg => "История поступления больных уничтожена!"}
 	);
     
@@ -504,7 +507,7 @@ sub most_active_users {
 		ORDER BY au_rank DESC
 		LIMIT ?
 		|,
-		[Psy::G_PLAGIARIST, $p{limit} || 15],
+		[Psy::Group::PLAGIARIST, $p{limit} || 15],
         {error_msg => "Активность пациэнтов не поддается анализу!"}
 	);
 
@@ -526,7 +529,7 @@ sub top_users_by_creos_count {
 		ORDER BY ccu_cnt DESC
 		LIMIT ?
 		|,
-		[Psy::G_PLAGIARIST, $p{limit} || 15],
+		[Psy::Group::PLAGIARIST, $p{limit} || 15],
 		{error_msg => "Подсчет анализов не дал должного результата!"}
 	);
 
@@ -591,7 +594,7 @@ sub anti_top_votes {
 		ORDER BY c.post_date DESC
 		LIMIT 10
 		|,
-		[$self->user_id, $self->user_id, Psy::G_PLAGIARIST],
+		[$self->user_id, $self->user_id, Psy::Group::PLAGIARIST],
         {error_msg => "Архив сплетен уничтожен!"}
 	);
 

@@ -2,6 +2,9 @@ package Psy::Search;
 
 use strict;
 use warnings;
+use utf8;
+
+use Psy::Group;
 
 sub _convert_string_to_boolean_search {
 	my $string = shift;
@@ -40,7 +43,7 @@ sub creo_search {
             c.post_date DESC
 		LIMIT 50
 		|,
-		[Psy::G_PLAGIARIST, _convert_string_to_boolean_search($p{text})],
+		[Psy::Group::PLAGIARIST, _convert_string_to_boolean_search($p{text})],
 		{error_msg => "Список анализов утонул в сливном бочке!"}
 	);
 
