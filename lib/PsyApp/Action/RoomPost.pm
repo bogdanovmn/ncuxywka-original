@@ -10,17 +10,18 @@ use Utils;
 
 sub main {
 	my ($class, $params) = @_;
-	webug $params;
+	#webug $params;
 	my $room = $params->{room};
 	my $msg = $params->{msg};
 	my $alias = $params->{alias}; 
 
 	my $psy_room = undef;
 	$psy_room = Psy::Room->enter(room_mnemonic => $room);
-
+	
 	return error("Вы ошиблись палатой!") unless $psy_room;
 	
 	unless ($params->{psy}->bot_detected($msg, $alias)) {
+		#webug $params;
 		$psy_room->post_comment( 
 			msg => $msg,
 			alias => $alias

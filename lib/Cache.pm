@@ -45,8 +45,12 @@ sub update {
 
 sub fresh {
 	my ($self) = @_;
+
+	return 0;
+
 	my $file_name = $self->_file_name;
 	my $last_modification_delta = time - (stat $file_name)[9];
+	
 	return (-e $file_name and $last_modification_delta < $self->{current_fresh_time});
 }
 

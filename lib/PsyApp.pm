@@ -87,7 +87,7 @@ get qr{/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?}
 #
 # Main page
 #
-get '/' => sub { controller(template => 'index',     action => 'Index') };
+get '/(main/)?' => sub { controller(template => 'index',     action => 'Index') };
 
 
 true;

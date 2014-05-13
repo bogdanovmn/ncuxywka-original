@@ -8,6 +8,7 @@ use Psy::Creo;
 use Psy::Group;
 use Psy::User;
 use Psy::ViewsLog::Creo;
+use Utils;
 
 sub main {
 	my ($class, $params) = @_;

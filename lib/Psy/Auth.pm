@@ -2,6 +2,7 @@ package Psy::Auth;
 
 use strict;
 use warnings;
+use utf8;
 
 use lib 'inc';
 use CGI;

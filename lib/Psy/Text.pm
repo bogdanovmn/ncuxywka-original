@@ -2,15 +2,16 @@ package Psy::Text;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Creo;
 use Psy::Errors; 
 
 use List;
 
-use locale;
-use POSIX qw(setlocale LC_ALL LC_CTYPE);
-setlocale(LC_CTYPE, "ru_RU.CP1251");
+#use locale;
+#use POSIX qw(setlocale LC_ALL LC_CTYPE);
+#setlocale(LC_CTYPE, "ru_RU.CP1251");
 
 #
 # Fuck filter words

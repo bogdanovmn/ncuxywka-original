@@ -2,6 +2,7 @@ package Psy::User;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Errors;
 use Psy::Creo;

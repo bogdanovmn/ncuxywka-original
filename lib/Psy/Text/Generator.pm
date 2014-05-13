@@ -2,6 +2,7 @@ package Psy::Text::Generator;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Text::Lexicon;
 

@@ -2,6 +2,7 @@ package Psy::Statistic::Updater;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Errors;
 

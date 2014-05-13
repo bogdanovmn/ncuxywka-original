@@ -2,10 +2,11 @@ package Psy::Statistic::Words;
 
 use strict;
 use warnings;
+use utf8;
 
-use locale;
-use POSIX qw(setlocale LC_ALL LC_CTYPE);
-setlocale(LC_CTYPE, "ru_RU.CP1251");
+#use locale;
+#use POSIX qw(setlocale LC_ALL LC_CTYPE);
+#setlocale(LC_CTYPE, "ru_RU.CP1251");
 
 use Psy::Errors;
 

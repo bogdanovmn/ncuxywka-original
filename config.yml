@@ -24,6 +24,7 @@ engines:
     HtmlTemplate:
         extension: 'tpl'
         global_vars: 1
+        open_mode: '<:encoding(UTF-8)'
 
 # template: "template_toolkit"
 # engines:
@@ -36,4 +37,4 @@ session: "YAML"
 plugins:
     "Controller":
         action_prefix: 'Action'
-        force_utf8: 1
+        force_utf8: 0

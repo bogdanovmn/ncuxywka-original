@@ -8,9 +8,9 @@ use NICE_VALUES;
 
 use Psy::Group;
 
-use locale;
-use POSIX qw(setlocale LC_ALL LC_CTYPE);
-setlocale(LC_CTYPE, "ru_RU.CP1251");
+#use locale;
+#use POSIX qw(setlocale LC_ALL LC_CTYPE);
+#setlocale(LC_CTYPE, "ru_RU.CP1251");
 
 sub creo_list {
     my ($self, %p) = @_;

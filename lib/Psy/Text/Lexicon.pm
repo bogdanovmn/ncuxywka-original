@@ -2,6 +2,7 @@ package Psy::Text::Lexicon;
 
 use strict;
 use warnings;
+use utf8;
 
 require Exporter;
 our @ISA = qw|Exporter|;

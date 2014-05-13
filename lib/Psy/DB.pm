@@ -3,6 +3,7 @@ package Psy::DB;
 use DBI;
 use strict;
 use warnings;
+use utf8;
 
 use PSY_DB_CONF;
 use Time::HiRes;
@@ -29,9 +30,11 @@ sub connect {
 			PSY_DB_CONF::USER, 
 			PSY_DB_CONF::PASS
 		) or die $!;
-		#$__DBH->do("SET NAMES cp1251");
+		$__DBH->{mysql_enable_utf8} = 1;
 		$__DBH->do("SET NAMES utf8");
-		$__DBH->do("SET SQL_BIG_SELECTS=1");
+		
+		#$__DBH->do("SET SQL_BIG_SELECTS=1");
+		
 		$__STATISTIC->{db_connect_time} += Time::HiRes::time - $begin_time;
 		$__STATISTIC->{db_connections}++;
 	}

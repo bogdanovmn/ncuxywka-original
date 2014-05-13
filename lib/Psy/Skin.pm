@@ -2,6 +2,7 @@ package Psy::Skin;
 
 use strict;
 use warnings;
+use utf8;
 
 my $SKINS = {
 	original => {

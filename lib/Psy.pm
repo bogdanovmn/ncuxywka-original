@@ -445,15 +445,12 @@ sub bot_detected {
 	$check_result = 1 if ($msg =~/^\s*$/);
 
 	if ($self->is_annonimus) {
-		$check_result = 1 if (
-			$msg =~ /(http:\/\/)|(<a href=)|(\[url=)|(\[link=)/i 
-			||
-			!(
-				(($alias eq '') || $alias =~ /[0-9а-я]/i) 
-				&& 
-				$msg =~ /[0-9а-я]/i
-			)
-		);
+		$check_result = 1 if $msg =~ /(http:\/\/)|(<a href=)|(\[url=)|(\[link=)/i;
+		#$check_result = 1 if !(
+		#	(($alias eq '') || $alias =~ /[0-9а-я]/i) 
+		#	&& 
+		#	$msg =~ /[0-9а-я]/i
+		#);
 	}
 	$check_result = 1 if ($self->get_post_interval < 11);
 	
