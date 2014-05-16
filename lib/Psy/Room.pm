@@ -55,7 +55,7 @@ my %ROOM_ATTRIBUTES = (
 	}
 );
 
-use base "Psy";
+use base "Psy::DB";
 
 sub enter {
 	my ($class, %p) = @_;

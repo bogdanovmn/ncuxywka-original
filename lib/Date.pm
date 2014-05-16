@@ -1,25 +1,24 @@
-package DATE;
+package Date;
 
 use strict;
-use vars qw(@monthes @ISA @EXPORT);
-use Exporter;
+use warnings;
+use utf8;
+
 use POSIX qw| strftime |;
 use Time::Local;
 
-@ISA = qw(Exporter);
-@EXPORT = qw(
-	ymdhms_to_unix_time 
-	unix_time_to_ymdhms 
-);
 
 sub unix_time_to_ymdhms {
 	my $ut = shift || time;
+
 	my $format = shift || "%Y-%m-%d %H:%M:%S";
+	
 	return strftime($format, localtime($ut));
 }
 
 sub ymdhms_to_unix_time {
 	my $str = shift;
+	
 	if ($str =~ /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/) {
 		return timelocal($6, $5, $4, $3, $2 - 1, $1);
 	}

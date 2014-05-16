@@ -2,21 +2,19 @@ package Psy::GB;
 
 use strict;
 use warnings;
-
-use lib 'inc';
+use utf8;
 
 use Psy::Errors;
 use Psy::Text;
 use Psy::Text::Generator;
 use Psy::Statistic::User;
 
-use base "Psy";
+use base "Psy::DB";
 
 sub enter {
 	my ($class, %p) = @_;
 
-	my $self = Psy::enter($class);
-	return $self;
+	return Psy::DB::connect($class);
 }
 #
 # Get guest book messages total
@@ -82,7 +80,7 @@ sub load_comments {
 		
 		LIMIT ?, ?
 		|,
-		[Psy::G_PLAGIARIST, $offset, Psy::OP_RECS_PER_PAGE]
+		[Psy::Group::PLAGIARIST, $offset, Psy::OP_RECS_PER_PAGE]
 	);
 
 	my @gb = ();
