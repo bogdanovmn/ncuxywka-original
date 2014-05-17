@@ -65,16 +65,16 @@ sub enter {
 
 	$p{check_ban} = not defined $p{check_ban} ? 1 : 0;
 
-	my $self = Psy::Auth::info($class);
+	my $self = Psy::Auth::info($class, %p);
 
 	if ($p{check_ban} and $self->banned) {
 		pn_goto(URL_BANNED);
 	}
 
 	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
-	$self->{auditor} = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
-	$self->{cache} = Cache->constructor(
-		storage => $FindBin::Bin. '/../cache',
+	$self->{auditor}           = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
+	$self->{cache}             = Cache->constructor(
+		storage    => $FindBin::Bin. '/../cache',
 		fresh_time => 30
 	);
     
@@ -87,6 +87,9 @@ sub online_list {
 	my ($self) = @_;
 
 	my @sessions = ();
+
+=begin1 deprecated
+
 	#my %anonimous = ();
 	my $current_time = time;
 
@@ -129,6 +132,7 @@ sub online_list {
 		o_count => scalar keys(%ip)
 	});
 	
+=cut
 	return \@sessions;
 }
 
@@ -151,7 +155,7 @@ sub common_info {
 		mad_phrase => Psy::Text::Generator::attention_phrase(),
 		%{$self->{user_data}}
 	);
-
+	
 	if ($self->success_in) {
 		my %moderator_scopes_template_params = ();
 		for my $key (keys %{$self->auditor->load_moderator_scopes}) {

@@ -9,14 +9,10 @@ use Psy::Creo;
 sub main {
 	my ($class, $params) = @_;
 
-
-	my $id = $params->{id};
-	my $action = $params->{action};
-	my $msg = $params->{msg};
-	my $alias = $params->{alias};
-	my $psy = $params->{psy};
-
-	return unless $action eq 'add';
+	my $id     = $params->{id};
+	my $msg    = $params->{msg};
+	my $alias  = $params->{alias};
+	my $psy    = $params->{psy};
 
 	my $creo = Psy::Creo->choose($id);
 	

@@ -13,9 +13,7 @@ use Utils;
 sub main {
 	my ($class, $params) = @_;
 
-	my $id = $params->{id};
-	my $msg = $params->{msg};
-	my $alias = $params->{alias};
+	my $id  = $params->{id};
 	my $psy = $params->{psy};
 
 	my $creo = Psy::Creo->choose($id);

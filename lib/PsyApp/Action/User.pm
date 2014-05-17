@@ -16,14 +16,12 @@ use NICE_VALUES;
 sub main {
 	my ($class, $params) = @_;
 
-	my $id = $params->{id} || return error("Этот псих уже давно вылечился!");
-	return error("Вы совершили ошибку...") if ($id =~ /\D/);
-
-	my $psy = $params->{psy};
-	my $user = Psy::User->choose($id);
+	my $id      = $params->{id}; 
 	my $details = $params->{details} || 0;
-	my $admin_details = ($details and $psy->is_god) ? $psy->user_votes($id) : [];
+	my $psy     = $params->{psy};
 
+	my $user = Psy::User->choose($id);
+	my $admin_details = ($details and $psy->is_god) ? $psy->user_votes($id) : [];
 	#
 	# Load user info
 	#
@@ -96,21 +94,21 @@ sub main {
 	# Set template params
 	#
 	return {
-		creo_list => $user_creos,
-		can_delete => $can_delete,
-		selected_creo_list => $user_selected_creos,
-		user_favorites => $user_favorites,
+		creo_list                 => $user_creos,
+		can_delete                => $can_delete,
+		selected_creo_list        => $user_selected_creos,
+		user_favorites            => $user_favorites,
 		user_votes_out_rank_title => $user_votes_out_rank_title,
-		user_ban_left_time => $user_ban_left_time ? full_time($user_ban_left_time) : undef, 
-		user_edit_menu => $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_USER_BAN),
-		avatar => $user->avatar_file_name,
-		u_from_comments_count => $user_info->{u_comments_out},
-		u_for_comments_count => $user_info->{u_comments_in},
-		u_activity_chart_data => $user_activity_chart_data,
-		jquery_flot_required => 1,
-		jquery_required => 1,
-		ad_votes => $admin_details,
-		words_statistic => $words_frequency,
+		user_ban_left_time        => $user_ban_left_time ? full_time($user_ban_left_time) : undef, 
+		user_edit_menu            => $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_USER_BAN),
+		avatar                    => $user->avatar_file_name,
+		u_from_comments_count     => $user_info->{u_comments_out},
+		u_for_comments_count      => $user_info->{u_comments_in},
+		u_activity_chart_data     => $user_activity_chart_data,
+		jquery_flot_required      => 1,
+		jquery_required           => 1,
+		ad_votes                  => $admin_details,
+		words_statistic           => $words_frequency,
 		%$user_info,
 	};
 }

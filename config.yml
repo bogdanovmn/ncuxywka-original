@@ -32,9 +32,10 @@ engines:
 #     start_tag: '[%'
 #     end_tag:   '%]'
 
-session: "YAML"
+session: "DBI"
+serializer: "JSON"
+deserializer: "JSON"
 
 plugins:
     "Controller":
         action_prefix: 'Action'
-        force_utf8: 0

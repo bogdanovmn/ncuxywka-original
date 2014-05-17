@@ -38,8 +38,6 @@
 			<a href='/users/'>Пациэнты</a>
 			<tr><td>
 			<a href='/creos/'>Анализы</a>
-			<!--tr><td>
-			<a class=alex_jile href='/alex_jile/'>Палата Жиля</a-->
 			<tr><td>
 			<a href='/quarantine/'>Карантин</a>
 			<tr><td>
@@ -78,7 +76,7 @@
 	<td class=title>Вход 
 	<tr>
 	<td>
-	<form name=login method=post action='/auth.cgi'>
+	<form name=login method=post action='/auth/in'>
 	<table class=form>
 		<tr>
 		<td>Имя:
@@ -90,7 +88,6 @@
 		<td class=login_ok_button><input type=submit name=login_submit value='ok'>
 
 	</table>
-	<input type=hidden name=action value='in'>
 	</form>
 </TMPL_IF>
 </table>

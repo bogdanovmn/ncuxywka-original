@@ -4,30 +4,25 @@ use strict;
 use warnings;
 use utf8;
 
-use lib 'inc';
-use CGI;
-use CGI::Session;
 use Digest::MD5 qw( md5_hex );
 
 use Psy::Navigation;
 use Psy::User;
-use Psy::Errors;
 use Psy::Text;
 #
 # Special user ID
 #
-use constant ANNONIMUS_ID => 0;
+use constant ANNONIMUS_ID   => 0;
 use constant MAIN_DOCTOR_ID => 4;
 use constant MAIN_SISTER_ID => 81;
-use constant KRAB_ID => -80;
+use constant KRAB_ID        => -80;
 #
 # Login event type
 #
-use constant LOGIN_EVENT_TYPE_IN => 'in';
+use constant LOGIN_EVENT_TYPE_IN  => 'in';
 use constant LOGIN_EVENT_TYPE_OUT => 'out';
 
 use base 'Psy::DB';
-
 #
 # Get login info
 #
@@ -36,21 +31,22 @@ sub info {
 
 	my $self = Psy::DB::connect($class) or die;
 
-	$self->{user_data} = {};
-	$self->{session} = CGI::Session->new;
-	$self->{session}->param("ip", $self->{ip});
+	$self->{session} = $p{session};
+	$self->{session}("ip", $self->{ip});
+	
 	$self->{login_error_msg} = "";
+	$self->{user_data}       = {};
 
-	my $user = Psy::User->choose($self->{session}->param("user_id"));
+	my $user = Psy::User->choose($self->{session}("user_id"));
 
 	if ($user) {
 		my $user_info = $user->info;
 		
 		my $is_god = ($user_info->{u_id} eq MAIN_DOCTOR_ID);
-		$self->{user_data}->{user_id} = $user_info->{u_id};
-		$self->{user_data}->{alias} = $user_info->{u_name};
+		$self->{user_data}->{user_id}       = $user_info->{u_id};
+		$self->{user_data}->{alias}         = $user_info->{u_name};
 		$self->{user_data}->{user_group_id} = $user_info->{u_group_id};
-		$self->{user_data}->{user_auth} = $self->{session}->param("user_auth");
+		$self->{user_data}->{user_auth}     = $self->{session}("user_auth");
 		if ($is_god) {
 			$self->{user_data}->{god} = 1;
 			$self->{user_data}->{counter} = 1;
@@ -58,7 +54,7 @@ sub info {
 	}
 	else {
 		$self->{user_data} = { 
-			alias => $self->{session}->param("alias"),
+			alias => $self->{session}("alias"),
 			user_auth => 0,
 			user_id => ANNONIMUS_ID 
 		};
@@ -72,8 +68,7 @@ sub login {
 	my ($self, %p) = @_;
 
 	if (!$p{user_name} or !$p{password}) {
-		#$self->{login_error_msg} = "Введите логин и пароль!";
-		error("Введите логин и пароль!");
+		$self->{login_error_msg} = "Введите логин и пароль!";
 		return 0;
 	}
 
@@ -87,26 +82,18 @@ sub login {
 		[$p{user_name}, md5_hex($p{password})]
 	);
    
-
 	if (@$user_info) {
-		$self->{session}->param("user_id", $user_info->[0]->{id});
-		$self->{session}->param("user_name", $user_info->[0]->{name});
-		$self->{session}->param("user_group_id", $user_info->[0]->{group_id});
-		$self->{session}->param("user_auth", 1);
-		$self->{session}->expire('1w');
+		$self->{session}("user_id",       $user_info->[0]->{id});
+		#$self->{session}("user_name",     $user_info->[0]->{name});
+		$self->{session}("user_group_id", $user_info->[0]->{group_id});
+		$self->{session}("user_auth",     1);
 		
 		$self->store_login_event($user_info->[0]->{id}, LOGIN_EVENT_TYPE_IN);
 	}
 	else {
-		#$self->{login_error_msg} =  "Неправильный логин/пароль!";
-		error("Неправильный логин/пароль!");
+		$self->{login_error_msg} =  "Неправильный логин/пароль!";
+		return 0;
 	}
-	
-	#my @cookie_header = split(/\n/, $self->{session}->header);
-	#print $cookie_header[0];
-	#print $cookie_header[1];
-
-	#pn_goto(URL_MAIN);
 
 	return 1;
 }
@@ -116,9 +103,7 @@ sub login {
 sub logout {
 	my ($self, %p) = @_; 
 	
-	$self->{session}->delete;
-	$self->{session}->flush;
-
+	$self->{session}->()->destroy;
 	$self->store_login_event($self->user_data->{user_id}, LOGIN_EVENT_TYPE_OUT);
 
 	return undef;

@@ -5,12 +5,18 @@ use warnings;
 use utf8;
 
 use Dancer ':syntax';
+use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
 use Dancer::Plugin::Controller;
 
 use Psy;
 use PsyApp::Action::Index;
+use PsyApp::Action::News;
+use PsyApp::Action::Register;
+use PsyApp::Action::Register::Post;
+use PsyApp::Action::Auth;
 use PsyApp::Action::CreoView;
 use PsyApp::Action::CreoView::Post;
+use PsyApp::Action::CreoPrint;
 use PsyApp::Action::CreoList;
 use PsyApp::Action::Talks;
 use PsyApp::Action::User;
@@ -20,25 +26,26 @@ use PsyApp::Action::Room::Proc;
 use PsyApp::Action::RoomPost;
 use PsyApp::Action::GB;
 use PsyApp::Action::GB::Post;
+use PsyApp::Action::Error;
 use PsyApp::Action::404;
 use Utils;
 
-our $VERSION = '0.1001';
+our $VERSION = '0.1003';
 
 
 hook 'before' => sub {
-	var psy => Psy->enter;
+	set 'session_options' => {
+		dbh   => sub { Psy::DB->connect->{dbh} },
+		table => 'session'
+	};
+
+	var psy => Psy->enter(
+		session => sub { Dancer::session(@_) }
+	);
 };
 
 hook 'before_template_render' => sub {
 	my ($template_params) = @_;
-
-	if (vars->{room} and vars->{room} eq 'proc') {
-		set layout => 'minimal';
-	}
-	else {
-		set layout => 'main';
-	}
 
 	if (vars->{psy}) {
 		my $common_info = vars->{psy}->common_info;
@@ -48,9 +55,60 @@ hook 'before_template_render' => sub {
 	}
 };
 #
+# Register form 
+#
+get qr#/register/(error)?# => sub {
+	my ($has_error) = splat;
+
+	var has_error => 1 if $has_error;
+	controller(template => 'register', action => 'Register');
+};
+#
+# Register post
+#
+post '/register/' => sub { 
+	if (controller(action => 'Register::Post')) {
+		redirect '/main/';
+	}
+	else {
+		redirect '/register/error';
+	}
+};
+#
+# Auth action
+#
+any qr#/auth/(in|out)# => sub { 
+	my ($action) = splat;
+
+	var action => $action;
+	if (controller(action => 'Auth')) {
+		redirect request->referer;
+	}
+	else {
+		var error_msg => vars->{psy}->{login_error_msg};
+		controller(template => 'error', action => 'Error');
+	}
+};
+#
 # Creo view
 #
-get  '/creos/:id.html' => sub { controller(template => 'creo_view', action => 'CreoView') };
+get  '/creos/:id.html' => sub { 
+	controller(
+		template     => 'creo_view', 
+		action       => 'CreoView',
+		redirect_404 => '/404.html'
+	) 
+};
+#
+# Creo print
+#
+get  '/print/:id.html' => sub { 
+	controller(
+		template     => 'creo_print',
+		layout       => 'minimal',
+		action       => 'CreoPrint',
+		redirect_404 => '/404.html'
+	) };
 #
 # Post creo comment
 #
@@ -61,7 +119,13 @@ post '/creos/:id.html' => sub {
 #
 # User view
 #
-get '/users/:id.html' => sub { controller(template => 'user_view', action => 'User') };
+get '/users/:id.html' => sub { 
+	controller(
+		template     => 'user_view', 
+		action       => 'User',
+		redirect_404 => '/404.html'
+	) 
+};
 #
 # Users
 #
@@ -132,7 +196,7 @@ get qr#/talks/for/(\d+)/from/(\d+)(?:/page(\d+)\.html)?# => sub {
 #
 # Rooms
 #
-post qr{/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/?} => sub { 
+post qr#/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/?# => sub { 
 	my ($room) = splat;
 	var room => $room;
 
@@ -140,7 +204,7 @@ post qr{/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/?} => sub {
 	redirect sprintf('/%s_room/', $room);
 };
 
-get qr{/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?} => sub { 
+get qr#/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?# => sub { 
 	my ($room, $page) = splat;
 	
 	var room => $room;
@@ -166,8 +230,12 @@ get qr#/gb/(?:page(\d+)\.html)?# => sub {
 	if ($page) {
 		var page => $page;
 	}
-
-	controller(template => 'gb', action => 'GB') };
+	controller(template => 'gb', action => 'GB') 
+};
+#
+# News page
+#
+get '/news/' => sub { controller(template => 'news', action => 'News') };
 #
 # Main page
 #
