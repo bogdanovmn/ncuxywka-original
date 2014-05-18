@@ -11,6 +11,7 @@ use Dancer::Plugin::Controller;
 use Psy;
 use PsyApp::Action::Index;
 use PsyApp::Action::News;
+use PsyApp::Action::Talks;
 
 use PsyApp::Action::Register;
 use PsyApp::Action::Register::Post;
@@ -23,8 +24,6 @@ use PsyApp::Action::CreoView::Post;
 use PsyApp::Action::CreoPrint;
 use PsyApp::Action::CreoList;
 
-use PsyApp::Action::Talks;
-
 use PsyApp::Action::User;
 use PsyApp::Action::UserEdit;
 use PsyApp::Action::UserEdit::Post;
@@ -36,12 +35,21 @@ use PsyApp::Action::RoomPost;
 use PsyApp::Action::GB;
 use PsyApp::Action::GB::Post;
 
+use PsyApp::Action::PersonalMessages;
+use PsyApp::Action::PersonalMessages::Post;
+
+use PsyApp::Action::SelectCreo;
+use PsyApp::Action::VoteCreo;
+
 use PsyApp::Action::Error;
 use PsyApp::Action::404;
 
 use Utils;
 
-our $VERSION = '0.1003';
+our $VERSION = '0.1004';
+
+
+sub show_error { controller(template => 'error', action => 'Error') }
 
 
 hook 'before' => sub {
@@ -49,11 +57,15 @@ hook 'before' => sub {
 		dbh   => sub { Psy::DB->connect->{dbh} },
 		table => 'session'
 	};
-	cookie expire => '1 month';
 
 	var psy => Psy->enter(
 		session => sub { Dancer::session(@_) }
 	);
+
+	var ban_left_time => vars->{psy}->banned;
+	if (not request->path =~ '^/proc_room' and vars->{ban_left_time}) {
+		redirect '/proc_room/';
+	}
 };
 
 hook 'before_template_render' => sub {
@@ -67,12 +79,13 @@ hook 'before_template_render' => sub {
 	}
 };
 #
+# Main page
+#
+get '/(main/)?' => sub { controller(template => 'index', action => 'Index') };
+#
 # Register form 
 #
-get qr#/register/(error)?# => sub {
-	my ($has_error) = splat;
-
-	var has_error => 1 if $has_error;
+get '/register/' => sub {
 	controller(template => 'register', action => 'Register');
 };
 #
@@ -83,7 +96,7 @@ post '/register/' => sub {
 		redirect '/main/';
 	}
 	else {
-		redirect '/register/error';
+		controller(template => 'register', action => 'Register');
 	}
 };
 #
@@ -97,7 +110,7 @@ any qr#/auth/(in|out)# => sub {
 		redirect request->referer;
 	}
 	else {
-		controller(template => 'error', action => 'Error');
+		show_error;
 	}
 };
 #
@@ -281,10 +294,49 @@ get qr#/gb/(?:page(\d+)\.html)?# => sub {
 #
 get '/news/' => sub { controller(template => 'news', action => 'News') };
 #
-# Main page
+# Select creo
 #
-get '/(main/)?' => sub { controller(template => 'index', action => 'Index') };
+any qr#/select/(add|del)/(\d+)# => sub { 
+	my ($action, $creo_id) = splat;
+
+	var action  => $action;
+	var creo_id => $creo_id;
+	if (controller(action => 'SelectCreo')) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
+};
 #
+# Vote creo 
+#
+post '/vote' => sub { 
+	if (controller(action => 'VoteCreo')) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
+};
+#
+# Personal messages list
+#
+get qr#/pm/(in|out)/(?:page(\d+)\.html)?# => sub {
+	my ($action, $page) = splat;
+
+	var action => $action;
+	var page   => $page;
+	controller(template => 'personal_messages', action => 'PersonalMessages');
+};
+get qr#/pm/(dialog)/(\d+)/(?:page(\d+)\.html)?# => sub {
+	my ($action, $to_user_id, $page) = splat;
+
+	var action     => $action;
+	var to_user_id => $to_user_id;
+	var page       => $page;
+	controller(template => 'personal_messages', action => 'PersonalMessages');
+};
 # 404
 #
 any qr{.*} => sub { controller(template => '404', action => '404') };

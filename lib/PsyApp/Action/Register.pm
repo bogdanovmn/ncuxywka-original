@@ -22,7 +22,7 @@ sub main {
 	my $psy = $params->{psy};
 
 	return {
-		has_error => $has_error,
+		error_msg => $psy->last_error,
 	};
 }
 

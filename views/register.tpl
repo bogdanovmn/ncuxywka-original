@@ -1,4 +1,7 @@
-<center><h1><span class=letter>Z</span>АРЕГИСТРИР<span class=letter>Y</span>ЙСЯ!</h1>
+<h1><span class=letter>Z</span>АРЕГИСТРИР<span class=letter>Y</span>ЙСЯ!</h1>
+
+<TMPL_INCLUDE NAME='inc/error_msg.tpl'>
+
 <TMPL_IF NAME=user_auth>
 	<p>Вы уже зарегистрированы!<br>Перед регистрацией другого пациэнта вам необходимо <a href='/auth/out'>выйти</a>.</p>
 <TMPL_ELSE>
@@ -45,7 +48,6 @@
 		<input type=hidden name=action value='add'>
 	</form>
 </TMPL_IF>
-</center>
 
 <SCRIPT language='javascript' type="text/javascript">
 <!--

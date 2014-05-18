@@ -6,6 +6,7 @@ use utf8;
 
 use Psy::User;
 
+
 sub main {
 	my ($class, $params) = @_;
 
@@ -19,14 +20,22 @@ sub main {
 	my $city           = $params->{city};
 	my $psy            = $params->{psy};
 
-	if (!$name or !$password or !$password_check or !$email) {
-		return 0;
+	unless ($name) {
+		return $psy->error("Укажите свое имя");
 	}
 
-	if ($password ne $password_check) {
-		return 0;
+	unless ($password) {
+		return $psy->error("Укажите пароль");
 	}
 	
+	unless ($password_check) {
+		return $psy->error("Укажите пароль еще разок");
+	}
+
+	unless ($email) {
+		return $psy->error("Укажите свой e-mail");
+	}
+
 	my $user = Psy::User->new(
 		name     => $name, 
 		about    => $about,
@@ -42,7 +51,7 @@ sub main {
 		return 1;
 	}
 	else {
-		return 0;
+		return $psy->error("Что-то пошло не так...");
 	}
 }
 

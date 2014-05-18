@@ -1,8 +1,6 @@
 <h1>И<span class=letter>Z</span>МЕНИТЬ ДАННЫЕ</h1>
 
-<TMPL_IF NAME=error_msg>
-	<div class=error><TMPL_VAR NAME=error_msg></div>
-</TMPL_IF>
+<TMPL_INCLUDE NAME='inc/error_msg.tpl'>
 
 <form name='edit_user' method=post enctype='multipart/form-data'>
 	<table class=user_edit_menu>

@@ -121,6 +121,7 @@ sub banned {
 	my ($self, %p) = @_;
 
 	my $where = $self->success_in ? 'user_id = ? OR ip = ?' : 'ip = ?';
+	
 	my $ban_info = $self->query(qq| 
 		SELECT UNIX_TIMESTAMP(MAX(end)) ban_end
 		FROM ban
@@ -132,7 +133,13 @@ sub banned {
 			[$self->{ip}],
 		{error_msg => "В процедурном кабинете бунт!"}
 	);
-	return ((scalar @$ban_info > 0 and defined $ban_info->[0]->{ban_end})? $ban_info->[0]->{ban_end} - time : 0);
+	$self->{ban_left_time} = (
+		(scalar @$ban_info > 0 and defined $ban_info->[0]->{ban_end})
+			? $ban_info->[0]->{ban_end} - time 
+			: 0
+	);
+	
+	return $self->{ban_left_time};
 }
 #
 # Login event

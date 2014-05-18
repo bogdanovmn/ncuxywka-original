@@ -67,10 +67,6 @@ sub enter {
 
 	my $self = Psy::Auth::info($class, %p);
 
-	if ($p{check_ban} and $self->banned) {
-		pn_goto(URL_BANNED);
-	}
-
 	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{auditor}           = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{cache}             = Cache->constructor(

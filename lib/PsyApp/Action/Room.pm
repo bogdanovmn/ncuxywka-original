@@ -5,9 +5,8 @@ use warnings;
 use utf8;
 
 use Psy::Room;
-use Psy::Errors;
-
 use Paginator;
+
 
 sub main {
 	my ($class, $params) = @_;
@@ -18,7 +17,7 @@ sub main {
 	my $psy_room = undef;
 	$psy_room = Psy::Room->enter(room_mnemonic => $room);
 
-	return error("Вы ошиблись палатой!") unless $psy_room;
+	return undef unless $psy_room;
 
 	my $template_params = {
 		multi_page => 'yes',

@@ -35,7 +35,7 @@
 	</TMPL_LOOP>
 	</table>
 	<TMPL_IF NAME=multi_page>
-		<TMPL_INCLUDE NAME="pages.tpl">
+		<TMPL_INCLUDE NAME="inc/pages.tpl">
 	</TMPL_IF>
 </TMPL_IF>
 
