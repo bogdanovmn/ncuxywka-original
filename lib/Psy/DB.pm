@@ -144,7 +144,7 @@ sub _execute_sql {
 	
 	if ($sth->err) {
         if (not $self->{console} and not $settings->{console}) {
-			error($settings->{error_msg});
+			$self->error($settings->{error_msg});
 		}
     }
 
@@ -162,6 +162,29 @@ sub empty_result_set {
 #
 sub statistic {
 	return $__STATISTIC;
+}
+#
+# Set error msg and return 0
+# or return boolean on last error
+#
+sub error {
+	my ($self, $msg) = @_;
+
+	if ($msg) {
+		$self->{last_error_msg} = $msg;
+		return 0;
+	}
+	else {
+		return $self->last_error;
+	}
+}
+#
+# Return last error msg
+#
+sub last_error {
+	my ($self) = @_;
+
+	return $self->{last_error_msg} || '';
 }
 
 1;

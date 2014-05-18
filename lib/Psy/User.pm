@@ -8,11 +8,13 @@ use Psy::Errors;
 use Psy::Creo;
 use Psy::Statistic::User;
 use Digest::MD5 qw( md5_hex );
+use FindBin;
 #
 # Avatars
 #
-use constant PATH_AVATARS => 'img/avatars';
-use constant AVATAR_SIZE => 200; # KB
+use constant RELATION_PATH_AVATARS => 'img/avatars';
+use constant FULL_PATH_AVATARS     => $FindBin::Bin. '/../public/'. RELATION_PATH_AVATARS;
+use constant AVATAR_SIZE           => 200; # KB
 
 use base 'Psy::DB';
 #
@@ -151,10 +153,11 @@ sub update {
 sub avatar_file_name {
 	my ($self) = @_;
 
-	my $file_name = PATH_AVATARS."/".$self->{id};
+	my $rel_file_name  = RELATION_PATH_AVATARS."/".$self->{id};
+	my $full_file_name = FULL_PATH_AVATARS."/".$self->{id};
 
-	if (-r $file_name) {
-		return $file_name;
+	if (-r $full_file_name) {
+		return $rel_file_name;
 	}
 	else {
 		return undef;

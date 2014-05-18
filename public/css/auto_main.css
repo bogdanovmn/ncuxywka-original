@@ -9,7 +9,7 @@ p.hello a:hover{text-decoration:underline;}
 p.proc_left_time{font-size:10pt;font-weight:bold;margin:10px 0px;}
 p.proc_left_time span{color:#478749;}
 p.deleted_msg{font-size:10pt;font-weight:bold;margin:10px 0px;color:#478749;text-align:center;}
-div.strict{width:80%;padding:3px 7px;color:white;font-weight:bold;border:1px solid #5b7d5c;background-color:#478749;}div.strict a{color:white;text-decoration:underline;}
+div.strict{width:80%;text-align:center;padding:3px 7px;color:white;font-weight:bold;border:1px solid #5b7d5c;background-color:#478749;}div.strict a{color:white;text-decoration:underline;}
 div.strict a:hover{color:white;text-decoration:none;}
 a:hover{color:#5b7d5c;}
 a.user{text-decoration:none;}

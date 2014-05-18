@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy;
 use Psy::News;
+
 
 sub main {
 	my ($class, $params) = @_;
 
-	my $psy = Psy->enter;
+	my $psy  = $params->{psy};
 	my $news = Psy::News->constructor;
 
 	my $news_data = $psy->cache->try_get(

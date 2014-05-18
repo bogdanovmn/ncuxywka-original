@@ -9,7 +9,7 @@ sub main {
 	my ($class, $params) = @_;
 
 	return { 
-		error_msg => $params->{error_msg}
+		error_msg => $params->{psy}->last_error
 	};
 }
 

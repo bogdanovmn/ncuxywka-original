@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
 use Psy::Group;
 use Psy::Text;
 use Psy::Statistic::User;
@@ -62,6 +61,7 @@ sub enter {
 	
 	my $self = Psy::DB::connect($class);
 	$self->{room_mnemonic} = $p{room_mnemonic};
+	$self->{user_id}       = $p{user_id};
 	
 	return valid_room_name($self->{room_mnemonic}) ? $self : undef;
 }
@@ -129,8 +129,6 @@ sub post_comment {
 
 	return 'dub' if $self->last_msg eq $p{msg};
 
-	$p{alias} = $self->is_annonimus ? Psy::Text::Generator::modify_alias($p{alias}) : "";
-
 	$self->query(qq|
         INSERT INTO spec_comments 
         SET user_id = ?,
@@ -139,11 +137,11 @@ sub post_comment {
             ip = ?,
 			type = ?
 		|,
-		[$self->{user_data}->{user_id}, $p{msg}, $p{alias}, $self->{ip}, $self->{room_mnemonic}],
+		[$self->{user_id}, $p{msg}, $p{alias}, $self->{ip}, $self->{room_mnemonic}],
 		{error_msg => "Психи не дают слова сказать!", debug => 0}
 	);
 
-	Psy::Statistic::User->constructor(user_id => $self->user_id)->increment(Psy::Statistic::User::V_SPEC_COMMENTS);	
+	Psy::Statistic::User->constructor(user_id => $self->{user_id})->increment(Psy::Statistic::User::V_SPEC_COMMENTS);	
 }   
 #
 # Get guest book messages total

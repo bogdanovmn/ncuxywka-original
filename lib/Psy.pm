@@ -425,7 +425,7 @@ sub get_comments_total {
 sub update_post_time {
 	my $self = shift;
 
-	$self->{session}->param("last_post_time", time);
+	$self->{session}("last_post_time", time);
 }
 #
 # Get last post time for current session
@@ -433,8 +433,7 @@ sub update_post_time {
 sub get_post_interval {
 	my $self = shift;
 	
-	return time - ($self->{session}->param("last_post_time") || 0);
-#	return time - $self->{session}->param("last_post_time");
+	return time - ($self->{session}("last_post_time") || 0);
 }
 #
 # Check for bot posting

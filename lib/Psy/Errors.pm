@@ -9,9 +9,9 @@ use Data::Dumper;
 require Exporter;
 our @ISA = qw| Exporter |;
 our @EXPORT = (qw|
-	debug
-	error
-	debug_sql_explain
+	debug1
+	error1
+	debug_sql_explain1
 |);
 
 sub error {

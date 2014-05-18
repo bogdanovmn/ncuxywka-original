@@ -34,8 +34,7 @@ sub info {
 	$self->{session} = $p{session};
 	$self->{session}("ip", $self->{ip});
 	
-	$self->{login_error_msg} = "";
-	$self->{user_data}       = {};
+	$self->{user_data} = {};
 
 	my $user = Psy::User->choose($self->{session}("user_id"));
 
@@ -68,8 +67,7 @@ sub login {
 	my ($self, %p) = @_;
 
 	if (!$p{user_name} or !$p{password}) {
-		$self->{login_error_msg} = "Введите логин и пароль!";
-		return 0;
+		return $self->error("Введите логин и пароль!");
 	}
 
 	my $user_info = $self->query(qq| 
@@ -84,15 +82,13 @@ sub login {
    
 	if (@$user_info) {
 		$self->{session}("user_id",       $user_info->[0]->{id});
-		#$self->{session}("user_name",     $user_info->[0]->{name});
 		$self->{session}("user_group_id", $user_info->[0]->{group_id});
 		$self->{session}("user_auth",     1);
 		
 		$self->store_login_event($user_info->[0]->{id}, LOGIN_EVENT_TYPE_IN);
 	}
 	else {
-		$self->{login_error_msg} =  "Неправильный логин/пароль!";
-		return 0;
+		return $self->error("Неправильный логин/пароль!");
 	}
 
 	return 1;
@@ -106,25 +102,14 @@ sub logout {
 	$self->{session}->()->destroy;
 	$self->store_login_event($self->user_data->{user_id}, LOGIN_EVENT_TYPE_OUT);
 
-	return undef;
+	return 1;
 }
-#
-#
-#
+
 sub success_in {
 	my ($self, %p) = @_;
 	return $self->{user_data}->{user_auth};
 }
-#
-#
-#
-sub login_error_msg {
-	my ($self, %p) = @_;
-	return $self->{login_error_msg};
-}
-#
-#
-#
+
 sub user_data {
 	my ($self, %p) = @_;
 	return $self->{user_data};

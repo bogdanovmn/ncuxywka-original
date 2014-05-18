@@ -14,20 +14,17 @@ sub main {
 	my $psy      = $params->{psy};
 
 	if ($action eq 'in' and $psy->is_annonimus) {
-		$psy->login(
+		return $psy->login(
 			user_name => $name, 
 			password  => $password
 		);
 	}
 	elsif ($action eq 'out' and not $psy->is_annonimus) {
-		$psy->logout;
+		return $psy->logout;
 	}
 	else {
-		$self->{login_error_msg} = "Вы заблудились?";
-		return 0;
+		return $psy->error("Вы заблудились?");
 	}
-
-	return 1;
 }
 
 1;

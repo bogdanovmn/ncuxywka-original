@@ -12,10 +12,10 @@ use Psy::Statistic::Creo;
 #
 # Creo types
 #
-use constant CT_CREO => 0;
+use constant CT_CREO       => 0;
 use constant CT_QUARANTINE => 1;
-use constant CT_DELETE => 2;
-use constant CT_ALEX_JILE => 3;
+use constant CT_DELETE     => 2;
+use constant CT_ALEX_JILE  => 3;
 use constant CT_BLACK_COPY => 4;
 use constant CT_PLAGIARISM => 5;
 
@@ -60,7 +60,7 @@ sub save {
 		[$self->{author_user_id}, $self->{title}, $self->{body}, $self->{ip}, $self->{type}],
 		{
 			return_last_id => 1,
-			error_msg => "Анализы сдавать - это хорошо, но зайдите попойже: перерыв на обед!"
+			error_msg      => "Анализы сдавать - это хорошо, но зайдите попойже: перерыв на обед!"
 		}
 	);
 	Psy::Statistic::Creo->constructor(creo_id => $creo_id)->add_object;
