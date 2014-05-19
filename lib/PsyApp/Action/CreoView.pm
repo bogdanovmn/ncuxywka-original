@@ -90,14 +90,14 @@ sub main {
 		#
 		# Views statistic
 		#
-		$psy->cache->try_get(
+		$views_total = $psy->cache->try_get(
 			"creo-$id-views_counter",
 			sub { $views_log->total }
 		);
 		#
 		# Selection statistic
 		#
-		$psy->cache->try_get(
+		$selections_info = $psy->cache->try_get(
 			"creo-$id-selection_statistic",
 			sub { $creo->selections_info }
 		);
@@ -105,29 +105,29 @@ sub main {
 	
 	return {
 		%$creo_data,
-		comments => $creo_comments,
-		quarantine => $creo_data->{c_type} eq Psy::Creo::CT_QUARANTINE,
-		neofuturism => $creo_data->{c_neofuturism} eq 1,
-		deleted => (($creo_data->{c_type} eq Psy::Creo::CT_DELETE) or ($author_info->{u_group_id} eq Psy::Group::PLAGIARIST)),
-		already_voted => $already_voted,
-		can_vote => $can_vote, 
-		can_select => $can_select, 
-		has_vote_power => $vote_power,
-		votes => $#votes == -1 ? 0 : $#votes + 1,
-		votes_rank => $votes_rank->{value},
+		comments         => $creo_comments,
+		quarantine       => $creo_data->{c_type} eq Psy::Creo::CT_QUARANTINE,
+		neofuturism      => $creo_data->{c_neofuturism} eq 1,
+		deleted          => (($creo_data->{c_type} eq Psy::Creo::CT_DELETE) or ($author_info->{u_group_id} eq Psy::Group::PLAGIARIST)),
+		already_voted    => $already_voted,
+		can_vote         => $can_vote, 
+		can_select       => $can_select, 
+		has_vote_power   => $vote_power,
+		votes            => $#votes == -1 ? 0 : $#votes + 1,
+		votes_rank       => $votes_rank->{value},
 		votes_rank_title => $votes_rank->{title},
-		creo_id => $id,
-		creo_statistic => $show_creo_statistic, 
-		views_total => $views_total,
+		creo_id          => $id,
+		creo_statistic   => $show_creo_statistic, 
+		views_total      => $views_total,
 		selections_total => scalar @$selections_info,
-		selections_info => $selections_info,
-		avatar => $author->avatar_file_name,
-		user_creo_list => $author_creo_list,
+		selections_info  => $selections_info,
+		avatar           => $author->avatar_file_name,
+		user_creo_list   => $author_creo_list,
 		random_creo_list => $random_creo_list,
-		creo_edit_menu => ($psy->auditor->can_edit_creo),
-		plagiarist => $author_info->{u_group_id} eq Psy::Group::PLAGIARIST,
-		ad_votes => $admin_details,
-		creo_view => 1,
+		creo_edit_menu   => ($psy->auditor->can_edit_creo),
+		plagiarist       => $author_info->{u_group_id} eq Psy::Group::PLAGIARIST,
+		ad_votes         => $admin_details,
+		creo_view        => 1,
 	};
 }
 

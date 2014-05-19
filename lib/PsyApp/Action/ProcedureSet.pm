@@ -7,12 +7,19 @@ use utf8;
 sub main {
 	my ($class, $params) = @_;
 
+	my $self_ban = $params->{self};
 	my $duration = $params->{duration};
 	my $ip       = $params->{ip};
 	my $user_id  = $params->{user_id};
 	my $psy      = $params->{psy};
 
-	return $psy->error("Вы уже в процедурной!") if $params->{ban_left_time};
+	if ($psy->is_annonimus) {
+		return $psy->error("Вы хакер?");
+	}
+
+	if ($params->{ban_left_time}) {
+		return $psy->error("Вы уже в процедурной!");
+	}
 
 	my $moderator_action = defined $user_id and $psy->auditor->is_moderator_scope(Psy::Auditor::MODERATOR_SCOPE_USER_BAN);
 
@@ -32,11 +39,14 @@ sub main {
 			object_id  => $user_id
 		);
 	}
-	else {
+	elsif ($self_ban) {
 		return $psy->error("В процедурную ходят строго по времени!") unless defined $duration;
 		return $psy->error("Непонятное время вы указали...!")        unless $duration =~ /^\d+$/;
 		
 		$psy->ban(duration => $duration);
+	}
+	else {
+		return $psy->error("Вы точно не хакер?");
 	}
 
 	return 1;

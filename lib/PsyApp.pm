@@ -24,6 +24,14 @@ use PsyApp::Action::CreoView::Post;
 use PsyApp::Action::CreoPrint;
 use PsyApp::Action::CreoList;
 
+use PsyApp::Action::Creo::Edit;
+use PsyApp::Action::Creo::Edit::Post;
+use PsyApp::Action::Creo::Edit::Status;
+
+use PsyApp::Action::CreoBlackCopy::View;
+use PsyApp::Action::CreoBlackCopy::Update;
+use PsyApp::Action::CreoBlackCopy::Publish;
+
 use PsyApp::Action::User;
 use PsyApp::Action::UserEdit;
 use PsyApp::Action::UserEdit::Post;
@@ -40,6 +48,7 @@ use PsyApp::Action::PersonalMessages::Post;
 
 use PsyApp::Action::SelectCreo;
 use PsyApp::Action::VoteCreo;
+use PsyApp::Action::ProcedureSet;
 
 use PsyApp::Action::Error;
 use PsyApp::Action::404;
@@ -128,6 +137,72 @@ post '/add_creo/' => sub {
 		controller(template => 'add_creo', action => 'CreoAdd');
 	}
 };
+#
+# Creo black copy view
+#
+get qr#/black_copy/(preview|edit)/(\d+).html# => sub {
+	my ($action, $id) = splat;
+
+	if ($action eq 'edit') {
+		var edit => 1;
+	}
+	var id => $id;
+	controller(template => 'creo_black_copy', action => 'CreoBlackCopy::View') 
+};
+#
+# Creo black copy add post data
+#
+post '/black_copy/' => sub {
+	if (controller(action => 'CreoBlackCopy::Update')) {
+		redirect sprintf('/black_copy/preview/%d.html', params->{id});
+	}
+	else {
+		var edit => 1;
+		controller(template => 'creo_black_copy', action => 'CreoBlackCopy::View');
+	}
+};
+#
+# Creo black copy publish
+#
+post '/black_copy/publish' => sub {
+	if (controller(action => 'CreoBlackCopy::Publish')) {
+		redirect '/main/';
+	}
+	else {
+		show_error;
+	}
+};
+#
+# Creo edit form
+#
+get '/creo_edit/full/:id/' => sub { controller(template => 'creo_edit', action => 'Creo::Edit') };
+#
+# Creo edit post
+#
+post '/creo_edit/full/' => sub {
+	if (controller(action => 'Creo::Edit::Post')) {
+		redirect sprintf('/creos/%d.html', params->{id});
+	}
+	else {
+		controller(template => 'creo_edit', action => 'Creo::Edit');
+	}
+};
+#
+# Creo  change status
+#
+get qr#/creo_edit/(delete|to_quarantine|from_quarantine|to_neofuturism|from_neofuturism|to_plagiarism)/(\d+)/# => sub {
+	my ($action, $id) = splat;
+
+	var action => $action;
+	var id     => $id;
+	if (controller(action => 'Creo::Edit::Status')) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
+};
+#
 # Creo view
 #
 get '/creos/:id.html' => sub { 
@@ -152,7 +227,7 @@ get '/print/:id.html' => sub {
 #
 post '/creos/:id.html' => sub { 
 	controller(action => 'CreoView::Post');
-	redirect sprintf('/creos/%s.html', params->{id});
+	redirect request->referer;
 };
 #
 # User view
@@ -275,7 +350,8 @@ get qr#/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?#
 
 	controller(
 		template => 'rooms/'. $room, 
-		action => $action 
+		action => $action,
+		layout => $room eq 'proc' ? 'minimal' : 'main'
 	);
 };
 #
@@ -337,6 +413,33 @@ get qr#/pm/(dialog)/(\d+)/(?:page(\d+)\.html)?# => sub {
 	var page       => $page;
 	controller(template => 'personal_messages', action => 'PersonalMessages');
 };
+#
+# Procedure set (self-ban)
+#
+post '/procedure/' => sub {
+	var self => 1;
+	if (controller(action => 'ProcedureSet')) {
+		redirect '/proc_room/';
+	}
+	else {
+		show_error;
+	}
+};
+#
+# Procedure set (ban)
+#
+get qr#/procedure/user/(\d+)# => sub {
+	my ($user_id) = splat;
+
+	var user_id => $user_id;
+	if (controller(action => 'ProcedureSet')) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
+};
+#
 # 404
 #
 any qr{.*} => sub { controller(template => '404', action => '404') };

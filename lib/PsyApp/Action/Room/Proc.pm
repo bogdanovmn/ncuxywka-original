@@ -15,7 +15,8 @@ sub _custom_action {
 		$template_params->{inside}        = 1;
 	}
 	else {
-		$template_params->{inside} = $params->{ban_left_time} ne 0;
+		$template_params->{ban_left_time} = $params->{ban_left_time};
+		$template_params->{inside}        = $params->{ban_left_time} ne 0;
 	}
 }
 
