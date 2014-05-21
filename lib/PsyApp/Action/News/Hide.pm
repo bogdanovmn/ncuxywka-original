@@ -1,4 +1,4 @@
-package PsyApp::Action::News::Post;
+package PsyApp::Action::News::Hide;
 
 use strict;
 use warnings;
@@ -10,7 +10,7 @@ use Psy::News;
 sub main {
 	my ($class, $params) = @_;
 
-	my $msg = $params->{msg};
+	my $id  = $params->{id};
 	my $psy = $params->{psy};
 	
 	my $news = Psy::News->constructor;
@@ -19,10 +19,7 @@ sub main {
 		return $psy->error("Врачей не наипешь!");
 	}
 
-	$news->add(
-		user_id => $psy->user_id,
-		msg     => $msg
-	);
+	$news->hide($id);
 
 	return not $psy->error;
 }

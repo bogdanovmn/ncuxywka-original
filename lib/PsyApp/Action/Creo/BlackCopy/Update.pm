@@ -1,4 +1,4 @@
-package PsyApp::Action::CreoBlackCopy::Update;
+package PsyApp::Action::Creo::BlackCopy::Update;
 
 use strict;
 use warnings;

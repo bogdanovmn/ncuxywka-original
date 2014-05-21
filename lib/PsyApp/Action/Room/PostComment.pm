@@ -1,4 +1,4 @@
-package PsyApp::Action::RoomPost;
+package PsyApp::Action::Room::PostComment;
 
 use strict;
 use warnings;

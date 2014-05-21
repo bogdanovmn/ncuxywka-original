@@ -1,4 +1,4 @@
-package PsyApp::Action::VoteCreo;
+package PsyApp::Action::Creo::Vote;
 
 use strict;
 use warnings;

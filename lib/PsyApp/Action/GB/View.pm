@@ -1,4 +1,4 @@
-package PsyApp::Action::GB;
+package PsyApp::Action::GB::View;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package PsyApp::Action::Room;
+package PsyApp::Action::Room::View;
 
 use strict;
 use warnings;

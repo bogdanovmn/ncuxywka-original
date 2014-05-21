@@ -1,4 +1,4 @@
-package PsyApp::Action::News;
+package PsyApp::Action::News::View;
 
 use strict;
 use warnings;

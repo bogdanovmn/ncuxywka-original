@@ -1,4 +1,4 @@
-package PsyApp::Action::Room::Proc;
+package PsyApp::Action::Room::View::Proc;
 
 use strict;
 use warnings;

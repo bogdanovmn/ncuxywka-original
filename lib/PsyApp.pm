@@ -9,45 +9,50 @@ use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
 use Dancer::Plugin::Controller;
 
 use Psy;
-use PsyApp::Action::Index;
-use PsyApp::Action::News;
-use PsyApp::Action::Talks;
 
-use PsyApp::Action::Register;
+use PsyApp::Action::Index;
+use PsyApp::Action::Talks;
+use PsyApp::Action::Users;
+use PsyApp::Action::CreoList;
+
+use PsyApp::Action::News::View;
+use PsyApp::Action::News::Post;
+use PsyApp::Action::News::Hide;
+
+use PsyApp::Action::Register::Form;
 use PsyApp::Action::Register::Post;
 use PsyApp::Action::Auth;
 
-use PsyApp::Action::CreoAdd;
-use PsyApp::Action::CreoAdd::Post;
-use PsyApp::Action::CreoView;
-use PsyApp::Action::CreoView::Post;
-use PsyApp::Action::CreoPrint;
-use PsyApp::Action::CreoList;
+use PsyApp::Action::AddCreo::Form;
+use PsyApp::Action::AddCreo::Post;
 
-use PsyApp::Action::Creo::Edit;
+use PsyApp::Action::Creo::View;
+use PsyApp::Action::Creo::PostComment;
+use PsyApp::Action::Creo::Print;
+use PsyApp::Action::Creo::Select;
+use PsyApp::Action::Creo::Vote;
+use PsyApp::Action::Creo::Edit::Form;
 use PsyApp::Action::Creo::Edit::Post;
 use PsyApp::Action::Creo::Edit::Status;
 
-use PsyApp::Action::CreoBlackCopy::View;
-use PsyApp::Action::CreoBlackCopy::Update;
-use PsyApp::Action::CreoBlackCopy::Publish;
+use PsyApp::Action::Creo::BlackCopy::View;
+use PsyApp::Action::Creo::BlackCopy::Update;
+use PsyApp::Action::Creo::BlackCopy::Publish;
 
-use PsyApp::Action::User;
-use PsyApp::Action::UserEdit;
-use PsyApp::Action::UserEdit::Post;
-use PsyApp::Action::Users;
+use PsyApp::Action::User::View;
+use PsyApp::Action::User::Edit::Form;
+use PsyApp::Action::User::Edit::Post;
 
-use PsyApp::Action::Room;
-use PsyApp::Action::Room::Proc;
-use PsyApp::Action::RoomPost;
-use PsyApp::Action::GB;
+use PsyApp::Action::Room::View;
+use PsyApp::Action::Room::View::Proc;
+use PsyApp::Action::Room::PostComment;
+
+use PsyApp::Action::GB::View;
 use PsyApp::Action::GB::Post;
 
-use PsyApp::Action::PersonalMessages;
+use PsyApp::Action::PersonalMessages::View;
 use PsyApp::Action::PersonalMessages::Post;
 
-use PsyApp::Action::SelectCreo;
-use PsyApp::Action::VoteCreo;
 use PsyApp::Action::ProcedureSet;
 
 use PsyApp::Action::Error;
@@ -55,7 +60,7 @@ use PsyApp::Action::404;
 
 use Utils;
 
-our $VERSION = '0.1004';
+our $VERSION = '0.1005';
 
 
 sub show_error { controller(template => 'error', action => 'Error') }
@@ -81,7 +86,13 @@ hook 'before_template_render' => sub {
 	my ($template_params) = @_;
 
 	if (vars->{psy}) {
-		my $common_info = vars->{psy}->common_info;
+		my $skin_name = 'original';
+
+		if (vars->{set_neo_skin} or $template_params->{c_neofuturism}) {
+			$skin_name = 'neo';
+		}
+
+		my $common_info = vars->{psy}->common_info(skin => $skin_name);
 		while (my ($k, $v) = each %$common_info) {
 			$template_params->{$k} = $v;
 		}
@@ -95,7 +106,7 @@ get '/(main/)?' => sub { controller(template => 'index', action => 'Index') };
 # Register form 
 #
 get '/register/' => sub {
-	controller(template => 'register', action => 'Register');
+	controller(template => 'register', action => 'Register::Form');
 };
 #
 # Register post
@@ -105,7 +116,7 @@ post '/register/' => sub {
 		redirect '/main/';
 	}
 	else {
-		controller(template => 'register', action => 'Register');
+		controller(template => 'register', action => 'Register::Form');
 	}
 };
 #
@@ -125,16 +136,16 @@ any qr#/auth/(in|out)# => sub {
 #
 # Creo add form
 #
-get '/add_creo/' => sub { controller(template => 'add_creo', action => 'CreoAdd') };
+get '/add_creo/' => sub { controller(template => 'add_creo', action => 'AddCreo::Form') };
 #
 # Creo add post data
 #
 post '/add_creo/' => sub {
-	if (controller(action => 'CreoAdd::Post')) {
+	if (controller(action => 'AddCreo::Post')) {
 		redirect '/main/';
 	}
 	else {
-		controller(template => 'add_creo', action => 'CreoAdd');
+		controller(template => 'add_creo', action => 'AddCreo::Form');
 	}
 };
 #
@@ -147,25 +158,25 @@ get qr#/black_copy/(preview|edit)/(\d+).html# => sub {
 		var edit => 1;
 	}
 	var id => $id;
-	controller(template => 'creo_black_copy', action => 'CreoBlackCopy::View') 
+	controller(template => 'creo_black_copy', action => 'Creo::BlackCopy::View') 
 };
 #
 # Creo black copy add post data
 #
 post '/black_copy/' => sub {
-	if (controller(action => 'CreoBlackCopy::Update')) {
+	if (controller(action => 'Creo::BlackCopy::Update')) {
 		redirect sprintf('/black_copy/preview/%d.html', params->{id});
 	}
 	else {
 		var edit => 1;
-		controller(template => 'creo_black_copy', action => 'CreoBlackCopy::View');
+		controller(template => 'creo_black_copy', action => 'Creo::BlackCopy::View');
 	}
 };
 #
 # Creo black copy publish
 #
 post '/black_copy/publish' => sub {
-	if (controller(action => 'CreoBlackCopy::Publish')) {
+	if (controller(action => 'Creo::BlackCopy::Publish')) {
 		redirect '/main/';
 	}
 	else {
@@ -175,7 +186,7 @@ post '/black_copy/publish' => sub {
 #
 # Creo edit form
 #
-get '/creo_edit/full/:id/' => sub { controller(template => 'creo_edit', action => 'Creo::Edit') };
+get '/creo_edit/full/:id/' => sub { controller(template => 'creo_edit', action => 'Creo::Edit::Form') };
 #
 # Creo edit post
 #
@@ -184,11 +195,11 @@ post '/creo_edit/full/' => sub {
 		redirect sprintf('/creos/%d.html', params->{id});
 	}
 	else {
-		controller(template => 'creo_edit', action => 'Creo::Edit');
+		controller(template => 'creo_edit', action => 'Creo::Edit::Form');
 	}
 };
 #
-# Creo  change status
+# Creo change status
 #
 get qr#/creo_edit/(delete|to_quarantine|from_quarantine|to_neofuturism|from_neofuturism|to_plagiarism)/(\d+)/# => sub {
 	my ($action, $id) = splat;
@@ -208,7 +219,7 @@ get qr#/creo_edit/(delete|to_quarantine|from_quarantine|to_neofuturism|from_neof
 get '/creos/:id.html' => sub { 
 	controller(
 		template     => 'creo_view', 
-		action       => 'CreoView',
+		action       => 'Creo::View',
 		redirect_404 => '/404.html'
 	) 
 };
@@ -219,14 +230,14 @@ get '/print/:id.html' => sub {
 	controller(
 		template     => 'creo_print',
 		layout       => 'minimal',
-		action       => 'CreoPrint',
+		action       => 'Creo::Print',
 		redirect_404 => '/404.html'
 	) };
 #
 # Post creo comment
 #
 post '/creos/:id.html' => sub { 
-	controller(action => 'CreoView::Post');
+	controller(action => 'Creo::PostComment');
 	redirect request->referer;
 };
 #
@@ -235,14 +246,14 @@ post '/creos/:id.html' => sub {
 get '/users/:id.html' => sub { 
 	controller(
 		template     => 'user_view', 
-		action       => 'User',
+		action       => 'User::View',
 		redirect_404 => '/404.html'
 	) 
 };
 #
 # User edit form
 #
-get '/user_edit/' => sub { controller(template => 'user_edit', action => 'UserEdit') };
+get '/user_edit/' => sub { controller(template => 'user_edit', action => 'User::Edit::Form') };
 #
 # User edit post data
 #
@@ -251,11 +262,11 @@ post '/user_edit/' => sub {
 		params->{avatar} = request->upload('avatar')->file_handle;
 	}
 
-	if (controller(action => 'UserEdit::Post')) {
+	if (controller(action => 'User::Edit::Post')) {
 		redirect '/user_edit/';
 	}
 	else {
-		controller(template => 'user_edit', action => 'UserEdit');
+		controller(template => 'user_edit', action => 'User::Edit::Form');
 	}
 };
 #
@@ -275,7 +286,8 @@ get qr#/(creos|quarantine|deleted|neofuturism)/(week|month|y\d{4})?/?# => sub {
 	}->{$type_str};
 
 	if ($type_str eq 'neofuturism') {
-		var neofuturism => 1;
+		var neofuturism  => 1;
+		var set_neo_skin => 1;
 	}
 
 	if ($period) {
@@ -332,8 +344,12 @@ post qr#/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/?# => sub {
 	my ($room) = splat;
 	var room => $room;
 
-	controller(action => "RoomPost");
-	redirect sprintf('/%s_room/', $room);
+	if (controller(action => "Room::PostComment")) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
 };
 
 get qr#/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?# => sub { 
@@ -342,10 +358,13 @@ get qr#/(wish|petr|frenizm|mainshit|proc|faq|neo_faq)_room/(?:page(\d+)\.html)?#
 	var room => $room;
 	var page => $page;
 
-	my $action = 'Room';
+	my $action = 'Room::View';
 
 	if ($room eq 'proc') {
-		$action = 'Room::Proc';
+		$action = 'Room::View::Proc';
+	}
+	elsif ($room eq 'neo_faq') {
+		var set_neo_skin => 1;
 	}
 
 	controller(
@@ -363,12 +382,46 @@ get qr#/gb/(?:page(\d+)\.html)?# => sub {
 	if ($page) {
 		var page => $page;
 	}
-	controller(template => 'gb', action => 'GB') 
+	controller(template => 'gb', action => 'GB::View') 
+};
+#
+# Guest book post comment 
+#
+post '/gb/' => sub { 
+	if (controller(action => "GB::Post")) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
 };
 #
 # News page
 #
-get '/news/' => sub { controller(template => 'news', action => 'News') };
+get '/news/' => sub { controller(template => 'news', action => 'News::View') };
+#
+# News post 
+#
+post '/news/' => sub { 
+	if (controller(action => "News::Post")) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
+};
+#
+# News hide 
+#
+get '/news/hide/:id' => sub { 
+	if (controller(action => "News::Hide")) {
+		redirect request->referer;
+	}
+	else {
+		show_error;
+	}
+};
+
 #
 # Select creo
 #
@@ -377,7 +430,7 @@ any qr#/select/(add|del)/(\d+)# => sub {
 
 	var action  => $action;
 	var creo_id => $creo_id;
-	if (controller(action => 'SelectCreo')) {
+	if (controller(action => 'Creo::Select')) {
 		redirect request->referer;
 	}
 	else {
@@ -388,7 +441,7 @@ any qr#/select/(add|del)/(\d+)# => sub {
 # Vote creo 
 #
 post '/vote' => sub { 
-	if (controller(action => 'VoteCreo')) {
+	if (controller(action => 'Creo::Vote')) {
 		redirect request->referer;
 	}
 	else {
@@ -403,7 +456,7 @@ get qr#/pm/(in|out)/(?:page(\d+)\.html)?# => sub {
 
 	var action => $action;
 	var page   => $page;
-	controller(template => 'personal_messages', action => 'PersonalMessages');
+	controller(template => 'personal_messages', action => 'PersonalMessages::View');
 };
 get qr#/pm/(dialog)/(\d+)/(?:page(\d+)\.html)?# => sub {
 	my ($action, $to_user_id, $page) = splat;
@@ -411,8 +464,20 @@ get qr#/pm/(dialog)/(\d+)/(?:page(\d+)\.html)?# => sub {
 	var action     => $action;
 	var to_user_id => $to_user_id;
 	var page       => $page;
-	controller(template => 'personal_messages', action => 'PersonalMessages');
+	controller(template => 'personal_messages', action => 'PersonalMessages::View');
 };
+#
+# Personal message post
+#
+post '/pm/post' => sub {
+	if (controller(action => 'PersonalMessages::Post')) {
+		redirect sprintf('/pm/dialog/%d/', params->{user_id});
+	}
+	else {
+		show_error;
+	}
+};
+
 #
 # Procedure set (self-ban)
 #

@@ -1,4 +1,4 @@
-package PsyApp::Action::Creo::Edit;
+package PsyApp::Action::Creo::Edit::Form;
 
 use strict;
 use warnings;

@@ -1,4 +1,4 @@
-package PsyApp::Action::CreoBlackCopy::View;
+package PsyApp::Action::Creo::BlackCopy::View;
 
 use strict;
 use warnings;

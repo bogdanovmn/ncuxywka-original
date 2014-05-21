@@ -1,4 +1,4 @@
-package PsyApp::Action::Register;
+package PsyApp::Action::Register::Form;
 
 use strict;
 use warnings;

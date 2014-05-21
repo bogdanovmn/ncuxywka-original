@@ -30,7 +30,7 @@
 		от <a href="/users/<TMPL_VAR NAME=n_user_id>.html"><TMPL_VAR NAME=n_user_name></a>
 	<td class=menu>
 		<TMPL_IF NAME=god>
-			<a href="/news.cgi?action=hide&id=<TMPL_VAR NAME=n_id>">Удалить</a>
+			<a href="/news/hide/<TMPL_VAR NAME=n_id>">Удалить</a>
 		</TMPL_IF>
 	<tr>
 	<td class=text colspan=2>

@@ -12,18 +12,23 @@ sub main {
 	my $msg        = $params->{msg};
 	my $psy        = $params->{psy};
 
-	return $psy->error("Вы хакер?") if $psy->is_annonimus;
+	if ($psy->is_annonimus) {
+		return $psy->error("Вы хакер?");
+	}
+
+	if ($msg =~ /^\s*$/) {
+		return $psy->error("Пустое сообщение... Ваш собеседник телепат?");
+	}
 	
 	if ($psy->bot_detected($msg)) {
 		return $psy->error("Вы смахиваете на бота...");
 	}
-	else {
-		$psy->pm->post( 
-			to_user_id => $to_user_id,
-			msg        => $msg
-		);
-		$psy->update_post_time;
-	};
+
+	unless ($psy->pm->post(to_user_id => $to_user_id, msg => $msg)) {
+		return $psy->error("Что-то пошло не так...");
+	}
+
+	$psy->update_post_time;
 
 	return 1;
 }

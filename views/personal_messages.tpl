@@ -43,7 +43,7 @@
 	<center>
 	<h1>П<span class=letter>О</span>ШЕПТ<span class=letter>А</span>ТЬ П<span class=letter>А</span>ЦИЭНТ<span class=letter>Y</span>:</h1>
 	<p>[ <span class=user_name><TMPL_VAR NAME=recipient_name></span> ]<br><br></p>
-	<form method=post>
+	<form method=post action='/pm/post'>
 		<textarea name=msg rows=10 cols=60></textarea>
 		<br>
 		<br>

@@ -1,4 +1,4 @@
-package PsyApp::Action::CreoView::Post;
+package PsyApp::Action::Creo::PostComment;
 
 use strict;
 use warnings;

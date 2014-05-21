@@ -1,4 +1,4 @@
-package PsyApp::Action::SelectCreo;
+package PsyApp::Action::Creo::Select;
 
 use strict;
 use warnings;

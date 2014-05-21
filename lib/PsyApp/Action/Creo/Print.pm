@@ -1,4 +1,4 @@
-package PsyApp::Action::CreoPrint;
+package PsyApp::Action::Creo::Print;
 
 use strict;
 use warnings;

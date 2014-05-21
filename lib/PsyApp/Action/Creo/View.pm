@@ -1,4 +1,4 @@
-package PsyApp::Action::CreoView;
+package PsyApp::Action::Creo::View;
 
 use strict;
 use warnings;

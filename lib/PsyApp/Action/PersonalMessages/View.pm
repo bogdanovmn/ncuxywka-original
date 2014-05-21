@@ -1,4 +1,4 @@
-package PsyApp::Action::PersonalMessages;
+package PsyApp::Action::PersonalMessages::View;
 
 use strict;
 use warnings;

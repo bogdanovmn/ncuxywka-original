@@ -1,4 +1,4 @@
-package PsyApp::Action::UserEdit::Post;
+package PsyApp::Action::User::Edit::Post;
 
 use strict;
 use warnings;
