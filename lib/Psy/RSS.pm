@@ -2,6 +2,7 @@ package Psy::RSS;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::DB;
 use Psy::Errors;

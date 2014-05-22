@@ -4,9 +4,7 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
 use Psy::Text;
-use Psy::Navigation;
 
 use base "Psy::Room";
 

@@ -1,5 +1,9 @@
 package Cache;
 
+use strict;
+use warnings;
+use utf8;
+
 use Data::Dumper;
 use Psy::Errors;
 use NICE_VALUES;
@@ -46,8 +50,6 @@ sub update {
 sub fresh {
 	my ($self) = @_;
 
-	return 0;
-
 	my $file_name = $self->_file_name;
 	my $last_modification_delta = time - (stat $file_name)[9];
 	
@@ -73,7 +75,7 @@ sub get {
 
 sub try_get {
 	my ($self, $id, $get_value_sub, $fresh_time) = @_;
-	
+
 	$self->select($id, $fresh_time);
 	
 	return $self->fresh ? $self->get : $self->update(&$get_value_sub());

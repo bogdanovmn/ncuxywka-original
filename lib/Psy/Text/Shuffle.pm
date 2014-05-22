@@ -2,6 +2,7 @@ package Psy::Text::Shuffle;
 
 use strict;
 use warnings;
+use utf8;
 
 use List;
 

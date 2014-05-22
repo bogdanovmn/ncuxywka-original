@@ -6,6 +6,7 @@ package NICE_VALUES;
 
 use strict;
 use warnings;
+use utf8;
 
 require Exporter;
 our @ISA = qw| Exporter |;

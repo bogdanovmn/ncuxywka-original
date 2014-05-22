@@ -2,6 +2,7 @@ package Psy::Auditor;
 
 use strict;
 use warnings;
+use utf8;
 
 #
 # Moderator's scope

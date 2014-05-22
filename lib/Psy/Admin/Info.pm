@@ -2,6 +2,7 @@ package Psy::Admin::Info;
 
 use strict;
 use warnings;
+use utf8;
 
 use NICE_VALUES;
 

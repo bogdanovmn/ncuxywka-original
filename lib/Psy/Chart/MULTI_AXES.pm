@@ -2,6 +2,7 @@ package Psy::Chart::MULTI_AXES;
 
 use strict;
 use warnings;
+use utf8;
 
 use base "Psy::Chart";
 

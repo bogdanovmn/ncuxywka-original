@@ -2,6 +2,7 @@ package Psy::Chart::DATA::COMMON;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Errors;
 

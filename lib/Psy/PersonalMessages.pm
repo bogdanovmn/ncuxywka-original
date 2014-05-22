@@ -2,6 +2,7 @@ package Psy::PersonalMessages;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Text;
 

@@ -2,6 +2,7 @@ package Psy::ViewsLog::Creo;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Errors;
 use Psy::Statistic::Creo;

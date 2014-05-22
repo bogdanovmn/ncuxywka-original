@@ -5,7 +5,7 @@ use warnings;
 use utf8;
 
 use Dancer ':syntax';
-use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
+#use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
 use Dancer::Plugin::Controller;
 
 use Psy;
@@ -84,6 +84,7 @@ hook 'before' => sub {
 
 hook 'before_template_render' => sub {
 	my ($template_params) = @_;
+
 
 	if (vars->{psy}) {
 		my $skin_name = 'original';

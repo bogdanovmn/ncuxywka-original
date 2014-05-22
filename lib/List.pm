@@ -2,7 +2,7 @@ package List;
 
 use strict;
 use warnings;
-
+use utf8;
 
 sub rand_swap_elements {
 	my ($list, $count) = @_;

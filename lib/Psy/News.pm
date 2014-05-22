@@ -2,6 +2,7 @@ package Psy::News;
 
 use strict;
 use warnings;
+use utf8;
 
 use base 'Psy::DB';
 #

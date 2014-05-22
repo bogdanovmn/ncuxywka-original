@@ -2,6 +2,7 @@ package Psy::Text::Bot;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Text::Generator;
 

@@ -2,6 +2,7 @@ package Psy::Room::PIG_PETR;
 
 use strict;
 use warnings;
+use utf8;
 
 use Psy::Errors;
 use Psy::Text;

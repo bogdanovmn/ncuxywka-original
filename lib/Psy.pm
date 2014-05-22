@@ -5,14 +5,12 @@ use warnings;
 use utf8;
 
 use Utils;
-use Psy::Errors;
 use Psy::Skin;
 use Date;
 use Psy::Group;
 use Psy::Text;
 use Psy::Text::Generator;
 use Psy::PersonalMessages;
-use Psy::Navigation;
 use Psy::Creo;
 use Psy::Auditor;
 use Psy::Statistic::User;

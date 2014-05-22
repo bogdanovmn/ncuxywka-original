@@ -2,6 +2,7 @@ package Psy::VERSION;
 
 use strict;
 use warnings;
+use utf8;
 
 use constant VER => "1.0";
 
