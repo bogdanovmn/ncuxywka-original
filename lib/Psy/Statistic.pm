@@ -225,7 +225,7 @@ sub top_creo_list {
 		LEFT JOIN vote sv ON sv.creo_id = c.id AND sv.user_id = ?
 		WHERE c.type = 0
 		AND IFNULL(ug.group_id, 0) <> ?
-		AND c.post_date >= NOW() - INTERVAL 12 MONTH
+		AND c.post_date >= NOW() - INTERVAL 36 MONTH
         AND cs.votes > ? 
         ORDER BY tcl_average $desc, tcl_cnt DESC, tcl_title 
         LIMIT ?
