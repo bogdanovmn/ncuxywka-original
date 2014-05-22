@@ -4,8 +4,7 @@ use strict;
 use warnings;
 use utf8;
 
-use Data::Dumper;
-use Psy::Errors;
+use Utils;
 use NICE_VALUES;
 
 use constant FRESH_TIME_MINUTE => 60;
@@ -27,6 +26,7 @@ sub constructor {
 
 sub select {
 	my ($self, $id, $current_fresh_time) = @_;
+	
 	$self->{current_fresh_time} = $current_fresh_time || $self->{fresh_time}; 
 	$self->{id} = $id;
 }
@@ -38,19 +38,26 @@ sub _file_name {
 
 sub update {
 	my ($self, $value) = @_;
+	
 	my $file_name = $self->_file_name;
-	open F, '> '. $file_name or die("Can't write cache '$file_name' [ $! ]");
-	$Data::Dumper::Indent = 0;
-	print F Dumper($value);
-	$Data::Dumper::Indent = 1;
+	
+	open F, '>:utf8', $file_name or die("Can't write cache '$file_name' [ $! ]");
+	#$Data::Dumper::Indent = 0;
+	print F Utils::_dumper($value);
+	#$Data::Dumper::Indent = 1;
 	close F;
+	
 	return $value;
 }
 
 sub fresh {
 	my ($self) = @_;
-
+	
 	my $file_name = $self->_file_name;
+
+	return 0 unless $file_name;
+	return 0 unless -e $file_name;
+
 	my $last_modification_delta = time - (stat $file_name)[9];
 	
 	return (-e $file_name and $last_modification_delta < $self->{current_fresh_time});
@@ -62,7 +69,7 @@ sub get {
 	my $data = undef;
 	my $file_name = $self->_file_name;
 	if (-e $file_name) {
-		open F, '< '. $file_name or die("Can't read cache '$file_name' [ $! ]");
+		open F, '<', $file_name or die("Can't read cache '$file_name' [ $! ]");
 		my $cache_data = '';
 		$cache_data .= $_ while (<F>);
 		close F;
@@ -75,6 +82,8 @@ sub get {
 
 sub try_get {
 	my ($self, $id, $get_value_sub, $fresh_time) = @_;
+
+	return &$get_value_sub();
 
 	$self->select($id, $fresh_time);
 	
