@@ -11,9 +11,11 @@ use Dancer::Plugin::Controller;
 use Psy;
 
 use PsyApp::Action::Index;
-use PsyApp::Action::Talks;
-use PsyApp::Action::Users;
-use PsyApp::Action::CreoList;
+
+use PsyApp::Action::List::Creo;
+use PsyApp::Action::List::Creo::Comments;
+use PsyApp::Action::List::Creo::Search;
+use PsyApp::Action::List::User;
 
 use PsyApp::Action::News::View;
 use PsyApp::Action::News::Post;
@@ -273,7 +275,7 @@ post '/user_edit/' => sub {
 #
 # Users
 #
-get '/users/' => sub { controller(template => 'users', action => 'Users') };
+get '/users/' => sub { controller(template => 'users', action => 'List::User') };
 #
 # Creos
 #
@@ -295,7 +297,7 @@ get qr#/(creos|quarantine|deleted|neofuturism)/(week|month|y\d{4})?/?# => sub {
 		var period => $period;
 	}
 
-	controller(template => 'creo_list', action => 'CreoList') 
+	controller(template => 'creo_list', action => 'List::Creo') 
 };
 #
 # Comments
@@ -307,7 +309,7 @@ get qr#/talks/(?:page(\d+)\.html)?# => sub {
 		var page => $page;
 	}
 
-	controller(template => 'talks', action => 'Talks');
+	controller(template => 'talks', action => 'List::Creo::Comments');
 };
 #
 # Comments for/from user
@@ -321,7 +323,7 @@ get qr#/talks/(for|from)/(\d+)(?:/page(\d+)\.html)?# => sub {
 		var page => $page;
 	}
 
-	controller(template => 'talks', action => 'Talks');
+	controller(template => 'talks', action => 'List::Creo::Comments');
 };
 #
 # Comments from user for user
@@ -336,7 +338,7 @@ get qr#/talks/for/(\d+)/from/(\d+)(?:/page(\d+)\.html)?# => sub {
 		var page => $page;
 	}
 
-	controller(template => 'talks', action => 'Talks');
+	controller(template => 'talks', action => 'List::Creo::Comments');
 };
 #
 # Rooms
@@ -491,6 +493,10 @@ post '/procedure/' => sub {
 		show_error;
 	}
 };
+#
+# Creo search
+#
+post '/search/' => sub { controller( template => 'creo_search', action => 'List::Creo::Search' ) };
 #
 # Procedure set (ban)
 #

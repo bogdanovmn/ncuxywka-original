@@ -17,7 +17,13 @@ sub main {
 	my $gb = Psy::GB->enter;
 
 	unless ($psy->bot_detected($msg, $alias)) {
-		$gb->post_comment(msg => $msg, alias => $alias);
+		$gb->post_comment(
+			msg => $msg, 
+			user_id => $psy->user_id,
+			alias => $psy->is_annonimus 
+				? Psy::Text::Generator::modify_alias($alias) 
+				: ""
+		);
 		$psy->update_post_time;
 	}
 

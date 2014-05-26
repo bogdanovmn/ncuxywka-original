@@ -1,4 +1,4 @@
-package PsyApp::Action::CreoList;
+package PsyApp::Action::List::Creo;
 
 use strict;
 use warnings;

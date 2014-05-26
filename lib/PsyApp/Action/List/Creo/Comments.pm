@@ -1,4 +1,4 @@
-package PsyApp::Action::Talks;
+package PsyApp::Action::List::Creo::Comments;
 
 use strict;
 use warnings;
