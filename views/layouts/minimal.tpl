@@ -6,7 +6,7 @@
     <center><a href='/'><img src='/img/<TMPL_VAR NAME="skin_pic_logo">'></a></center>
 <tr>
 <td class=content>
-	<TMPL_VAR NAME=content>
+	<TMPL_VAR ESCAPE=NONE NAME=content>
 <tr>
 <td>
     <hr>
