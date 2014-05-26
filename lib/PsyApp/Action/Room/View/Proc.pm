@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use utf8;
 
-use base 'PsyApp::Action::Room';
+use base 'PsyApp::Action::Room::View';
 
 
 sub _custom_action {

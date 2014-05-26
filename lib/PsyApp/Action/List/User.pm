@@ -1,4 +1,4 @@
-package PsyApp::Action::Users;
+package PsyApp::Action::List::User;
 
 use strict;
 use warnings;

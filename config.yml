@@ -14,27 +14,16 @@ layout: "main"
 # about unicode within your app when this setting is set (recommended).
 charset: "UTF-8"
 
-# template engine
-# simple: default and very basic template engine
-# template_toolkit: TT
-
-#template: "simple"
 template: "HtmlTemplate"
 engines:
     HtmlTemplate:
         extension: 'tpl'
         global_vars: 1
         open_mode: '<:encoding(UTF-8)'
+        default_escape: 'HTML'
 
-# template: "template_toolkit"
-# engines:
-#   template_toolkit:
-#     start_tag: '[%'
-#     end_tag:   '%]'
 
 session: "DBI"
-#serializer: "JSON"
-#deserializer: "JSON"
 
 plugins:
     "Controller":

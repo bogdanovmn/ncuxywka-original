@@ -14,7 +14,7 @@
 		<TMPL_INCLUDE NAME="../inc/navigation.tpl">
 	<!-- Content -->
 	<td class=content> 
-		<TMPL_VAR NAME=content>
+		<TMPL_VAR ESCAPE=NONE NAME=content>
 	<!-- Info blocks -->
 	<td class=info> 
 		<TMPL_INCLUDE NAME="../inc/info_blocks.tpl">

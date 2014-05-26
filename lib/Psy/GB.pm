@@ -4,12 +4,12 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
 use Psy::Text;
 use Psy::Text::Generator;
 use Psy::Statistic::User;
 
 use base "Psy::DB";
+
 
 sub enter {
 	my ($class, %p) = @_;
@@ -34,8 +34,6 @@ sub post_comment {
 	
 	return 'dub' if $self->last_msg eq $p{msg};
 	
-	$p{alias} = $self->is_annonimus ? Psy::Text::Generator::modify_alias($p{alias}) : "";
-
 	$self->query(qq|
 		INSERT INTO gb 
 		SET user_id = ?,
@@ -43,11 +41,11 @@ sub post_comment {
 			alias = ?,
 			ip = ?
 		|,
-		[$self->user_id, $p{msg}, $p{alias}, $self->{ip}],
+		[$p{user_id}, $p{msg}, $p{alias}, $self->{ip}],
 		{error_msg => "Психи слова не дают сказать!"}
 	);
 
-	Psy::Statistic::User->constructor(user_id => $self->user_id)->increment(Psy::Statistic::User::V_GB_COMMENTS);
+	Psy::Statistic::User->constructor(user_id => $p{user_id})->increment(Psy::Statistic::User::V_GB_COMMENTS);
 }
 #
 # Load guest book messages 
