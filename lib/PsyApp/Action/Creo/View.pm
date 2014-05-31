@@ -13,20 +13,20 @@ use Utils;
 sub main {
 	my ($class, $params) = @_;
 
-	my $id  = $params->{id};
-	my $psy = $params->{psy};
+	my $id      = $params->{id};
+	my $details = $params->{details} || 0;
+	my $psy     = $params->{psy};
 
 	my $creo = Psy::Creo->choose($id);
 
-	my $details = $params->{details} || 0;
 	my $admin_details = ($details and $psy->is_god) ? $psy->creo_votes($id) : [];
 
 	my ($creo_data, $creo_comments) = $creo->load;
 	return unless $creo_data;
 	
-	my $author = Psy::User->choose($creo_data->{c_user_id});
+	my $author      = Psy::User->choose($creo_data->{c_user_id});
 	my $author_info = $author->info;
-	my @votes = @{$creo->votes};
+	my @votes       = @{$creo->votes};
 	#
 	# Look for vote power =)
 	#

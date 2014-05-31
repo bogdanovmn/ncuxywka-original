@@ -7,7 +7,6 @@ use utf8;
 use Digest::MD5 qw( md5_hex );
 
 use Psy::User;
-use Psy::Text;
 #
 # Special user ID
 #
@@ -30,7 +29,7 @@ sub info {
 
 	my $self = Psy::DB::connect($class) or die;
 
-	$self->{session} = $p{session};
+	$self->{session} = $p{session} || sub {return ''};
 	$self->{session}("ip", $self->{ip});
 	
 	$self->{user_data} = {};

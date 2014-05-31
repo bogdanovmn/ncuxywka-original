@@ -5,6 +5,7 @@ use warnings;
 use utf8;
 
 use Psy::Text;
+use Psy::Text::Comments;
 use Psy::Text::Generator;
 use Psy::Statistic::User;
 
@@ -87,7 +88,7 @@ sub load_comments {
 		
 		$comments->[$i]->{cm_msg} = Psy::Text::convert_to_html($comments->[$i]->{cm_msg});
 		$comments->[$i]->{cm_msg} = Psy::Text::fuck_filter($comments->[$i]->{cm_msg});
-		$comments->[$i]->{cm_msg} = Psy::Text::activate_inside_links($comments->[$i]->{cm_msg});
+		$comments->[$i]->{cm_msg} = Psy::Text::Comments::activate_inside_links($comments->[$i]->{cm_msg});
 #
 		$comments->[$i]->{cm_alias} = $comments->[$i]->{cm_user_name} if $comments->[$i]->{cm_user_name};
 		$comments->[$i]->{cm_alias} = Psy::OP_ANONIM_NAME unless $comments->[$i]->{cm_alias};

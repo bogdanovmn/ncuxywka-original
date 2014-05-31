@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
-
 use base 'Psy::DB';
 #
 # updater constructor
@@ -15,9 +13,9 @@ sub constructor {
 
 	my $self = Psy::DB::connect($class);
 	
-	$self->{table_name} = $p{table_name};
-	$self->{key_name} = $p{key_name};
-	$self->{key_value} = $p{key_value};
+	$self->{table_name}         = $p{table_name};
+	$self->{key_name}           = $p{key_name};
+	$self->{key_value}          = $p{key_value};
 	$self->{objects_table_name} = $p{objects_table_name};
 
 	return $self;
@@ -25,6 +23,7 @@ sub constructor {
 
 sub add_object {
 	my ($self, $key_value) = @_;
+
 	$self->query(
 		sprintf(
 			'INSERT IGNORE INTO %s SET %s = %s', 

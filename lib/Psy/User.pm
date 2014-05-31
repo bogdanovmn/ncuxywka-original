@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
-use Psy::Creo;
 use Psy::Statistic::User;
 use Digest::MD5 qw( md5_hex );
 use FindBin;
@@ -169,7 +167,7 @@ sub creo_list {
 
 	my $looker_user_id = $p{looker_user_id} || 0;
 
-	error("Вы не заблудились?") unless defined $p{type};
+	return $self->error("Вы не заблудились?") unless defined $p{type};
 
 	my $where_type = sprintf("AND c.type IN (%s)", join(", ", @{$p{type}}));
 	

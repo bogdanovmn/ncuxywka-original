@@ -55,7 +55,15 @@ sub connect {
 sub query {
 	my ($self, $sql, $params, $settings) = @_;
 
-	my $sql_error_msg = $settings->{error_msg} || "Ошибка sql-запроса [". (caller(1))[3]. "]";
+	my @caller = caller(1);
+	
+	my $sql_error_msg = 
+		$settings->{error_msg} 
+		|| 
+		sprintf("Ошибка sql-запроса [%s]",
+			scalar @caller ? $caller[3] : '???'
+		);
+
 	my $sql_debug = $settings->{debug} || 0;
 	my $only_field = $settings->{only_field} || 0;
 	my $only_first_row = $settings->{only_first_row} || 0;

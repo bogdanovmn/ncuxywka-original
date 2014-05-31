@@ -5,8 +5,8 @@ use warnings;
 use utf8;
 
 use Psy::Text;
+use Psy::Text::Comments;
 use Psy::Auth;
-use Psy::Errors;
 use Psy::Statistic::User;
 use Psy::Statistic::Creo;
 #
@@ -302,7 +302,7 @@ sub comments {
 	for my $row (@$comments_result_set) {
 		#$row->{cm_msg} = Psy::Text::Shuffle::comment($row->{cm_msg}, words_power => 50, chars_power => 20);
 		$row->{cm_msg} = Psy::Text::convert_to_html($row->{cm_msg});
-		$row->{cm_msg} = Psy::Text::activate_inside_links($row->{cm_msg});
+		$row->{cm_msg} = Psy::Text::Comments::activate_inside_links($row->{cm_msg});
 
 		$row->{cm_alias} = $row->{cm_user_name} if $row->{cm_user_name};
 		$row->{cm_reply} = 1 if $p{reply};

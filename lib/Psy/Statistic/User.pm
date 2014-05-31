@@ -4,18 +4,17 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
 
-use constant V_VOTES_IN => 'votes_in';
-use constant V_VOTES_OUT => 'votes_out';
-use constant V_VOTES_IN_RANK => 'votes_in_rank';
-use constant V_VOTES_OUT_RANK => 'votes_out_rank';
-use constant V_COMMENTS_IN => 'comments_in';
-use constant V_COMMENTS_OUT => 'comments_out';
+use constant V_VOTES_IN            => 'votes_in';
+use constant V_VOTES_OUT           => 'votes_out';
+use constant V_VOTES_IN_RANK       => 'votes_in_rank';
+use constant V_VOTES_OUT_RANK      => 'votes_out_rank';
+use constant V_COMMENTS_IN         => 'comments_in';
+use constant V_COMMENTS_OUT        => 'comments_out';
 use constant V_COMMENTS_IN_BY_SELF => 'comments_in_by_self';
-use constant V_SPEC_COMMENTS => 'spec_comments';
-use constant V_GB_COMMENTS => 'gb_comments';
-use constant V_CREO_POST => 'creo_post';
+use constant V_SPEC_COMMENTS       => 'spec_comments';
+use constant V_GB_COMMENTS         => 'gb_comments';
+use constant V_CREO_POST           => 'creo_post';
 
 use base 'Psy::Statistic::Updater';
 #
@@ -25,9 +24,9 @@ sub constructor {
 	my ($class, %p) = @_;
 
 	my $self = Psy::Statistic::Updater::constructor($class,
-		table_name => 'user_stats',
-		key_name => 'user_id',
-		key_value => $p{user_id} || 0,
+		table_name         => 'user_stats',
+		key_name           => 'user_id',
+		key_value          => $p{user_id} || 0,
 		objects_table_name => 'users'
 	);
 

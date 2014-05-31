@@ -1,16 +1,14 @@
-package Psy::BOT;
+package Psy::Bot;
 
 use strict;
 use warnings;
 use utf8;
 
-use Psy::Errors;
 use Psy::Creo;
 use Psy::Text::Generator;
 use Psy::Auth;
 
 use Data::Dumper;
-
 use Digest::MD5 qw( md5_hex );
 
 use base 'Psy::DB';
@@ -91,7 +89,7 @@ sub post_creo_comment {
 		my $creo = Psy::Creo->choose($creo_id, console => 1);
 		$creo->post_comment(
 			user_id => $self->{info}->{user_id},
-			msg => Psy::Text::Generator::BOT::creo_comment($self->{info}->{type}),
+			msg => Psy::Text::Generator::Bot::creo_comment($self->{info}->{type}),
 			ip => '0.0.0.0',
 			post_date_delta => 3600   
 		);

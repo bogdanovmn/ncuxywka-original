@@ -7,10 +7,7 @@ use utf8;
 use NICE_VALUES;
 
 use Psy::Group;
-
-#use locale;
-#use POSIX qw(setlocale LC_ALL LC_CTYPE);
-#setlocale(LC_CTYPE, "ru_RU.CP1251");
+use Psy::Auth;
 
 sub creo_list {
     my ($self, %p) = @_;
@@ -18,7 +15,6 @@ sub creo_list {
 	my $limit = $p{count} ? 'LIMIT ?' : '';
 	
 	my $where_user = $p{user_id} ? "AND c.user_id = ?" : "";
-
 	my $where_type = defined $p{type} ? 'AND c.type = ?' : 'AND c.type IN (0, 1)';
 	
 	my $where_period = '';

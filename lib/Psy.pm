@@ -9,6 +9,7 @@ use Psy::Skin;
 use Date;
 use Psy::Group;
 use Psy::Text;
+use Psy::Text::Comments;
 use Psy::Text::Generator;
 use Psy::PersonalMessages;
 use Psy::Creo;
@@ -281,7 +282,7 @@ sub comments {
 		$row->{lc_msg} = Psy::Text::convert_to_html($row->{lc_msg});
 		$row->{lc_msg} = Psy::Text::cut_top_lines($row->{lc_msg}, TM_PREVIEW_LINES) if $p{cut} eq 1;
 		$row->{lc_msg} = Psy::Text::cut_first_chars($row->{lc_msg}, TM_PREVIEW_MAX_SIZE) if $p{cut} eq 1;
-		$row->{lc_msg} = Psy::Text::activate_inside_links($row->{lc_msg});
+		$row->{lc_msg} = Psy::Text::Comments::activate_inside_links($row->{lc_msg});
         	
 		$row->{lc_cuted} = 1 if $text_original_length > 10 + length $row->{lc_msg};
 		

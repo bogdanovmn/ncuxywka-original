@@ -6,6 +6,7 @@ use utf8;
 
 use Psy::Group;
 use Psy::Text;
+use Psy::Text::Comments;
 use Psy::Statistic::User;
 
 use constant R_FAQ		=> "faq";
@@ -103,7 +104,7 @@ sub load_comments {
 	for my $row (@$result_set) {
 		#$row->{cm_msg} = Psy::Text::Shuffle::comment($row->{cm_msg}, words_power => 70, chars_power => 10);
 		$row->{cm_msg} = Psy::Text::convert_to_html($row->{cm_msg});
-		$row->{cm_msg} = Psy::Text::activate_inside_links($row->{cm_msg});
+		$row->{cm_msg} = Psy::Text::Comments::activate_inside_links($row->{cm_msg});
 		
 		$row->{cm_alias} = $row->{cm_user_name} if $row->{cm_user_name};
 

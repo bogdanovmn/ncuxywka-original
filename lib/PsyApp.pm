@@ -219,7 +219,17 @@ get qr#/creo_edit/(delete|to_quarantine|from_quarantine|to_neofuturism|from_neof
 #
 # Creo view
 #
-get '/creos/:id.html' => sub { 
+get qr{/creos(a)?/(\d+)\.html} => sub { 
+	my (@params) = splat;
+	
+	if (@params > 1) { 
+		var details => 1;
+		var id      => $params[1];
+	}
+	else {
+		var id => $params[0];
+	}
+
 	controller(
 		template     => 'creo_view', 
 		action       => 'Creo::View',
@@ -246,7 +256,17 @@ post '/creos/:id.html' => sub {
 #
 # User view
 #
-get '/users/:id.html' => sub { 
+get qr{/users(a)?/(\d+)\.html} => sub { 
+	my (@params) = splat;
+	
+	if (@params > 1) { 
+		var details => 1;
+		var id      => $params[1];
+	}
+	else {
+		var id => $params[0];
+	}
+
 	controller(
 		template     => 'user_view', 
 		action       => 'User::View',
