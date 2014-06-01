@@ -1,11 +1,4 @@
-<TMPL_INCLUDE NAME="top.tpl">
-
-<!-- подгружаем Flot -->
-
-
-<!-- Content -->
-<td class=content> 
-	<center><h1>К<span class=letter>А</span>БИНЕТ ГЛ<span class=letter>А</span>ВВР<span class=letter>А</span>ЧА</h1></center>
+<h1>К<span class=letter>А</span>БИНЕТ ГЛ<span class=letter>А</span>ВВР<span class=letter>А</span>ЧА</h1>
 
 <!-- тут будет выводится график -->
 <h1>Пульсация Психуюшки</h1>
@@ -45,6 +38,3 @@ $.plot(
 	plot_conf_total
 );
 </script>
-
-<!-- Bottom -->
-<TMPL_INCLUDE NAME="bottom.tpl">

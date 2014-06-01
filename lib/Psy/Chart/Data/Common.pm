@@ -1,4 +1,4 @@
-package Psy::Chart::DATA::COMMON;
+package Psy::Chart::Data::Common;
 
 use strict;
 use warnings;
@@ -216,11 +216,11 @@ sub user_activity {
     my ($self, $user_id) = @_;
 
 	$self->set_result_type(RESULT_TYPE_HASH);
-	my $creos = $self->creos(user_id => $user_id);
-	my $comments = $self->comments(user_id => $user_id);
+	my $creos         = $self->creos(user_id => $user_id);
+	my $comments      = $self->comments(user_id => $user_id);
 	my $spec_comments = $self->spec_comments(user_id => $user_id);
-	my $gb_comments = $self->gb_comments(user_id => $user_id);
-	my $votes = $self->votes(user_id => $user_id);
+	my $gb_comments   = $self->gb_comments(user_id => $user_id);
+	my $votes         = $self->votes(user_id => $user_id);
 
 	my $total = [];
 	while (my ($k, $v) = each %$creos) {

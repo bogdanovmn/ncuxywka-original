@@ -11,6 +11,7 @@ use Dancer::Plugin::Controller;
 use Psy;
 
 use PsyApp::Action::Index;
+use PsyApp::Action::Maindoctor;
 
 use PsyApp::Action::List::Creo;
 use PsyApp::Action::List::Creo::Comments;
@@ -531,6 +532,10 @@ get qr#/procedure/user/(\d+)# => sub {
 		show_error;
 	}
 };
+#
+# Maindoctor room
+#
+get '/maindoctor/' => sub { controller( template => 'maindoctor', action => 'Maindoctor' ) };
 #
 # 404
 #

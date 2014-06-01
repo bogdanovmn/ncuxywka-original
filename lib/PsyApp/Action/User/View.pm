@@ -6,9 +6,8 @@ use utf8;
 
 
 use Psy;
-use Psy::Errors;
 use Psy::User;
-use Psy::Chart::DATA::COMMON;
+use Psy::Chart::Data::Common;
 use Psy::Statistic::Words;
 use NICE_VALUES;
 
@@ -42,7 +41,7 @@ sub main {
 	#
 	# User statistic
 	#
-	my $chart_data = Psy::Chart::DATA::COMMON->constructor;
+	my $chart_data = Psy::Chart::Data::Common->constructor;
 	my $user_activity_chart_data = $psy->cache->try_get(
 		"user-$id-activity",
 		sub { $chart_data->user_activity($id) },
