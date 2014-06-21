@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use utf8;
 
-require Exporter;
-our @ISA = qw|Exporter|;
-our @EXPORT = qw|
-	@ATTENTION_TEMPLATE
-	@USER_RANG_TEMPLATE
-	%TEMPLATE_WORDS
-|;
+#require Exporter;
+#our @ISA = qw|Exporter|;
+#our @EXPORT = qw|
+#	@ATTENTION_TEMPLATE
+#	@USER_RANG_TEMPLATE
+#	%TEMPLATE_WORDS
+#|;
 
 our @ATTENTION_TEMPLATE = (
 '#WHO# с #THAN# устроили пьяный дебош #HOSPITAL_PLACE#. Они кричат: "#RESUME#"',
