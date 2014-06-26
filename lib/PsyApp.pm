@@ -58,6 +58,9 @@ use PsyApp::Action::PersonalMessages::Post;
 
 use PsyApp::Action::ProcedureSet;
 
+use PsyApp::Action::Admin::Bot::Comment::Template;
+use PsyApp::Action::Admin::Bot::Comment::Template::Post;
+
 use PsyApp::Action::Error;
 use PsyApp::Action::404;
 
@@ -536,9 +539,37 @@ get qr#/procedure/user/(\d+)# => sub {
 # Maindoctor room
 #
 get '/maindoctor/' => sub { controller( template => 'maindoctor', action => 'Maindoctor' ) };
+
+#
+# Admin
+#
+
+#
+# Bot comments template
+#
+get '/doctor/bot/comment_template/' => sub {
+	controller( 
+		template => 'admin/bot/comment_template', 
+		action   => 'Admin::Bot::Comment::Template',
+		layout   => 'minimal'
+	)
+};
+#
+# Bot comments template post
+#
+post '/doctor/bot/comment_template/' => sub {
+	if (controller(action => 'Admin::Bot::Comment::Template::Post')) {
+		redirect '/doctor/bot/comment_template/';
+	}
+	else {
+		show_error;
+	}
+};
+
 #
 # 404
 #
 any qr{.*} => sub { controller(template => '404', action => '404') };
 
 true;
+

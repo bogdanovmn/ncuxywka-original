@@ -72,7 +72,7 @@ sub html_template_params {
 
 	my $no_empty = $total > 1 ? 1 : undef;
 
-	if ((length(@left) + length(@right) + 1) < $total) {
+	if ((scalar(@left) + scalar(@right) + 1) < $total) {
 		$many = 1;
 	}
 
