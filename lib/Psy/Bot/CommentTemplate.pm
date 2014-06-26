@@ -23,8 +23,8 @@ sub add {
 
 	$self->query(qq|
 		INSERT INTO bot_comment_template
-		SET character_id = ?,
-			category_id  = ?,
+		SET bot_character_id         = ?,
+			bot_comment_category_id  = ?,
 			template     = ?,
 			author_id    = ?
 		|,
@@ -38,8 +38,8 @@ sub load {
 	return $self->query(qq| 
 		SELECT * 
 		FROM bot_comment_template
-		WHERE character_id = ?
-		AND category_id    = ?
+		WHERE bot_character_id        = ?
+		AND   bot_comment_category_id = ?
 		|,
 		[ $self->{character_id}, $self->{category_id} ]
 	);
