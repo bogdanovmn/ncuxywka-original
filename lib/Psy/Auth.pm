@@ -160,12 +160,25 @@ sub store_login_event {
 sub is_spider_bot {
 	my ($self) = @_;
 	for my $bot_name (q| 
-		Googlebot-Mobile 
 		Googlebot 
-		bingbot 
-		Mail.RU_Bot 
-		MJ12bot 
+		
 		YandexBot 
+		YandexDirect
+
+		bingbot 
+		
+		Mail.RU_Bot 
+		
+		MJ12bot 
+		ScreenerBot
+		Wotbox
+		aiHitBot
+		spbot
+		LWNutch
+		SolomonoBot
+		LinkpadBot
+		BLEXBot
+		AhrefsBot
 	|) {
 		return $bot_name if index($ENV{HTTP_USER_AGENT}, $bot_name) > -1;
 	}
