@@ -5,23 +5,28 @@ use warnings;
 use utf8;
 
 use Utils;
-use NICE_VALUES;
+use Format::LongNumber;
+#use CHI;
 
 use constant FRESH_TIME_MINUTE => 60;
-use constant FRESH_TIME_HOUR => 60*60;
-use constant FRESH_TIME_DAY => 60*60*24;
+use constant FRESH_TIME_HOUR   => 60*60;
+use constant FRESH_TIME_DAY    => 60*60*24;
 
 sub constructor {
 	my ($class, %p) = @_;
+	
 	my $self = {
 		storage => $p{storage},
 		fresh_time => $p{fresh_time} || 5 * FRESH_TIME_MINUTE
 	};
 
 	$self->{current_fresh_time} = $self->{fresh_time};
+	#$self->{chi} = CHI->new(
+	#	driver => 'FIle',
+	#	root_dir => $self->{storage}
+	#);
 
-	bless $self, $class;
-	return $self;
+	return bless $self, $class;
 }
 
 sub select {
@@ -78,6 +83,12 @@ sub get {
 	}
 
 	return $data;
+}
+
+sub try_get1 {
+	my ($self, $id, $get_value_sub, $fresh_time) = @_;
+
+	return $self->{chi}->compute($id, sprintf("%d sec", $fresh_time || $self->{fresh_time}), $get_value_sub);
 }
 
 sub try_get {
