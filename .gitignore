@@ -6,3 +6,4 @@ cache/
 logs/
 sessions/
 lib/Image
+install/db/data

@@ -1,0 +1,12 @@
+creo 
+	удалить alias
+	delete UK
+
+user_id default null (not for all) 0 --> null
+
+spec_comments - type to char or enum
+
+group
+	-- rename to groups
+	-- to innodb
+	-- id to tinyint 
