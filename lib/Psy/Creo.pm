@@ -250,15 +250,16 @@ sub load_headers {
 
 	my $creo_result_set = $self->query(qq| 
 		SELECT 
-			alias c_alias,
-			user_id c_user_id,
-			DATE_FORMAT(post_date, '%Y-%m-%d') c_post_date,
-			title c_title,
-			type c_type,
-			ip c_ip,
-			id c_id
-		FROM creo 
-		WHERE id = ? 
+			u.name c_alias,
+			c.user_id c_user_id,
+			DATE_FORMAT(c.post_date, '%Y-%m-%d') c_post_date,
+			c.title c_title,
+			c.type c_type,
+			c.ip c_ip,
+			c.id c_id
+		FROM creo c
+		JOIN users u ON u.id = c.user_id
+		WHERE c.id = ? 
 		|,
 		[$self->{id}],
 		{error_msg => "Анализы нечитабельны!"}

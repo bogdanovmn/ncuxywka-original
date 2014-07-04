@@ -19,12 +19,11 @@ sub activate_inside_links {
 		my @lines = split(/<br>/, $words[$i]);
 		my @tmp_lines = ();
 		for my $line (@lines) {
-			if ($line =~ /(.*)ncuxywka\.com\/creos\/(\d+)\.html$/) {
-				my $creo_id = $2;
+			if ($line =~ /(?:http:\/\/)?(?:www\.)?(?:m\.)?ncuxywka\.com\/creos\/(\d+)\.html$/) {
+				my $creo_id = $1;
 				my $creo = Psy::Creo->choose($creo_id);
 				my $creo_data = $creo->load_headers;
-				my $link_prefix = $1;
-				if ($creo_data and $link_prefix =~ /^(http:\/\/)?(www\.)?$/) {
+				if ($creo_data) {
 					push(@tmp_lines, sprintf(
 						"<a href='/creos/%d.html'>[<b>Анализ:</b> %s - %s]</a>", 
 						$creo_id, $creo_data->{c_alias}, $creo_data->{c_title})
