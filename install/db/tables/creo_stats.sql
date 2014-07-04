@@ -8,6 +8,6 @@ CREATE TABLE creo_stats (
 
 	PRIMARY KEY (creo_id),
 	
-	FOREIGN KEY (creo_id) REFERENCES creos (id) ON DELETE CASCADE
+	FOREIGN KEY (creo_id) REFERENCES creo (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

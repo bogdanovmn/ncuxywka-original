@@ -21,8 +21,7 @@ CREATE TABLE moderation_log (
 	PRIMARY KEY (id),
 	
 	KEY i_views_log__by_object (event_date, event_type, object_id),
-	KEY i_views_log__by_type   (event_date, event_type),
 
-	FOREIGN KEY (moderator_id) REFERENCES moderators (id) ON DELETE RESTRICT
+	FOREIGN KEY (moderator_id) REFERENCES moderator (id) ON DELETE RESTRICT
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

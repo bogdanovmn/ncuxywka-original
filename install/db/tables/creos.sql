@@ -1,13 +1,14 @@
 CREATE TABLE creo (
+
 	id          smallint unsigned NOT NULL AUTO_INCREMENT,
 	user_id     smallint unsigned NOT NULL,
 	post_date   timestamp         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	title       varchar(250)      NOT NULL,
 	body        text              NOT NULL,
 	edit_date   timestamp         NOT NULL DEFAULT '0000-00-00 00:00:00',
-	type        tinyint(4)        NOT NULL,
+	type        tinyint           NOT NULL,
 	ip          char(15)          NOT NULL,
-	neofuturism tinyint(4)        NOT NULL DEFAULT '0',
+	neofuturism tinyint           NOT NULL DEFAULT '0',
 	
 	PRIMARY KEY (id),
 	

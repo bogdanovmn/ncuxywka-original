@@ -10,7 +10,7 @@ CREATE TABLE personal_messages (
 	PRIMARY KEY (id),
 
 	KEY i_personal_messages__from_user_id (from_user_id, post_date),
-	KEY i_personal_messages__to_user_id   (to_user_id, post_date)
+	KEY i_personal_messages__to_user_id   (to_user_id, post_date),
 
 	FOREIGN KEY (from_user_id) REFERENCES users (id) ON DELETE CASCADE,
 	FOREIGN KEY (to_user_id)   REFERENCES users (id) ON DELETE CASCADE

@@ -12,6 +12,6 @@ CREATE TABLE creo_history (
 	KEY i_creo_history__by_creo_id (creo_id),
 
 	FOREIGN KEY (editor_id) REFERENCES users (id) ON DELETE SET NULL,
-	FOREIGN KEY (creo_id)   REFERENCES creos (id) ON DELETE CASCADE
+	FOREIGN KEY (creo_id)   REFERENCES creo  (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

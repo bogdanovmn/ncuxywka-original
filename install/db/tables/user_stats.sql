@@ -12,7 +12,7 @@ CREATE TABLE user_stats (
 	gb_comments         int unsigned      NOT NULL DEFAULT '0',
 	creo_post           int unsigned      NOT NULL DEFAULT '0',
 
-	PRIMARY KEY (user_id)
+	PRIMARY KEY (user_id),
 	
 	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 

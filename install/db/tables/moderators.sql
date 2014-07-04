@@ -1,4 +1,4 @@
-CREATE TABLE moderators (
+CREATE TABLE moderator (
 
 	id         smallint unsigned NOT NULL AUTO_INCREMENT,
 	user_id    smallint unsigned NOT NULL,

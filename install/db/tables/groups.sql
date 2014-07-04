@@ -1,4 +1,4 @@
-CREATE TABLE groups (
+CREATE TABLE `group` (
 	id              tinyint unsigned  NOT NULL AUTO_INCREMENT,
 	name            varchar(100)      NOT NULL,
 	type            tinyint unsigned  NOT NULL,

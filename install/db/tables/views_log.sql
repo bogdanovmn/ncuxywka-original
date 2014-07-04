@@ -12,6 +12,6 @@ CREATE TABLE views_log (
 
 	KEY i_views_log__by_object (object_id, object_type, view_date),
 	
-	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL,
+	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

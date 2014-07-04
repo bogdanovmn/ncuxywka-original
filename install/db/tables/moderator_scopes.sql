@@ -17,6 +17,6 @@ CREATE TABLE moderator_scope (
 
 	KEY i_moderator_scope__by_moderator_id (moderator_id),
 	
-	FOREIGN KEY (moderator_id) REFERENCES moderators (id) ON DELETE CASCADE
+	FOREIGN KEY (moderator_id) REFERENCES moderator (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
