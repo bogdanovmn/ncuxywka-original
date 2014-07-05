@@ -31,7 +31,6 @@ foreach my $ip_data (@$bot_ips) {
 	my $ip = $ip_data->{ip};
 	my $count = $db->query("SELECT COUNT(1) cnt FROM views_log WHERE ip = '$ip'")->[0]->{cnt}; 
 	$logger->say("Delete $count views from '$ip'...");
-	next;
 	$db->query(qq|
 		DELETE FROM views_log WHERE ip = ?
 		|,

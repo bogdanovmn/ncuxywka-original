@@ -249,7 +249,7 @@ sub comments {
 			u.name lc_user_name,
 
 			cr.id lc_creo_id,
-			CASE cr.user_id WHEN 0 THEN cr.alias ELSE cru.name END lc_creo_alias,
+			cru.name lc_creo_alias,
 			cr.title lc_creo_title,
 			cr.type lc_creo_type,
 			CASE cr.type WHEN 1 THEN 1 ELSE 0 END lc_quarantine,

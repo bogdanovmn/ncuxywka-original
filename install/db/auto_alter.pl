@@ -22,6 +22,9 @@ for my $line (@{$db->query("show tables")}) {
 	
 	my $text = $db->query($sql)->[0]->{"Create Table"};
 	$text =~ s/`//g;
+	if ($table_name[0] eq 'group') {
+		$table_name[0] = '`'.$table_name[0].'`';
+	}
 	#
 	# InnoDB
 	#

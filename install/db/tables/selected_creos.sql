@@ -1,4 +1,4 @@
-CREATE TABLE selected_creos (
+CREATE TABLE selected_creo (
 
 	id         int unsigned      NOT NULL AUTO_INCREMENT,
 	user_id    smallint unsigned NOT NULL,

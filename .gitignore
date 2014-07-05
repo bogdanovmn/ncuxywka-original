@@ -7,3 +7,4 @@ logs/
 sessions/
 lib/Image
 install/db/data
+public/img/avatars

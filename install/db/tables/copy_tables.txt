@@ -1,0 +1,29 @@
+-- insert into rednikovp_psy2.users select * from `rednikovp_psy-utf8`.users;
+-- insert into rednikovp_psy2.creo select * from `rednikovp_psy-utf8`.creo;
+-- insert into rednikovp_psy2.moderator select * from `rednikovp_psy-utf8`.moderator;
+-- insert into rednikovp_psy2.`group` select * from `rednikovp_psy-utf8`.`group`;
+-- insert into rednikovp_psy2.bots select * from `rednikovp_psy-utf8`.bots;
+
+
+-- insert into rednikovp_psy2.ban select * from `rednikovp_psy-utf8`.ban;
+-- insert into rednikovp_psy2.bot_comment_category select * from `rednikovp_psy-utf8`.bot_comment_category;
+-- insert into rednikovp_psy2.bot_character select * from `rednikovp_psy-utf8`.bot_character;
+-- insert into rednikovp_psy2.bot_comment_template select * from `rednikovp_psy-utf8`.bot_comment_template;
+-- insert into rednikovp_psy2.bots_log select * from `rednikovp_psy-utf8`.bots_log;
+-- insert into rednikovp_psy2.calendar select * from `rednikovp_psy-utf8`.calendar;
+-- insert into rednikovp_psy2.comments select * from `rednikovp_psy-utf8`.comments;
+-- insert into rednikovp_psy2.creo_history select * from `rednikovp_psy-utf8`.creo_history;
+-- insert into rednikovp_psy2.creo_stats select * from `rednikovp_psy-utf8`.creo_stats;
+-- insert into rednikovp_psy2.gb select * from `rednikovp_psy-utf8`.gb;
+-- insert into rednikovp_psy2.logins select * from `rednikovp_psy-utf8`.logins;
+-- insert into rednikovp_psy2.moderation_log select * from `rednikovp_psy-utf8`.moderation_log;
+-- insert into rednikovp_psy2.moderator_scope select * from `rednikovp_psy-utf8`.moderator_scope;
+-- insert into rednikovp_psy2.news select * from `rednikovp_psy-utf8`.news;
+-- insert into rednikovp_psy2.personal_messages select * from `rednikovp_psy-utf8`.personal_messages;
+-- insert into rednikovp_psy2.selected_creo select * from `rednikovp_psy-utf8`.selected_creo;
+-- insert into rednikovp_psy2.session select * from `rednikovp_psy-utf8`.session;
+-- insert into rednikovp_psy2.spec_comments select * from `rednikovp_psy-utf8`.spec_comments;
+-- insert into rednikovp_psy2.user_group select * from `rednikovp_psy-utf8`.user_group;
+-- insert into rednikovp_psy2.user_stats select * from `rednikovp_psy-utf8`.user_stats;
+-- insert into rednikovp_psy2.views_log select * from `rednikovp_psy-utf8`.views_log;
+insert into rednikovp_psy2.vote select * from `rednikovp_psy-utf8`.vote;
