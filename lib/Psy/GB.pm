@@ -42,11 +42,12 @@ sub post_comment {
 			alias = ?,
 			ip = ?
 		|,
-		[$p{user_id}, $p{msg}, $p{alias}, $self->{ip}],
+		[$p{user_id} || undef, $p{msg}, $p{alias}, $self->{ip}],
 		{error_msg => "Психи слова не дают сказать!"}
 	);
-
-	Psy::Statistic::User->constructor(user_id => $p{user_id})->increment(Psy::Statistic::User::V_GB_COMMENTS);
+	if ($p{user_id}) {
+		Psy::Statistic::User->constructor(user_id => $p{user_id})->increment(Psy::Statistic::User::V_GB_COMMENTS);
+	}
 }
 #
 # Load guest book messages 

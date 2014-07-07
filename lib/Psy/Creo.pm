@@ -340,20 +340,22 @@ sub post_comment {
             ip = ?,
 			post_date = $post_date
 		|,
-		[$self->{id}, $p{user_id}, $p{msg}, $p{alias}, $self->{ip} || $p{ip}],
+		[$self->{id}, $p{user_id} || undef, $p{msg}, $p{alias}, $self->{ip} || $p{ip}],
 		{error_msg => "Психи не дают диагноз высказать!"}
 	);
 
-	my $user_stats = Psy::Statistic::User->constructor(user_id => $p{user_id});
-	$user_stats->increment(Psy::Statistic::User::V_COMMENTS_OUT);
-
 	my $author_user_id = $self->load_headers->{c_user_id};
-	if ($author_user_id eq $p{user_id}) {
-		$user_stats->increment(Psy::Statistic::User::V_COMMENTS_IN_BY_SELF);
+	
+	if ($p{user_id}) {
+		my $user_stats = Psy::Statistic::User->constructor(user_id => $p{user_id});
+		$user_stats->increment(Psy::Statistic::User::V_COMMENTS_OUT);
+
+		if ($author_user_id eq $p{user_id}) {
+			$user_stats->increment(Psy::Statistic::User::V_COMMENTS_IN_BY_SELF);
+		}
 	}
 
 	Psy::Statistic::User->constructor(user_id => $author_user_id)->increment(Psy::Statistic::User::V_COMMENTS_IN);
-	
 	Psy::Statistic::Creo->constructor(creo_id => $self->{id})->increment(Psy::Statistic::Creo::V_COMMENTS);
 }
 #

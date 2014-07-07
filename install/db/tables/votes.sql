@@ -5,7 +5,7 @@ CREATE TABLE vote (
 	creo_id    smallint unsigned NOT NULL,
 	vote       tinyint           NOT NULL,
 	ip         char(15)          NOT NULL,
-	init_date  timestamp         NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`date`     timestamp         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 	PRIMARY KEY (id),
 	

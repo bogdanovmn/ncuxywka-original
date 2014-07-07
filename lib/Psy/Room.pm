@@ -138,11 +138,12 @@ sub post_comment {
             ip = ?,
 			type = ?
 		|,
-		[$self->{user_id}, $p{msg}, $p{alias}, $self->{ip}, $self->{room_mnemonic}],
+		[$self->{user_id} || undef, $p{msg}, $p{alias}, $self->{ip}, $self->{room_mnemonic}],
 		{error_msg => "Психи не дают слова сказать!", debug => 0}
 	);
-
-	Psy::Statistic::User->constructor(user_id => $self->{user_id})->increment(Psy::Statistic::User::V_SPEC_COMMENTS);	
+	if ($self->{user_id}) {
+		Psy::Statistic::User->constructor(user_id => $self->{user_id})->increment(Psy::Statistic::User::V_SPEC_COMMENTS);	
+	}
 }   
 #
 # Get guest book messages total
