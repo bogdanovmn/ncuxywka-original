@@ -307,7 +307,7 @@ sub comments {
 
 		$row->{cm_alias} = $row->{cm_user_name} if $row->{cm_user_name};
 		$row->{cm_reply} = 1 if $p{reply};
-		$row->{cm_major} = 1 if $row->{cm_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
+		$row->{cm_major} = 1 if $row->{cm_user_id} and $row->{cm_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
 		$row->{cm_inner_id} = $i;
 		$i++;
 		push(@comments, $row);

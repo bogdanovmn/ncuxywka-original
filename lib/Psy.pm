@@ -288,7 +288,7 @@ sub comments {
 		
 		$row->{lc_alias} = OP_ANONIM_NAME unless $row->{lc_alias};
 		
-		$row->{lc_major} = 1 if $row->{lc_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
+		$row->{lc_major} = 1 if $row->{lc_user_id} and $row->{lc_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
 		
 		push(@comments, $row);
     }
