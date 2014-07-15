@@ -87,40 +87,36 @@ sub random_creo_list {
 	push(@query_params, $p{user_id}) if defined $p{user_id};
 	push(@query_params, $p{count});
 	push(@query_params, $p{type}) if defined $p{type};
-    
+   
+	#
+	# Получаем список забаненых юзеров
+	#
+	my $banned_users = $self->query(qq|
+		SELECT ug.user_id
+		FROM user_group ug
+		WHERE ug.id = ?
+		|,
+		[ Psy::Group::PLAGIARIST ],
+		{ list_field => 'user_id' }
+	);
+	if ($self->user_id) {
+		push @$banned_users, $self->user_id;
+	}
+
 	my $list = $self->query(qq|
 		SELECT 
-			cl_id, 
-			cl_user_id, 
-			cl_title, 
-			u.name cl_alias
-		FROM (
-			SELECT
-				c.id cl_id,
-				c.user_id cl_user_id,
-				c.title cl_title
-			FROM creo c
-			JOIN ( 
-				SELECT distinct u.id 
-				FROM users u
-				LEFT JOIN user_group ug ON ug.user_id = u.id
-				JOIN creo c ON c.user_id = u.id
-				WHERE 
-					IFNULL(ug.group_id, 0) <> ?
-					$where_user
-				ORDER BY RAND() 
-				LIMIT ? 
-			) ru ON ru.id = c.user_id       
-			
-			WHERE 1=1
-				$where_type
-			ORDER BY RAND()
-		) rand_creo
-		JOIN users u ON u.id = cl_user_id 
-		GROUP BY cl_user_id
+			c.id      cl_id, 
+			c.user_id cl_user_id, 
+			c.title   cl_title, 
+			u.name    cl_alias
+		FROM creo c
+		JOIN users u ON u.id = c.user_id
+		WHERE c.type = 0
+		AND   c.user_id NOT IN (?)
+		ORDER BY RAND()
+		LIMIT ? 
 		|,
-		[@query_params],
-		{error_msg  => "Случайные анализы оказались совсем не случайными!"}
+		[ join(",", @$banned_users), $p{count} ],
 	);
 
     return $list;

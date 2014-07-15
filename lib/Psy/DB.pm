@@ -64,8 +64,9 @@ sub query {
 			scalar @caller ? $caller[3] : '???'
 		);
 
-	my $sql_debug = $settings->{debug} || 0;
-	my $only_field = $settings->{only_field} || 0;
+	my $sql_debug      = $settings->{debug} || 0;
+	my $only_field     = $settings->{only_field} || 0;
+	my $list_field     = $settings->{list_field} || 0;
 	my $only_first_row = $settings->{only_first_row} || 0;
 	my $return_last_id = $settings->{return_last_id} || 0;
 
@@ -92,8 +93,8 @@ sub query {
 		my @result = ();
 		while (my $row = $sth->fetchrow_hashref) {
 			return $row->{$only_field} if $only_field;
-			return $row if $only_first_row;
-			push(@result, $row);
+			return $row                if $only_first_row;
+			push(@result, $list_field ? $row->{$list_field} : $row);
 		}
 		$sth->finish;
 		
