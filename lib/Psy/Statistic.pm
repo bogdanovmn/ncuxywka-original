@@ -102,6 +102,9 @@ sub random_creo_list {
 	if ($self->user_id) {
 		push @$banned_users, $self->user_id;
 	}
+	if ($p{user_id}) {
+		push @$banned_users, $p{user_id};
+	}
 
 	my $list = $self->query(qq|
 		SELECT 
