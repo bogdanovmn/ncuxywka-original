@@ -94,7 +94,7 @@ sub random_creo_list {
 	my $banned_users = $self->query(qq|
 		SELECT ug.user_id
 		FROM user_group ug
-		WHERE ug.user_id = ?
+		WHERE ug.group_id = ?
 		|,
 		[ Psy::Group::PLAGIARIST ],
 		{ list_field => 'user_id' }
