@@ -9,6 +9,7 @@ use PSY_DB_CONF;
 use Time::HiRes;
 use Psy::Errors;
 use Utils;
+use Format::LongNumber;
 
 my $__STATISTIC = {
 	sql_count => 0,
@@ -126,12 +127,11 @@ sub explain_query {
 	
 	$sth->finish;
 
-	use NICE_VALUES;
 	my $explain_data = {
-		caller => (caller(2))[3],
-		details => \@result, 
+		caller          => (caller(2))[3],
+		details         => \@result, 
 		nice_total_rows => short_number($total_rows),
-		total_rows => $total_rows 
+		total_rows      => $total_rows 
 	};
 	if ($settings->{explain_statistic}) {
 		if ($total_rows > 100 or $type_total =~ /ALL/ or $extra_total =~ /temporary|filesort/) {

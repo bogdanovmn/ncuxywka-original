@@ -8,6 +8,10 @@ CREATE TABLE creo_stats (
 
 	PRIMARY KEY (creo_id),
 	
+	KEY i_creo_stats__votes    (votes),
+	KEY i_creo_stats__comments (comments),
+	KEY i_creo_stats__views    (views),
+	
 	FOREIGN KEY (creo_id) REFERENCES creo (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

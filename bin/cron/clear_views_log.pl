@@ -23,7 +23,7 @@ my $db = Psy::DB->connect;
 $logger->say("Get Bot ip...");
 
 my $bot_ips = $db->query(qq|
-	SELECT DISTINCT ip FROM views_log WHERE user_agent LIKE '%bot%'
+	SELECT DISTINCT ip FROM views_log WHERE user_agent LIKE '%spider%'
 |);
 
 $logger->say("Total ips: ". scalar @$bot_ips);
