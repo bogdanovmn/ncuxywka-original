@@ -4,10 +4,9 @@ use strict;
 use warnings;
 use utf8;
 
-use NICE_VALUES;
-
 use Psy::Group;
 use Psy::Auth;
+use Utils;
 
 sub creo_list {
     my ($self, %p) = @_;
@@ -80,35 +79,57 @@ sub random_creo_list {
 
 	$p{count} = 5 unless $p{count} =~ /^\d+$/;
 	
-	my $where_user = defined $p{user_id} ? 'AND c.user_id <> ?' : '';
-	my $where_type = defined $p{type} ? 'AND c.type = ?' : "AND c.type = '0'";
-
-	my @query_params = (Psy::Group::PLAGIARIST);
-	push(@query_params, $p{user_id}) if defined $p{user_id};
-	push(@query_params, $p{count});
-	push(@query_params, $p{type}) if defined $p{type};
-   
 	#
 	# Получаем список забаненых юзеров
 	#
-	my $banned_users = $self->query(qq|
-		SELECT ug.user_id
-		FROM user_group ug
-		WHERE ug.group_id = ?
-		|,
-		[ Psy::Group::PLAGIARIST ],
-		{ list_field => 'user_id' }
-	);
-	if ($self->user_id) {
-		push @$banned_users, $self->user_id;
-	}
+	my $banned_users = $self->users_to_exclude(self => 1);
 	if ($p{user_id}) {
 		push @$banned_users, $p{user_id};
 	}
 
 	my $exclude_user_cond = scalar(@$banned_users)
-		? sprintf('AND c.user_id NOT IN (%s)', join(",", @$banned_users))
+		? sprintf('AND us.user_id NOT IN (%s)', join(",", @$banned_users))
 		: '';
+	#
+	# Кол-во юзеров
+	#
+	my $users = $self->query(qq|
+		SELECT us.user_id 
+		FROM user_stats us
+		WHERE us.creo_post > 2
+		$exclude_user_cond
+		|,
+		[],
+		{ list_field => 'user_id' }
+	);
+	my $users_cond = sprintf(
+		'AND c.user_id IN (%s) ', 
+		join(',', @{List::rand_list(source => $users, count => $p{count})})
+	);
+	
+	my %creos_by_users; 
+	my $data = $self->query(qq|
+		SELECT 
+			c.id, 
+			c.user_id 
+		FROM creo c
+		JOIN users u ON u.id = c.user_id
+		WHERE c.type = 0
+		$users_cond 
+		|,
+	);
+	
+	foreach (@$data) {
+		push @{$creos_by_users{$_->{user_id}}}, $_->{id};
+	}
+
+	my $creo_cond = sprintf(
+		'WHERE c.id IN (%s)',
+		join(',', 
+			map { List::random_element(@{$creos_by_users{$_}}) }
+			keys %creos_by_users
+		)
+	);
 
 	my $list = $self->query(qq|
 		SELECT 
@@ -118,12 +139,8 @@ sub random_creo_list {
 			u.name    cl_alias
 		FROM creo c
 		JOIN users u ON u.id = c.user_id
-		WHERE c.type = 0
-		$exclude_user_cond
-		ORDER BY RAND()
-		LIMIT ? 
+		$creo_cond
 		|,
-		[ $p{count} ],
 	);
 
     return $list;

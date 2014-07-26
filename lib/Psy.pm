@@ -17,7 +17,7 @@ use Psy::Auditor;
 use Psy::Statistic::User;
 use Psy::Statistic::Creo;
 use Cache;
-use NICE_VALUES;
+use Format::LongNumber;
 use FindBin;
 
 #
@@ -40,14 +40,14 @@ use constant LOG_FILE => $FindBin::Bin. '/../logs/psy.log';
 #
 # Text modification params
 #
-use constant TM_PREVIEW_LINES => 8;
+use constant TM_PREVIEW_LINES    => 8;
 use constant TM_PREVIEW_MAX_SIZE => 528; # 66*8
 #
 # Output params
 #
-use constant OP_RECS_PER_PAGE => 19;
+use constant OP_RECS_PER_PAGE                 => 19;
 use constant OP_RECS_PER_PAGE_FOR_PETR_MOBILE => 5;
-use constant OP_ANONIM_NAME => 'Я буйный, в рот мне клизму';
+use constant OP_ANONIM_NAME                   => 'Я буйный, в рот мне клизму';
 #
 # Moderator's scope
 #
@@ -232,13 +232,22 @@ sub comments {
 	my $offset = ($page - 1) * OP_RECS_PER_PAGE;	
 
 	my $where = '';
-	$where = 'AND cm.user_id = "'. $p{from}. '"' if $p{from};
-	$where = 'AND cr.user_id = "'. $p{for}. '"' if $p{for};
-	$where = 'AND cr.user_id = "'. $p{for}. '" AND cm.user_id = "'. $p{from}. '"' if ($p{from} and $p{for});
+	my @params;
 	
-	$where .= 'AND cr.type IN (' . join(', ', @{$p{creo_types}}).")" if $p{creo_types};
+	if ($p{from}) {
+		$where .= 'AND cm.user_id = ? ';
+		push @params, $p{from};
+	}
+	if ($p{for}) {
+		$where .= 'AND cr.user_id = ? ';
+		push @params, $p{for};
+	}
+	
+	if ($p{creo_types}) {
+		$where .= 'AND cr.type IN (' . join(', ', @{$p{creo_types}}).") ";
+	}
 
-    my $sql = qq| 
+    my $comments = $self->query(qq| 
         SELECT 
             cm.id lc_id,
             cm.alias lc_alias,
@@ -263,19 +272,15 @@ sub comments {
 		LEFT JOIN user_group ug ON ug.user_id = u.id
 		LEFT JOIN `group` g ON g.id = ug.group_id AND g.type > 0
 		WHERE 1 = 1
-			$where
+		$where
         ORDER BY cm.post_date DESC 
 		LIMIT ?, ?
-    |;
-    my $sth = $self->{dbh}->prepare($sql);
-    $sth->execute($offset, OP_RECS_PER_PAGE);
+		|,
+		[ @params, $offset, OP_RECS_PER_PAGE ],
+		{ error_msg => "Диагнозы нечитабельны!" }
+    );
 
-    if ($sth->err) {
-        error("Диагнозы нечитабельны!");
-    }
-
-    my @comments = ();
-    while (my $row = $sth->fetchrow_hashref) {
+    foreach my $row (@$comments) {
 		my $text_original_length = length $row->{lc_msg};
 		
 		#$row->{lc_msg} = Psy::Text::Shuffle::comment($row->{lc_msg}, words_power => 40, chars_power => 10);
@@ -289,13 +294,9 @@ sub comments {
 		$row->{lc_alias} = OP_ANONIM_NAME unless $row->{lc_alias};
 		
 		$row->{lc_major} = 1 if $row->{lc_user_id} and $row->{lc_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
-		
-		push(@comments, $row);
     }
 
-    $sth->finish;
-
-    return \@comments;
+    return $comments;
 }
 #
 # Load last N creos (for main page)
@@ -690,6 +691,28 @@ sub user_id {
 	my $self = shift;
 	return $self->{user_data}->{user_id} || 0;
 }
+#
+# Получаем список забаненых юзеров
+#
+sub users_to_exclude {
+	my ($self, %p) = @_;
+	
+	my $banned_users = $self->query(qq|
+		SELECT ug.user_id
+		FROM user_group ug
+		WHERE ug.group_id = ?
+		|,
+		[ Psy::Group::PLAGIARIST ],
+		{ list_field => 'user_id' }
+	);
+	
+	if ($p{self} and $self->user_id) {
+		push @$banned_users, $self->user_id;
+	}
+
+	return $banned_users;
+}
+
 #
 # Return plagiarist flag
 #

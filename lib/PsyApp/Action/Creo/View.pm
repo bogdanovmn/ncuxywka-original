@@ -70,7 +70,11 @@ sub main {
 	#
 	# Load random creo list
 	#
-	my $random_creo_list = $psy->random_creo_list(user_id => $creo->{c_user_id}, count => 5);
+	my $random_creo_list = $psy->cache->try_get(
+		'rand_creo_list',
+		sub { $psy->random_creo_list(user_id => $creo->{c_user_id}, count => 5) },
+		Cache::FRESH_TIME_MINUTE
+	);
 	#
 	# Increment views counter
 	#
