@@ -106,6 +106,10 @@ sub random_creo_list {
 		push @$banned_users, $p{user_id};
 	}
 
+	my $exclude_user_cond = scalar(@$banned_users)
+		? sprintf('AND c.user_id NOT IN (%s)', join(",", @$banned_users))
+		: '';
+
 	my $list = $self->query(qq|
 		SELECT 
 			c.id      cl_id, 
@@ -115,11 +119,11 @@ sub random_creo_list {
 		FROM creo c
 		JOIN users u ON u.id = c.user_id
 		WHERE c.type = 0
-		AND   c.user_id NOT IN (?)
+		$exclude_user_cond
 		ORDER BY RAND()
 		LIMIT ? 
 		|,
-		[ join(",", @$banned_users), $p{count} ],
+		[ $p{count} ],
 	);
 
     return $list;
