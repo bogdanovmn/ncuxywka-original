@@ -286,7 +286,7 @@ sub comments {
 			g.name           cm_group_name,
 			g.comment_phrase cm_comment_phrase,
 			g.type           cm_group_type,
-			DATE_FORMAT(c.post_date, '%Y-%m-%d %H:%i') cm_post_date,
+			DATE_FORMAT(c.post_date, '%Y-%m-%d %H:%i') cm_post_date
 		FROM comments c
 		LEFT JOIN users u ON u.id = c.user_id
 		LEFT JOIN user_group ug ON ug.user_id = u.id

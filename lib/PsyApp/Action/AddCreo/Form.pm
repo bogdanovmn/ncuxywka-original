@@ -13,6 +13,8 @@ sub main {
 	my $black_copy = $params->{black_copy};
 	my $psy        = $params->{psy};
 
+	return undef unless $psy->user_id;
+
 	my $creo_add_info = $psy->can_creo_add;
 
 	return {

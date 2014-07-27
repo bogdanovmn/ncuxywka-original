@@ -4,13 +4,11 @@ use strict;
 use warnings;
 use utf8;
 
-
 use Psy;
 use Psy::User;
 use Psy::Chart::Data::Common;
 use Psy::Statistic::Words;
-use NICE_VALUES;
-
+use Utils;
 
 sub main {
 	my ($class, $params) = @_;
@@ -48,12 +46,12 @@ sub main {
 		Cache::FRESH_TIME_DAY
 	);
 
-	my $user_votes_out_rank = $psy->cache->select(
+	my $user_votes_out_rank = $psy->cache->try_get(
 		"user-$id-votes_out_rank",
 		sub { $user->votes_out_rank },
 		Cache::FRESH_TIME_DAY
 	);
-
+	
 	my $user_votes_out_rank_title = {
 		0 => 'Еще не определился',
 		1 => 'Солидарен с окружающими пациэнтами',
