@@ -22,7 +22,7 @@ sub creo_search {
             c.type cl_type,
 			CASE c.type WHEN 1 THEN 1 ELSE 0 END cl_quarantine,
             c.user_id cl_user_id,
-            IFNULL(u.name, c.alias) cl_alias,
+            u.name cl_alias,
             c.title cl_title,
             CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
 				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'

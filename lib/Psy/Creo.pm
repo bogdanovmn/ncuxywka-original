@@ -277,16 +277,16 @@ sub comments {
 	
 	my $comments_result_set = $self->query(qq| 
 		SELECT
-			1 cm_for_creo,
-			c.id cm_id,
-			c.alias cm_alias,
-			c.user_id cm_user_id,
-			u.name cm_user_name,
-			c.msg cm_msg,
-			DATE_FORMAT(c.post_date, '%Y-%m-%d %H:%i') cm_post_date,
-			g.name cm_group_name,
+			1                cm_for_creo,
+			c.id             cm_id,
+			c.alias          cm_alias,
+			c.user_id        cm_user_id,
+			u.name           cm_user_name,
+			c.msg            cm_msg,
+			g.name           cm_group_name,
 			g.comment_phrase cm_comment_phrase,
-			g.type cm_group_type
+			g.type           cm_group_type,
+			DATE_FORMAT(c.post_date, '%Y-%m-%d %H:%i') cm_post_date,
 		FROM comments c
 		LEFT JOIN users u ON u.id = c.user_id
 		LEFT JOIN user_group ug ON ug.user_id = u.id

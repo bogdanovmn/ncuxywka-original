@@ -157,7 +157,7 @@ sub popular_creo_list {
 			SELECT
 				c.id pcl_id, 
 				c.title pcl_title, 
-				IFNULL(u.name, c.alias) pcl_alias,
+				u.name pcl_alias,
 				ROUND( COUNT(cm.id) / ((UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(c.post_date)) / 86400), 2) pcl_rank,
 				CASE DATE_FORMAT(MAX(cm.post_date), '%Y%m%d') 
 					WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN DATE_FORMAT(MAX(cm.post_date), '%H:%i')
