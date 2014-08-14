@@ -19,7 +19,15 @@ use constant CT_ALEX_JILE  => 3;
 use constant CT_BLACK_COPY => 4;
 use constant CT_PLAGIARISM => 5;
 
-use base "Psy::DB";
+use base "Psy::DB::Entity";
+
+sub _table_name { 'creo' }
+sub _relations {
+	{
+		users      => { key => 'user_id' },
+		creo_stats => { key => 'id'      },
+	}
+}
 
 sub new {
 	my ($class, %p) = @_;
@@ -411,6 +419,82 @@ sub remove_from_neofuturism {
 		[$self->{id}]
 	);
 }
+#
+# View
+#
+sub common_list_view {
+	my ($self, $id_list, %p) = @_;
+
+	my $prefix  = $p{prefix} ? $p{prefix}.'_' : '';
+	my $cond    = sprintf('WHERE c.id IN (%s)', join(',', @$id_list));
+
+
+	my $creos = $self->query(qq|
+		SELECT
+			c.id        ${prefix}id,
+			c.title     ${prefix}title,
+			u.name      ${prefix}alias,
+			u.id        ${prefix}user_id,
+			cs.comments ${prefix}comments_count
+		FROM creo c
+		JOIN users u ON u.id = c.user_id
+		JOIN creo_stats cs ON cs.creo_id = c.id
+		$cond
+		|
+	);
+
+	return $creos;
+}
+
+sub list {
+    my ($self, %p) = @_;
+
+	$p{period} ||= 30;
+	$p{type}   ||= [0, 1];
+	
+	my $users_to_exclude = $self->users_to_exclude;
+	
+	my $id_list = $self->get_id_by_cond(
+		{
+			type => $p{type},
+			post_date => $p{period} > 2009
+				? { '='  => \["DATE_FORMAT(?, '%Y')",  $p{period}] }
+				: { '>=' => \["NOW() - INTERVAL $p{period} DAY"]   },
+			
+			$p{neofuturism} 
+				? ( neofuturism => 1 ) 
+				: (),
+			
+			creo_stats => {
+				comments => { '>' => 0 }
+			},
+			
+			scalar @$users_to_exclude
+				? ( user_id => { '!=' => $users_to_exclude } )
+				: ()
+		}
+	);
+
+	my $l = $self->list_by_id(
+		$id_list,
+		fields => {
+			me => [
+				qw| id type user_id title |,
+				{ post_date => sub { Psy::DB::Entity::nice_date(@_) } }
+			],
+			users => [
+				{ name => 'alias' }
+			],
+			creo_stats => [
+				{ comments   => 'comments_count' },
+				{ votes      => 'votes_count'    },
+				{ votes_rank => 'votes_rank'     },
+			]											 
+		},
+		fields_prefix => 'cl'
+	);
+}
+
 #
 # End
 #

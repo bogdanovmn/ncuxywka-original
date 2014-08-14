@@ -64,11 +64,11 @@ sub main {
 
 	return {
 		regular_creo_list => $use_period,
-		creo_list => $last_creos,
-		quarantine => $type eq Psy::Creo::CT_QUARANTINE,
-		deleted => $type eq Psy::Creo::CT_DELETE,
-		neofuturism => $neofuturism,
-		jump_links => $use_period ? [sort { $a->{order} <=> $b->{order} } @jump_links] : [],
+		creo_list         => $last_creos,
+		quarantine        => $type eq Psy::Creo::CT_QUARANTINE,
+		deleted           => $type eq Psy::Creo::CT_DELETE,
+		neofuturism       => $neofuturism,
+		jump_links        => $use_period ? [sort { $a->{order} <=> $b->{order} } @jump_links] : [],
 		top_users_by_creos_count => $psy->top_users_by_creos_count,
 	};
 }

@@ -304,30 +304,36 @@ sub comments {
 sub load_last_creos {
     my ($self, $n) = @_;
 
-    my $creos = $self->query(q| 
+	my $users_to_exclude = $self->users_to_exclude;
+	my $users_to_exclude_cond = scalar @$users_to_exclude
+		? sprintf 'AND c.user_id NOT IN (%s)', join(',', @$users_to_exclude)
+		: '';
+
+    my $creos = $self->query(qq| 
 		SELECT 
-			c.id lc_id,
-			c.user_id lc_user_id,
-			u.name lc_alias,
-			c.title lc_title,
-			c.body lc_body,
-            CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
+			c.id          lc_id,
+			c.user_id     lc_user_id,
+			u.name        lc_alias,
+			c.title       lc_title,
+			c.body        lc_body,
+			c.neofuturism lc_neofuturism,
+			cs.comments   lc_comments_count,
+            
+			CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
 				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
 				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
 				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
-			END lc_post_date,
-			c.neofuturism lc_neofuturism,
-			cs.comments lc_comments_count
+			END lc_post_date
+			
 		FROM creo c
 		JOIN creo_stats cs ON c.id = cs.creo_id
 		JOIN users u ON u.id = c.user_id
-		LEFT JOIN user_group ug ON ug.user_id = u.id
 		WHERE c.type = 0
-		AND IFNULL(ug.group_id, 0) <> ?
+		$users_to_exclude_cond
 		ORDER BY c.post_date DESC 
 		LIMIT 25 
 		|,
-		[Psy::Group::PLAGIARIST],
+		[],
 		{error_msg => "Последние анализы нечитабельны!"}
 	);
     my @creo = ();
@@ -712,7 +718,12 @@ sub users_to_exclude {
 
 	return $banned_users;
 }
-
+#
+# Creo list by year
+#
+sub creo_list_by_year {
+	my ($self, $year, %p) = @_;
+}
 #
 # Return plagiarist flag
 #

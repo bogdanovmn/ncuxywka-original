@@ -26,9 +26,14 @@ sub creo_list {
 		}
 	} 
 	
+	my $users_to_exclude = $self->users_to_exclude;
+	my $users_to_exclude_cond = scalar @$users_to_exclude
+		? sprintf 'AND c.user_id NOT IN (%s)', join(',', @$users_to_exclude)
+		: '';
+
 	my $where_neofuturism = defined $p{neofuturism} ? "AND neofuturism = ?" : "";
 
-    my @query_params = ($self->user_id, $self->user_id, $self->user_id, Psy::Group::PLAGIARIST);
+    my @query_params = ($self->user_id, $self->user_id, $self->user_id);
     push(@query_params, $p{user_id}) if defined $p{user_id};
     push(@query_params, $p{type}) if defined $p{type};
 	push(@query_params, $p{period}) if defined $p{period};
@@ -37,7 +42,7 @@ sub creo_list {
 
     my $list = $self->query(qq|
         SELECT
-            c.id cl_id,
+            c.id   cl_id,
             c.type cl_type,
 			CASE c.type WHEN 1 THEN 1 ELSE 0 END cl_quarantine,
             c.user_id cl_user_id,
@@ -55,10 +60,8 @@ sub creo_list {
         FROM creo c
 		JOIN creo_stats cs ON cs.creo_id = c.id
         JOIN users u ON u.id = c.user_id
-		LEFT JOIN user_group ug ON ug.user_id = u.id
 		LEFT JOIN vote sv ON sv.creo_id = c.id AND sv.user_id = ?
-        WHERE
-            IFNULL(ug.group_id, 0) <> ?
+        WHERE 1 = 1
             $where_user
             $where_type
 			$where_period
