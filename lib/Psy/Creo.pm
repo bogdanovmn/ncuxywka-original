@@ -24,9 +24,15 @@ use base "Psy::DB::Entity";
 sub _table_name { 'creo' }
 sub _relations {
 	{
-		users      => { key => 'user_id' },
-		creo_stats => { key => 'id'      },
+		users      => { fkey => 'user_id' },
+		creo_stats => { fkey => 'id', pkey => 'creo_id' },
 	}
+}
+
+sub constructor {
+	my ($class, %p) = @_;
+
+	return $class->SUPER::connect($class, %p);
 }
 
 sub new {
@@ -452,15 +458,16 @@ sub list {
 	$p{period} ||= 30;
 	$p{type}   ||= [0, 1];
 	
-	my $users_to_exclude = $self->users_to_exclude;
+	my $users_to_exclude = [14];#$self->users_to_exclude;
 	
 	my $id_list = $self->get_id_by_cond(
 		{
 			type => $p{type},
-			post_date => $p{period} > 2009
-				? { '='  => \["DATE_FORMAT(?, '%Y')",  $p{period}] }
-				: { '>=' => \["NOW() - INTERVAL $p{period} DAY"]   },
 			
+			$p{period} > 2009
+				? ( "DATE_FORMAT(post_date, '%Y')" => $p{period} )
+				: ( post_date => { '>=' => \["NOW() - INTERVAL $p{period} DAY", $p{period}] } ),
+				
 			$p{neofuturism} 
 				? ( neofuturism => 1 ) 
 				: (),
@@ -474,7 +481,7 @@ sub list {
 				: ()
 		}
 	);
-
+use Utils;webug $id_list;
 	my $l = $self->list_by_id(
 		$id_list,
 		fields => {

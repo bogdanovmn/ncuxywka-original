@@ -45,11 +45,14 @@ sub main {
 	$period = 'month' unless defined $periods_table{$period}; 
 	$period = 'all'   unless $use_period;
 
-	my $last_creos = $psy->creo_list(
+	my $cr = Psy::Creo->constructor;
+	my $list = $cr->list(
+	#my $last_creos = $psy->creo_list(
 		type        => $type, 
 		period      => $periods_table{$period}->{value},
 		neofuturism => $neofuturism
 	);
+	my $last_creos;
 
 	my @jump_links = map { 
 		{

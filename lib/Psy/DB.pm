@@ -72,7 +72,7 @@ sub query {
 	my $return_last_id = $settings->{return_last_id} || 0;
 
 	if ($sql_debug) { 
-		webug($params, $sql); 
+		webug({ params => $params, sql => $sql }); 
 	}
 	
 	my $begin_time = Time::HiRes::time;
