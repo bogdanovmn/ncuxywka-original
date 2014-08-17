@@ -32,7 +32,7 @@ sub _relations {
 sub constructor {
 	my ($class, %p) = @_;
 
-	return $class->SUPER::connect($class, %p);
+	return $class->SUPER::connect(%p);
 }
 
 sub new {
@@ -452,42 +452,40 @@ sub common_list_view {
 	return $creos;
 }
 
-sub list {
+sub list_by_period {
     my ($self, %p) = @_;
 
-	$p{period} ||= 30;
-	$p{type}   ||= [0, 1];
+	$p{period} ||= -1;
+	$p{type}   ||= [0];
 	
 	my $users_to_exclude = [14];#$self->users_to_exclude;
 	
-	my $id_list = $self->get_id_by_cond(
+	return $self->list_by_cond(
 		{
 			type => $p{type},
 			
 			$p{period} > 2009
 				? ( "DATE_FORMAT(post_date, '%Y')" => $p{period} )
-				: ( post_date => { '>=' => \["NOW() - INTERVAL $p{period} DAY", $p{period}] } ),
+				: $p{period} > 0
+					? ( post_date => { '>=' => \["NOW() - INTERVAL ? DAY", $p{period}] } )
+					: (),
 				
 			$p{neofuturism} 
 				? ( neofuturism => 1 ) 
 				: (),
 			
-			creo_stats => {
-				comments => { '>' => 0 }
-			},
-			
 			scalar @$users_to_exclude
 				? ( user_id => { '!=' => $users_to_exclude } )
 				: ()
-		}
-	);
-use Utils;webug $id_list;
-	my $l = $self->list_by_id(
-		$id_list,
+		},
 		fields => {
 			me => [
 				qw| id type user_id title |,
-				{ post_date => sub { Psy::DB::Entity::nice_date(@_) } }
+				{ 
+					post_date => { 
+						post_date => sub { Psy::DB::Entity::nice_date(@_) }
+					}	
+				}
 			],
 			users => [
 				{ name => 'alias' }
@@ -498,7 +496,8 @@ use Utils;webug $id_list;
 				{ votes_rank => 'votes_rank'     },
 			]											 
 		},
-		fields_prefix => 'cl'
+		field_prefix => 'cl_',
+		order_by     => { desc => 'id' }
 	);
 }
 

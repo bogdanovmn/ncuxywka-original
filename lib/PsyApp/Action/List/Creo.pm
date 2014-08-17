@@ -25,7 +25,6 @@ sub main {
 		$type eq Psy::Creo::CT_QUARANTINE or 
 		$type eq Psy::Creo::CT_DELETE
 	);
-
 	my %periods_table = (
 		week  => { value => 7,  title => 'За неделю', order => 0 },
 		month => { value => 30, title => 'За месяц',  order => 1 }, 
@@ -45,14 +44,12 @@ sub main {
 	$period = 'month' unless defined $periods_table{$period}; 
 	$period = 'all'   unless $use_period;
 
-	my $cr = Psy::Creo->constructor;
-	my $list = $cr->list(
-	#my $last_creos = $psy->creo_list(
+	my $creos = Psy::Creo->constructor;
+	my $last_creos = $creos->list_by_period(
 		type        => $type, 
 		period      => $periods_table{$period}->{value},
 		neofuturism => $neofuturism
 	);
-	my $last_creos;
 
 	my @jump_links = map { 
 		{

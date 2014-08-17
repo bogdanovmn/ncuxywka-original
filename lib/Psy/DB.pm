@@ -29,7 +29,8 @@ sub connect {
 		$__DBH = DBI->connect(
 			sprintf('dbi:mysql:%s:%s', PSY_DB_CONF::NAME, PSY_DB_CONF::HOST), 
 			PSY_DB_CONF::USER, 
-			PSY_DB_CONF::PASS
+			PSY_DB_CONF::PASS,
+			{ RaiseError => 1 }
 		) or die $!;
 		$__DBH->{mysql_enable_utf8} = 1;
 		$__DBH->do("SET NAMES utf8");

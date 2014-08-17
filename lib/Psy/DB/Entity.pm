@@ -18,6 +18,25 @@ sub _relations  {
 	return {};
 }
 
+sub _order_by {
+	my ($self, $params, $prefix) = @_;
+
+	$params = [$params] unless ref $params eq 'ARRAY';
+
+	my @fields;
+	foreach my $p (@$params) {
+		if (ref $p eq 'HASH') {
+			my ($direct) = keys %$p;
+			my ($field)  = values %$p;
+			push @fields, sprintf('%s%s %s', $prefix || '', $field, uc($direct));
+		}
+		else {
+			push @fields, $p;
+		}
+	}
+	return ' ORDER BY '. join ', ', @fields;
+}
+
 sub list_by_id {
 	my ($self, $id_list, %params) = @_;
 
@@ -26,7 +45,11 @@ sub list_by_id {
 	die 'wrong id list' if grep {/\D/} @$id_list;
 
 	my $select = '*';
-	my $from   = '';
+	my $from   = 'FROM '. $self->_table_name;
+	my $order  = $params{order_by} 
+		? $self->_order_by($params{order_by}, $params{field_prefix}) 
+		: '';
+
 	my %post_process;
 
 	if ($params{fields}) {
@@ -38,21 +61,24 @@ sub list_by_id {
 			my $table;
 			if (exists $rel->{$key}) {
 				$table = $key;
-				$from .= sprintf 'LEFT JOIN %s ON %s.%s = %s.id', 
-					$table, $table, $rel->{$table}->{key}, $self->_table_name;
+				$from .= sprintf ' LEFT JOIN %s ON %s.%s = %s.%s', 
+					$table, $table, $rel->{$table}->{pkey} || 'id', $self->_table_name, $rel->{$table}->{fkey};
+			}
+			elsif ($key eq 'me') {
+				$table = $self->_table_name;
 			}
 			else {
-				$table = $self->_table_name;
-				$from = 'FROM '. $table;
+				die 'wrong table name: '. $key;
 			}
 
 			foreach my $field (@$value) {
-				my $alias = $field;
+				my $alias;
+				my $field_name;
 				if (ref $field eq 'HASH') {
-					($alias) = values %$field;
-					my ($field_name) = keys   %$field;
+					($field_name) = keys   %$field;
+					($alias)      = values %$field;
 					die 'alias not defined'      unless $alias;
-					die 'field_name not defined' unless $alias;
+					die 'field_name not defined' unless $field_name;
 
 					if (ref $alias eq 'HASH') {
 						my ($post_process_sub) = values %$alias;
@@ -64,15 +90,23 @@ sub list_by_id {
 						$post_process{$field_prefix.$alias} = $post_process_sub;
 					}
 				}
-				push @fields, sprintf('%s.%s %s', $table, $field, $field_prefix. $alias);
+				else {
+					$alias = $field;
+					$field_name = $field;
+				}
+				#webug [ $field, $field_name ];
+				push @fields, sprintf('%s.%s %s', $table, $field_name, $field_prefix. $alias);
 			}
 		}
 		$select = join ', ', @fields;
 	}
 	
 	my $result = $self->query(
-		'SELECT '. $select. $from. 
-		' WHERE '. $self->_table_name.'.id IN ('. join(', ', @$id_list). ')'
+		'SELECT '. $select. ' '. $from. 
+		' WHERE '. $self->_table_name.'.id IN ('. join(', ', @$id_list). ')'.
+		$order,
+		[],
+		{ debug => 0 }
 	);
 	if (keys %post_process) {
 		foreach my $r (@$result) {
@@ -91,9 +125,18 @@ sub get_id_by_cond {
 	return $self->query(
 		'SELECT '. $self->_table_name. '.id '. $q->{sql}->{from}. $q->{sql}->{where},
 		$q->{params},
-		{ list_field => 'id', debug => 0 } 
+		{ list_field => 'id', debug => 1 } 
 	);
 
+}
+
+sub list_by_cond {
+	my ($self, $cond, %params) = @_;
+
+	my $id_list = $self->get_id_by_cond($cond);
+	return scalar @$id_list
+		? $self->list_by_id($id_list, %params)
+		: [];
 }
 
 sub _construct_sql {
@@ -134,7 +177,10 @@ sub _construct_sql {
 sub nice_date {
 	my ($timestamp) = @_;
 
-	return unix_time_to_ymdhms($timestamp, '%Y-%m-%d'); 
+	return Date::unix_time_to_ymdhms(
+		Date::ymdhms_to_unix_time($timestamp), 
+		'%Y-%m-%d'
+	); 
 }
 
 1;
