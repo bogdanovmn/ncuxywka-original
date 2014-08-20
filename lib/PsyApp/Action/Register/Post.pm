@@ -18,7 +18,12 @@ sub main {
 	my $loves          = $params->{loves};
 	my $hates          = $params->{hates};
 	my $city           = $params->{city};
+	my $zombi_check    = $params->{zombi_check};
 	my $psy            = $params->{psy};
+
+	unless ($zombi_check eq 2) {
+		return $psy->error("Zombie detected");
+	}
 
 	unless ($name) {
 		return $psy->error("Укажите свое имя");
