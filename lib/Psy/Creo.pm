@@ -425,40 +425,14 @@ sub remove_from_neofuturism {
 		[$self->{id}]
 	);
 }
-#
-# View
-#
-sub common_list_view {
-	my ($self, $id_list, %p) = @_;
-
-	my $prefix  = $p{prefix} ? $p{prefix}.'_' : '';
-	my $cond    = sprintf('WHERE c.id IN (%s)', join(',', @$id_list));
-
-
-	my $creos = $self->query(qq|
-		SELECT
-			c.id        ${prefix}id,
-			c.title     ${prefix}title,
-			u.name      ${prefix}alias,
-			u.id        ${prefix}user_id,
-			cs.comments ${prefix}comments_count
-		FROM creo c
-		JOIN users u ON u.id = c.user_id
-		JOIN creo_stats cs ON cs.creo_id = c.id
-		$cond
-		|
-	);
-
-	return $creos;
-}
 
 sub list_by_period {
     my ($self, %p) = @_;
 
 	$p{period} ||= -1;
 	$p{type}   ||= [0];
+	$p{users_to_exclude} ||= [];
 	
-	my $users_to_exclude = [14];#$self->users_to_exclude;
 	
 	return $self->list_by_cond(
 		{
@@ -474,8 +448,8 @@ sub list_by_period {
 				? ( neofuturism => 1 ) 
 				: (),
 			
-			scalar @$users_to_exclude
-				? ( user_id => { '!=' => $users_to_exclude } )
+			scalar @{$p{users_to_exclude}}
+				? ( user_id => { -not_in => $p{users_to_exclude} } )
 				: ()
 		},
 		fields => {

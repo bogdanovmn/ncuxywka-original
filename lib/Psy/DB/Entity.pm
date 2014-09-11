@@ -125,7 +125,7 @@ sub get_id_by_cond {
 	return $self->query(
 		'SELECT '. $self->_table_name. '.id '. $q->{sql}->{from}. $q->{sql}->{where},
 		$q->{params},
-		{ list_field => 'id', debug => 1 } 
+		{ list_field => 'id', debug => 0 } 
 	);
 
 }

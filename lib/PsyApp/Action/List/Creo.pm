@@ -48,7 +48,8 @@ sub main {
 	my $last_creos = $creos->list_by_period(
 		type        => $type, 
 		period      => $periods_table{$period}->{value},
-		neofuturism => $neofuturism
+		neofuturism => $neofuturism,
+		users_to_exclude => $psy->users_to_exclude
 	);
 
 	my @jump_links = map { 

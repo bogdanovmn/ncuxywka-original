@@ -39,8 +39,8 @@ my @urls = qw|
 	/neo_faq_room/
 
 	/users/16.html
-	/creos/954.html
 	/print/954.html
+	/creos/954.html
 |;
 
 foreach my $url (@urls) {

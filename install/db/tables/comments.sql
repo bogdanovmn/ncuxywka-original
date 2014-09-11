@@ -14,7 +14,7 @@ CREATE TABLE comments (
 	KEY i_comments__user_id   (post_date, user_id, creo_id),
 	KEY i_comments__user_creo (user_id, creo_id),
 
-	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL,
+	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
 	FOREIGN KEY (creo_id) REFERENCES creo  (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Комменты к креосам'

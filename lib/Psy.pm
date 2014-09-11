@@ -711,7 +711,6 @@ sub users_to_exclude {
 		[ Psy::Group::PLAGIARIST ],
 		{ list_field => 'user_id' }
 	);
-	
 	if ($p{self} and $self->user_id) {
 		push @$banned_users, $self->user_id;
 	}

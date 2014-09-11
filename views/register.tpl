@@ -41,6 +41,10 @@
 				<td>
 				<textarea name=about cols=60 rows=6></textarea>
 			<tr>
+				<td>Три плюс один минсу два = <br><span class=note>Защита от Зомби...</span>
+				<td>
+				<input type=text size=5 name=zombi_check>
+			<tr>
 				<td>&nbsp;
 				<td>
 				<input type=submit value='Оформиться'>
