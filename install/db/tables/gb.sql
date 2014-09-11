@@ -11,6 +11,6 @@ CREATE TABLE gb (
 	KEY i_gb_post_date (post_date),
 	KEY i_gb__user_id (user_id),
 
-	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
+	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Гостевая книга'

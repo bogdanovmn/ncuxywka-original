@@ -12,6 +12,6 @@ CREATE TABLE spec_comments (
 	KEY i_spec_comments__user_id (user_id, type),
 	KEY i_spec_comments__type    (type, post_date),
 
-	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
+	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Комменты к спецразделам'
