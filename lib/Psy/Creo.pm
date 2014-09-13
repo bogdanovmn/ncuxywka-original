@@ -510,7 +510,7 @@ sub top {
 	my $list = $self->list_by_cond(
 		{
 			type              => 0,
-			post_date         => { '>=' => \["NOW() - INTERVAL ? DAY", 36] },
+			post_date         => { '>=' => \["NOW() - INTERVAL ? MONTH", 36] },
 			creo_stats => {
 				votes => { '>'  => $p{min_votes} }
 			},
@@ -523,7 +523,6 @@ sub top {
 		fields => {
 			me => [ 
 				qw| id title |,
-				{ name => 'alias' },
 			],
 			users => [
 				{ name => 'alias' }

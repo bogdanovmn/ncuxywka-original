@@ -8,6 +8,9 @@ use Dancer ':syntax';
 #use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
 use Dancer::Plugin::Controller;
 
+use Carp;
+$SIG{__DIE__} = sub { confess(@_) };
+
 use Psy;
 
 use PsyApp::Action::Index;

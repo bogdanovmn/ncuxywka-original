@@ -12,6 +12,7 @@ use base 'Psy::DB';
 
 
 sub _table_name {}
+
 sub _relations  {
 	my ($self) = @_;
 
@@ -106,7 +107,7 @@ sub list_by_id {
 		' WHERE '. $self->_table_name.'.id IN ('. join(', ', @$id_list). ')'.
 		$order,
 		[],
-		{ debug => $params{debug} }
+		{ debug => 0 }
 	);
 	if (keys %post_process) {
 		foreach my $r (@$result) {
@@ -119,13 +120,16 @@ sub list_by_id {
 }
 
 sub get_id_by_cond {
-	my ($self, $cond) = @_;
+	my ($self, $cond, %p) = @_;
 
-	my $q = $self->_construct_sql($cond);
+	my $q = $self->_construct_sql($cond, %p);
 	return $self->query(
-		'SELECT '. $self->_table_name. '.id '. $q->{sql}->{from}. $q->{sql}->{where},
+		'SELECT '. $self->_table_name. '.id '. $q->{sql}->{from}. $q->{sql}->{where}. $q->{sql}->{limit},
 		$q->{params},
-		{ list_field => 'id', debug => 0 } 
+		{ 
+			list_field => 'id', 
+			debug      => 0 
+		} 
 	);
 
 }
@@ -133,14 +137,14 @@ sub get_id_by_cond {
 sub list_by_cond {
 	my ($self, $cond, %params) = @_;
 
-	my $id_list = $self->get_id_by_cond($cond);
+	my $id_list = $self->get_id_by_cond($cond, %params);
 	return scalar @$id_list
 		? $self->list_by_id($id_list, %params)
 		: [];
 }
 
 sub _construct_sql {
-	my ($self, $cond) = @_;
+	my ($self, $cond, %p) = @_;
 
 	my $relations = $self->_relations;
 	my $join = sprintf 'FROM %s', $self->_table_name;
@@ -168,8 +172,20 @@ sub _construct_sql {
 	}
 	my $sqla = SQL::Abstract->new;
 	my ($where_sql, @where_params) = $sqla->where(\%where);
+
+	my $limit = '';
+	if ($p{limit}) {
+		if (ref $p{limit} ne 'ARRAY') {
+			$p{limit} = [ $p{limit} ];
+		}
+		$limit = ' LIMIT '. join ', ', @{$p{limit}};
+	}
 	return {
-		sql    => { from => $join, where => $where_sql },
+		sql => { 
+			from  => $join, 
+			where => $where_sql,
+			limit => $limit
+		},
 		params => \@where_params
 	};
 }
