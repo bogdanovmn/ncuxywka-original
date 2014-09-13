@@ -56,7 +56,7 @@ sub connect {
 #
 sub query {
 	my ($self, $sql, $params, $settings) = @_;
-
+	
 	my @caller = caller(1);
 	
 	my $sql_error_msg = 
@@ -65,14 +65,14 @@ sub query {
 		sprintf("Ошибка sql-запроса [%s]",
 			scalar @caller ? $caller[3] : '???'
 		);
-
+	
 	my $sql_debug      = $settings->{debug} || 0;
 	my $only_field     = $settings->{only_field} || 0;
 	my $list_field     = $settings->{list_field} || 0;
 	my $only_first_row = $settings->{only_first_row} || 0;
 	my $return_last_id = $settings->{return_last_id} || 0;
-
-	if ($sql_debug) { 
+	
+	if ($sql_debug) {
 		webug({ params => $params, sql => $sql }); 
 	}
 	

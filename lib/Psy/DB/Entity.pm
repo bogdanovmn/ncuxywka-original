@@ -106,7 +106,7 @@ sub list_by_id {
 		' WHERE '. $self->_table_name.'.id IN ('. join(', ', @$id_list). ')'.
 		$order,
 		[],
-		{ debug => 0 }
+		{ debug => $params{debug} }
 	);
 	if (keys %post_process) {
 		foreach my $r (@$result) {

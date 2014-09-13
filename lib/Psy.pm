@@ -718,12 +718,6 @@ sub users_to_exclude {
 	return $banned_users;
 }
 #
-# Creo list by year
-#
-sub creo_list_by_year {
-	my ($self, $year, %p) = @_;
-}
-#
 # Return plagiarist flag
 #
 sub is_plagiarist {
