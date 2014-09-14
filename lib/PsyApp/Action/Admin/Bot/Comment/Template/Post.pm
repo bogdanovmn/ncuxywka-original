@@ -8,12 +8,12 @@ use Psy::Bot::CommentTemplate;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $character = $params->{character};
-	my $category  = $params->{category};
-	my $template  = $params->{template};
-	my $psy       = $params->{psy};
+	my $character = $self->params->{character};
+	my $category  = $self->params->{category};
+	my $template  = $self->params->{template};
+	my $psy       = $self->params->{psy};
 	
 	unless ($psy->success_in) {
 		return $psy->error("Вы хакер?");

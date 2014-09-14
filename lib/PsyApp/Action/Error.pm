@@ -6,10 +6,10 @@ use utf8;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
 	return { 
-		error_msg => $params->{psy}->last_error
+		error_msg => $self->params->{psy}->last_error
 	};
 }
 

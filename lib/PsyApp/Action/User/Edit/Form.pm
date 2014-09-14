@@ -8,9 +8,9 @@ use Psy::User;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $psy = $params->{psy};
+	my $psy = $self->params->{psy};
 
 	return undef if $psy->is_annonimus;
 

@@ -5,19 +5,19 @@ use warnings;
 use utf8;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $self_ban = $params->{self};
-	my $duration = $params->{duration};
-	my $ip       = $params->{ip};
-	my $user_id  = $params->{user_id};
-	my $psy      = $params->{psy};
+	my $self_ban = $self->params->{self};
+	my $duration = $self->params->{duration};
+	my $ip       = $self->params->{ip};
+	my $user_id  = $self->params->{user_id};
+	my $psy      = $self->params->{psy};
 
 	if ($psy->is_annonimus) {
 		return $psy->error("Вы хакер?");
 	}
 
-	if ($params->{ban_left_time}) {
+	if ($self->params->{ban_left_time}) {
 		return $psy->error("Вы уже в процедурной!");
 	}
 

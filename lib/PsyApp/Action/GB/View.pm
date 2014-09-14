@@ -9,10 +9,10 @@ use Paginator;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $page = $params->{page} || 1;
-	my $psy  = $params->{psy};
+	my $page = $self->params->{page} || 1;
+	my $psy  = $self->params->{psy};
 
 	my $gb = Psy::GB->enter;
 	

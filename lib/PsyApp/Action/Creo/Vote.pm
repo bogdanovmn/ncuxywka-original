@@ -5,11 +5,11 @@ use warnings;
 use utf8;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $creo_id = $params->{creo_id};
-	my $vote_id = $params->{vote_id};
-	my $psy     = $params->{psy};
+	my $creo_id = $self->params->{creo_id};
+	my $vote_id = $self->params->{vote_id};
+	my $psy     = $self->params->{psy};
 
 	if (not $creo_id or not $vote_id) {
 		return $psy->error("Может вы заблудились?");

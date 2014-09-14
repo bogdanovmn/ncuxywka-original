@@ -8,9 +8,9 @@ use Psy::Chart::Data::Common;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $psy = $params->{psy};
+	my $psy = $self->params->{psy};
 
 	my $chart_data = Psy::Chart::Data::Common->constructor;
 

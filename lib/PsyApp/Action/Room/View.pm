@@ -9,10 +9,10 @@ use Paginator;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $page = $params->{page} || 1;
-	my $room = $params->{room};
+	my $page = $self->params->{page} || 1;
+	my $room = $self->params->{room};
 
 	my $psy_room = undef;
 	$psy_room = Psy::Room->enter(room_mnemonic => $room);

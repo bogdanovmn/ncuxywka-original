@@ -8,11 +8,11 @@ use Psy::GB;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $msg   = $params->{msg};
-	my $alias = $params->{alias}; 
-	my $psy   = $params->{psy};
+	my $msg   = $self->params->{msg};
+	my $alias = $self->params->{alias}; 
+	my $psy   = $self->params->{psy};
 
 	my $gb = Psy::GB->enter;
 

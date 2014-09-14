@@ -8,10 +8,10 @@ use Psy::Creo;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $id  = $params->{id};
-	my $psy = $params->{psy};
+	my $id  = $self->params->{id};
+	my $psy = $self->params->{psy};
 
 	my $creo      = Psy::Creo->choose($id);
 	my $creo_data = $creo->load(with_comments => 0);

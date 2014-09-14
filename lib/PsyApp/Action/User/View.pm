@@ -11,11 +11,11 @@ use Psy::Statistic::Words;
 use Utils;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $id      = $params->{id}; 
-	my $details = $params->{details} || 0;
-	my $psy     = $params->{psy};
+	my $id      = $self->params->{id}; 
+	my $details = $self->params->{details} || 0;
+	my $psy     = $self->params->{psy};
 
 	my $user = Psy::User->choose($id);
 	my $admin_details = ($details and $psy->is_god) ? $psy->user_votes($id) : [];

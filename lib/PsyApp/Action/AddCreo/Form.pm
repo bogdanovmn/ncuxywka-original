@@ -8,10 +8,10 @@ use Psy::Creo;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $black_copy = $params->{black_copy};
-	my $psy        = $params->{psy};
+	my $black_copy = $self->params->{black_copy};
+	my $psy        = $self->params->{psy};
 
 	return undef unless $psy->user_id;
 

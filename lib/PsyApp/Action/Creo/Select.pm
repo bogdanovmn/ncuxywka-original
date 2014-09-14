@@ -8,11 +8,11 @@ use Psy::Creo;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $action  = $params->{action} || 'bot';
-	my $creo_id = $params->{creo_id};
-	my $psy     = $params->{psy};
+	my $action  = $self->params->{action} || 'bot';
+	my $creo_id = $self->params->{creo_id};
+	my $psy     = $self->params->{psy};
 
 	my $creo = Psy::Creo->choose($creo_id);
 

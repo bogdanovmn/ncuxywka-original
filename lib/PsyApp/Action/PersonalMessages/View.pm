@@ -10,12 +10,12 @@ use Paginator;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $to_user_id = $params->{to_user_id};
-	my $action     = $params->{action} || 'last';
-	my $page       = $params->{page};
-	my $psy        = $params->{psy};
+	my $to_user_id = $self->params->{to_user_id};
+	my $action     = $self->params->{action} || 'last';
+	my $page       = $self->params->{page};
+	my $psy        = $self->params->{psy};
 
 	return undef if $psy->is_annonimus;
 	

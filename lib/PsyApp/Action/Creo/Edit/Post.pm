@@ -8,12 +8,12 @@ use Psy::Creo;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $title   = $params->{title};
-	my $body    = $params->{body};
-	my $creo_id = $params->{id};
-	my $psy     = $params->{psy};
+	my $title   = $self->params->{title};
+	my $body    = $self->params->{body};
+	my $creo_id = $self->params->{id};
+	my $psy     = $self->params->{psy};
 
 	my $creo = Psy::Creo->choose($creo_id);
 

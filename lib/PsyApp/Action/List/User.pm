@@ -6,9 +6,9 @@ use utf8;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $psy = $params->{psy};
+	my $psy = $self->params->{psy};
 
 	my $users_by_reg_date = $psy->load_users(order_by_date => 1);
 	#

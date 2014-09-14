@@ -8,10 +8,10 @@ use Psy;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $search_text = $params->{search_text};
-	my $psy         = $params->{psy};
+	my $search_text = $self->params->{search_text};
+	my $psy         = $self->params->{psy};
 
 	return {
 		creo_list   => $psy->creo_search(text => $search_text),

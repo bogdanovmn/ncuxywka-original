@@ -9,13 +9,13 @@ use Utils;
 use Date;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $type        = $params->{type};
-	my $neofuturism = $params->{neofuturism};
-	my $period      = $params->{period} || 'month';
-	my $search_text = $params->{search_text};
-	my $psy         = $params->{psy};
+	my $type        = $self->params->{type};
+	my $neofuturism = $self->params->{neofuturism};
+	my $period      = $self->params->{period} || 'month';
+	my $search_text = $self->params->{search_text};
+	my $psy         = $self->params->{psy};
 
 	my $first_year = 2010;
 	my $last_year  = Date::unix_time_to_ymdhms(time, "%Y");

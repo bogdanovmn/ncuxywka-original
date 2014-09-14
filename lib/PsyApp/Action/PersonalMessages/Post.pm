@@ -6,11 +6,11 @@ use utf8;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $to_user_id = $params->{user_id};
-	my $msg        = $params->{msg};
-	my $psy        = $params->{psy};
+	my $to_user_id = $self->params->{user_id};
+	my $msg        = $self->params->{msg};
+	my $psy        = $self->params->{psy};
 
 	if ($psy->is_annonimus) {
 		return $psy->error("Вы хакер?");

@@ -9,9 +9,9 @@ use Psy::News;
 use Utils;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $psy = $params->{psy};
+	my $psy = $self->params->{psy};
 #webug $psy;
 	my $top_creo_list = $psy->cache->try_get(
 		'top_creo_list__for_user_'. $psy->user_id,
@@ -40,12 +40,12 @@ sub main {
 	);
 
 	return {
-		last_creos => $psy->load_last_creos(10),
-		top_creo_list => $top_creo_list,
+		last_creos         => $psy->load_last_creos(10),
+		top_creo_list      => $top_creo_list,
 		anti_top_creo_list => $anti_top_creo_list,
 		#popular_creo_list => $psy->popular_creo_list(count => 10), 
-		new_users => $new_users,
-		news => $news,
+		new_users          => $new_users,
+		news               => $news,
 	};
 }
 

@@ -4,9 +4,9 @@ use strict;
 use warnings;
 use utf8;
 
+use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
 use Dancer ':syntax';
-#use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
-use Dancer::Plugin::Controller;
+use Dancer::Plugin::Controller1;# '0.15';
 
 use Psy;
 

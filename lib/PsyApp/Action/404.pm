@@ -6,7 +6,7 @@ use utf8;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
 	return {
 		#last_creos => $last_creos,
