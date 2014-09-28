@@ -4,15 +4,15 @@ use strict;
 use warnings;
 use utf8;
 
-use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
 use Dancer ':syntax';
-use Dancer::Plugin::Controller1;# '0.15';
+use Dancer::Plugin::Controller '0.152';
 
 use Carp;
 $SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
 
+use PsyApp::Action;
 use PsyApp::Action::Index;
 use PsyApp::Action::Maindoctor;
 

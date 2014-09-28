@@ -8,7 +8,7 @@ use base 'PsyApp::Action::Room::View';
 
 
 sub _custom_action {
-	my ($class, $params, $psy_room, $template_params) = @_;
+	my ($self, $psy_room, $template_params) = @_;
 	
 	if ($self->params->{psy}->is_god) {
 		$template_params->{ban_left_time} = 100500;

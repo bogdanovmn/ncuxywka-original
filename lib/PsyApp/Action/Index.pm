@@ -12,18 +12,15 @@ sub main {
 	my ($self) = @_;
 	
 	my $psy = $self->params->{psy};
-#webug $psy;
 	my $top_creo_list = $psy->cache->try_get(
 		'top_creo_list__for_user_'. $psy->user_id,
-		#sub { $psy->top_creo_list(count => 10) },
-		sub { Psy::Creo->constructor->top(count => 10) },
+		sub { $self->_top(count => 10) },
 		Cache::FRESH_TIME_HOUR
 	);
 
 	my $anti_top_creo_list = $psy->cache->try_get(
 		'anti_top_creo_list__for_user_'. $psy->user_id,
-		sub { $psy->top_creo_list(count => 10, anti => 1) },
-		#ub { Psy::Creo->constructor->top(count => 10, anti => 1) },
+		sub { $self->_top(count => 10, anti => 1) },
 		Cache::FRESH_TIME_HOUR
 	);
 
@@ -49,7 +46,7 @@ sub main {
 	};
 }
 
-sub top {
+sub _top {
 	my ($self, %p) = @_;
 	
 	$p{min_votes} ||= 4;
@@ -81,10 +78,10 @@ sub top {
     #    {error_msg => "Самые буйные психи ускакали прочь!"}
 	#);
 
-	my $list = $self->list_by_cond(
+	my $list = $self->creos->list_by_cond(
 		{
-			type              => 0,
-			post_date         => { '>=' => \["NOW() - INTERVAL ? MONTH", 36] },
+			type       => 0,
+			post_date  => { '>=' => \["NOW() - INTERVAL ? MONTH", 36] },
 			creo_stats => {
 				votes => { '>'  => $p{min_votes} }
 			},
@@ -108,15 +105,16 @@ sub top {
 		},
 		field_prefix => 'tcl_',
 		order_by     => [
-			{ desc => 'average' },
+			{ ($p{anti} ? 'desc' : 'asc') => 'average' },
 			{ desc => 'cnt' },
 			'title'
 		],
 		limit => $p{count},
-		debug => 1
 	);
-use Utils;	webug $list;
+
     return $list;
 
 }
+
+
 1;

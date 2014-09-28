@@ -46,3 +46,4 @@ my @urls = qw|
 foreach my $url (@urls) {
 	response_status_is [GET => $url], 200, "GET $url status is 200";
 }
+	

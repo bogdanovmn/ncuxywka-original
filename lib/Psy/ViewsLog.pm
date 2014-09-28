@@ -33,8 +33,8 @@ sub increment {
 
 sub _log {
     my ($self, %p) = @_;
-
-    $self->query(qq|
+    
+	$self->query(qq|
         INSERT LOW_PRIORITY INTO views_log 
         SET
             object_type = ?,
