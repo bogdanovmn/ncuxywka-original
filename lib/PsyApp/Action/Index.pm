@@ -12,15 +12,17 @@ sub main {
 	my ($self) = @_;
 	
 	my $psy = $self->params->{psy};
+	my $users_to_exclude = $psy->users_to_exclude;
+
 	my $top_creo_list = $psy->cache->try_get(
 		'top_creo_list__for_user_'. $psy->user_id,
-		sub { $self->_top(count => 10) },
+		sub { $self->_top(count => 10, users_to_exclude => $users_to_exclude) },
 		Cache::FRESH_TIME_HOUR
 	);
 
 	my $anti_top_creo_list = $psy->cache->try_get(
 		'anti_top_creo_list__for_user_'. $psy->user_id,
-		sub { $self->_top(count => 10, anti => 1) },
+		sub { $self->_top(count => 10, anti => 1, users_to_exclude => $users_to_exclude) },
 		Cache::FRESH_TIME_HOUR
 	);
 
@@ -52,7 +54,6 @@ sub _top {
 	$p{min_votes} ||= 4;
     $p{count}     ||= 10;
 	
-	my $desc = (defined $p{anti} and $p{anti} eq 1) ? "DESC" : "";
 
     #my $list = $self->query(qq|
     #    SELECT
@@ -86,9 +87,9 @@ sub _top {
 				votes => { '>'  => $p{min_votes} }
 			},
 			
-			#scalar @{$p{users_to_exclude}}
-			#	? ( user_id => { -not_in => $p{users_to_exclude} } )
-			#	: (),
+			scalar @{$p{users_to_exclude}}
+				? ( user_id => { -not_in => $p{users_to_exclude} } )
+				: (),
 		},
 		
 		fields => {
@@ -105,8 +106,8 @@ sub _top {
 		},
 		field_prefix => 'tcl_',
 		order_by     => [
-			{ ($p{anti} ? 'desc' : 'asc') => 'average' },
-			{ desc => 'cnt' },
+			{ ($p{anti} ? 'desc' : 'asc') => 'creo_stats.votes_rank' },
+			{ desc => 'creo_stats.votes' },
 			'title'
 		],
 		limit => $p{count},
