@@ -8,18 +8,18 @@ use Psy::User;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $name           = $params->{name};
-	my $password       = $params->{password};
-	my $password_check = $params->{password_check};
-	my $about          = $params->{about};
-	my $email          = $params->{email};
-	my $loves          = $params->{loves};
-	my $hates          = $params->{hates};
-	my $city           = $params->{city};
-	my $zombi_check    = $params->{zombi_check};
-	my $psy            = $params->{psy};
+	my $name           = $self->params->{name};
+	my $password       = $self->params->{password};
+	my $password_check = $self->params->{password_check};
+	my $about          = $self->params->{about};
+	my $email          = $self->params->{email};
+	my $loves          = $self->params->{loves};
+	my $hates          = $self->params->{hates};
+	my $city           = $self->params->{city};
+	my $zombi_check    = $self->params->{zombi_check};
+	my $psy            = $self->params->{psy};
 
 	unless ($zombi_check eq 2) {
 		return $psy->error("Zombie detected");

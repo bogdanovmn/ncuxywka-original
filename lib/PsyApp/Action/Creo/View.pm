@@ -11,11 +11,11 @@ use Psy::ViewsLog::Creo;
 use Utils;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $id      = $params->{id};
-	my $details = $params->{details} || 0;
-	my $psy     = $params->{psy};
+	my $id      = $self->params->{id};
+	my $details = $self->params->{details} || 0;
+	my $psy     = $self->params->{psy};
 
 	my $creo = Psy::Creo->choose($id);
 

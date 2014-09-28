@@ -6,20 +6,20 @@ use utf8;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $has_error = $params->{has_error};
+	my $has_error = $self->params->{has_error};
 
-	my $name = $params->{name};
-	my $password = $params->{password};
-	my $password_check = $params->{password_check};
-	my $about = $params->{about};
-	my $email = $params->{email};
-	my $loves = $params->{loves};
-	my $hates = $params->{hates};
-	my $city = $params->{city};
+	my $name = $self->params->{name};
+	my $password = $self->params->{password};
+	my $password_check = $self->params->{password_check};
+	my $about = $self->params->{about};
+	my $email = $self->params->{email};
+	my $loves = $self->params->{loves};
+	my $hates = $self->params->{hates};
+	my $city = $self->params->{city};
 
-	my $psy = $params->{psy};
+	my $psy = $self->params->{psy};
 
 	return {
 		error_msg => $psy->last_error,

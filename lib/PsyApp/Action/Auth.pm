@@ -6,12 +6,12 @@ use utf8;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $action   = $params->{action} || 'bot';
-	my $name     = $params->{name};
-	my $password = $params->{password};
-	my $psy      = $params->{psy};
+	my $action   = $self->params->{action} || 'bot';
+	my $name     = $self->params->{name};
+	my $password = $self->params->{password};
+	my $psy      = $self->params->{psy};
 
 	if ($action eq 'in' and $psy->is_annonimus) {
 		return $psy->login(

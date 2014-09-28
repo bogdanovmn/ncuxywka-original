@@ -7,12 +7,12 @@ use utf8;
 use Psy::Creo;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $id     = $params->{id};
-	my $msg    = $params->{msg};
-	my $alias  = $params->{alias};
-	my $psy    = $params->{psy};
+	my $id     = $self->params->{id};
+	my $msg    = $self->params->{msg};
+	my $alias  = $self->params->{alias};
+	my $psy    = $self->params->{psy};
 
 	my $creo = Psy::Creo->choose($id);
 	

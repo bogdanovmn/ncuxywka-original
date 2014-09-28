@@ -8,10 +8,10 @@ use Psy::News;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $id  = $params->{id};
-	my $psy = $params->{psy};
+	my $id  = $self->params->{id};
+	my $psy = $self->params->{psy};
 	
 	my $news = Psy::News->constructor;
 

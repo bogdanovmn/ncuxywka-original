@@ -5,11 +5,14 @@ use warnings;
 use utf8;
 
 use Dancer ':syntax';
-#use lib '/home/tolobayko/devel/perl-projects/perl-dancer-plugin-controller/lib';
-use Dancer::Plugin::Controller;
+use Dancer::Plugin::Controller '0.152';
+
+use Carp;
+$SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
 
+use PsyApp::Action;
 use PsyApp::Action::Index;
 use PsyApp::Action::Maindoctor;
 

@@ -9,12 +9,12 @@ use Psy::Text::Generator;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 	
-	my $room  = $params->{room};
-	my $msg   = $params->{msg};
-	my $alias = $params->{alias}; 
-	my $psy   = $params->{psy};
+	my $room  = $self->params->{room};
+	my $msg   = $self->params->{msg};
+	my $alias = $self->params->{alias}; 
+	my $psy   = $self->params->{psy};
 
 	my $psy_room = undef;
 	$psy_room = Psy::Room->enter(

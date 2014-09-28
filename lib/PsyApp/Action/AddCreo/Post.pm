@@ -8,14 +8,14 @@ use Psy::Creo;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $title      = $params->{title};
-	my $body       = $params->{body};
-	my $err        = $params->{err};
-	my $faq_flag   = $params->{faq};
-	my $black_copy = $params->{black_copy};
-	my $psy        = $params->{psy};
+	my $title      = $self->params->{title};
+	my $body       = $self->params->{body};
+	my $err        = $self->params->{err};
+	my $faq_flag   = $self->params->{faq};
+	my $black_copy = $self->params->{black_copy};
+	my $psy        = $self->params->{psy};
 	
 	unless ($psy->success_in) {
 		return $psy->error("Вы хакер?");

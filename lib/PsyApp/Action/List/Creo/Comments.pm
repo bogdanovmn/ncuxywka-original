@@ -10,12 +10,12 @@ use Paginator;
 
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $page    = $params->{page} || 1;
-	my $from_id = $params->{from};
-	my $for_id  = $params->{for};
-	my $psy     = $params->{psy};
+	my $page    = $self->params->{page} || 1;
+	my $from_id = $self->params->{from};
+	my $for_id  = $self->params->{for};
+	my $psy     = $self->params->{psy};
 
 	#
 	# Load last comments 

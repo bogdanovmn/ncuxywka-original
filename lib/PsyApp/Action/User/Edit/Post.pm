@@ -8,19 +8,19 @@ use Psy::User;
 use Digest::MD5 qw| md5_hex |;
 
 sub main {
-	my ($class, $params) = @_;
+	my ($self) = @_;
 
-	my $old_password       = $params->{old_password};
-	my $new_password       = $params->{new_password};
-	my $new_password_check = $params->{new_password_check};
-	my $delete_avatar      = $params->{delete_avatar};
-	my $about  = $params->{about};
-	my $email  = $params->{email};
-	my $loves  = $params->{loves};
-	my $hates  = $params->{hates};
-	my $city   = $params->{city};
-	my $avatar = $params->{avatar};
-	my $psy    = $params->{psy};
+	my $old_password       = $self->params->{old_password};
+	my $new_password       = $self->params->{new_password};
+	my $new_password_check = $self->params->{new_password_check};
+	my $delete_avatar      = $self->params->{delete_avatar};
+	my $about  = $self->params->{about};
+	my $email  = $self->params->{email};
+	my $loves  = $self->params->{loves};
+	my $hates  = $self->params->{hates};
+	my $city   = $self->params->{city};
+	my $avatar = $self->params->{avatar};
+	my $psy    = $self->params->{psy};
 
 	return $psy->error("Вы хакер?") if $psy->is_annonimus;
 
