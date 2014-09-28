@@ -29,6 +29,9 @@ sub _order_by {
 		if (ref $p eq 'HASH') {
 			my ($direct) = keys %$p;
 			my ($field)  = values %$p;
+			unless ($field =~ /\w\.\w/) {
+				$field = $self->_table_name. '.'. $field;
+			}
 			push @fields, sprintf('%s%s %s', $prefix || '', $field, uc($direct));
 		}
 		else {
@@ -48,7 +51,7 @@ sub list_by_id {
 	my $select = '*';
 	my $from   = 'FROM '. $self->_table_name;
 	my $order  = $params{order_by} 
-		? $self->_order_by($params{order_by}, $params{field_prefix}) 
+		? $self->_order_by($params{order_by}) 
 		: '';
 
 	my %post_process;
@@ -123,15 +126,25 @@ sub get_id_by_cond {
 	my ($self, $cond, %p) = @_;
 
 	my $q = $self->_construct_sql($cond, %p);
+	
+	my $order = $p{order_by} 
+		? $self->_order_by($p{order_by}) 
+		: '';
+	
 	return $self->query(
-		'SELECT '. $self->_table_name. '.id '. $q->{sql}->{from}. $q->{sql}->{where}. $q->{sql}->{limit},
+		'SELECT '. $self->_table_name. '.id '
+			. $q->{sql}->{from}
+			. $q->{sql}->{where}
+			. $order
+			. $q->{sql}->{limit},
+		
 		$q->{params},
+		
 		{ 
 			list_field => 'id', 
 			debug      => 0 
 		} 
 	);
-
 }
 
 sub list_by_cond {
