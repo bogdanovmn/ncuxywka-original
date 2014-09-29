@@ -29,7 +29,9 @@ sub info {
 
 	my $self = Psy::DB::connect($class) or die;
 
-	$self->{session} = $p{session} || sub {return ''};
+	$self->{session} = ($class->is_spider_bot or not $p{session}) 
+		? sub { return '' }
+		: $p{session};
 	$self->{session}("ip", $self->{ip});
 	
 	$self->{user_data} = {};
@@ -69,7 +71,7 @@ sub login {
 	}
 
 	my $user_info = $self->query(qq| 
-		SELECT u.*, ug.group_id 
+		SELECT u.id, ug.group_id 
 		FROM users u
 		LEFT JOIN user_group ug ON ug.user_id = u.id
 		WHERE name = ? 
