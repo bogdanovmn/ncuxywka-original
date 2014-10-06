@@ -12,6 +12,7 @@ use constant FRESH_TIME_MINUTE => 60;
 use constant FRESH_TIME_HOUR   => 60*60;
 use constant FRESH_TIME_DAY    => 60*60*24;
 
+
 sub constructor {
 	my ($class, %p) = @_;
 	

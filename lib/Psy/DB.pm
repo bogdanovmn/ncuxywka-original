@@ -43,7 +43,7 @@ sub connect {
 
 	my $self = { 
 		dbh => $__DBH, 
-		ip => $ENV{REMOTE_ADDR} || '127.0.0.1',
+		ip => $p{ip} || '127.0.0.1',
 		sql_empty_result => 1
 	};
 	

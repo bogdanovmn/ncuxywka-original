@@ -27,11 +27,9 @@ use base 'Psy::DB';
 sub info {
 	my ($class, %p) = @_;
 
-	my $self = Psy::DB::connect($class) or die;
+	my $self = Psy::DB::connect($class, %p) or die;
 
-	$self->{session} = ($class->is_spider_bot or not $p{session}) 
-		? sub { return '' }
-		: $p{session};
+	$self->{session} = $p{session} || sub { return '' };
 	$self->{session}("ip", $self->{ip});
 	
 	$self->{user_data} = {};
@@ -182,6 +180,7 @@ sub is_spider_bot {
 		BLEXBot
 		AhrefsBot
 	|) {
+		#use Data::Dumper;warn Dumper(\%ENV);
 		return $bot_name if index($ENV{HTTP_USER_AGENT}, $bot_name) > -1;
 	}
 
