@@ -30,10 +30,14 @@ sub connect {
 			sprintf('dbi:mysql:%s:%s', PSY_DB_CONF::NAME, PSY_DB_CONF::HOST), 
 			PSY_DB_CONF::USER, 
 			PSY_DB_CONF::PASS,
-			{ RaiseError => 1 }
+			{ 
+				RaiseError => 1,
+				mysql_auto_reconnect => 1,
+				mysql_enable_utf8    => 1
+			}
 		) or die $!;
-		$__DBH->{mysql_enable_utf8} = 1;
-		$__DBH->do("SET NAMES utf8");
+		#$__DBH->{mysql_enable_utf8} = 1;
+		#$__DBH->do("SET NAMES utf8");
 		
 		#$__DBH->do("SET SQL_BIG_SELECTS=1");
 		
@@ -90,7 +94,6 @@ sub query {
 		$sth->finish;
 		return $self->{dbh}->last_insert_id(undef, undef, undef, undef);
 	}
-
 	if ($sql =~ /^\s*(select|show)/i) {	
 		my @result = ();
 		while (my $row = $sth->fetchrow_hashref) {
