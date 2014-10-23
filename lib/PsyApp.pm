@@ -69,7 +69,7 @@ use PsyApp::Action::404;
 
 use Utils;
 
-our $VERSION = '0.1005';
+our $VERSION = '0.1006';
 
 
 sub show_error { controller(template => 'error', action => 'Error') }
@@ -81,8 +81,10 @@ hook 'before' => sub {
 		table => 'session'
 	};
 
+	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR};
 	var psy => Psy->enter(
-		session => sub { Dancer::session(@_) }
+		session => sub { Dancer::session(@_) },
+		ip      => $ip
 	);
 
 	var ban_left_time => vars->{psy}->banned;
