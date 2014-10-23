@@ -767,12 +767,6 @@ sub auditor {
 	return $self->{auditor};
 }
 #
-# Destructor
-#
-sub DESTROY {
-	my $self = shift;
-}
-#
 # End
 #
 1;
