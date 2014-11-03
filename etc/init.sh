@@ -32,8 +32,6 @@ ARGS="\
 	--access-log /var/log/starman/$PROJECT_NAME.access.log \
 	--port $PORT -D "
 
-#[ -f /etc/sysconfig/starman ] && . /etc/sysconfig/starman
-
 if [ -z "$APP" ]; then
     echo "Can't proceed, \$APP not defined"
     exit 1
