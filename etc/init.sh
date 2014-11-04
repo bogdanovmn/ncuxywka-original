@@ -30,7 +30,8 @@ ARGS="\
 	-I$CONFIG \
 	--error-log /var/log/starman/$PROJECT_NAME.error.log \
 	--access-log /var/log/starman/$PROJECT_NAME.access.log \
-	--port $PORT -D "
+	--port $PORT \
+	-D "
 
 if [ -z "$APP" ]; then
     echo "Can't proceed, \$APP not defined"
