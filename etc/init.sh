@@ -31,7 +31,7 @@ ARGS="\
 	--error-log /var/log/starman/$PROJECT_NAME.error.log \
 	--access-log /var/log/starman/$PROJECT_NAME.access.log \
 	--port $PORT \
-	-D "
+	-D --group mbogdanov"
 
 if [ -z "$APP" ]; then
     echo "Can't proceed, \$APP not defined"
