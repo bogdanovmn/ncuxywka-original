@@ -16,27 +16,22 @@
 . /lib/lsb/init-functions
 . /lib/init/vars.sh
 
-PROJECT_NAME="ncuxywka"
-STARMAN="/usr/bin/starman"
+. /etc/backend/ncuxywka.conf
+
 PIDFILE="/var/run/starman/$PROJECT_NAME.pid"
-APP_PATH="/home/web/ncuxywka.com"
 APP="$APP_PATH/bin/app.psgi"
 CONFIG="$APP_PATH/conf"
+RUN_ENV="/usr/bin/env perl -I$CONFIG"
+
 ARGS="\
 	--pid $PIDFILE \
 	--user www-data \
-	--workers 2 \
+	--workers $WORKERS_COUNT \
 	-I$CONFIG \
 	--error-log /var/log/starman/$PROJECT_NAME.error.log \
 	--access-log /var/log/starman/$PROJECT_NAME.access.log \
-	--port 3000 -D "
-
-WORKERS=2
-MAX_REQUESTS=1000
-LISTEN=":3000"
-USER="www-data"
-RUN_ENV="/usr/bin/env perl -I$CONFIG"
-#[ -f /etc/sysconfig/starman ] && . /etc/sysconfig/starman
+	--port $PORT \
+	-D "
 
 if [ -z "$APP" ]; then
     echo "Can't proceed, \$APP not defined"
@@ -59,12 +54,10 @@ start() {
     fi
 
 	echo -n "Starting $PROJECT_NAME: "
-	#su -s /bin/sh $USER -c "$STARMAN $ARGS $APP"
 	$STARMAN $ARGS $APP
 	RETVAL=$?
 
-    echo
-    [ $RETVAL = 0 ]
+    [ $RETVAL = 0 ] || echo 'FAIL'
     return $RETVAL
 }
 
