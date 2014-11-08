@@ -18,7 +18,7 @@ sub main {
 	my $loves          = $self->params->{loves};
 	my $hates          = $self->params->{hates};
 	my $city           = $self->params->{city};
-	my $zombi_check    = $self->params->{zombi_check};
+	my $zombi_check    = $self->params->{zombi_check} || '';
 	my $psy            = $self->params->{psy};
 
 	unless ($zombi_check eq 2) {

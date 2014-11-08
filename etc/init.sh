@@ -18,7 +18,7 @@
 
 . /etc/backend/ncuxywka.conf
 
-PIDFILE="/var/run/starman/$PROJECT_NAME.pid"
+PIDFILE="/var/run/starman.$PROJECT_NAME.pid"
 APP="$APP_PATH/bin/app.psgi"
 CONFIG="$APP_PATH/conf"
 RUN_ENV="/usr/bin/env perl -I$CONFIG"
