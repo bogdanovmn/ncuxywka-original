@@ -331,7 +331,7 @@ sub load_last_creos {
 		WHERE c.type = 0
 		$users_to_exclude_cond
 		ORDER BY c.post_date DESC 
-		LIMIT 25 
+		LIMIT 35 
 		|,
 		[],
 		{error_msg => "Последние анализы нечитабельны!"}
