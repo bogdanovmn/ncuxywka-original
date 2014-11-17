@@ -50,18 +50,13 @@ sub clear {
 
 sub total_size {
 	my ($self, %p) = @_;
-	my @files = glob $self->{storage}. "/*.pd";
-	my $total = 0;
-	my $max = -1;
-	for my $file (@files) {
-		my $size = -s $file;
-		$total += $size;
-		$max = $size if $size > $max;
-	}
+
+	my $stat = $self->{storage}->stats(['misc']);
+	#debug($stat);#
 	return {
-		cache_elements_count => scalar @files,
-		cache_total_size => short_traffic($total),
-		cache_max_size => short_traffic($max)
+		cache_elements_count => $stat->{total}->{curr_items},
+		cache_total_size     => short_traffic($stat->{total}->{bytes}),
+		cache_uptime         => full_time((values %{$stat->{hosts}})[0]->{misc}->{uptime})
 	}
 
 
