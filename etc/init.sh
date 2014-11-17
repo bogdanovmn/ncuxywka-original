@@ -18,7 +18,7 @@
 
 . /etc/backend/ncuxywka.conf
 
-PIDFILE="/var/run/starman/$PROJECT_NAME.pid"
+PIDFILE="/var/run/starman.$PROJECT_NAME.pid"
 APP="$APP_PATH/bin/app.psgi"
 CONFIG="$APP_PATH/conf"
 RUN_ENV="/usr/bin/env perl -I$CONFIG"
@@ -30,7 +30,8 @@ ARGS="\
 	-I$CONFIG \
 	--error-log /var/log/starman/$PROJECT_NAME.error.log \
 	--access-log /var/log/starman/$PROJECT_NAME.access.log \
-	--port $PORT -D "
+	--port $PORT \
+	-D "
 
 if [ -z "$APP" ]; then
     echo "Can't proceed, \$APP not defined"

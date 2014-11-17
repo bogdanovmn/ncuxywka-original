@@ -16,9 +16,9 @@
 			<span class=value><TMPL_VAR NAME="cache_total_size"></span>
 		</p>
 		<p>
-			Максимальный объем:
+			Uptime:
 			<br>
-			<span class=value><TMPL_VAR NAME="cache_max_size"></span>
+			<span class=value><TMPL_VAR NAME="cache_uptime"></span>
 		</p>
 </table>
 
