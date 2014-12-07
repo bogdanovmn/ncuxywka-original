@@ -98,7 +98,7 @@ hook 'before_template_render' => sub {
 
 
 	if (vars->{psy}) {
-		my $skin_name = 'original';
+		my $skin_name = 'new_year';#'original';
 
 		if (vars->{set_neo_skin} or $template_params->{c_neofuturism}) {
 			$skin_name = 'neo';
