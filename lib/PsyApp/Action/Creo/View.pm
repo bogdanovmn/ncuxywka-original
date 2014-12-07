@@ -128,7 +128,7 @@ sub main {
 		avatar           => $author->avatar_file_name,
 		user_creo_list   => $author_creo_list,
 		random_creo_list => $random_creo_list,
-		creo_edit_menu   => ($psy->auditor->can_edit_creo),
+		creo_edit_menu   => $psy->auditor->can_edit_creo,
 		plagiarist       => $author_info->{u_group_id} eq Psy::Group::PLAGIARIST,
 		ad_votes         => $admin_details,
 		creo_view        => 1,
