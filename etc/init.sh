@@ -31,6 +31,7 @@ ARGS="\
 	--error-log /var/log/starman/$PROJECT_NAME.error.log \
 	--access-log /var/log/starman/$PROJECT_NAME.access.log \
 	--port $PORT \
+	--max-requests $MAX_REQUESTS
 	-D "
 
 if [ -z "$APP" ]; then
