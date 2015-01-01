@@ -10,8 +10,8 @@ use Psy::Bot::CommentTemplate;
 sub main {
 	my ($self) = @_;
 
-	my $character = $self->params->{character};
-	my $category  = $self->params->{category};
+	my $character = $self->params->{character_id};
+	my $category  = $self->params->{category_id};
 	my $template  = $self->params->{template};
 	my $psy       = $self->params->{psy};
 	
@@ -20,13 +20,13 @@ sub main {
 	}
 
 	if ($template =~ /^\s*$/) {
-		$psy->error("Пустой шаблон!");
+		return $psy->error("Пустой шаблон!");
 	}
 
-	my $comment_templates = Psy::Bot::CommentTemplate->constructor(
+	Psy::Bot::CommentTemplate->constructor(
 		character_id => $character, 
 		category_id  => $category,
-	)->add($template);
+	)->add($template, $psy->user_id);
 	
 	return 1;
 }

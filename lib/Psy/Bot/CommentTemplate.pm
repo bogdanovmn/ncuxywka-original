@@ -36,10 +36,13 @@ sub load {
 	my ($self) = @_;
 
 	return $self->query(qq| 
-		SELECT * 
-		FROM bot_comment_template
-		WHERE bot_character_id        = ?
-		AND   bot_comment_category_id = ?
+		SELECT id       bct_id, 
+			   template bct_template
+		FROM   bot_comment_template
+		WHERE  bot_character_id        = ?
+		AND    bot_comment_category_id = ?
+		
+		ORDER BY id DESC
 		|,
 		[ $self->{character_id}, $self->{category_id} ]
 	);

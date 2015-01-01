@@ -98,5 +98,20 @@ sub chunks {
 	return \@result;
 }
 
+sub set_selected_flag {
+	my ($list, $selected_value, $key) = @_;
+
+	$key ||= 'id';
+
+	return [ 
+		map { 
+			if ($_->{$key} eq $selected_value) {
+				$_->{selected} = 1;
+			}
+			$_;
+		}
+		@$list
+	];
+}
 
 1;
