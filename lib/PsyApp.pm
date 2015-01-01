@@ -552,19 +552,37 @@ get '/maindoctor/' => sub { controller( template => 'maindoctor', action => 'Mai
 #
 # Bot comments template
 #
-get '/doctor/bot/comment_template/' => sub {
-	controller( 
-		template => 'admin/bot/comment_template', 
-		action   => 'Admin::Bot::Comment::Template',
-		layout   => 'minimal'
-	)
+any '/doctor/bot/comment_template/' => sub {
+	if (params->{add}) {
+		if (controller(action => 'Admin::Bot::Comment::Template::Post')) {
+			redirect sprintf(
+				'/doctor/bot/comment_template/?character_id=%d&category_id=%d',
+					params->{character_id} || 1,
+					params->{category_id}  || 1
+			);
+		}
+		else {
+			show_error;
+		}
+	}
+	else {
+		controller( 
+			template => 'admin/bot/comment_template', 
+			action   => 'Admin::Bot::Comment::Template',
+			layout   => 'minimal'
+		)
+	}
 };
 #
 # Bot comments template post
 #
 post '/doctor/bot/comment_template/' => sub {
 	if (controller(action => 'Admin::Bot::Comment::Template::Post')) {
-		redirect '/doctor/bot/comment_template/';
+		redirect sprintf(
+			'/doctor/bot/comment_template/?character_id=%d&category_id=%d',
+				params->{character_id} || 1,
+				params->{category_id}  || 1
+		);
 	}
 	else {
 		show_error;

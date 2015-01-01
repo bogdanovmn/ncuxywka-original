@@ -1,4 +1,4 @@
-<form method=post>
+<form method=post action=/doctor/bot/comment_template/>
 	<table class=form>
 	<tr>
 		<td>Характер
