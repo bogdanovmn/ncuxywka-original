@@ -81,7 +81,7 @@ hook 'before' => sub {
 		table => 'session'
 	};
 	
-	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR};
+	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR} || '';
 	var psy => Psy->enter(
 		session => sub { Dancer::session(@_) },
 		ip      => $ip,
