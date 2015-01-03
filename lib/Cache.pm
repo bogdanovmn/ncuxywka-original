@@ -45,7 +45,9 @@ sub try_get {
 }	
 
 sub clear {
-	my ($self) = @_;
+	my ($self, @params) = @_;
+
+	$self->{storage}->delete(@params);
 }
 
 sub total_size {

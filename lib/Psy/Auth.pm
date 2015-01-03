@@ -48,7 +48,7 @@ sub info {
 			$self->{user_data}->{god} = 1;
 			$self->{user_data}->{counter} = 1;
 		}
-		$self->{session}("ip", $self->{ip});
+		$self->{session}("ip"       , $self->{ip});
 	}
 	else {
 		$self->{user_data} = { 
