@@ -87,7 +87,7 @@ sub online_list {
 	my $data = $self->query(qq|
 		SELECT session_data, last_active
 		FROM session
-		WHERE last_active > NOW() - INTERVAL 999924 HOUR
+		WHERE last_active > NOW() - INTERVAL 12 HOUR
 		ORDER BY last_active DESC
 	|);
 
