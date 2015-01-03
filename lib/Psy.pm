@@ -83,14 +83,22 @@ sub online_list {
 
 	my @sessions = ();
 
+	my $data = $self->query(qq|
+		SELECT session_data, last_active
+		FROM session
+		WHERE last_active > NOW() - INTERVAL 24 HOUR
+	|);
+
+	return undef unless $data;
+
+	foreach my $ses (@$data) {
+
+	}
 =begin1 deprecated
 
 	#my %anonimous = ();
 	my $current_time = time;
 
-	my %ip = ();
-	CGI::Session->find( sub { 
-		my $ses = shift;
 		my $online_time_near = ($current_time - $ses->atime) < 3600;
 		my $login = defined $ses->param("user_auth") && ($ses->param("user_auth") eq 1);
 		

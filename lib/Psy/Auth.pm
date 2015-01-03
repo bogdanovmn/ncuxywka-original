@@ -30,11 +30,11 @@ sub info {
 	my $self = Psy::DB::connect($class, %p) or die;
 
 	$self->{session} = $p{session} || sub { return '' };
-	$self->{session}("ip", $self->{ip});
 	
 	$self->{user_data} = {};
 
-	my $user = Psy::User->choose($self->{session}("user_id"));
+	my $user_id = $self->{session}("user_id");
+	my $user    = $user_id ? Psy::User->choose($user_id) : undef;
 
 	if ($user) {
 		my $user_info = $user->info;
@@ -48,6 +48,7 @@ sub info {
 			$self->{user_data}->{god} = 1;
 			$self->{user_data}->{counter} = 1;
 		}
+		$self->{session}("ip", $self->{ip});
 	}
 	else {
 		$self->{user_data} = { 
@@ -70,7 +71,7 @@ sub login {
 
 	my $user_info = $self->query(qq| 
 		SELECT u.id, ug.group_id 
-		FROM users u
+		FROM   users u
 		LEFT JOIN user_group ug ON ug.user_id = u.id
 		WHERE name = ? 
 		AND pass_hash = ? 
