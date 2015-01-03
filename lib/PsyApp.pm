@@ -8,7 +8,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Controller '0.152';
 
 use Carp;
-$SIG{__DIE__} = sub { confess(@_) };
+#$SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
 
@@ -80,11 +80,12 @@ hook 'before' => sub {
 		dbh   => sub { Psy::DB->connect->{dbh} },
 		table => 'session'
 	};
-
+	
 	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR};
 	var psy => Psy->enter(
 		session => sub { Dancer::session(@_) },
-		ip      => $ip
+		ip      => $ip,
+		path    => request->path
 	);
 
 	var ban_left_time => vars->{psy}->banned;
