@@ -1,9 +1,9 @@
 <h1>СДА<span class=letter>Й</span> АНАЛИ<span class=letter>Z</span>Ы:</h1>
-<TMPL_UNLESS NAME=user_auth>
+<TMPL_UNLESS user_auth>
 	<div class=strict>Чтобы сдать свои анализы вам необходимо <a href='/register/'>зерегистрироваться</a> <br>и войти на Психуюшку под своим именем.</div>
 <TMPL_ELSE>
-	<TMPL_UNLESS NAME=can_add>
-		<div class=strict>Ваши предыдущие анализы показали нам что Вы достаточно здоровы!<br>Мы советуем Вам сдать следующий анализ<br>не ранее чем через <TMPL_VAR NAME=time_to_post></div> 
+	<TMPL_UNLESS can_add>
+		<div class=strict>Ваши предыдущие анализы показали нам что Вы достаточно здоровы!<br>Мы советуем Вам сдать следующий анализ<br>не ранее чем через <TMPL_VAR time_to_post></div> 
 		<p>&nbsp;
 	</TMPL_UNLESS>
 	<div class=strict>Перед тем как сдать анализы обязательно прочьтите <a href='/faq_room/'>FAQ</a>!</div>
@@ -13,8 +13,8 @@
 			<tr>	
 				<td><span class=note>Пациэнт:</span>
 				<td>
-					<span class=user_name><TMPL_VAR NAME='alias'></span>
-					<input type=hidden maxlength=50 name=alias value="<TMPL_VAR NAME='alias'>">
+					<span class=user_name><TMPL_VAR alias></span>
+					<input type=hidden maxlength=50 name=alias value="<TMPL_VAR alias>">
 			<tr>
 				<td><span class=note>Название:</span>
 				<td>
@@ -33,7 +33,7 @@
 					<table class="add_creo_buttons">
 						<tr>
 							<td class=first>
-								<TMPL_IF NAME=can_add>
+								<TMPL_IF can_add>
 									<input type=submit name='white_copy' value='Сдать анализы'>
 								</TMPL_IF>
 							<td class=second>

@@ -2,7 +2,7 @@
 
 <TMPL_INCLUDE NAME='inc/error_msg.tpl'>
 
-<TMPL_IF NAME=user_auth>
+<TMPL_IF user_auth>
 	<p>Вы уже зарегистрированы!<br>Перед регистрацией другого пациэнта вам необходимо <a href='/auth/out'>выйти</a>.</p>
 <TMPL_ELSE>
 	<p>Прежде чем регистрироваться, прочитайте пожалуйста <a href='/faq_room/'>FAQ</a><br><br></p>

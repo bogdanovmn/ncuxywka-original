@@ -3,7 +3,7 @@
 
 <p class=note>Специальная палата для ругательств и прочей нецензурщинины в адрес других пациэнтов. Здесь вам никто не сделает замечание. Ругайтесь на здоровье.</p>
 <br>
-<img src='/img/<TMPL_VAR NAME="skin_pic_mainshit">' width=350 height=200>
+<img src='/img/<TMPL_VAR skin_pic_mainshit>' width=350 height=200>
 
 <h1>СК<span class=letter>А</span>ЖИ!</h1>
 <center>

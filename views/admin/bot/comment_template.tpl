@@ -4,18 +4,18 @@
 		<td>Характер
 		<td>
 			<select name=character_id>
-				<TMPL_LOOP NAME=characters>
-					<option <TMPL_IF NAME=selected>selected</TMPL_IF> value='<TMPL_VAR NAME=id>'>
-						<TMPL_VAR NAME=name>
+				<TMPL_LOOP characters>
+					<option <TMPL_IF selected>selected</TMPL_IF> value='<TMPL_VAR id>'>
+						<TMPL_VAR name>
 					</option>
 				</TMPL_LOOP>
 			</select>
 	<tr>
 		<td>Категория
 		<td><select name=category_id>
-				<TMPL_LOOP NAME=categories>
-					<option <TMPL_IF NAME=selected>selected</TMPL_IF> value='<TMPL_VAR NAME=id>'>
-						<TMPL_VAR NAME=name>
+				<TMPL_LOOP categories>
+					<option <TMPL_IF selected>selected</TMPL_IF> value='<TMPL_VAR id>'>
+						<TMPL_VAR name>
 					</option>
 				</TMPL_LOOP>
 			</select>
@@ -32,11 +32,11 @@
 
 <h1>Шаблоны</h1>
 
-<TMPL_IF NAME=templates>
+<TMPL_IF templates>
 	<table>
-	<TMPL_LOOP NAME=templates>
+	<TMPL_LOOP templates>
 		<tr>
-			<td><TMPL_VAR NAME=bct_template>
+			<td><TMPL_VAR bct_template>
 			<td>...
 
 	</TMPL_LOOP>

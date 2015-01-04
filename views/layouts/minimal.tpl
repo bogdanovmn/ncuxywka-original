@@ -3,7 +3,7 @@
 <table class=main_simple>
 <tr>
 <td>
-    <center><a href='/'><img src='/img/<TMPL_VAR NAME="skin_pic_logo">'></a></center>
+    <center><a href='/'><img src='/img/<TMPL_VAR skin_pic_logo>'></a></center>
 <tr>
 <td class=content>
 	<TMPL_VAR ESCAPE=NONE NAME=content>
