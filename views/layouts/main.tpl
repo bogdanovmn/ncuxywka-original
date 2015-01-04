@@ -3,9 +3,9 @@
 <tr>
 	<!-- LOGO -->
 	<td class=lozung>
-		<img alt='ПСИХУЮШКА.COM' height=48px src='/img/<TMPL_VAR NAME=skin_pic_lozung>'>
+		<img alt='ПСИХУЮШКА.COM' height=48px src='/img/<TMPL_VAR skin_pic_lozung>'>
 	<td class=logo>
-		<img alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR NAME=skin_pic_logo>'>
+		<img alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR skin_pic_logo>'>
 </tr>
 
 <tr>

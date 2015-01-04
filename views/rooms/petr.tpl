@@ -16,19 +16,19 @@
 
 <h1>Последние страницы истории:</h1>
 
-<TMPL_LOOP NAME="comments">
+<TMPL_LOOP comments>
 	<table class=infinity>
 	<tr>
 		<td class=msg>
 			<TMPL_VAR ESCAPE="NONE" NAME="cm_msg">
 	<tr>
 		<td class=copyright>
-			<TMPL_IF NAME="cm_user_id">
-				<a class=user href='/users/<TMPL_VAR NAME="cm_user_id">.html'><span class=user_name><TMPL_VAR NAME="cm_user_name"></span></a>,
+			<TMPL_IF cm_user_id>
+				<a class=user href='/users/<TMPL_VAR cm_user_id>.html'><span class=user_name><TMPL_VAR cm_user_name></span></a>,
 			<TMPL_ELSE>
-				<span class=anonim><TMPL_VAR NAME="cm_alias">,</span>
+				<span class=anonim><TMPL_VAR cm_alias>,</span>
 			</TMPL_IF>
-            <TMPL_VAR NAME="cm_post_date">
+            <TMPL_VAR cm_post_date>
 			<hr>
 	</table>
 </TMPL_LOOP>
