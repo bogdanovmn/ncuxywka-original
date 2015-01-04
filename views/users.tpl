@@ -96,23 +96,26 @@
 <!-- by letter -->
 
 <div class=user_list id="letter">
-	<table class=user_list_by_letter>
-		<tr>
-			<TMPL_LOOP NAME=user_list_by_letter_groups>
-				<td>
-					<TMPL_LOOP NAME=ul_letters>
-						<br>
-						<span class=user_letter><TMPL_VAR NAME=ull_letter></span>
-						<br><br>
-						<TMPL_LOOP NAME=ull_users>
-							<TMPL_IF NAME=u_plagiarist><s></TMPL_IF>
-							<a href='/users/<TMPL_VAR NAME=u_id>.html'><TMPL_VAR NAME=u_name></a>
-							<TMPL_IF NAME=u_plagiarist></s></TMPL_IF>
+	<TMPL_LOOP user_list_by_letter_groups>
+		<h2><TMPL_VAR title></h2>
+		<table class=user_list_by_letter>
+			<tr>
+				<TMPL_LOOP NAME=data>
+					<td>
+						<TMPL_LOOP NAME=ul_letters>
 							<br>
+							<span class=user_letter><TMPL_VAR NAME=ull_letter></span>
+							<br><br>
+							<TMPL_LOOP NAME=ull_users>
+								<TMPL_IF NAME=u_plagiarist><s></TMPL_IF>
+								<a href='/users/<TMPL_VAR NAME=u_id>.html'><TMPL_VAR NAME=u_name></a>
+								<TMPL_IF NAME=u_plagiarist></s></TMPL_IF>
+								<br>
+							</TMPL_LOOP>
 						</TMPL_LOOP>
-					</TMPL_LOOP>
-			</TMPL_LOOP>
-	</table>
+				</TMPL_LOOP>
+		</table>
+	</TMPL_LOOP>
 </div>
 
 <script>
