@@ -19,7 +19,7 @@ use Psy::Statistic::Creo;
 use Cache;
 use Format::LongNumber;
 use FindBin;
-
+use JSON::XS;
 #
 # Votes rank titles
 #
@@ -82,59 +82,64 @@ sub online_list {
 	my ($self) = @_;
 
 	my @sessions = ();
-
-=begin1 deprecated
-
-	#my %anonimous = ();
 	my $current_time = time;
 
-	my %ip = ();
-	CGI::Session->find( sub { 
-		my $ses = shift;
-		my $online_time_near = ($current_time - $ses->atime) < 3600;
-		my $login = defined $ses->param("user_auth") && ($ses->param("user_auth") eq 1);
-		
-		if ($ses->is_expired) {
-			$ses->delete;
-			$ses->flush;
-		}
-		elsif ($online_time_near) {
-			if ($login) {
-				push(@sessions, { 
-					o_user_id => $ses->param("user_id"),
-					o_user_name => $ses->param("user_name"),
-					o_action_time_raw => $current_time - $ses->atime,
-					o_action_time => full_time($current_time - $ses->atime)
-				}); 
-			}
-			else {
-				#$anonimous{count}++;
-				$ip{$ses->param("ip") || ''}++;
-			}
-		}
-		elsif (not $login) {
-			$ses->delete;
-			$ses->flush;
-		}
-	});
-	@sessions = sort { $a->{o_action_time_raw} <=> $b->{o_action_time_raw} } @sessions;
+	my $data = $self->query(qq|
+		SELECT session_data, last_active
+		FROM session
+		WHERE last_active > NOW() - INTERVAL 12 HOUR
+		ORDER BY last_active DESC
+	|);
 
-	push(@sessions, {
-		o_user_id => Psy::Auth::ANNONIMUS_ID,
-		o_user_name => undef,
-		o_action_time => undef,
-		#o_count => $anonimous{count}
-		o_count => scalar keys(%ip)
-	});
+	return undef unless $data;
+
+	my %already_in;
+	foreach my $d (@$data) {
+		my $ses = JSON::XS->new->decode($d->{session_data});
+		
+		next unless $ses->{user_id};
+		next if exists $already_in{$ses->{user_id}};
+
+		push @sessions, { 
+			o_user_id     => $ses->{user_id},
+			o_user_name   => $self->get_user_name_by_id($ses->{user_id}),
+			o_action_time => full_time($current_time - Date::ymdhms_to_unix_time($d->{last_active}))
+		};
+		undef $already_in{$ses->{user_id}};
+	}
 	
-=cut
 	return \@sessions;
+}
+
+sub get_user_name_by_id {
+	my ($self, $user_id, $second) = @_;
+
+	unless (defined $self->{helper}->{users}) {
+		$self->{helper}->{users} = $self->cache->try_get(
+			'helper__users',
+			sub {+{ 
+				map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
+				@{ $self->query(q| SELECT id, name, type FROM users |) }
+			}},
+			Cache::FRESH_TIME_HOUR*6
+		);
+	}
+	
+	if ($self->{helper}->{users}->{$user_id}) {
+		return $self->{helper}->{users}->{$user_id}->{name};
+	}
+	elsif (not $second) {
+		undef $self->{helper}->{users};
+		$self->cache->clear('helper__users');
+		return $self->get_user_name_by_id($user_id, 'yes');
+	}
+
+	return '???';
 }
 
 sub common_info {
 	my ($self, %p) = @_;
 	
-	my $online_list = $self->online_list; 
 	unless ($self->is_annonimus) {
 		$self->{user_data}->{online} = $self->online_list;
 	}
