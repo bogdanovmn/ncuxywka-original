@@ -91,6 +91,7 @@
 							<TMPL_VAR lc_title>
 						</a>
 						<i>&nbsp;(<TMPL_VAR lc_comments_count> диаг.)</i><TMPL_UNLESS __last__>,&nbsp;</TMPL_UNLESS>
+						<br>
 					</TMPL_LOOP>
 		</TMPL_IF>
 	</table>
