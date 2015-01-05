@@ -106,7 +106,11 @@ sub common_info {
 	my ($self, %p) = @_;
 	
 	unless ($self->is_annonimus) {
-		$self->{user_data}->{online} = $self->online_list;
+		$self->{user_data}->{online} = $self->cache->try_get(
+			'online',
+			sub { $self->online_list },
+			Cache::FRESH_TIME_MINUTE
+		);
 	}
 
 	$self->{user_data}->{is_plagiarist} = $self->is_plagiarist;

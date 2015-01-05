@@ -6,6 +6,7 @@ use utf8;
 
 use List;
 use Format::LongNumber;
+use Psy::Creo;
 
 
 my %STATIC_PATH = (
@@ -112,12 +113,26 @@ sub _get_descr_by_path {
 		}
 		elsif ($path =~ m{^/users/(\d+)\.html$}) {
 			return List::random_element(
-				'подглядывает за пациэнтом'
+				$1 == $self->user_id
+					? (
+						'разглядывает свою историю болезни',
+						'самолюбование'
+					)
+					: (
+						'подглядывает за '. ($self->get_user_name_by_id($1) || 'пациэнтом')
+					)
 			);
 		}
 		elsif ($path =~ m{^/(?:creos|print)/(\d+)\.html$}) {
+			my $user_id = Psy::Creo->choose($1)->author_id;
 			return List::random_element(
-				'читает анализы'
+				$user_id 
+					? (
+						'читает анализы '. $self->get_user_name_by_id($user_id) 
+					)
+					: (
+						'пытается читать анализы'
+					)
 			);
 		}
 		elsif ($path =~ m{^/(main/)?$}) {

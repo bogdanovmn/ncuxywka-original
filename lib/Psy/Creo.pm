@@ -282,6 +282,23 @@ sub load_headers {
 	return scalar @$creo_result_set ? $creo_result_set->[0] : undef;
 }
 #
+# Get creo user_id
+#
+sub author_id {
+	my ($self) = @_;
+
+	my $result = $self->query(q| 
+		SELECT user_id
+		FROM   creo
+		WHERE  id = ? 
+		|,
+		[$self->{id}],
+	);
+
+	return scalar @$result ? $result->[0]->{user_id} : undef;
+}
+
+#
 # Load creo's comments
 #
 sub comments {
