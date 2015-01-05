@@ -290,3 +290,5 @@ table.user_info td.statistic{width:400px;vertical-align:middle}
 table.sql_explain{width:100%}table.sql_explain td{border:1px solid #808080;padding:5px 3px}
 table.sql_explain td.short{width:20px}
 table.sql_explain td.rows{width:30px}
+div.more_creos{margin-top:5px;text-align:right;padding-right:5px}div.more_creos a{text-decoration:none;font-weight:bold;color:#808080}
+div.more_creos a:hover{text-decoration:underline}

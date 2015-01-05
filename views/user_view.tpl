@@ -37,6 +37,7 @@
 
 
 <TMPL_IF creo_list>
+<a id=creos></a>
 <center><h1>АНАЛИ<span class=letter>Z</span>Ы:</h1></center>
 <table class=user_creo_list>
 	<tr>

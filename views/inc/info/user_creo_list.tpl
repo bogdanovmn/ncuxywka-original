@@ -26,6 +26,12 @@
 		</TMPL_UNLESS>
 		</p>
 	</TMPL_LOOP>
+
+	<TMPL_IF user_creo_list_more>
+		<div class=more_creos>
+					<a href="/users/<TMPL_VAR c_user_id>.html#creos">... читать ещё <TMPL_VAR user_creo_list_more> ...</a>
+		</div>
+	</TMPL_IF>
 	
 </table>
 
