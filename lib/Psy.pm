@@ -57,7 +57,7 @@ use constant MODERATOR_SCOPE_QUARANTINE => "quarantine";
 use constant MODERATOR_SCOPE_CREO_DELETE=> "creo_delete";
 use constant MODERATOR_SCOPE_PLAGIARISM => "plagiarism";
 
-use base "Psy::Auth", "Psy::Statistic", "Psy::Admin::Info", "Psy::Search";
+use base "Psy::Auth", "Psy::Statistic", "Psy::Admin::Info", "Psy::Search", "Psy::Online";
 
 sub enter {
 	my ($class, %p) = @_;
@@ -74,41 +74,6 @@ sub enter {
 	);
     
 	return $self;
-}
-#
-# Get all sessions 
-#
-sub online_list {
-	my ($self) = @_;
-
-	my @sessions = ();
-	my $current_time = time;
-
-	my $data = $self->query(qq|
-		SELECT session_data, last_active
-		FROM session
-		WHERE last_active > NOW() - INTERVAL 12 HOUR
-		ORDER BY last_active DESC
-	|);
-
-	return undef unless $data;
-
-	my %already_in;
-	foreach my $d (@$data) {
-		my $ses = JSON::XS->new->decode($d->{session_data});
-		
-		next unless $ses->{user_id};
-		next if exists $already_in{$ses->{user_id}};
-
-		push @sessions, { 
-			o_user_id     => $ses->{user_id},
-			o_user_name   => $self->get_user_name_by_id($ses->{user_id}),
-			o_action_time => full_time($current_time - Date::ymdhms_to_unix_time($d->{last_active}))
-		};
-		undef $already_in{$ses->{user_id}};
-	}
-	
-	return \@sessions;
 }
 
 sub get_user_name_by_id {
@@ -141,7 +106,11 @@ sub common_info {
 	my ($self, %p) = @_;
 	
 	unless ($self->is_annonimus) {
-		$self->{user_data}->{online} = $self->online_list;
+		$self->{user_data}->{online} = $self->cache->try_get(
+			'online',
+			sub { $self->online_list },
+			Cache::FRESH_TIME_MINUTE
+		);
 	}
 
 	$self->{user_data}->{is_plagiarist} = $self->is_plagiarist;
