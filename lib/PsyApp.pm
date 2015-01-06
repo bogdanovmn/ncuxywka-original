@@ -545,7 +545,7 @@ post '/procedure/' => sub {
 #
 # Creo search
 #
-post '/search/' => sub { controller( template => 'creo_search', action => 'List::Creo::Search' ) };
+any '/search/' => sub { controller( template => 'creo_search', action => 'List::Creo::Search' ) };
 #
 # Procedure set (ban)
 #
