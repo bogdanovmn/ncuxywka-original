@@ -380,16 +380,13 @@ sub get_comments_total {
 		push(@params, $p{for});
 	}
 
-	my $result_set = $self->query(
-		$where ?
-		qq| 
-			SELECT COUNT(*) c 
-			FROM comments cm
-			JOIN creo cr ON cr.id = cm.creo_id
-			WHERE 1=1 
-				$where
-		| :
-		qq| SELECT COUNT(*) c FROM comments |,
+	my $result_set = $self->query(qq| 
+		SELECT COUNT(1) c 
+		FROM comments cm
+		JOIN creo cr ON cr.id = cm.creo_id
+		WHERE cr.type IN (0, 1) 
+		$where
+		|,
 		[@params]
 	);
 	

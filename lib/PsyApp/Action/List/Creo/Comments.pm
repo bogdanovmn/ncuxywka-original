@@ -17,6 +17,7 @@ sub main {
 	my $for_id  = $self->params->{for};
 	my $psy     = $self->params->{psy};
 
+	my $creo_types = [Psy::Creo::CT_CREO, Psy::Creo::CT_QUARANTINE];
 	#
 	# Load last comments 
 	#
@@ -25,7 +26,7 @@ sub main {
 		page => $page,
 		from => $from_id,
 		for  => $for_id,
-		creo_types => [Psy::Creo::CT_CREO, Psy::Creo::CT_QUARANTINE]
+		creo_types => $creo_types 
 	);
 
 	my $get_params = '';
@@ -34,10 +35,10 @@ sub main {
 	$get_params    = sprintf('for/%d/from/%d/', $for_id, $from_id) if ($for_id and $from_id);
 
 	my $pages = Paginator->init(
-		total_rows => $psy->get_comments_total( from => $from_id, for => $for_id),
-		current => $page,
+		total_rows    => $psy->get_comments_total( from => $from_id, for => $for_id, type => $creo_types ),
+		current       => $page,
 		rows_per_page => Psy::OP_RECS_PER_PAGE,
-		uri => '/talks/'.$get_params
+		uri           => '/talks/'.$get_params
 	);
 	#
 	# Some statistic
