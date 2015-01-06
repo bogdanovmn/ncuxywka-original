@@ -14,9 +14,10 @@ use Dancer::Test;
 
 my @urls = qw|
 	/
-	/main/
 	/faq_room/
 	/register/
+	/news/
+	/search/
 	/add_creo/
 	/gb/
 	/users/

@@ -133,7 +133,8 @@ hook 'before_template_render' => sub {
 #
 # Main page
 #
-get '/(main/)?' => sub { controller(template => 'index', action => 'Index') };
+get '/main/' => sub { redirect '/' };
+get '/'      => sub { controller(template => 'index', action => 'Index') };
 #
 # Register form 
 #
@@ -145,7 +146,7 @@ get '/register/' => sub {
 #
 post '/register/' => sub { 
 	if (controller(action => 'Register::Post')) {
-		redirect '/main/';
+		redirect '/';
 	}
 	else {
 		controller(template => 'register', action => 'Register::Form');
@@ -174,7 +175,7 @@ get '/add_creo/' => sub { controller(template => 'add_creo', action => 'AddCreo:
 #
 post '/add_creo/' => sub {
 	if (controller(action => 'AddCreo::Post')) {
-		redirect '/main/';
+		redirect '/';
 	}
 	else {
 		controller(template => 'add_creo', action => 'AddCreo::Form');
@@ -209,7 +210,7 @@ post '/black_copy/' => sub {
 #
 post '/black_copy/publish' => sub {
 	if (controller(action => 'Creo::BlackCopy::Publish')) {
-		redirect '/main/';
+		redirect '/';
 	}
 	else {
 		show_error;

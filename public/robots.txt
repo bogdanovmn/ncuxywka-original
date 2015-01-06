@@ -1,6 +1,5 @@
 User-agent: *
 Disallow: / 
-Allow: /main/
 Allow: /creos/*.html
 Allow: /petr_room/
 Allow: /faq_room/

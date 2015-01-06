@@ -5,7 +5,7 @@
 	<td>
 		<table class=main_menu>
 		<tr><td>
-			<a href='/main/'>Приемная</a>
+			<a href='/'>Приемная</a>
 		<tr><td>
 			<a href='/faq_room/'>Справочная</a>
 			<span class=note>(FAQ)</span>
