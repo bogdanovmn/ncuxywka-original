@@ -212,7 +212,7 @@ table.talks_comment td.who{width:545px;padding:3px 3px}
 p.jump{margin:7px 0}p.jump a{font-size:12px;text-decoration:none;border-bottom:1px dashed;margin:0 10px 0 0}
 p.jump a:hover{background-color:#fef4f4;border:0}
 p.jump span{font-size:12px;color:#fff;background-color:#cf3e3e;margin:0 10px 0 0}
-table.user_edit_menu{width:90%;margin:7px 0}table.user_edit_menu td{font-size:12px;text-align:center;border-bottom:1px solid #5aa381;padding:10px}
+table.user_edit_menu{width:90%;margin:7px auto}table.user_edit_menu td{font-size:12px;text-align:center;border-bottom:1px solid #fef4f4;padding:10px}
 table.user_edit_menu td:hover{cursor:pointer;background-color:#fef4f4}
 table.user_edit_menu td.selected{cursor:pointer;color:#fff;background-color:#cf3e3e}
 div.edit_elements_open{padding:20px;display:block}

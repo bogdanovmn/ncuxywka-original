@@ -63,7 +63,9 @@ sub process_words {
 	my ($self, $text) = @_;
 	for my $line (split /\n/, $text) {
 		for my $word (split /[ .,"':;<>?!(){}\-_]+/,  $line) {
-			if (length $word > 2 || $word =~ /я/) {
+			if (length $word > 2 
+			or  $word =~ /(я|он|мы|ты)/
+			) {
 				$self->{words}->{$word}++;
 			}
 		}
