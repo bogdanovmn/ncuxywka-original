@@ -7,6 +7,7 @@ use utf8;
 use Utils;
 use Format::LongNumber;
 use Cache::Memcached;
+use Time::HiRes;
 
 use constant FRESH_TIME_MINUTE => 60;
 use constant FRESH_TIME_HOUR   => 60*60;
@@ -33,12 +34,20 @@ sub try_get {
 	my ($self, $id, $get_value_sub, $fresh_time) = @_;
 
 	#return &$get_value_sub();
-
+	my $t = Time::HiRes::time;
 	my $value = $self->{storage}->get($id);
+	$self->{statistic}->{get_total_time} += Time::HiRes::time - $t;
+	$self->{statistic}->{get_count}++;
 	
-	unless ($value) {
+	if ($value) {
+		$self->{statistic}->{from_cache}++;
+	}
+	else {
 		$value = &$get_value_sub();
+		$t = Time::HiRes::time;
 		$self->{storage}->set($id, $value, $fresh_time);
+		$self->{statistic}->{set_total_time} += Time::HiRes::time - $t;
+		$self->{statistic}->{set_count}++;
 	}
 
 	return $value;
@@ -60,8 +69,22 @@ sub total_size {
 		cache_total_size     => short_traffic($stat->{total}->{bytes}),
 		cache_uptime         => full_time((values %{$stat->{hosts}})[0]->{misc}->{uptime})
 	}
+}
 
+sub statistic {
+	my ($self) = @_;
+	
+	my %s = %{$self->{statistic}};
+	$s{total_time}     = sprintf('%.3f', ($s{set_total_time} || 0) + ($s{get_total_time} || 0));
+	$s{set_total_time} = sprintf('%.3f', $s{set_total_time} || 0);
+	$s{get_total_time} = sprintf('%.3f', $s{get_total_time} || 0);
 
+	return \%s;
+}
+
+sub clear_statistic {
+	my ($self) = @_;
+	$self->{statistic} = {};
 }
 
 1;

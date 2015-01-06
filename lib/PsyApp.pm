@@ -68,6 +68,7 @@ use PsyApp::Action::Error;
 use PsyApp::Action::404;
 
 use Utils;
+use Time::HiRes;
 
 our $VERSION = '0.1006';
 
@@ -76,6 +77,9 @@ sub show_error { controller(template => 'error', action => 'Error') }
 
 
 hook 'before' => sub {
+	Psy::DB->clear_db_statistic;
+	var profiler_gen_time => Time::HiRes::time;
+
 	set 'session_options' => {
 		dbh   => sub { Psy::DB->connect->{dbh} },
 		table => 'session'
@@ -109,6 +113,21 @@ hook 'before_template_render' => sub {
 		while (my ($k, $v) = each %$common_info) {
 			$template_params->{$k} = $v;
 		}
+		
+		my $statistic = vars->{psy}->db_statistic;
+		while (my ($k, $v) = each %$statistic) {
+			if ($k eq 'sql_time') {
+				$v = sprintf('%.3f', $v);
+			}
+			$template_params->{'profiler_'.$k} = $v;
+		}
+		
+		$statistic = vars->{psy}->cache->statistic;
+		while (my ($k, $v) = each %$statistic) {
+			$template_params->{'profiler_cache_'.$k} = $v;
+		}
+
+		$template_params->{profiler_gen_time} = sprintf('%.3f', Time::HiRes::time - vars->{profiler_gen_time});
 	}
 };
 #

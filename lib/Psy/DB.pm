@@ -12,10 +12,10 @@ use Utils;
 use Format::LongNumber;
 
 my $__STATISTIC = {
-	sql_count => 0,
-	sql_time => 0,
+	sql_count       => 0,
+	sql_time        => 0,
 	db_connect_time => 0,
-	db_connections => 0,
+	db_connections  => 0,
 	queries_details => []
 };
 
@@ -41,13 +41,13 @@ sub connect {
 		
 		#$__DBH->do("SET SQL_BIG_SELECTS=1");
 		
-		$__STATISTIC->{db_connect_time} += Time::HiRes::time - $begin_time;
+		$__STATISTIC->{db_connect_time} += sprintf('%.3f', Time::HiRes::time - $begin_time);
 		$__STATISTIC->{db_connections}++;
 	}
 
 	my $self = { 
-		dbh => $__DBH, 
-		ip => $p{ip} || '127.0.0.1',
+		dbh              => $__DBH, 
+		ip               => $p{ip} || '127.0.0.1',
 		sql_empty_result => 1
 	};
 	
@@ -173,8 +173,20 @@ sub empty_result_set {
 #
 # Return statistic data
 #
-sub statistic {
+sub db_statistic {
 	return $__STATISTIC;
+}
+#
+# Crear statistic
+#
+sub clear_db_statistic {
+	$__STATISTIC = {
+		sql_count       => 0,
+		sql_time        => 0,
+		db_connect_time => 0,
+		db_connections  => $__STATISTIC->{db_connections},
+		queries_details => []
+	};
 }
 #
 # Set error msg and return 0
