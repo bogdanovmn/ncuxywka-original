@@ -5,31 +5,38 @@ use warnings;
 use utf8;
 
 use Psy::Text::Lexicon;
+use List;
+
 
 sub attention_phrase {	
-	my $phrase = random_element(@Psy::Text::Lexicon::ATTENTION_TEMPLATE);
+	my $phrase = List::random_element(@Psy::Text::Lexicon::ATTENTION_TEMPLATE);
 
 	return process_template(text => $phrase, up_first => 1);
 }
 
 sub user_rang {
-	my $rang = random_element(@Psy::Text::Lexicon::USER_RANG_TEMPLATE);
+	my $rang = List::random_element(@Psy::Text::Lexicon::USER_RANG_TEMPLATE);
 	
 	return process_template(text => $rang, up_first => 1);
 }
 
 sub process_template {
-	my %p = @_;
+	my (%p) = @_;
 
-	my $source_text = $p{text};
-	my @words = split(/#/, $source_text);
+	my @words = split(/#/, $p{text});
 	my $text = '';
 	my $first_word = 1;
 	my $template_words_keys = join("|", keys %Psy::Text::Lexicon::TEMPLATE_WORDS);
 	for my $w (@words) {
+		my $first_up = 0;
+		if (substr($w, 0, 1) eq '^') {
+			$first_up = 1;
+			$w = substr($w, 1);
+		}
+
 		if ($w =~ /^($template_words_keys)$/) {
-			my $rand_word = random_element(@{$Psy::Text::Lexicon::TEMPLATE_WORDS{$1}}) || '???';
-			$text .= $rand_word;
+			my $rand_word = List::random_element(@{$Psy::Text::Lexicon::TEMPLATE_WORDS{$1}}) || '???';
+			$text .= $first_up ? ucfirst $rand_word : $rand_word;
 		}
 		else {
 			$text .= $w;
@@ -59,8 +66,5 @@ sub modify_alias {
 	return $rang. " ". $alias;
 }
 
-sub random_element {
-	return @_[int rand @_];
-}
 
 1;

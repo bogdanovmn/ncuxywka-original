@@ -74,7 +74,7 @@ sub total_size {
 sub statistic {
 	my ($self) = @_;
 	
-	my %s = %{$self->{statistic}};
+	my %s = %{$self->{statistic} || {}};
 	$s{total_time}     = sprintf('%.3f', ($s{set_total_time} || 0) + ($s{get_total_time} || 0));
 	$s{set_total_time} = sprintf('%.3f', $s{set_total_time} || 0);
 	$s{get_total_time} = sprintf('%.3f', $s{get_total_time} || 0);
