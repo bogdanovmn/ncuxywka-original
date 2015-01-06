@@ -40,7 +40,8 @@ sub creo_search {
 	);
 	
 	my $where = sprintf 'WHERE c.id IN (%s)', join(',', @$id_list);
-    return $id_list
+    
+	return scalar @$id_list
 		? $self->query(qq|
 			SELECT
 				c.id      cl_id,
