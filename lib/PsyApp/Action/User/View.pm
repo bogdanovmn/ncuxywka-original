@@ -87,6 +87,14 @@ sub main {
 			1#Cache::FRESH_TIME_DAY
 		);
 	}
+	my $words_cloud_debug = {};
+	if (1 and $psy->is_god) {
+		$words_cloud_debug = [ 
+			sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } 
+			@{$words_cloud->{wc_data}}
+		];
+	}
+
 	#
 	# Set template params
 	#
@@ -105,6 +113,8 @@ sub main {
 		jquery_flot_required      => 1,
 		jquery_required           => 1,
 		ad_votes                  => $admin_details,
+		show_details              => (scalar @$user_selected_creos or scalar @$user_creos),
+		wc_data_debug             => $words_cloud_debug, 
 		%$words_cloud,
 		%$user_info,
 	};

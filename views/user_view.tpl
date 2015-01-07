@@ -36,9 +36,9 @@
 </TMPL_IF>
 
 
-<TMPL_IF creo_list><TMPL_IF selected_creo_list>
+<TMPL_IF show_details>
 	<h1>ПО<span class=letter>Д</span>РОБНЕ<span class=letter>Е</span></h1>
-</TMPL_IF></TMPL_IF>
+</TMPL_IF>
 
 
 <table class=user_edit_menu>

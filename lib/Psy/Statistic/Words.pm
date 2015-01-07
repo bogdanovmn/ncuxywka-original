@@ -55,20 +55,18 @@ sub _load {
 
 sub process_words {
 	my ($self, $text) = @_;
+	
 	for my $line (split /\n/, $text) {
 		$line =~ s/\s+/ /g;
-		for my $word (split /[ .,="':;<>?!(){}_&#*-]+/, $line) {
+		$line =~ s/ё/е/g;
+		for my $word (split /\W+/, $line) {
 			next if $word =~ /^\s*$/;
-			next if $word =~ /^(о|со|и|не|что|в|на|а|с|то|это|за|как|но|так|к|по|уже|ну|от|у|бы|вот|до|из|ли|же|про|под)$/;
+			next if $word =~ /^(ни|о|со|и|не|что|в|на|а|с|то|это|за|как|но|так|к|по|уже|ну|от|у|бы|вот|до|из|ли|же|про|под)$/;
 			next if $word =~ /^[a-z0-9]+$/;
 			next if $word =~ /^[a-zйцкнгшщзхъфвпрлджчсмтьб0-9]+$/;
 			
-			if (1 or length $word > 2 
-			or  $word =~ /(я|он|мы|ты)/
-			) {
-				$self->{words}->{$word}++;
-				$self->{total}++;
-			}
+			$self->{words}->{$word}++;
+			$self->{total}++;
 		}
 	}
 }
@@ -111,12 +109,11 @@ sub words_cloud {
 	for my $r (@result) {
 		$r->{font_size} = font_size($max, $r->{freq});
 	}
-	#return [sort { $a->{word} cmp $b->{word} } @result];
+	
 	return {
 		wc_uniq  => $self->total_words,
 		wc_total => $self->{total},
 		wc_data  => [ 
-			#sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } 
 			sort { $a->{word} cmp $b->{word} } 
 			@result
 		]
