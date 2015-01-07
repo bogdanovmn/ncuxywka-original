@@ -4,12 +4,6 @@ use strict;
 use warnings;
 use utf8;
 
-#use locale;
-#use POSIX qw(setlocale LC_ALL LC_CTYPE);
-#setlocale(LC_CTYPE, "ru_RU.CP1251");
-
-use Psy::Errors;
-
 use base 'Psy::DB';
 #
 # object constructor
@@ -62,11 +56,18 @@ sub _load {
 sub process_words {
 	my ($self, $text) = @_;
 	for my $line (split /\n/, $text) {
-		for my $word (split /[ .,"':;<>?!(){}\-_]+/,  $line) {
-			if (length $word > 2 
+		$line =~ s/\s+/ /g;
+		for my $word (split /[ .,="':;<>?!(){}_&#*-]+/, $line) {
+			next if $word =~ /^\s*$/;
+			next if $word =~ /^(о|со|и|не|что|в|на|а|с|то|это|за|как|но|так|к|по|уже|ну|от|у|бы|вот|до|из|ли|же|про|под)$/;
+			next if $word =~ /^[a-z0-9]+$/;
+			next if $word =~ /^[a-zйцкнгшщзхъфвпрлджчсмтьб0-9]+$/;
+			
+			if (1 or length $word > 2 
 			or  $word =~ /(я|он|мы|ты)/
 			) {
 				$self->{words}->{$word}++;
+				$self->{total}++;
 			}
 		}
 	}
@@ -79,21 +80,47 @@ sub total_words {
 	return scalar keys %{$self->{words}};
 }
 
-sub frequency {
+sub font_size {
+	my ($max, $value) = @_;
+	
+	my $max_size = 108;
+	my $min_size = 8;
+	my $result = $max_size * $value / $max;
+
+	$result = $min_size  if $result < $min_size;
+
+	return $result;
+}
+
+sub words_cloud {
 	my ($self, %p) = @_;
 
 	$self->_load;
 
 	my $ignore_border = $p{ignore_border} || -1;
-	my @result = ();
+	my @result;
+	my $max = 0;
 	while (my ($word, $freq) = each %{$self->{words}}) {
-		if ($freq > $ignore_border) {
-			push @result, { word => $word, freq => $freq };
+		my $percent = sprintf('%.2f', 100 * $freq / $self->{total});
+		if ($freq > $ignore_border and $percent >= 0.1) {
+			push @result, { word => $word, freq => $freq, percent => $percent };
+			$max = $freq if $max < $freq;
 		}
 	}
 
+	for my $r (@result) {
+		$r->{font_size} = font_size($max, $r->{freq});
+	}
 	#return [sort { $a->{word} cmp $b->{word} } @result];
-	return [sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } @result];
+	return {
+		wc_uniq  => $self->total_words,
+		wc_total => $self->{total},
+		wc_data  => [ 
+			#sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } 
+			sort { $a->{word} cmp $b->{word} } 
+			@result
+		]
+	};
 }
 
 1;

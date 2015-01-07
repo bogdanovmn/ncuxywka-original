@@ -79,12 +79,12 @@ sub main {
 	#
 	my $words_statistic = Psy::Statistic::Words->constructor(user_id => $id);
 
-	my $words_frequency = [];
-	if (0 and $psy->is_god) {
-		my $words_frequency = $psy->cache->try_get(
+	my $words_cloud = {};
+	if (1 and $psy->is_god) {
+		$words_cloud = $psy->cache->try_get(
 			"user-$id-words_freq",
-			sub { $words_statistic->frequency(ignore_border => 4) },
-			Cache::FRESH_TIME_DAY
+			sub { $words_statistic->words_cloud(ignore_border => 2) },
+			1#Cache::FRESH_TIME_DAY
 		);
 	}
 	#
@@ -105,7 +105,7 @@ sub main {
 		jquery_flot_required      => 1,
 		jquery_required           => 1,
 		ad_votes                  => $admin_details,
-		words_statistic           => $words_frequency,
+		%$words_cloud,
 		%$user_info,
 	};
 }

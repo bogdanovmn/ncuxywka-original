@@ -35,21 +35,24 @@
 	</TMPL_UNLESS>
 </TMPL_IF>
 
+
+<TMPL_IF creo_list><TMPL_IF selected_creo_list>
+	<h1>ПО<span class=letter>Д</span>РОБНЕ<span class=letter>Е</span></h1>
+</TMPL_IF></TMPL_IF>
+
+
 <table class=user_edit_menu>
 <tr>
 	<TMPL_IF creo_list>
 		<td id="m_b_creos" class=selected onclick="select_block('b_creos');">Анализы
-			<!--h1>АНАЛИ<span class=letter>Z</span>Ы</h1-->
 	</TMPL_IF>
 
 	<TMPL_IF selected_creo_list> 
 		<td id="m_b_favorite" onclick="select_block('b_favorite');">Избранное
-			<!--h1>И<span class=letter>Z</span>БРАН<span class=letter>Н</span>ОE</h1-->
 	</TMPL_IF>
 
 	<TMPL_IF creo_list>
 		<td id="m_b_lexicon" onclick="select_block('b_lexicon');">Лексикон
-			<!--h1><span class=letter>L</span>ЕКСИКОН</h1-->
 	</TMPL_IF>
 </table>
 
@@ -113,8 +116,15 @@
 	</div>
 </TMPL_IF>
 
+<TMPL_IF wc_data>
 	<div class="user_list" id="b_lexicon">
+		<p>
+		<TMPL_LOOP wc_data>
+			<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;
+		</TMPL_LOOP>
+		</p>
 	</div>
+</TMPL_IF>
 
 <TMPL_IF ad_votes>
 	<table class=creo_votes>
@@ -164,13 +174,16 @@ $.plot(
 function select_block(id) {
 	var blocks = ['b_creos', 'b_favorite', 'b_lexicon'];
 	for (var i = 0; i < blocks.length; i++) {
-		if (blocks[i] == id) {
-			document.getElementById(blocks[i]).style.display = "block";
-			document.getElementById("m_" + blocks[i]).setAttribute("class", "selected");
-		}
-		else {
-			document.getElementById(blocks[i]).style.display = "none";
-			document.getElementById("m_" + blocks[i]).setAttribute("class", "");
+		var b = document.getElementById(blocks[i]);
+		if (b) {
+			if (blocks[i] == id) {
+				b.style.display = "block";
+				document.getElementById("m_" + blocks[i]).setAttribute("class", "selected");
+			}
+			else {
+				b.style.display = "none";
+				document.getElementById("m_" + blocks[i]).setAttribute("class", "");
+			}
 		}
 	}
 }
