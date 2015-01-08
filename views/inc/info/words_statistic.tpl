@@ -6,10 +6,14 @@
 		<td class=title>Словарь "<TMPL_VAR wc_title>"
 		<tr>
 		<td>
-		<p>Всего: <TMPL_VAR wc_total>
-		<br>Уникальных: <TMPL_VAR wc_uniq>
-		<br>В обллаке: <TMPL_VAR wc_visible>
-		<br>% limit: <TMPL_VAR wc_limit>
+		<p><b>Всего:</b> <TMPL_VAR wc_total>
+		<br><b>Уникальных:</b> <TMPL_VAR wc_uniq>
+		<br><b>В обллаке:</b> <TMPL_VAR wc_visible>
+		<br><b>В обллаке уинк.частот:</b> <TMPL_VAR wc_uniq_freq>
+		<br><b>% limit:</b> <TMPL_VAR wc_limit>
+		<br>
+		<br>
+		</p>
 		<TMPL_LOOP wc_data>
 			<p class=user_creo_list>
 			<span class=note>[<TMPL_VAR freq>, <TMPL_VAR percent>%] </span>

@@ -119,12 +119,18 @@
 <TMPL_IF words_cloud>
 	<div class="user_list" id="b_lexicon">
 	<TMPL_LOOP words_cloud>
-			<h2><TMPL_VAR wc_title></h2>
-			<p>
+			<div class=words_cloud_title>
+				<span class=title><TMPL_VAR wc_title></span>
+				<span class=note>
+					показано <TMPL_VAR wc_visible>/<TMPL_VAR wc_uniq> словарного запаса.
+					, уровень кругозора: <TMPL_VAR wc_perfect>%
+				</span>
+			</div>
+			<div class=words_cloud_<TMPL_VAR wc_size>>
 			<TMPL_LOOP wc_data>
-				<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;&nbsp;
+				<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;
 			</TMPL_LOOP>
-			</p>
+			</div>
 	</TMPL_LOOP>
 	</div>
 </TMPL_IF>

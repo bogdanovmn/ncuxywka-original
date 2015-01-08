@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use utf8;
 
+use constant CLOUD_FONT_SIZE_MIN => 9;
+use constant CLOUD_FONT_SIZE_MAX => 109;
+
 use base 'Psy::DB';
 #
 # object constructor
@@ -62,12 +65,12 @@ sub process_words {
 		$line =~ s/ё/е/g;
 		for my $word (split /\W+/, $line) {
 			next if $word =~ /^\s*$/;
-			next if $word =~ /^(ни|о|со|и|не|что|в|на|а|с|то|это|за|как|но|так|к|по|уже|ну|от|у|бы|вот|до|из|ли|же|про|под)$/;
+			next if $word =~ /^(ни|о|со|и|не|что|в|на|а|с|то|это|за|как|но|так|к|по|уже|ну|от|у|бы|вот|до|из|ли|же|про|под|во|об|ко)$/;
 			next if $word =~ /^[a-z0-9]+$/;
 			next if $word =~ /^[a-zйцкнгшщзхъфвпрлджчсмтьб0-9]+$/;
 		
 			my $type = 'common';
-			$type = 'type_1' if $word =~ /^(я|мой|меня|моего|моему|мое|мной|мне|моих|ты|тебя|твоих|тебе|твоего|твои|твоя|твой|он|его|ему|его|она|ее|ей|мы|нас|наше|нам|оно|они|их)$/;
+			$type = 'type_1' if $word =~ /^(я|мой|моя|моим|мою|меня|моего|моему|мое|мной|мне|моих|мои|моей|ты|тебя|твоих|тебе|твоего|твои|твоя|твой|он|его|ему|его|она|ее|ей|мы|вы|нас|наше|нам|оно|они|их|им|них|нем)$/;
 			$self->{words}->{$type}->{$word}++;
 			$self->{total}->{$type}++;
 		}
@@ -83,16 +86,13 @@ sub total_words {
 }
 
 sub font_size {
-	my ($max, $value, $step) = @_;
+	my ($value, $max_freq, $freq_count, $count) = @_;
 
-	$step ||= 1;
-
-	my $max_size = 108;
-	my $min_size = 8;
-	my $result   = int($max_size * $value / ($step*$max));
+	my $step   = int(100 / $freq_count) || 1;
+	my $result = int(CLOUD_FONT_SIZE_MAX * $value / ($max_freq));
 
 	$result -= $result % $step;
-	$result  = $min_size if $result < $min_size;
+	$result  = CLOUD_FONT_SIZE_MIN if $result < CLOUD_FONT_SIZE_MIN;
 
 	return $result;
 }
@@ -102,7 +102,7 @@ sub words_cloud {
 
 	$self->_load;
 
-	my $ignore_border = 1;
+	my $ignore_border = 0;
 	my $percent_limit = 0.01;
 	my @result;
 	my $max = 0;
@@ -116,17 +116,41 @@ sub words_cloud {
 			$min = $freq if $min > $freq;
 		}
 	}
-
-	my $try_count = 20;
-	while (@result > 300 and $try_count--) {
+	#
+	# Отсекаем слова с единичным вхождением
+	# если не добираем по кол-ву слов в облаке
+	#
+	if (@result < 100) {
+		$ignore_border--;
+		@result = grep { $_->{freq} > $ignore_border } @result;
+	}
+	#
+	# Если слов много, отсекаем постепенно по проценту вхождения 
+	#
+	my $try_count = 30;
+	while (@result > 600 and $try_count--) {
 		$percent_limit += 0.01;
-		@result = grep { $_->{percent} >= $percent_limit } @result;
+		@result = 
+			grep { $_->{percent} >= $percent_limit } 
+			@result;
 	}
 
-
-	my $font_size_step = int 100 / $#result;
+	my %uniq_freq;
 	for my $r (@result) {
-		$r->{font_size} = font_size($max, $r->{freq}, $font_size_step);
+		$uniq_freq{$r->{freq}}++;
+	}
+	my $freq_count = keys %uniq_freq;
+
+	my $min_font_size = 9999;
+	for my $r (@result) {
+		$r->{font_size} = font_size($r->{freq}, $max, $freq_count, scalar @result);
+		$min_font_size = $r->{font_size} if $min_font_size > $r->{font_size};
+	}
+	
+	if ($min_font_size > CLOUD_FONT_SIZE_MIN) {
+		foreach my $r (@result) {
+			$r->{font_size} *= CLOUD_FONT_SIZE_MIN / $min_font_size;
+		}
 	}
 	
 	@result = sort @result;
@@ -136,7 +160,10 @@ sub words_cloud {
 		wc_total   => $self->{total}->{$type},
 		wc_visible => scalar @result,
 		wc_limit   => $percent_limit,
-		wc_title   => $type eq 'type_1' ? 'Обещение' : 'Кругозор',
+		wc_uniq_freq  => scalar keys %uniq_freq, 
+		wc_title   => $type eq 'type_1' ? 'Эгоцентр' : 'Мыслеворот',
+		wc_size    => @result < 40 ? 'small' : 'big',
+		wc_perfect => int(100 * $self->total_words($type) / $self->{total}->{$type} ),
 		wc_data  => [ 
 			sort { $a->{word} cmp $b->{word} } 
 			@result

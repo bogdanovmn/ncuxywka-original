@@ -82,8 +82,8 @@ sub main {
 	my $words_cloud = $psy->cache->try_get(
 		"user-$id-words_freq",
 		sub {[
-			$words_statistic->words_cloud('common'),
-			$words_statistic->words_cloud('type_1')
+			$words_statistic->words_cloud('type_1'),
+			$words_statistic->words_cloud('common')
 		]},
 		1#Cache::FRESH_TIME_DAY
 	);
@@ -101,8 +101,6 @@ sub main {
 			(0, 1)
 		];
 	}
-#use Utils; debug $words_cloud;
-#warn ref $words_cloud->[0]->{wc_data};
 	#
 	# Set template params
 	#
