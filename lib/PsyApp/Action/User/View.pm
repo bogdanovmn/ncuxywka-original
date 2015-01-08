@@ -85,7 +85,7 @@ sub main {
 			$words_statistic->words_cloud('type_1'),
 			$words_statistic->words_cloud('common')
 		]},
-		1#Cache::FRESH_TIME_DAY
+		Cache::FRESH_TIME_DAY
 	);
 
 	my $words_cloud_debug = {};
