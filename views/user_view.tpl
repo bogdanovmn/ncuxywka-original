@@ -120,7 +120,7 @@
 	<div class="user_list" id="b_lexicon">
 		<p>
 		<TMPL_LOOP wc_data>
-			<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;
+			<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;&nbsp;
 		</TMPL_LOOP>
 		</p>
 	</div>

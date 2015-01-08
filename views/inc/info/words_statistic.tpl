@@ -7,6 +7,8 @@
 	<td>
 	<p>Всего: <TMPL_VAR wc_total>
 	<br>Уникальных: <TMPL_VAR wc_uniq>
+	<br>В обллаке: <TMPL_VAR wc_visible>
+	<br>% limit: <TMPL_VAR wc_limit>
 	<TMPL_LOOP wc_data_debug>
 		<p class=user_creo_list>
 		<span class=note>[<TMPL_VAR freq>, <TMPL_VAR percent>%] </span>

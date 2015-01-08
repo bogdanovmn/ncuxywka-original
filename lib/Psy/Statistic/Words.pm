@@ -57,6 +57,7 @@ sub process_words {
 	my ($self, $text) = @_;
 	
 	for my $line (split /\n/, $text) {
+		$line =~ s/_+/ /g;
 		$line =~ s/\s+/ /g;
 		$line =~ s/ё/е/g;
 		for my $word (split /\W+/, $line) {
@@ -79,13 +80,16 @@ sub total_words {
 }
 
 sub font_size {
-	my ($max, $value) = @_;
-	
+	my ($max, $value, $step) = @_;
+
+	$step ||= 1;
+
 	my $max_size = 108;
 	my $min_size = 8;
-	my $result = $max_size * $value / $max;
+	my $result   = int($max_size * $value / ($step*$max));
 
-	$result = $min_size  if $result < $min_size;
+	$result -= $result % $step;
+	$result  = $min_size if $result < $min_size;
 
 	return $result;
 }
@@ -95,27 +99,51 @@ sub words_cloud {
 
 	$self->_load;
 
-	my $ignore_border = $p{ignore_border} || -1;
+	my $ignore_border = $p{ignore_border} || 1;
+	my $percent_limit = 0.01;
 	my @result;
 	my $max = 0;
+	my $min = 99999;
 	while (my ($word, $freq) = each %{$self->{words}}) {
 		my $percent = sprintf('%.2f', 100 * $freq / $self->{total});
-		if ($freq > $ignore_border and $percent >= 0.1) {
+
+		if ($freq > $ignore_border and $percent > $percent_limit) {
 			push @result, { word => $word, freq => $freq, percent => $percent };
 			$max = $freq if $max < $freq;
+				$min = $freq if $min > $freq;
 		}
 	}
 
+	my $try_count = 20;
+	while (@result > 300 and $try_count--) {
+		$percent_limit += 0.01;
+		@result = grep { $_->{percent} >= $percent_limit } @result;
+	}
+
+
+	my $font_size_step = int 100 / $#result;
 	for my $r (@result) {
-		$r->{font_size} = font_size($max, $r->{freq});
+		$r->{font_size} = font_size($max, $r->{freq}, $font_size_step);
 	}
 	
+	@result = sort @result;
+
 	return {
-		wc_uniq  => $self->total_words,
-		wc_total => $self->{total},
+		wc_uniq    => $self->total_words,
+		wc_total   => $self->{total},
+		wc_visible => $#result,
+		wc_limit   => $percent_limit,
 		wc_data  => [ 
 			sort { $a->{word} cmp $b->{word} } 
 			@result
+#			(
+#				sort { ($a->{freq} <=> $b->{freq}) or ($a->{word} cmp $b->{word}) } 
+#				@result[0..$#result/2]
+#			),
+#			(
+#				sort { ($b->{freq} <=> $a->{freq}) or ($b->{word} cmp $a->{word}) } 
+#				@result[$#result/2+1..$#result]
+#			)
 		]
 	};
 }

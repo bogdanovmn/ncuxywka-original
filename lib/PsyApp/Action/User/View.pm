@@ -83,7 +83,7 @@ sub main {
 	if (1 and $psy->is_god) {
 		$words_cloud = $psy->cache->try_get(
 			"user-$id-words_freq",
-			sub { $words_statistic->words_cloud(ignore_border => 2) },
+			sub { $words_statistic->words_cloud },
 			1#Cache::FRESH_TIME_DAY
 		);
 	}
