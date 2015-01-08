@@ -79,22 +79,30 @@ sub main {
 	#
 	my $words_statistic = Psy::Statistic::Words->constructor(user_id => $id);
 
-	my $words_cloud = {};
-	if (1 and $psy->is_god) {
-		$words_cloud = $psy->cache->try_get(
-			"user-$id-words_freq",
-			sub { $words_statistic->words_cloud },
-			1#Cache::FRESH_TIME_DAY
-		);
-	}
+	my $words_cloud = $psy->cache->try_get(
+		"user-$id-words_freq",
+		sub {[
+			$words_statistic->words_cloud('common'),
+			$words_statistic->words_cloud('type_1')
+		]},
+		1#Cache::FRESH_TIME_DAY
+	);
+
 	my $words_cloud_debug = {};
 	if (1 and $psy->is_god) {
-		$words_cloud_debug = [ 
-			sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } 
-			@{$words_cloud->{wc_data}}
+		$words_cloud_debug = [
+			map {{
+				%{$words_cloud->[$_]},
+				wc_data => [ 
+					sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } 
+					@{$words_cloud->[$_]->{wc_data}}
+				]
+			}}
+			(0, 1)
 		];
 	}
-
+#use Utils; debug $words_cloud;
+#warn ref $words_cloud->[0]->{wc_data};
 	#
 	# Set template params
 	#
@@ -115,7 +123,7 @@ sub main {
 		ad_votes                  => $admin_details,
 		show_details              => (scalar @$user_selected_creos or scalar @$user_creos),
 		wc_data_debug             => $words_cloud_debug, 
-		%$words_cloud,
+		words_cloud               => $words_cloud,
 		%$user_info,
 	};
 }

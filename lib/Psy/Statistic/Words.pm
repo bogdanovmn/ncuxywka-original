@@ -65,18 +65,21 @@ sub process_words {
 			next if $word =~ /^(ни|о|со|и|не|что|в|на|а|с|то|это|за|как|но|так|к|по|уже|ну|от|у|бы|вот|до|из|ли|же|про|под)$/;
 			next if $word =~ /^[a-z0-9]+$/;
 			next if $word =~ /^[a-zйцкнгшщзхъфвпрлджчсмтьб0-9]+$/;
-			
-			$self->{words}->{$word}++;
-			$self->{total}++;
+		
+			my $type = 'common';
+			$type = 'type_1' if $word =~ /^(я|мой|меня|моего|моему|мое|мной|мне|моих|ты|тебя|твоих|тебе|твоего|твои|твоя|твой|он|его|ему|его|она|ее|ей|мы|нас|наше|нам|оно|они|их)$/;
+			$self->{words}->{$type}->{$word}++;
+			$self->{total}->{$type}++;
 		}
 	}
 }
 
 sub total_words {
-	my $self = shift;
+	my ($self, $type) = @_;
+
 	$self->_load;
 
-	return scalar keys %{$self->{words}};
+	return scalar keys %{$self->{words}->{$type}};
 }
 
 sub font_size {
@@ -95,22 +98,22 @@ sub font_size {
 }
 
 sub words_cloud {
-	my ($self, %p) = @_;
+	my ($self, $type) = @_;
 
 	$self->_load;
 
-	my $ignore_border = $p{ignore_border} || 1;
+	my $ignore_border = 1;
 	my $percent_limit = 0.01;
 	my @result;
 	my $max = 0;
 	my $min = 99999;
-	while (my ($word, $freq) = each %{$self->{words}}) {
-		my $percent = sprintf('%.2f', 100 * $freq / $self->{total});
+	while (my ($word, $freq) = each %{$self->{words}->{$type}}) {
+		my $percent = sprintf('%.2f', 100 * $freq / $self->{total}->{$type});
 
 		if ($freq > $ignore_border and $percent > $percent_limit) {
 			push @result, { word => $word, freq => $freq, percent => $percent };
 			$max = $freq if $max < $freq;
-				$min = $freq if $min > $freq;
+			$min = $freq if $min > $freq;
 		}
 	}
 
@@ -129,21 +132,14 @@ sub words_cloud {
 	@result = sort @result;
 
 	return {
-		wc_uniq    => $self->total_words,
-		wc_total   => $self->{total},
-		wc_visible => $#result,
+		wc_uniq    => $self->total_words($type),
+		wc_total   => $self->{total}->{$type},
+		wc_visible => scalar @result,
 		wc_limit   => $percent_limit,
+		wc_title   => $type eq 'type_1' ? 'Обещение' : 'Кругозор',
 		wc_data  => [ 
 			sort { $a->{word} cmp $b->{word} } 
 			@result
-#			(
-#				sort { ($a->{freq} <=> $b->{freq}) or ($a->{word} cmp $b->{word}) } 
-#				@result[0..$#result/2]
-#			),
-#			(
-#				sort { ($b->{freq} <=> $a->{freq}) or ($b->{word} cmp $a->{word}) } 
-#				@result[$#result/2+1..$#result]
-#			)
 		]
 	};
 }

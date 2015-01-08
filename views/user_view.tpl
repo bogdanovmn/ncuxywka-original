@@ -116,13 +116,16 @@
 	</div>
 </TMPL_IF>
 
-<TMPL_IF wc_data>
+<TMPL_IF words_cloud>
 	<div class="user_list" id="b_lexicon">
-		<p>
-		<TMPL_LOOP wc_data>
-			<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;&nbsp;
-		</TMPL_LOOP>
-		</p>
+	<TMPL_LOOP words_cloud>
+			<h2><TMPL_VAR wc_title></h2>
+			<p>
+			<TMPL_LOOP wc_data>
+				<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;&nbsp;
+			</TMPL_LOOP>
+			</p>
+	</TMPL_LOOP>
 	</div>
 </TMPL_IF>
 
