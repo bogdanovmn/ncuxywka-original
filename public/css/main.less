@@ -313,8 +313,8 @@ p.jump { margin: 7px 0px;
 	span { font-size: 12px; color: white; background-color: @main_color; margin: 0px 10px 0px 0px; }
 }
 
-table.user_edit_menu { width: 90%; margin: 7px 0px;
-	td { font-size: 12px; text-align: center; border-bottom: 1px solid #5AA381; padding: 10px;}
+table.user_edit_menu { width: 90%; margin: 7px auto;
+	td { font-size: 12px; text-align: center; border-bottom: 1px solid @sub_main_bg_color_2; padding: 10px;}
 	td:hover { cursor: pointer; background-color: @sub_main_bg_color_2; }
 	td.selected { cursor: pointer; color: white; background-color: @main_color; }
 }
@@ -424,4 +424,12 @@ table.sql_explain { width: 100%;
 div.more_creos { margin-top: 5px; text-align: right; padding-right: 5px; 
 	a       { text-decoration: none; font-weight: bold; color: gray; }
 	a:hover { text-decoration: underline; }
+}
+
+div.words_cloud_small { width: 45%; margin: 0 auto; text-align: justify; }
+div.words_cloud_big   { width: 80%; margin: 0 auto; text-align: justify; }
+
+div.words_cloud_title { margin: 40px 0px 20px 0px;
+	span.title { color: @main_color; font-size: 20px; font-weight: bold; }
+	span.note  { color: gray; font-size: 10px; }
 }

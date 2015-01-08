@@ -36,62 +36,103 @@
 </TMPL_IF>
 
 
-<TMPL_IF creo_list>
-<a id=creos></a>
-<center><h1>АНАЛИ<span class=letter>Z</span>Ы:</h1></center>
-<table class=user_creo_list>
-	<tr>
-	<th class=date>Дата<th class=title>Название<th class=comments>Диаг<th class=resume>Голоса
-<TMPL_LOOP creo_list>
-	<tr>
-		<td class=date>
-			<TMPL_VAR cl_post_date>
-		<td class=title>
-			<TMPL_IF cl_quarantine><s></TMPL_IF>
-			<a href="/creos/<TMPL_VAR ESCAPE=URL NAME=cl_id>.html"><TMPL_VAR cl_title></a>
-			<TMPL_IF cl_quarantine></s></TMPL_IF>
-			<TMPL_UNLESS cl_self_vote>
-				<span class=subnote>?</span>
-			</TMPL_UNLESS>
-		<td class=comments>
-			<TMPL_VAR cl_comments_count>
-		<td class=resume><TMPL_VAR cl_votes_count>
-</TMPL_LOOP>
+<TMPL_IF show_details>
+	<h1>ПО<span class=letter>Д</span>РОБНЕ<span class=letter>Е</span></h1>
+</TMPL_IF>
+
+
+<table class=user_edit_menu>
+<tr>
+	<TMPL_IF creo_list>
+		<td id="m_b_creos" class=selected onclick="select_block('b_creos');">Анализы
+	</TMPL_IF>
+
+	<TMPL_IF selected_creo_list> 
+		<td id="m_b_favorite" onclick="select_block('b_favorite');">Избранное
+	</TMPL_IF>
+
+	<TMPL_IF creo_list>
+		<td id="m_b_lexicon" onclick="select_block('b_lexicon');">Лексикон
+	</TMPL_IF>
 </table>
+
+<TMPL_IF creo_list>
+	<a id=creos></a>
+	<div class="user_list_open" id="b_creos">
+	<table class=user_creo_list>
+		<tr>
+		<th class=date>Дата<th class=title>Название<th class=comments>Диаг<th class=resume>Голоса
+	<TMPL_LOOP creo_list>
+		<tr>
+			<td class=date>
+				<TMPL_VAR cl_post_date>
+			<td class=title>
+				<TMPL_IF cl_quarantine><s></TMPL_IF>
+				<a href="/creos/<TMPL_VAR ESCAPE=URL NAME=cl_id>.html"><TMPL_VAR cl_title></a>
+				<TMPL_IF cl_quarantine></s></TMPL_IF>
+				<TMPL_UNLESS cl_self_vote>
+					<span class=subnote>?</span>
+				</TMPL_UNLESS>
+			<td class=comments>
+				<TMPL_VAR cl_comments_count>
+			<td class=resume><TMPL_VAR cl_votes_count>
+	</TMPL_LOOP>
+	</table>
+	</div>
 </TMPL_IF>
 
 <TMPL_IF selected_creo_list>
-<center><h1>И<span class=letter>Z</span>БРАН<span class=letter>Н</span>ОE:</h1></center>
-<table class=creo_list>
-	<tr>
-		<th class=date>Дата
-		<th class=user>Пациэнт
-		<th class=title>Название
-		<th class=comments>Диаг
-		<th class=resume>Голоса
-		<TMPL_IF can_delete><th class=action>...</TMPL_IF>
-<TMPL_LOOP selected_creo_list>
-	<tr>
-		<td class=date>
-			<TMPL_VAR scl_post_date>
-		<td class=user>
-			<TMPL_IF scl_user_id>
-				<a href="/users/<TMPL_VAR scl_user_id>.html"><TMPL_VAR scl_alias></a>
-			<TMPL_ELSE>
-				<TMPL_VAR scl_alias>
+	<div class="user_list" id="b_favorite">
+	<table class=creo_list>
+		<tr>
+			<th class=date>Дата
+			<th class=user>Пациэнт
+			<th class=title>Название
+			<th class=comments>Диаг
+			<th class=resume>Голоса
+			<TMPL_IF can_delete><th class=action>...</TMPL_IF>
+	<TMPL_LOOP selected_creo_list>
+		<tr>
+			<td class=date>
+				<TMPL_VAR scl_post_date>
+			<td class=user>
+				<TMPL_IF scl_user_id>
+					<a href="/users/<TMPL_VAR scl_user_id>.html"><TMPL_VAR scl_alias></a>
+				<TMPL_ELSE>
+					<TMPL_VAR scl_alias>
+				</TMPL_IF>
+			<td class=title>
+				<TMPL_IF scl_quarantine><s></TMPL_IF>
+				<a href="/creos/<TMPL_VAR ESCAPE=URL NAME=scl_id>.html"><TMPL_VAR scl_title></a>
+				<TMPL_IF scl_quarantine></s></TMPL_IF>
+			<td class=comments>
+				<TMPL_VAR scl_comments_count>
+			<td class=resume><TMPL_VAR scl_votes_count>
+			<TMPL_IF scl_can_delete>
+				<td class=action><a href='/select/del/<TMPL_VAR scl_id>'>[X]</a>
 			</TMPL_IF>
-		<td class=title>
-			<TMPL_IF scl_quarantine><s></TMPL_IF>
-			<a href="/creos/<TMPL_VAR ESCAPE=URL NAME=scl_id>.html"><TMPL_VAR scl_title></a>
-			<TMPL_IF scl_quarantine></s></TMPL_IF>
-		<td class=comments>
-			<TMPL_VAR scl_comments_count>
-		<td class=resume><TMPL_VAR scl_votes_count>
-		<TMPL_IF scl_can_delete>
-			<td class=action><a href='/select/del/<TMPL_VAR scl_id>'>[X]</a>
-		</TMPL_IF>
-</TMPL_LOOP>
-</table>
+	</TMPL_LOOP>
+	</table>
+	</div>
+</TMPL_IF>
+
+<TMPL_IF words_cloud>
+	<div class="user_list" id="b_lexicon">
+	<TMPL_LOOP words_cloud>
+			<div class=words_cloud_title>
+				<span class=title><TMPL_VAR wc_title></span>
+				<span class=note>
+					показано <TMPL_VAR wc_visible>/<TMPL_VAR wc_uniq> словарного запаса.
+					, уровень кругозора: <TMPL_VAR wc_perfect>%
+				</span>
+			</div>
+			<div class=words_cloud_<TMPL_VAR wc_size>>
+			<TMPL_LOOP wc_data>
+				<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;
+			</TMPL_LOOP>
+			</div>
+	</TMPL_LOOP>
+	</div>
 </TMPL_IF>
 
 <TMPL_IF ad_votes>
@@ -108,33 +149,51 @@
 	</table>
 </TMPL_IF>
 
+
+
 <script language="javascript" type="text/javascript">
 
 var plot_conf_total = {
-series: {
-	lines: {
-		show: true,
-		lineWidth: 1
+	series: {
+		lines: {
+			show: true,
+			lineWidth: 1
+		}
+	},
+	colors: ["#00ff00"],
+	xaxis: {
+		ticks: 4,
+		mode: "time",
+		timeformat: "%Y"
+	},
+	yaxis: {
+		ticks: 0
+	},
+	grid: {
+		borderWidth: 0
 	}
-},
-colors: ["#00ff00"],
-xaxis: {
-	ticks: 4,
-	mode: "time",
-	timeformat: "%Y"
-},
-yaxis: {
-	ticks: 0
-},
-grid: {
-	borderWidth: 0
-}
 };
 
 $.plot(
-$("#user_activity_plot"), 
-[{ data: <TMPL_VAR NAME=u_activity_chart_data ESCAPE="JS"> }], 
-plot_conf_total
+	$("#user_activity_plot"), 
+	[{ data: <TMPL_VAR NAME=u_activity_chart_data ESCAPE="JS"> }], 
+	plot_conf_total
 );
 
+function select_block(id) {
+	var blocks = ['b_creos', 'b_favorite', 'b_lexicon'];
+	for (var i = 0; i < blocks.length; i++) {
+		var b = document.getElementById(blocks[i]);
+		if (b) {
+			if (blocks[i] == id) {
+				b.style.display = "block";
+				document.getElementById("m_" + blocks[i]).setAttribute("class", "selected");
+			}
+			else {
+				b.style.display = "none";
+				document.getElementById("m_" + blocks[i]).setAttribute("class", "");
+			}
+		}
+	}
+}
 </script>
