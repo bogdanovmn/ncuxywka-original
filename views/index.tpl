@@ -2,12 +2,14 @@
 <tr>
 <td class=about>
 	<center>
+	
 	<table class=info_about>
 		<tr>
 		<td class=title>КУДА Я ПОПАЛ?
 		<tr>
 		<td><b>Психуюшка</b> - это литературное онлайн сообщество, полная свобода слова и отсутствие цензуры. <a href='/faq_room/'>Подробнее...</a>
 	</table>
+	
 	<table class=info_about>
 	<tr>
 	<td class=title>ЗАЧЕМ?
@@ -16,10 +18,7 @@
 		<p><a href='/talks/'>Поставить диагнозы</a>
 		<p><a href='/add_creo/'>Прислать свои анализы</a>
 	</table>
-	</center>
-<td>
-	<center><img alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR skin_pic_main>'></center>
-<td class=user_news>
+	
 	<table class=info_news>
 	<tr>
 	<td class=title>Новички
@@ -33,6 +32,10 @@
 			</p>
 		</TMPL_LOOP>
 	</table>
+	
+	</center>
+<td>
+	<center><img width=475px alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR skin_pic_main>'></center>
 </table>		
 
 <table class=news>
