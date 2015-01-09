@@ -163,7 +163,9 @@ sub words_cloud {
 		wc_uniq_freq  => scalar keys %uniq_freq, 
 		wc_title   => $type eq 'type_1' ? 'Эгоцентр' : 'Мыслеворот',
 		wc_size    => @result < 40 ? 'small' : 'big',
-		wc_perfect => int(100 * $self->total_words($type) / $self->{total}->{$type} ),
+		wc_perfect => $self->{total}->{$type}
+			? int(100 * $self->total_words($type) / $self->{total}->{$type} )
+			: 0,
 		wc_data  => [ 
 			sort { $a->{word} cmp $b->{word} } 
 			@result
