@@ -86,8 +86,11 @@ sub main {
 	# Increment views counter
 	#
 	my $views_log = Psy::ViewsLog::Creo->constructor(
-		id => $id,
-		viewer_user_id => $psy->user_id
+		id             => $id,
+		viewer_user_id => $psy->user_id,
+		ip             => $psy->{ip},
+		user_agent     => $psy->{env}->{HTTP_USER_AGENT},
+
 	);
 	if ($psy->user_id ne $author) {
 		$views_log->increment;

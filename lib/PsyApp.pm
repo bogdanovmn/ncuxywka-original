@@ -87,9 +87,10 @@ hook 'before' => sub {
 	
 	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR} || '';
 	var psy => Psy->enter(
-		session => sub { Dancer::session(@_) },
-		ip      => $ip,
-		path    => request->path
+		session    => sub { Dancer::session(@_) },
+		ip         => $ip,
+		env        => request->env,
+		path       => request->path
 	);
 
 	var ban_left_time => vars->{psy}->banned;
@@ -564,7 +565,10 @@ get qr#/procedure/user/(\d+)# => sub {
 #
 # Maindoctor room
 #
-get '/maindoctor/' => sub { controller( template => 'maindoctor', action => 'Maindoctor' ) };
+get '/maindoctor/' => sub { 
+	#use Utils; debug(request->env);	
+	controller( template => 'maindoctor', action => 'Maindoctor' ) 
+};
 
 #
 # Admin

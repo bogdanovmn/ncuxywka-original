@@ -18,6 +18,8 @@ sub constructor {
 
 	my $self = Psy::DB::connect($class);
 	$self->{id} = $p{id};
+	$self->{ip} = $p{ip};
+	$self->{user_agent} = $p{user_agent};
 	$self->{type} = $p{type};
 	$self->{viewer_user_id} = $p{viewer_user_id};
 	
@@ -43,7 +45,7 @@ sub _log {
             ip = ?,
 			user_agent = ?
 		|,
-		[$self->{type}, $self->{id}, $self->{viewer_user_id} || undef, $self->{ip}, $ENV{HTTP_USER_AGENT}],
+		[$self->{type}, $self->{id}, $self->{viewer_user_id} || undef, $self->{ip}, $self->{user_agent}],
         {error_msg => "Писарь не поспевает за Вами..."}
 	);
 }

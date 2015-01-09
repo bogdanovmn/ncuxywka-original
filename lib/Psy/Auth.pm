@@ -30,6 +30,8 @@ sub info {
 	my $self = Psy::DB::connect($class, %p) or die;
 
 	$self->{session} = $p{session} || sub { return '' };
+	$self->{ip}      = $p{ip} || '127.0.0.1';
+	$self->{env}     = $p{env} || {};
 	
 	$self->{user_data} = {};
 
@@ -50,6 +52,7 @@ sub info {
 		}
 		$self->{session}("ip"  , $self->{ip});
 		$self->{session}("path", $p{path});
+		$self->{session}("ua"  , $self->{env}->{HTTP_USER_AGENT});
 	}
 	else {
 		$self->{user_data} = { 

@@ -37,7 +37,6 @@ sub main {
 		sub { $chart_data->votes },
 		Cache::FRESH_TIME_DAY
 	);
-		
 	return {
 		chart_new_users => $chart_new_users,
 		chart_creos     => $chart_creos,
