@@ -30,8 +30,8 @@
 		<table class=form>
 		<tr>
 			<td>
-				<TMPL_IF NAME=avatar>
-					<p><img src='/<TMPL_VAR NAME=avatar>_thumb'>
+				<TMPL_IF avatar>
+					<p><img src='/<TMPL_VAR avatar>_thumb'>
 					<br><input type=checkbox name=delete_avatar> Удалить аватар
 				</TMPL_IF>
 			<td class=change_avatar>
@@ -47,7 +47,7 @@
 		<tr>
 			<td>e-mail <span class=require>*</span>
 			<td>
-			<input size=35 type=text maxlength=50 name=email value='<TMPL_VAR NAME=email>'>
+			<input size=35 type=text maxlength=50 name=email value='<TMPL_VAR email>'>
 		</table>
 	</div>
 	<div class=edit_elements id="about">
@@ -55,19 +55,19 @@
 			<tr>
 				<td>Город:
 				<td>
-				<input size=35 type=text maxlength=50 name=city value='<TMPL_VAR NAME=city>'>
+				<input size=35 type=text maxlength=50 name=city value='<TMPL_VAR city>'>
 			<tr>
 				<td>На что жалуемся, товарищ?
 				<td>
-				<textarea name=hates value='' cols=60 rows=6><TMPL_VAR NAME=hates></textarea>
+				<textarea name=hates value='' cols=60 rows=6><TMPL_VAR hates></textarea>
 			<tr>
 				<td>Отношение к лекарствам:
 				<td>
-				<textarea name=loves value='' cols=60 rows=6><TMPL_VAR NAME=loves></textarea>
+				<textarea name=loves value='' cols=60 rows=6><TMPL_VAR loves></textarea>
 			<tr>
 				<td>О себе:
 				<td>
-				<textarea name=about value='' cols=60 rows=6><TMPL_VAR NAME=about></textarea>
+				<textarea name=about value='' cols=60 rows=6><TMPL_VAR about></textarea>
 		</table>
 	</div>
 	<input type=hidden name=action value='add'>

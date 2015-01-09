@@ -173,33 +173,60 @@ sub creo_list {
 	
 	my $list = $self->query(qq|
         SELECT
-            c.id cl_id,
-            c.type cl_type,
-			CASE c.type WHEN 1 THEN 1 ELSE 0 END cl_quarantine,
-            c.user_id cl_user_id,
-            u.name cl_alias,
-            c.title cl_title,
-            CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
+			c.id          cl_id,
+			c.title       cl_title,
+			cs.comments   cl_comments_count,
+			cs.votes      cl_votes_count,
+			cs.votes_rank cl_votes_rank,
+            
+			CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
 				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
 				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
 				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
 			END cl_post_date,
-            cs.comments cl_comments_count,
-			CASE WHEN c.user_id = ? OR ? = 0 THEN 1 ELSE sv.vote END cl_self_vote,
-            cs.votes cl_votes_count,
-            cs.votes_rank cl_votes_rank
-        FROM creo c
+
+			CASE c.type 
+				WHEN 1 THEN 1 
+				ELSE 0 
+			END cl_quarantine,
+            
+			CASE 
+				WHEN c.user_id = ? OR ? = 0 THEN 1 
+				ELSE sv.vote 
+			END cl_self_vote
+
+		FROM creo c
 		JOIN creo_stats cs ON cs.creo_id = c.id
-        JOIN users u ON u.id = c.user_id
 		LEFT JOIN vote sv ON sv.creo_id = c.id AND sv.user_id = ?
-        WHERE u.id = ?
-        $where_type
-        ORDER BY c.post_date DESC
+		WHERE c.user_id = ?
+		$where_type
+		ORDER BY c.post_date DESC
 		|,
 		[$looker_user_id, $looker_user_id, $looker_user_id, $self->{id}],
 		{error_msg => "Список анализов утонул в сливном бочке!"}
 	);
-    return $list;
+
+	my $count = @$list;
+	if ($p{cut}) {
+		my @filtred_list;
+		
+		if ($count > $p{cut}) {		
+			while (@$list and @filtred_list < $p{cut}) {
+				my $l = shift @$list;
+
+				if (not $l->{cl_self_vote} or @$list <= ($p{cut} - @filtred_list)) {
+					push @filtred_list, $l;
+				}
+			}
+			return { 
+				list       => \@filtred_list, 
+				more_count => $count - @filtred_list 
+			};
+		}
+		return { list => $list, more_count => 0 };
+	}
+
+	return $list;
 }
 
 sub favorites {

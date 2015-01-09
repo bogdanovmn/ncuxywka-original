@@ -8,7 +8,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Controller '0.152';
 
 use Carp;
-$SIG{__DIE__} = sub { confess(@_) };
+#$SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
 
@@ -68,6 +68,7 @@ use PsyApp::Action::Error;
 use PsyApp::Action::404;
 
 use Utils;
+use Time::HiRes;
 
 our $VERSION = '0.1006';
 
@@ -76,15 +77,19 @@ sub show_error { controller(template => 'error', action => 'Error') }
 
 
 hook 'before' => sub {
+	Psy::DB->clear_db_statistic;
+	var profiler_gen_time => Time::HiRes::time;
+
 	set 'session_options' => {
 		dbh   => sub { Psy::DB->connect->{dbh} },
 		table => 'session'
 	};
-
-	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR};
+	
+	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR} || '';
 	var psy => Psy->enter(
 		session => sub { Dancer::session(@_) },
-		ip      => $ip
+		ip      => $ip,
+		path    => request->path
 	);
 
 	var ban_left_time => vars->{psy}->banned;
@@ -98,7 +103,7 @@ hook 'before_template_render' => sub {
 
 
 	if (vars->{psy}) {
-		my $skin_name = 'original';
+		my $skin_name = 'new_year';#'original';
 
 		if (vars->{set_neo_skin} or $template_params->{c_neofuturism}) {
 			$skin_name = 'neo';
@@ -108,12 +113,28 @@ hook 'before_template_render' => sub {
 		while (my ($k, $v) = each %$common_info) {
 			$template_params->{$k} = $v;
 		}
+		
+		my $statistic = vars->{psy}->db_statistic;
+		while (my ($k, $v) = each %$statistic) {
+			if ($k eq 'sql_time') {
+				$v = sprintf('%.3f', $v);
+			}
+			$template_params->{'profiler_'.$k} = $v;
+		}
+		
+		$statistic = vars->{psy}->cache->statistic;
+		while (my ($k, $v) = each %$statistic) {
+			$template_params->{'profiler_cache_'.$k} = $v;
+		}
+
+		$template_params->{profiler_gen_time} = sprintf('%.3f', Time::HiRes::time - vars->{profiler_gen_time});
 	}
 };
 #
 # Main page
 #
-get '/(main/)?' => sub { controller(template => 'index', action => 'Index') };
+get '/main/' => sub { redirect '/' };
+get '/'      => sub { controller(template => 'index', action => 'Index') };
 #
 # Register form 
 #
@@ -125,7 +146,7 @@ get '/register/' => sub {
 #
 post '/register/' => sub { 
 	if (controller(action => 'Register::Post')) {
-		redirect '/main/';
+		redirect '/';
 	}
 	else {
 		controller(template => 'register', action => 'Register::Form');
@@ -154,7 +175,7 @@ get '/add_creo/' => sub { controller(template => 'add_creo', action => 'AddCreo:
 #
 post '/add_creo/' => sub {
 	if (controller(action => 'AddCreo::Post')) {
-		redirect '/main/';
+		redirect '/';
 	}
 	else {
 		controller(template => 'add_creo', action => 'AddCreo::Form');
@@ -189,7 +210,7 @@ post '/black_copy/' => sub {
 #
 post '/black_copy/publish' => sub {
 	if (controller(action => 'Creo::BlackCopy::Publish')) {
-		redirect '/main/';
+		redirect '/';
 	}
 	else {
 		show_error;
@@ -525,7 +546,7 @@ post '/procedure/' => sub {
 #
 # Creo search
 #
-post '/search/' => sub { controller( template => 'creo_search', action => 'List::Creo::Search' ) };
+any '/search/' => sub { controller( template => 'creo_search', action => 'List::Creo::Search' ) };
 #
 # Procedure set (ban)
 #
@@ -552,19 +573,37 @@ get '/maindoctor/' => sub { controller( template => 'maindoctor', action => 'Mai
 #
 # Bot comments template
 #
-get '/doctor/bot/comment_template/' => sub {
-	controller( 
-		template => 'admin/bot/comment_template', 
-		action   => 'Admin::Bot::Comment::Template',
-		layout   => 'minimal'
-	)
+any '/doctor/bot/comment_template/' => sub {
+	if (params->{add}) {
+		if (controller(action => 'Admin::Bot::Comment::Template::Post')) {
+			redirect sprintf(
+				'/doctor/bot/comment_template/?character_id=%d&category_id=%d',
+					params->{character_id} || 1,
+					params->{category_id}  || 1
+			);
+		}
+		else {
+			show_error;
+		}
+	}
+	else {
+		controller( 
+			template => 'admin/bot/comment_template', 
+			action   => 'Admin::Bot::Comment::Template',
+			layout   => 'minimal'
+		)
+	}
 };
 #
 # Bot comments template post
 #
 post '/doctor/bot/comment_template/' => sub {
 	if (controller(action => 'Admin::Bot::Comment::Template::Post')) {
-		redirect '/doctor/bot/comment_template/';
+		redirect sprintf(
+			'/doctor/bot/comment_template/?character_id=%d&category_id=%d',
+				params->{character_id} || 1,
+				params->{category_id}  || 1
+		);
 	}
 	else {
 		show_error;

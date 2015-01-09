@@ -62,7 +62,7 @@ sub choose {
 sub save {
 	my ($self, %p) = @_;
 
-	my $creo_id = $self->query(qq|
+	$self->{id} = $self->query(qq|
 		INSERT INTO creo 
 		SET	user_id = ?,
 			title = ?,
@@ -77,8 +77,25 @@ sub save {
 			error_msg      => "Анализы сдавать - это хорошо, но зайдите попойже: перерыв на обед!"
 		}
 	);
-	Psy::Statistic::Creo->constructor(creo_id => $creo_id)->add_object;
+	Psy::Statistic::Creo->constructor(creo_id => $self->{id})->add_object;
 	Psy::Statistic::User->constructor(user_id => $self->{author_user_id})->increment(Psy::Statistic::User::V_CREO_POST);
+	
+	$self->update_search_index;
+}
+#
+# Add creo to search index 
+#
+sub update_search_index {
+	my ($self, %p) = @_;
+
+	$self->query(qq|
+		REPLACE INTO creo_text 
+		SET	creo_id = ?,
+			title   = ?,
+			body    = ?
+		|,
+		[ $self->{id}, $self->{title}, $self->{body} ],
+	);
 }
 #
 # Add creo to user's selected
@@ -159,7 +176,7 @@ sub selections_info {
 sub update_type {
     my ($self, %p) = @_;
 
-	error("Неверный тип анализа") unless $p{type} =~ /^\d+$/;
+	return $self->error("Неверный тип анализа") unless $p{type} =~ /^\d+$/;
 
     $self->query(qq|
         UPDATE creo 
@@ -177,28 +194,39 @@ sub update_type {
 sub update {
     my ($self, %p) = @_;
 	
-	my @fields = ();
-	my @values = ();
+	my @fields;
+	my @values;
+	my $text_change = 0;
+
 	if ($p{title}) {
-		push(@fields, "title = ?");
-		push(@values, $p{title});
+		push @fields, 'title = ?';
+		push @values, $p{title};
+		
+		$self->{title} = $p{title};
+		$text_change   = 1;
 	}
+	
 	if ($p{body}) {
-		push(@fields, "body = ?");
-		push(@values, $p{body});
+		push @fields, 'body = ?';
+		push @values, $p{body};
+		
+		$self->{body} = $p{body};
+		$text_change  = 1;
 	}
+	
 	if (exists $p{type}) {
-		push(@fields, "type = ?");
-		push(@values, $p{type});
+		push @fields, 'type = ?';
+		push @values, $p{type};
 	}
+	
 	if ($p{post_date}) {
-		push(@fields, "post_date = NOW()");
+		push @fields, 'post_date = NOW()';
 	}
 
-	return undef if (not scalar @fields);
-	my $fields_string = join(", ", @fields);
+	return undef if not @fields;
 
-	push(@values, $self->{id});
+	my $fields_string = join ", ", @fields;
+	push @values, $self->{id};
     
 	$self->query(qq|
         UPDATE creo 
@@ -209,6 +237,10 @@ sub update {
 		\@values,
         {error_msg => "Ошибка концелярии!"}
 	);
+
+	if ($text_change) {
+		$self->update_search_index;
+	}
 }
 #
 # Get creo
@@ -281,6 +313,23 @@ sub load_headers {
 
 	return scalar @$creo_result_set ? $creo_result_set->[0] : undef;
 }
+#
+# Get creo user_id
+#
+sub author_id {
+	my ($self) = @_;
+
+	my $result = $self->query(q| 
+		SELECT user_id
+		FROM   creo
+		WHERE  id = ? 
+		|,
+		[$self->{id}],
+	);
+
+	return scalar @$result ? $result->[0]->{user_id} : undef;
+}
+
 #
 # Load creo's comments
 #
@@ -545,7 +594,5 @@ use Utils;	webug $list;
     return $list;
 
 }
-#
-# End
-#
+
 1;

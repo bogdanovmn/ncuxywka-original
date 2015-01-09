@@ -4,10 +4,10 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::Group;
 
 sub _convert_string_to_boolean_search {
-	my $string = shift;
+	my ($string) = @_;
+
 	return join(" ", map { $_ = "+".$_; } split(/\s+/, $string));
 }
 
@@ -16,38 +16,56 @@ sub creo_search {
 
 	return [] unless $p{text};
 
-    my $list = $self->query(qq|
-        SELECT
-            c.id cl_id,
-            c.type cl_type,
-			CASE c.type WHEN 1 THEN 1 ELSE 0 END cl_quarantine,
-            c.user_id cl_user_id,
-            u.name cl_alias,
-            c.title cl_title,
-            CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
-				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
-				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
-				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
-			END cl_post_date
-        FROM creo c
-        LEFT JOIN users u ON u.id = c.user_id
-		LEFT JOIN user_group ug ON ug.user_id = u.id
-        WHERE
-            IFNULL(ug.group_id, 0) <> ?
-            AND c.type IN (0, 1)
-			AND MATCH(c.title, c.body) AGAINST (? IN BOOLEAN MODE)
+	my $users_to_exclude = $self->users_to_exclude;
+	my $where_users_to_exclude = $users_to_exclude
+		? sprintf('AND c.user_id NOT IN (%s)', join ',', @$users_to_exclude)
+		: '';
 
-        GROUP BY
-            c.id
-        ORDER BY
-            c.post_date DESC
-		LIMIT 50
-		|,
-		[Psy::Group::PLAGIARIST, _convert_string_to_boolean_search($p{text})],
-		{error_msg => "Список анализов утонул в сливном бочке!"}
+	my $where_creo_type = sprintf(
+		'AND c.type IN (%s)', 
+			join ',', @{$p{type} || [Psy::Creo::CT_CREO, Psy::Creo::CT_QUARANTINE]}
 	);
+	
+	my $id_list = $self->query(qq|
+        SELECT ct.creo_id
+        FROM   creo_text ct
+		JOIN   creo c ON c.id = ct.creo_id
+        WHERE  MATCH(ct.title, ct.body) AGAINST (? IN BOOLEAN MODE)
+		$where_creo_type
+		$where_users_to_exclude
+		LIMIT  25
+		|,
+		[_convert_string_to_boolean_search($p{text})],
+		{ list_field => 'creo_id' }
+	);
+	
+	my $where = sprintf 'WHERE c.id IN (%s)', join(',', @$id_list);
+    
+	return scalar @$id_list
+		? $self->query(qq|
+			SELECT
+				c.id      cl_id,
+				c.user_id cl_user_id,
+				u.name    cl_alias,
+				c.title   cl_title,
+				
+				CASE c.type WHEN 1 THEN 1 ELSE 0 END cl_quarantine,
+				
+				CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
+					WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
+					WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
+					ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
+				END cl_post_date
 
-    return $list;
+			FROM creo c
+			JOIN users u ON u.id = c.user_id
+			
+			$where
+
+			ORDER BY c.post_date DESC
+			|,
+		)
+		: [];
 }
 
 1;

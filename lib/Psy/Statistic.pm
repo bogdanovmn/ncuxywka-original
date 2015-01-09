@@ -8,75 +8,6 @@ use Psy::Group;
 use Psy::Auth;
 use Utils;
 
-sub creo_list {
-    my ($self, %p) = @_;
-
-	my $limit = $p{count} ? 'LIMIT ?' : '';
-	
-	my $where_user = $p{user_id} ? "AND c.user_id = ?" : "";
-	my $where_type = defined $p{type} ? 'AND c.type = ?' : 'AND c.type IN (0, 1)';
-	
-	my $where_period = '';
-	if (defined $p{period}) {
-		if ($p{period} > 2009) {
-			$where_period = "AND DATE_FORMAT(c.post_date, '%Y') = ?";
-		}
-		else {
-			$where_period = "AND c.post_date >= NOW() - INTERVAL ? DAY";
-		}
-	} 
-	
-	my $users_to_exclude = $self->users_to_exclude;
-	my $users_to_exclude_cond = scalar @$users_to_exclude
-		? sprintf 'AND c.user_id NOT IN (%s)', join(',', @$users_to_exclude)
-		: '';
-
-	my $where_neofuturism = defined $p{neofuturism} ? "AND neofuturism = ?" : "";
-
-    my @query_params = ($self->user_id, $self->user_id, $self->user_id);
-    push(@query_params, $p{user_id}) if defined $p{user_id};
-    push(@query_params, $p{type}) if defined $p{type};
-	push(@query_params, $p{period}) if defined $p{period};
-    push(@query_params, $p{count}) if defined $p{count};
-    push(@query_params, $p{neofuturism}) if defined $p{neofuturism};
-
-    my $list = $self->query(qq|
-        SELECT
-            c.id   cl_id,
-            c.type cl_type,
-			CASE c.type WHEN 1 THEN 1 ELSE 0 END cl_quarantine,
-            c.user_id cl_user_id,
-            u.name cl_alias,
-            c.title cl_title,
-            CASE DATE_FORMAT(c.post_date, '%Y%m%d') 
-				WHEN DATE_FORMAT(NOW(), '%Y%m%d') THEN 'Сегодня'
-				WHEN DATE_FORMAT(NOW() - INTERVAL 1 DAY, '%Y%m%d') THEN 'Вчера'
-				ELSE DATE_FORMAT(c.post_date, '%Y-%m-%d') 
-			END cl_post_date,
-            cs.comments cl_comments_count,
-			CASE WHEN c.user_id = ? OR ? = 0 THEN 1 ELSE sv.vote END cl_self_vote,
-            cs.votes cl_votes_count,
-            cs.votes_rank cl_votes_rank
-        FROM creo c
-		JOIN creo_stats cs ON cs.creo_id = c.id
-        JOIN users u ON u.id = c.user_id
-		LEFT JOIN vote sv ON sv.creo_id = c.id AND sv.user_id = ?
-        WHERE 1 = 1
-            $where_user
-            $where_type
-			$where_period
-			$where_neofuturism
-        ORDER BY
-            c.post_date DESC
-		$limit
-		|,
-		[@query_params],
-		{error_msg => "Список анализов утонул в сливном бочке!"}
-	);
-
-    return $list;
-}
-
 sub random_creo_list {
     my ($self, %p) = @_;
 
@@ -193,7 +124,7 @@ sub popular_creo_list {
 }
 #
 # Load top creos list
-#}
+#
 sub most_commented_creo_list {
     my ($self, %p) = @_;
 

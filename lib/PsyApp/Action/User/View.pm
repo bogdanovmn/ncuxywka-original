@@ -79,13 +79,27 @@ sub main {
 	#
 	my $words_statistic = Psy::Statistic::Words->constructor(user_id => $id);
 
-	my $words_frequency = [];
-	if (0 and $psy->is_god) {
-		my $words_frequency = $psy->cache->try_get(
-			"user-$id-words_freq",
-			sub { $words_statistic->frequency(ignore_border => 4) },
-			Cache::FRESH_TIME_DAY
-		);
+	my $words_cloud = $psy->cache->try_get(
+		"user-$id-words_freq",
+		sub {[
+			$words_statistic->words_cloud('type_1'),
+			$words_statistic->words_cloud('common')
+		]},
+		Cache::FRESH_TIME_DAY
+	);
+
+	my $words_cloud_debug = {};
+	if (1 and $psy->is_god) {
+		$words_cloud_debug = [
+			map {{
+				%{$words_cloud->[$_]},
+				wc_data => [ 
+					sort { ($b->{freq} <=> $a->{freq}) or ($a->{word} cmp $b->{word}) } 
+					@{$words_cloud->[$_]->{wc_data}}
+				]
+			}}
+			(0, 1)
+		];
 	}
 	#
 	# Set template params
@@ -105,7 +119,9 @@ sub main {
 		jquery_flot_required      => 1,
 		jquery_required           => 1,
 		ad_votes                  => $admin_details,
-		words_statistic           => $words_frequency,
+		show_details              => (scalar @$user_selected_creos or scalar @$user_creos),
+		wc_data_debug             => $words_cloud_debug, 
+		words_cloud               => $words_cloud,
 		%$user_info,
 	};
 }

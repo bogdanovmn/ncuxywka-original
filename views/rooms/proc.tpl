@@ -1,10 +1,10 @@
 <center>
 <h1>П<span class=letter>Р</span>ОЦЕДУ<span class=letter>Р</span>НАЯ</h1>
 
-<TMPL_UNLESS NAME=inside>
+<TMPL_UNLESS inside>
 	<p class=note>Уважаемый пациэнт, если вам надоели окружающие вас психи и прочие личности, обитающие в Психуюшке или если вы чувствуете, что вам необходима шокотерапия - используйте процедурный кабинет: наши врачи сделают вам легкую лоботомию и дадут сладкую таблетку.</p>
 	<br>
-	<img src='/img/<TMPL_VAR NAME=skin_pic_proc>' width=400>
+	<img src='/img/<TMPL_VAR skin_pic_proc>' width=400>
 	<br>
 	<br>
 	<form method=post action='/procedure/'>
@@ -21,9 +21,9 @@
 	<br><br>
 <TMPL_ELSE>
 	<p class=note>Вы находитесь в процедурном кабинете. Как вы сюда попали? Возможно сами и добровольно, а возможно вас сюда принудительно отправил Главврач. В любом случае, расслабтесь: у вас выпал замечательный шанс отдохнуть от общества Психуюшки.</p>
-	<p class=proc_left_time>Осталось <span id='left_time'><TMPL_VAR NAME=ban_left_time></span> секунд</p>
+	<p class=proc_left_time>Осталось <span id='left_time'><TMPL_VAR ban_left_time></span> секунд</p>
 	<br>
-	<img src='/img/<TMPL_VAR NAME=skin_pic_proc>' width=400>
+	<img src='/img/<TMPL_VAR skin_pic_proc>' width=400>
 	<h1>ПОБ<span class=letter>Y</span>ЯНЬ!</h1>
 	<center>
 	<TMPL_INCLUDE NAME='../inc/comments_post_form.tpl'>
@@ -33,7 +33,7 @@
 	
 	<script type=text/javascript> 
 	<!--
-		var left_time=<TMPL_VAR NAME=ban_left_time>;
+		var left_time=<TMPL_VAR ban_left_time>;
 		function update_left_time() {
 			left_time--;
 			if (left_time <= 0) {

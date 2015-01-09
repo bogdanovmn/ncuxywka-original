@@ -2,10 +2,10 @@
 <TMPL_INCLUDE NAME="info/cache_info.tpl">
 <TMPL_INCLUDE NAME="info/creo_statistic.tpl">
 <TMPL_INCLUDE NAME="info/profiler.tpl">
-<TMPL_INCLUDE NAME="info/words_statistic.tpl">
 <TMPL_INCLUDE NAME="info/contact_list.tpl">
 <TMPL_INCLUDE NAME="info/user_edit.tpl">
 <TMPL_INCLUDE NAME="info/user_favorites.tpl">
+<TMPL_INCLUDE NAME="info/words_statistic.tpl">
 <TMPL_INCLUDE NAME="info/top_users_by_creos_count.tpl">
 <TMPL_INCLUDE NAME="info/ban_total_list.tpl">
 <TMPL_INCLUDE NAME="info/most_active_users.tpl">

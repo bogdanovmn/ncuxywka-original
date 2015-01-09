@@ -1,4 +1,4 @@
-<TMPL_IF NAME="cache_total_size">
+<TMPL_IF cache_total_size>
 
 <table class="info creo_statistic">
 	<tr>
@@ -8,17 +8,17 @@
 		<p>
 			Кол-во элементов: 
 			<br>
-			<span class=value><TMPL_VAR NAME="cache_elements_count"></span>
+			<span class=value><TMPL_VAR cache_elements_count></span>
 		</p>
 		<p>
 			Общий объем:
 			<br>
-			<span class=value><TMPL_VAR NAME="cache_total_size"></span>
+			<span class=value><TMPL_VAR cache_total_size></span>
 		</p>
 		<p>
-			Максимальный объем:
+			Uptime:
 			<br>
-			<span class=value><TMPL_VAR NAME="cache_max_size"></span>
+			<span class=value><TMPL_VAR cache_uptime></span>
 		</p>
 </table>
 

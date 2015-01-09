@@ -19,7 +19,7 @@ use Psy::Statistic::Creo;
 use Cache;
 use Format::LongNumber;
 use FindBin;
-
+use JSON::XS;
 #
 # Votes rank titles
 #
@@ -57,7 +57,7 @@ use constant MODERATOR_SCOPE_QUARANTINE => "quarantine";
 use constant MODERATOR_SCOPE_CREO_DELETE=> "creo_delete";
 use constant MODERATOR_SCOPE_PLAGIARISM => "plagiarism";
 
-use base "Psy::Auth", "Psy::Statistic", "Psy::Admin::Info", "Psy::Search";
+use base "Psy::Auth", "Psy::Statistic", "Psy::Admin::Info", "Psy::Search", "Psy::Online";
 
 sub enter {
 	my ($class, %p) = @_;
@@ -75,68 +75,42 @@ sub enter {
     
 	return $self;
 }
-#
-# Get all sessions 
-#
-sub online_list {
-	my ($self) = @_;
 
-	my @sessions = ();
+sub get_user_name_by_id {
+	my ($self, $user_id, $second) = @_;
 
-=begin1 deprecated
-
-	#my %anonimous = ();
-	my $current_time = time;
-
-	my %ip = ();
-	CGI::Session->find( sub { 
-		my $ses = shift;
-		my $online_time_near = ($current_time - $ses->atime) < 3600;
-		my $login = defined $ses->param("user_auth") && ($ses->param("user_auth") eq 1);
-		
-		if ($ses->is_expired) {
-			$ses->delete;
-			$ses->flush;
-		}
-		elsif ($online_time_near) {
-			if ($login) {
-				push(@sessions, { 
-					o_user_id => $ses->param("user_id"),
-					o_user_name => $ses->param("user_name"),
-					o_action_time_raw => $current_time - $ses->atime,
-					o_action_time => full_time($current_time - $ses->atime)
-				}); 
-			}
-			else {
-				#$anonimous{count}++;
-				$ip{$ses->param("ip") || ''}++;
-			}
-		}
-		elsif (not $login) {
-			$ses->delete;
-			$ses->flush;
-		}
-	});
-	@sessions = sort { $a->{o_action_time_raw} <=> $b->{o_action_time_raw} } @sessions;
-
-	push(@sessions, {
-		o_user_id => Psy::Auth::ANNONIMUS_ID,
-		o_user_name => undef,
-		o_action_time => undef,
-		#o_count => $anonimous{count}
-		o_count => scalar keys(%ip)
-	});
+	unless (defined $self->{helper}->{users}) {
+		$self->{helper}->{users} = $self->cache->try_get(
+			'helper__users',
+			sub {+{ 
+				map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
+				@{ $self->query(q| SELECT id, name, type FROM users |) }
+			}},
+			Cache::FRESH_TIME_HOUR*6
+		);
+	}
 	
-=cut
-	return \@sessions;
+	if ($self->{helper}->{users}->{$user_id}) {
+		return $self->{helper}->{users}->{$user_id}->{name};
+	}
+	elsif (not $second) {
+		undef $self->{helper}->{users};
+		$self->cache->clear('helper__users');
+		return $self->get_user_name_by_id($user_id, 'yes');
+	}
+
+	return '???';
 }
 
 sub common_info {
 	my ($self, %p) = @_;
 	
-	my $online_list = $self->online_list; 
 	unless ($self->is_annonimus) {
-		$self->{user_data}->{online} = $self->online_list;
+		$self->{user_data}->{online} = $self->cache->try_get(
+			'online',
+			sub { $self->online_list },
+			Cache::FRESH_TIME_MINUTE
+		);
 	}
 
 	$self->{user_data}->{is_plagiarist} = $self->is_plagiarist;
@@ -331,7 +305,7 @@ sub load_last_creos {
 		WHERE c.type = 0
 		$users_to_exclude_cond
 		ORDER BY c.post_date DESC 
-		LIMIT 25 
+		LIMIT 35 
 		|,
 		[],
 		{error_msg => "Последние анализы нечитабельны!"}
@@ -406,16 +380,13 @@ sub get_comments_total {
 		push(@params, $p{for});
 	}
 
-	my $result_set = $self->query(
-		$where ?
-		qq| 
-			SELECT COUNT(*) c 
-			FROM comments cm
-			JOIN creo cr ON cr.id = cm.creo_id
-			WHERE 1=1 
-				$where
-		| :
-		qq| SELECT COUNT(*) c FROM comments |,
+	my $result_set = $self->query(qq| 
+		SELECT COUNT(1) c 
+		FROM comments cm
+		JOIN creo cr ON cr.id = cm.creo_id
+		WHERE cr.type IN (0, 1) 
+		$where
+		|,
 		[@params]
 	);
 	

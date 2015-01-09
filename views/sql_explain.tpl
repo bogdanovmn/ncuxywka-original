@@ -2,10 +2,10 @@
 
 <td class=content>
 	<div class=error>
-	<center><p class=error_title><TMPL_VAR NAME="msg"></p></center>
-	<TMPL_LOOP NAME="explains">
-		<p>Caller: <b><TMPL_VAR NAME="caller"></b>
-		<br>Предполагается обработать ~<b><TMPL_VAR NAME="nice_total_rows"></b> строк
+	<center><p class=error_title><TMPL_VAR msg></p></center>
+	<TMPL_LOOP explains>
+		<p>Caller: <b><TMPL_VAR caller></b>
+		<br>Предполагается обработать ~<b><TMPL_VAR nice_total_rows></b> строк
 		</p>
 		<table class=sql_explain>
 			<tr>
@@ -19,18 +19,18 @@
 			<td>ref
 			<td  class=rows>rows
 			<td>Extra
-		<TMPL_LOOP NAME="details">
+		<TMPL_LOOP details>
 			<tr>
-			<td><TMPL_VAR NAME="id">
-			<td><TMPL_VAR NAME="select_type">
-			<td><TMPL_VAR NAME="table">
-			<td><TMPL_VAR NAME="type">
-			<td><TMPL_VAR NAME="possible_keys">
-			<td><TMPL_VAR NAME="key">
-			<td><TMPL_VAR NAME="key_len">
-			<td><TMPL_VAR NAME="ref">
-			<td><TMPL_VAR NAME="rows">
-			<td><TMPL_VAR NAME="Extra">
+			<td><TMPL_VAR id>
+			<td><TMPL_VAR select_type>
+			<td><TMPL_VAR table>
+			<td><TMPL_VAR type>
+			<td><TMPL_VAR possible_keys>
+			<td><TMPL_VAR key>
+			<td><TMPL_VAR key_len>
+			<td><TMPL_VAR ref>
+			<td><TMPL_VAR rows>
+			<td><TMPL_VAR Extra>
 		</TMPL_LOOP>
 		</table>
 		<br>

@@ -28,7 +28,7 @@ sub main {
 
 	my $new_users = $psy->cache->try_get(
 		'new_users',
-		sub { $psy->new_users(count => 5) },
+		sub { $psy->new_users(count => 3) },
 		Cache::FRESH_TIME_HOUR
 	);
 

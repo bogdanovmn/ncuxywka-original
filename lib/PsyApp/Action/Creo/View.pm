@@ -64,9 +64,16 @@ sub main {
 	#
 	my $author_creo_list = $author->creo_list(
 		looker_user_id => $psy->user_id,
-		type => [Psy::Creo::CT_CREO]
+		type           => [Psy::Creo::CT_CREO],
+		cut            => 20,
 	);
-	$author_creo_list = [ map { $_->{cl_selected} = 1 if $_->{cl_id} eq $id; $_ } @$author_creo_list ];
+	$author_creo_list->{list} = [ 
+		map { 
+			$_->{cl_selected} = 1 if $_->{cl_id} eq $id; 
+			$_ 
+		} 
+		@{$author_creo_list->{list}} 
+	];
 	#
 	# Load random creo list
 	#
@@ -126,9 +133,12 @@ sub main {
 		selections_total => scalar @$selections_info,
 		selections_info  => $selections_info,
 		avatar           => $author->avatar_file_name,
-		user_creo_list   => $author_creo_list,
+
+		user_creo_list      => $author_creo_list->{list},
+		user_creo_list_more => $author_creo_list->{more_count},
+		
 		random_creo_list => $random_creo_list,
-		creo_edit_menu   => ($psy->auditor->can_edit_creo),
+		creo_edit_menu   => $psy->auditor->can_edit_creo,
 		plagiarist       => $author_info->{u_group_id} eq Psy::Group::PLAGIARIST,
 		ad_votes         => $admin_details,
 		creo_view        => 1,

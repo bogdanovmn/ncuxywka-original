@@ -47,7 +47,8 @@ my $SKINS = {
 			main => "auto_ny.css"
 		},
 		pic => {
-			main => "main_ny_2013.jpeg",
+			#main => "main_ny_2013.jpeg",
+			main => "main201501.gif",
 			logo => "ncuxywka_com_new_year.jpg",
 			lozung => "ny_logo.gif",
 			gb => "gb_ny.jpg",
