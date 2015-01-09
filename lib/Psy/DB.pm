@@ -44,11 +44,9 @@ sub connect {
 		$__STATISTIC->{db_connect_time} += sprintf('%.3f', Time::HiRes::time - $begin_time);
 		$__STATISTIC->{db_connections}++;
 	}
-
 	my $self = { 
 		dbh              => $__DBH, 
-		ip               => $p{ip} || '127.0.0.1',
-		sql_empty_result => 1
+		sql_empty_result => 1,
 	};
 	
 	$self->{console} = $p{console} || 0;
