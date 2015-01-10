@@ -4,7 +4,12 @@
 <!-- VK  -->
 <div id="vk_like"></div>
 <script type="text/javascript">
-VK.Widgets.Like("vk_like", {type: "mini", height: 18});
+VK.Widgets.Like("vk_like", {
+	type: "mini", 
+	height: 18,
+	pageImage: 'http://ncuxywka.com/img/proc.jpg',
+	pageTitle: '<TMPL_VAR c_alias> - <TMPL_VAR c_title> (на ПСИХУЮШКА.COM)'
+});
 </script> 
 
 
