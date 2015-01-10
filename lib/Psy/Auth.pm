@@ -56,7 +56,7 @@ sub info {
 	}
 	else {
 		$self->{user_data} = { 
-			alias => $self->{session}("alias"),
+			alias => '',#$self->{session}("alias"),
 			user_auth => 0,
 			user_id => ANNONIMUS_ID 
 		};
