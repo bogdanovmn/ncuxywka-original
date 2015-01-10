@@ -18,9 +18,10 @@ sub main {
 
 	unless ($psy->bot_detected($msg, $alias)) {
 		$gb->post_comment(
-			msg => $msg, 
+			msg     => $msg, 
 			user_id => $psy->user_id,
-			alias => $psy->is_annonimus 
+			ip      => $psy->{ip},
+			alias   => $psy->is_annonimus 
 				? Psy::Text::Generator::modify_alias($alias) 
 				: ""
 		);

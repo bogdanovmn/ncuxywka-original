@@ -19,8 +19,9 @@ sub main {
 	unless ($psy->bot_detected($msg, $alias)) {
 		$creo->post_comment( 
 			user_id => $psy->user_id, 
-			msg => $msg,
-			alias => $alias
+			ip      => $psy->{ip},
+			msg     => $msg,
+			alias   => $alias
 		);
 		$psy->update_post_time;
 	}

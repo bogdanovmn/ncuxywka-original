@@ -137,7 +137,7 @@ sub post_comment {
             ip = ?,
 			type = ?
 		|,
-		[$self->{user_id} || undef, $p{msg}, $p{alias}, $self->{ip}, $self->{room_mnemonic}],
+		[$self->{user_id} || undef, $p{msg}, $p{alias}, $p{ip}, $self->{room_mnemonic}],
 		{error_msg => "Психи не дают слова сказать!", debug => 0}
 	);
 	if ($self->{user_id}) {

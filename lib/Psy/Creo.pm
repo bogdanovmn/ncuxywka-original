@@ -403,7 +403,7 @@ sub post_comment {
             ip = ?,
 			post_date = $post_date
 		|,
-		[$self->{id}, $p{user_id} || undef, $p{msg}, $p{alias}, $self->{ip} || $p{ip}],
+		[$self->{id}, $p{user_id} || undef, $p{msg}, $p{alias}, $p{ip}],
 		{error_msg => "Психи не дают диагноз высказать!"}
 	);
 

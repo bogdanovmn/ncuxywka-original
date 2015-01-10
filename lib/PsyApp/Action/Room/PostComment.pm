@@ -27,6 +27,7 @@ sub main {
 	unless ($psy->bot_detected($msg, $alias)) {
 		$psy_room->post_comment( 
 			msg   => $msg,
+			ip    => $psy->{ip},
 			alias => $psy->is_annonimus ? Psy::Text::Generator::modify_alias($alias) : ""
 		);
 		$psy->update_post_time;

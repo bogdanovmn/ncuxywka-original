@@ -42,7 +42,7 @@ sub post_comment {
 			alias = ?,
 			ip = ?
 		|,
-		[$p{user_id} || undef, $p{msg}, $p{alias}, $self->{ip}],
+		[$p{user_id} || undef, $p{msg}, $p{alias}, $p{ip}],
 		{error_msg => "Психи слова не дают сказать!"}
 	);
 	if ($p{user_id}) {
