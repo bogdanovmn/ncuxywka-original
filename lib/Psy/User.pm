@@ -61,8 +61,8 @@ sub info {
 			u.hates u_hates,
 			u.city u_city,
 			u.ip u_ip,
-			u.reg_date u_reg_date,
-			u.edit_date u_edit_date,
+			DATE_FORMAT(u.reg_date, '%Y-%m-%d %H:%i') u_reg_date,
+			DATE_FORMAT(u.edit_date, '%Y-%m-%d %H:%i') u_edit_date,
 			u.pass_hash u_pass_hash,
 
 			g.name u_group_name,

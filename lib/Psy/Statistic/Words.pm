@@ -162,7 +162,7 @@ sub words_cloud {
 		wc_limit   => $percent_limit,
 		wc_uniq_freq  => scalar keys %uniq_freq, 
 		wc_title   => $type eq 'type_1' ? 'Эгоцентр' : 'Мыслеворот',
-		wc_size    => @result < 40 ? 'small' : 'big',
+		wc_size    => @result < 26 ? 'small' : 'big',
 		wc_perfect => $self->{total}->{$type}
 			? int(100 * $self->total_words($type) / $self->{total}->{$type} )
 			: 0,

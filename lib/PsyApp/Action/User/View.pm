@@ -119,7 +119,7 @@ sub main {
 		jquery_flot_required      => 1,
 		jquery_required           => 1,
 		ad_votes                  => $admin_details,
-		show_details              => (scalar @$user_selected_creos or scalar @$user_creos),
+		#show_details              => (scalar @$user_selected_creos or scalar @$user_creos),
 		wc_data_debug             => $words_cloud_debug, 
 		words_cloud               => $words_cloud,
 		%$user_info,

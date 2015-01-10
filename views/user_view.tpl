@@ -1,50 +1,12 @@
-<h1>ИСТОРИ<span class=letter>Я</span> БОЛЕ<span class=letter>Z</span>НИ</h1>
-
-<TMPL_IF avatar>
-	<p><img src='/<TMPL_VAR avatar>_thumb'><br><br>
-</TMPL_IF>
-
-<p><b>Имя:</b><br><TMPL_VAR u_name><br><br>
-<TMPL_IF u_city><p><b>Город:</b><br><TMPL_VAR u_city><br><br></TMPL_IF>
-<TMPL_IF u_hates><p><b>Жалуется:</b><br><TMPL_VAR ESCAPE="NONE" NAME=u_hates><br><br></TMPL_IF>
-<TMPL_IF u_loves><p><b>Отношение к лекарствам:</b><br><TMPL_VAR ESCAPE="NONE" NAME=u_loves><br><br></TMPL_IF>
-<TMPL_IF u_about><p><b>О себе:</b><br><TMPL_VAR ESCAPE="NONE" NAME=u_about><br><br></TMPL_IF>
-
-<table class=user_info>
-<tr>
-<td class=about>
-	<p><b>Дата регистрации:</b><br><TMPL_VAR u_reg_date><br><br>
-	<p><b>Дата изменения данных:</b><br><TMPL_VAR u_edit_date><br><br>
-<td class=statistic>
-	Пульс пациэнта
-	<div id=user_activity_plot class=user_activity_plot></div>
-</table>
-
-<p><b>Диагнозы:</b><br>
-<a href='/talks/from/<TMPL_VAR u_id>'>Отправленные пациэнтом (<TMPL_VAR u_from_comments_count>)</a><br>
-<a href='/talks/for/<TMPL_VAR u_id>'>Полученные пациэнтом (<TMPL_VAR u_for_comments_count>)</a><br>
-<br>
-<p><b>Отношение к окружающим пациэнтам:</b><br>
-<TMPL_VAR user_votes_out_rank_title>
-
-<TMPL_IF user_auth>
-	<br>
-	<br>
-	<TMPL_UNLESS can_delete>
-		[ <a href="/pm/dialog/<TMPL_VAR u_id>/">Отправить этому пациэнту личное сообщение</a> ]
-	</TMPL_UNLESS>
-</TMPL_IF>
-
-
-<TMPL_IF show_details>
-	<h1>ПО<span class=letter>Д</span>РОБНЕ<span class=letter>Е</span></h1>
-</TMPL_IF>
+<h1>ЛИЧНО<span class=letter>Е</span> ДЕЛО: "<span class=letter><TMPL_VAR u_name></span>"</h1>
 
 
 <table class=user_edit_menu>
 <tr>
+	<td id="m_b_info" class=selected onclick="select_block('b_info');">Анкета
+	<td id="m_b_actions" onclick="select_block('b_actions');">Активность
 	<TMPL_IF creo_list>
-		<td id="m_b_creos" class=selected onclick="select_block('b_creos');">Анализы
+		<td id="m_b_creos" onclick="select_block('b_creos');">Анализы
 	</TMPL_IF>
 
 	<TMPL_IF selected_creo_list> 
@@ -56,9 +18,100 @@
 	</TMPL_IF>
 </table>
 
+
+<div class="user_list_open" id="b_info">
+	<TMPL_IF avatar>
+		<p><img src='/<TMPL_VAR avatar>_thumb'><br><br>
+	</TMPL_IF>
+
+	<p>
+		<b>Имя:</b>
+		<br>
+		<TMPL_VAR u_name>
+		<br>
+		<br>
+		<TMPL_IF u_city>
+			<b>Город:</b>
+			<br>
+			<TMPL_VAR u_city>
+			<br>
+			<br>
+		</TMPL_IF>
+
+		<TMPL_IF u_hates>
+			<b>Жалуется:</b>
+			<br>
+			<TMPL_VAR ESCAPE="NONE" NAME=u_hates>
+			<br>
+			<br>
+		</TMPL_IF>
+
+		<TMPL_IF u_loves>
+			<b>Отношение к лекарствам:</b>
+			<br>
+			<TMPL_VAR ESCAPE="NONE" NAME=u_loves>
+			<br>
+			<br>
+		</TMPL_IF>
+
+		<TMPL_IF u_about>
+			<b>О себе:</b>
+			<br>
+			<TMPL_VAR ESCAPE="NONE" NAME=u_about>
+			<br>
+			<br>
+		</TMPL_IF>
+
+		<b>Дата регистрации:</b>
+		<br>
+		<TMPL_VAR u_reg_date>
+		<br>
+		<br>
+		<b>Дата изменения данных:</b>
+		<br>
+		<TMPL_VAR u_edit_date>
+	</p>
+</div>
+
+
+<div class="user_list" id="b_actions">
+	<p>
+		<b>Пульс пациэнта:</b>
+		<div id=user_activity_plot class=user_activity_plot></div>
+		<br>
+		<br>
+		<b>Диагнозы:</b>
+		<br>
+		<TMPL_IF u_from_comments_count>
+			<a href='/talks/from/<TMPL_VAR u_id>'>Отправленные пациэнтом (<TMPL_VAR u_from_comments_count>)</a>
+		<TMPL_ELSE>
+			Отправленные пациэнтом (0)
+		</TMPL_IF>
+		<br>
+		<TMPL_IF u_for_comments_count>
+			<a href='/talks/for/<TMPL_VAR u_id>'>Полученные пациэнтом (<TMPL_VAR u_for_comments_count>)</a>
+		<TMPL_ELSE>
+			Полученные пациэнтом (0)
+		</TMPL_IF>
+		<br>
+		<br>
+		<b>Отношение к окружающим пациэнтам:</b>
+		<br>
+		<TMPL_VAR user_votes_out_rank_title>
+
+		<TMPL_IF user_auth>
+			<br>
+			<br>
+			<TMPL_UNLESS can_delete>
+				[ <a href="/pm/dialog/<TMPL_VAR u_id>/">Отправить этому пациэнту личное сообщение</a> ]
+			</TMPL_UNLESS>
+		</TMPL_IF>
+	</p>
+</div>
+
 <TMPL_IF creo_list>
 	<a id=creos></a>
-	<div class="user_list_open" id="b_creos">
+	<div class="user_list" id="b_creos">
 	<table class=user_creo_list>
 		<tr>
 		<th class=date>Дата<th class=title>Название<th class=comments>Диаг<th class=resume>Голоса
@@ -122,7 +175,7 @@
 			<div class=words_cloud_title>
 				<span class=title><TMPL_VAR wc_title></span>
 				<span class=note>
-					показано <TMPL_VAR wc_visible>/<TMPL_VAR wc_uniq> словарного запаса.
+					показано <TMPL_VAR wc_visible>/<TMPL_VAR wc_uniq> словарного запаса
 					, уровень кругозора: <TMPL_VAR wc_perfect>%
 				</span>
 			</div>
@@ -153,6 +206,13 @@
 
 <script language="javascript" type="text/javascript">
 
+$(document).ready(function() {
+	if (location.hash == '#creos') {
+		select_block('b_creos');
+	};
+});
+
+
 var plot_conf_total = {
 	series: {
 		lines: {
@@ -180,8 +240,9 @@ $.plot(
 	plot_conf_total
 );
 
+
 function select_block(id) {
-	var blocks = ['b_creos', 'b_favorite', 'b_lexicon'];
+	var blocks = ['b_info', 'b_actions', 'b_creos', 'b_favorite', 'b_lexicon'];
 	for (var i = 0; i < blocks.length; i++) {
 		var b = document.getElementById(blocks[i]);
 		if (b) {
