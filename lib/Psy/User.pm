@@ -42,6 +42,7 @@ sub new {
 	$self->{hates} = $p{hates};
 	$self->{city} = $p{city};
 	$self->{password} = $p{password};
+	$self->{ip} = $p{ip};
 	
 	return $self;
 }
@@ -141,7 +142,7 @@ sub update {
 		|,
 		($change_pass) ?
 			[md5_hex($p{password}), $p{email}, $p{about}, $p{loves}, $p{hates}, $p{city}, $self->{ip}, $self->{id}] :
-			[$p{email}, $p{about}, $p{loves}, $p{hates}, $p{city}, $self->{ip}, $self->{id}],
+			[$p{email}, $p{about}, $p{loves}, $p{hates}, $p{city}, $p{ip}, $self->{id}],
         {error_msg => "Регистратура - бюракратическая машина! Придется подождать.."}
 	);
 }

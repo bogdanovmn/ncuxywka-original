@@ -48,7 +48,8 @@ sub main {
 		loves    => $loves,
 		hates    => $hates,
 		city     => $city,
-		password => $password
+		password => $password,
+		ip       => $psy->{ip},
 	);
 
 	if ($user) {

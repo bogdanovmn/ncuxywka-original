@@ -24,7 +24,7 @@ sub main {
 
 	return $psy->error("Вы хакер?") if $psy->is_annonimus;
 
-	my $user      = Psy::User->choose($psy->user_id);
+	my $user      = Psy::User->choose($psy->user_id, ip => $psy->{ip});
 	my $user_info = $user->info;
 
 	if ($new_password) {
