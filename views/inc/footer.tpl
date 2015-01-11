@@ -8,6 +8,6 @@
 	</table>
 	<p>&nbsp;
 </tr>
-
+</table>
 </body>
 </html>

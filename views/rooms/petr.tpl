@@ -1,9 +1,9 @@
 <center>
-<h1><span class=letter>И</span>СТОРИЯ ПРО П<span class=letter>О</span>РОСЕНКА<span class=letter> П</span>ЕТРА И ЕГО ДР<span class=letter>YZ</span>ЕЙ</h1>
+<h1><span class=letter>И</span>СТОРИЯ ПРО П<span class=letter>О</span>РОСЕНКА<span class=letter> П</span>ЕТРА И ЕГО ДР<span class=letter>УЗ</span>ЕЙ</h1>
 
 <p class=note>Всем известен парасенок Петр и его путешествие на своем воображаемом тракторе к подруге - собаке Марусе. Но история на этом не оканчивается - историю творим мы в прямом эфире Психуюшки!</p>
 
-<h1>Как все начиналось:</h1>
+<h2>Как все начиналось:</h2>
 <table class=infinity>
 <tr><td class=msg>
 поросенок Петр решил как-то сменить пол и профессию,ну и заодно  поменять адрес жительства . с полом все было легко и просто. он поменял паркет, застелил кавролин и сделал мелкий
@@ -14,7 +14,7 @@
 	<a class=user href='/users/6.html'><span class=user_name>Двуокись сахарозы</span></a>, 2010-04-08 14:29	
 </table>
 
-<h1>Последние страницы истории:</h1>
+<h2>Последние страницы истории:</h2>
 
 <TMPL_LOOP comments>
 	<table class=infinity>
@@ -34,7 +34,7 @@
 </TMPL_LOOP>
 
 <TMPL_INCLUDE NAME="../inc/pages.tpl">
-<h1>ТЫ <span class=letter>Z</span>НАЕШЬ ПРОДОЛЖЕНИЕ<span class=letter>?</span></h1>
+<div class=header>ТЫ <span class=letter>Z</span>НАЕШЬ ПРОДОЛЖЕНИЕ<span class=letter>?</span></div>
 
 <center>
 <TMPL_INCLUDE NAME='../inc/comments_post_form.tpl'>

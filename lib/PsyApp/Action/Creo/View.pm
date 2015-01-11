@@ -145,6 +145,8 @@ sub main {
 		plagiarist       => $author_info->{u_group_id} eq Psy::Group::PLAGIARIST,
 		ad_votes         => $admin_details,
 		creo_view        => 1,
+
+		meta_title       => sprintf('%s - «%s» на Психуюшке', $creo_data->{c_alias}, $creo_data->{c_title})
 	};
 }
 

@@ -1,4 +1,4 @@
-<h1>ПАЦИЭ<span class=letter>N</span>ТЫ</h1>
+<h1>ПАЦИЭНТ<span class=letter>Ы</span></h1>
 
 <table class=user_edit_menu>
 <tr>
@@ -118,7 +118,7 @@
 	</TMPL_LOOP>
 </div>
 
-<script>
+<script type="text/javascript">
 function select_block(id) {
 	var blocks = ['diag', 'date', 'letter'];
 	for (var i = 0; i < blocks.length; i++) {

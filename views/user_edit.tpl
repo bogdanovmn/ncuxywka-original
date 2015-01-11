@@ -74,7 +74,7 @@
 	<input type=submit value='Обновить свои данные'>
 </form>
 
-<script>
+<script type="text/javascript"> 
 	function select_block(id) {
 		var blocks = ['password', 'avatar', 'contact', 'about'];
 		for (var i = 0; i < blocks.length; i++) {

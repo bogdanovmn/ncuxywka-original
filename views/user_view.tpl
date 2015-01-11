@@ -21,7 +21,7 @@
 
 <div class="user_list_open" id="b_info">
 	<TMPL_IF avatar>
-		<p><img src='/<TMPL_VAR avatar>_thumb'><br><br>
+		<p><img src='/<TMPL_VAR avatar>_thumb' alt='Фото'><br><br>
 	</TMPL_IF>
 
 	<p>

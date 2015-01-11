@@ -1,14 +1,14 @@
 <center>
 <TMPL_IF quarantine>
-	<h1>ЛЕТ<span class=letter>А</span>ЛЬНЫЙ ИС<span class=letter>X</span>OД:</h1>
+	<div class=header>ЛЕТ<span class=letter>А</span>ЛЬНЫЙ ИС<span class=letter>X</span>OД:</div>
 <TMPL_ELSE>
 	<TMPL_IF deleted>
-		<h1>МУС<span class=letter>О</span>РНЫЙ К<span class=letter>О</span>НТЕЙНЕР</h1>
+		<div class=header>МУС<span class=letter>О</span>РНЫЙ К<span class=letter>О</span>НТЕЙНЕР</div>
 	<TMPL_ELSE>
 		<TMPL_IF neofuturism>
-			<h1><span class=letter>NEO</span>ФУТУРИ<span class=letter>Z</span>М:</h1>
+			<div class=header><span class=letter>NEO</span>ФУТУРИ<span class=letter>Z</span>М:</div>
 		<TMPL_ELSE>
-			<h1>АНАЛИ<span class=letter>Z</span>:</h1>
+			<div class=header>АНАЛИ<span class=letter>Z</span>:</div>
 		</TMPL_IF>
 	</TMPL_IF>
 </TMPL_IF>
@@ -17,12 +17,9 @@
 	<span class=creo_author><TMPL_VAR c_alias></span></a>, 
 	<span class=creo_date><TMPL_VAR c_post_date></span>
 	&nbsp;&nbsp;<a href='/print/<TMPL_VAR c_id>.html'><img alt='Для печати' src='/img/printer.gif'></a>
-<br>
-<br>
-<span class=creo_title><TMPL_VAR c_title></span>
-<br>
-<br>
 </p>
+
+<h1 class=creo_title><TMPL_VAR c_title></h1>
 </center>
 
 <TMPL_IF deleted>
@@ -68,7 +65,7 @@
 	</TMPL_IF>
 </table>
 <TMPL_IF can_vote>
-	<h1><span class=letter>О</span>ЦЕНИ:</h1>
+	<div class=header><span class=letter>О</span>ЦЕНИ:</div>
 	<p>
 	<form method=post action='/vote'>
 		<table class=vote> 
@@ -109,13 +106,13 @@
 <TMPL_INCLUDE NAME="social_networks.tpl">
 
 <TMPL_IF comments>
-	<h1>ДИАГНО<span class=letter>Z</span>Ы:</h1>
+	<div class=header>ДИАГНО<span class=letter>Z</span>Ы:</div>
 </TMPL_IF>
 
 <TMPL_INCLUDE NAME="inc/comments.tpl">
 
 <TMPL_UNLESS deleted>
-	<h1>П<span class=letter>О</span>СТАВЬ Д<span class=letter>И</span>АГНО<span class=letter>Z</span>!</h1>
+	<div class=header>П<span class=letter>О</span>СТАВЬ Д<span class=letter>И</span>АГНО<span class=letter>Z</span>!</div>
 	
 	<TMPL_INCLUDE NAME="inc/comments_post_form.tpl">
 </TMPL_UNLESS>

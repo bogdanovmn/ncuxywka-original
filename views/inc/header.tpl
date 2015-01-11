@@ -2,10 +2,9 @@
 
 <html>
 <head>
-	<title>ПСИХУЮШКА.COM</title>
+	<title><TMPL_VAR meta_title DEFAULT='ПСИХУЮШКА'></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name='description' content='Литературный портал: свободная публикация рассказов и стихов о любых сторонах нашего бытия и сознания. Авангард, декаданс, концептуализм, поиски новой формы и нового содержания. Исследование различных современных неофициальных культур: неформалы, падонки, эстеты, геи, душевнобольные и духовно заразные.'> 
-	<meta name='keywords' content='литература, графомания, копрофагия, повести, стихи, рассказы, флуд, крео, креотифф, сумасшедшие, психи, психически больные, врачи, больница, психушка, поросенок петр, диагнозы, анализы, палата, олигофрены, писатели, читатели'> 
+	<meta name='description' content="<TMPL_VAR meta_description DEFAULT='Литературный портал: свободная публикация рассказов и стихов о любых сторонах нашего бытия и сознания.'>"> 
 	<link rel="stylesheet" href="/css/<TMPL_VAR skin_css_main>" type="text/css">
 	<link rel="icon" type="image/png" href="/img/favicon.ico">
 
