@@ -42,6 +42,7 @@ sub main {
 			title      => $title, 
 			body       => $body,
 			user_id    => $psy->user_id,
+			ip         => $psy->{ip},
 			black_copy => $black_copy
 		)->save;
 		$psy->update_post_time;

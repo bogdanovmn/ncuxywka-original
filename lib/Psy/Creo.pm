@@ -41,6 +41,7 @@ sub new {
 	my $self = Psy::DB::connect($class, %p);
 	$self->{title} = $p{title};
 	$self->{body} = $p{body};
+	$self->{ip} = $p{ip};
 	$self->{author_user_id} = $p{user_id};
 	$self->{type} = $p{black_copy} ? CT_BLACK_COPY : CT_CREO;
 
@@ -54,6 +55,8 @@ sub choose {
 	$self->{id} = $id;
 	$self->{black_copy} = $p{black_copy} || 0;
 	$self->{user_id} = $p{user_id} || 0;
+	$self->{ip} = $p{ip};
+	
 	return $self;
 }
 #
