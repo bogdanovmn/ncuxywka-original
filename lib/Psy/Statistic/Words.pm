@@ -70,7 +70,17 @@ sub process_words {
 			next if $word =~ /^[a-zйцкнгшщзхъфвпрлджчсмтьб0-9]+$/;
 		
 			my $type = 'common';
-			$type = 'type_1' if $word =~ /^(я|мой|моя|моим|мою|меня|моего|моему|мое|мной|мне|моих|мои|моей|ты|тебя|твоих|тебе|твоего|твои|твоя|твой|он|его|ему|его|она|ее|ей|мы|вы|нас|наше|нам|оно|они|их|им|них|нем)$/;
+			$type = 'type_1' if $word =~ /^(
+				я|меня́|мне|меня|мной|мно́ю|мой|моя|моим|мою|моего|моему|мое|моих|мои|моей|
+				ты|тебя|твоих|тебе|твоего|твои|твоя|твой|тобой|тобою|твое|твоим|твоей|твою|
+				он|его|него|ему|нему|им|ним|нем|
+				она|ее|ей|ней|нею|ей|ею|нее|
+				мы|вы|нас|нам|нас|нами|вами|вас|вам|
+				наш|наша|нашей|нашим|наши|нешу|наше|
+				оно|они|их|им|них|ими|ними|
+				этот|эта|тот|те|эти|этого|этих|этом|эту|тех|этим|этой|той|та|ту|того|
+				совой|своя|свои|свой|свою|своим|своими|своих|своем|своему|своей|себе|себя
+			)$/x;
 			$self->{words}->{$type}->{$word}++;
 			$self->{total}->{$type}++;
 		}
@@ -92,9 +102,13 @@ sub font_size {
 	my $result = int(CLOUD_FONT_SIZE_MAX * $value / ($max_freq));
 
 	$result -= $result % $step;
-	$result  = CLOUD_FONT_SIZE_MIN if $result < CLOUD_FONT_SIZE_MIN;
+	my $sub_minimum = 0;
+	if ($result < CLOUD_FONT_SIZE_MIN) {
+		$result = CLOUD_FONT_SIZE_MIN;
+		$sub_minimum = 1;
+	}
 
-	return $result;
+	return { size => $result, sub_minimum => $sub_minimum };
 }
 
 sub words_cloud {
@@ -144,11 +158,14 @@ sub words_cloud {
 	my $min_font_size = 9999;
 	for my $r (@result) {
 		$r->{font_size} = font_size($r->{freq}, $max, $freq_count, scalar @result);
-		$min_font_size = $r->{font_size} if $min_font_size > $r->{font_size};
+		$min_font_size = $r->{font_size}->{size} if $min_font_size > $r->{font_size}->{size};
 	}
 	
-	if ($min_font_size > CLOUD_FONT_SIZE_MIN) {
-		foreach my $r (@result) {
+	foreach my $r (@result) {
+		my $size = $r->{font_size};
+		$r->{font_size}             = $size->{size};
+		$r->{font_size_sub_minimum} = $size->{sub_minimum};
+		if ($min_font_size > CLOUD_FONT_SIZE_MIN) {
 			$r->{font_size} *= CLOUD_FONT_SIZE_MIN / $min_font_size;
 		}
 	}

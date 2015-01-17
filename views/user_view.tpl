@@ -176,12 +176,15 @@
 				<span class=title><TMPL_VAR wc_title></span>
 				<span class=note>
 					показано <TMPL_VAR wc_visible>/<TMPL_VAR wc_uniq> словарного запаса
-					, уровень кругозора: <TMPL_VAR wc_perfect>%
+					, относительный уровень кругозора: <TMPL_VAR wc_perfect>%
 				</span>
 			</div>
 			<div class=words_cloud_<TMPL_VAR wc_size>>
 			<TMPL_LOOP wc_data>
-				<span style='font-size: <TMPL_VAR font_size>px;'><TMPL_VAR word></span>&nbsp;
+				<span style='font-size: <TMPL_VAR font_size>px; <TMPL_IF font_size_sub_minimum>color: gray;</TMPL_IF>'>
+					<TMPL_VAR word>
+				</span>
+				&nbsp;
 			</TMPL_LOOP>
 			</div>
 	</TMPL_LOOP>
