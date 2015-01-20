@@ -54,31 +54,6 @@ sub _top {
 	$p{min_votes} ||= 4;
     $p{count}     ||= 10;
 	
-
-    #my $list = $self->query(qq|
-    #    SELECT
-    #        c.id tcl_id, 
-    #        c.title tcl_title, 
-    #        u.name tcl_alias,
-	#		CASE WHEN c.user_id = ? OR ? = 0 THEN 1 ELSE sv.vote END tcl_self_vote,
-    #        cs.votes_rank tcl_average, 
-    #        cs.votes tcl_cnt 
-    #    FROM creo c 
-	#	JOIN creo_stats cs ON cs.creo_id = c.id
-    #    JOIN users u ON u.id = c.user_id
-	#	LEFT JOIN user_group ug ON ug.user_id = u.id
-	#	LEFT JOIN vote sv ON sv.creo_id = c.id AND sv.user_id = ?
-	#	WHERE c.type = 0
-	#	AND IFNULL(ug.group_id, 0) <> ?
-	#	AND c.post_date >= NOW() - INTERVAL 36 MONTH
-    #    AND cs.votes > ? 
-    #    ORDER BY tcl_average $desc, tcl_cnt DESC, tcl_title 
-    #    LIMIT ?
-	#	|,
-	#	[$self->user_id, $self->user_id, $self->user_id, Psy::Group::PLAGIARIST, $p{min_votes}, $p{count}],
-    #    {error_msg => "Самые буйные психи ускакали прочь!"}
-	#);
-
 	my $list = $self->creos->list_by_cond(
 		{
 			type       => 0,

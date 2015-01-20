@@ -93,11 +93,11 @@ sub query {
 		return $self->{dbh}->last_insert_id(undef, undef, undef, undef);
 	}
 	if ($sql =~ /^\s*(select|show)/i) {	
-		my @result = ();
+		my @result;
 		while (my $row = $sth->fetchrow_hashref) {
 			return $row->{$only_field} if $only_field;
 			return $row                if $only_first_row;
-			push(@result, $list_field ? $row->{$list_field} : $row);
+			push @result, $list_field ? $row->{$list_field} : $row;
 		}
 		$sth->finish;
 		

@@ -368,62 +368,67 @@ sub new_users {
 sub most_active_users {
     my ($self, %p) = @_;
 
+	my $users_to_exclude = $self->users_to_exclude;
+	push @$users_to_exclude, Psy::Auth::MAIN_DOCTOR_ID;
+	my $exclude_users = join ',', @$users_to_exclude;
+
     my $users = $self->query(qq|
-        SELECT 
-            u.id au_id, 
-            u.name au_name,
-			cu.cnt cu_cnt,
-			cmu.cnt cmu_cnt,
-			scmu.cnt scmu_cnt,
-			gbu.cnt gbu_cnt,
-			vu.cnt vu_cnt,
-            
+		SELECT * FROM (
+			SELECT 
+				u.id au_id, 
+				u.name au_name,
+				cu.cnt cu_cnt,
+				cmu.cnt cmu_cnt,
+				scmu.cnt scmu_cnt,
+				gbu.cnt gbu_cnt,
+				vu.cnt vu_cnt,
+				
 				IFNULL(cu.cnt, 0) * 8 
 				+ IFNULL(cmu.cnt, 0) * 3 
 				+ IFNULL(scmu.cnt, 0) * 2
 				+ IFNULL(gbu.cnt, 0) * 2
 				+ IFNULL(vu.cnt, 0)
-			 au_rank
-        FROM users u
-		LEFT JOIN user_group ug ON ug.user_id = u.id
-		LEFT JOIN (
-				SELECT user_id, COUNT(id) cnt
-				FROM creo
-				WHERE post_date >= NOW() - INTERVAL 1 MONTH
-				AND type IN (0, 1)
-				GROUP BY user_id
-		) cu ON cu.user_id = u.id
-		LEFT JOIN (
-				SELECT user_id, COUNT(id) cnt
-				FROM comments
-				WHERE post_date >= NOW() - INTERVAL 1 MONTH
-				GROUP BY user_id
-		) cmu ON cmu.user_id = u.id
-		LEFT JOIN (
-				SELECT user_id, COUNT(id) cnt
-				FROM spec_comments
-				WHERE post_date >= NOW() - INTERVAL 1 MONTH
-				GROUP BY user_id
-		) scmu ON scmu.user_id = u.id
-		LEFT JOIN (
-				SELECT user_id, COUNT(id) cnt
-				FROM gb 
-				WHERE post_date >= NOW() - INTERVAL 1 MONTH
-				GROUP BY user_id
-		) gbu ON gbu.user_id = u.id
-		LEFT JOIN (
-				SELECT user_id, COUNT(id) cnt
-				FROM vote 
-				WHERE date >= NOW() - INTERVAL 1 MONTH
-				GROUP BY user_id
-		) vu ON vu.user_id = u.id
+				au_rank
+			FROM users u
+			LEFT JOIN (
+					SELECT user_id, COUNT(id) cnt
+					FROM creo
+					WHERE post_date >= NOW() - INTERVAL 3 MONTH
+					AND type IN (0, 1)
+					GROUP BY user_id
+			) cu ON cu.user_id = u.id
+			LEFT JOIN (
+					SELECT user_id, COUNT(id) cnt
+					FROM comments
+					WHERE post_date >= NOW() - INTERVAL 3 MONTH
+					GROUP BY user_id
+			) cmu ON cmu.user_id = u.id
+			LEFT JOIN (
+					SELECT user_id, COUNT(id) cnt
+					FROM spec_comments
+					WHERE post_date >= NOW() - INTERVAL 3 MONTH
+					GROUP BY user_id
+			) scmu ON scmu.user_id = u.id
+			LEFT JOIN (
+					SELECT user_id, COUNT(id) cnt
+					FROM gb 
+					WHERE post_date >= NOW() - INTERVAL 3 MONTH
+					GROUP BY user_id
+			) gbu ON gbu.user_id = u.id
+			LEFT JOIN (
+					SELECT user_id, COUNT(id) cnt
+					FROM vote 
+					WHERE date >= NOW() - INTERVAL 3 MONTH
+					GROUP BY user_id
+			) vu ON vu.user_id = u.id
 
-		WHERE u.id <> 4
-		AND IFNULL(ug.group_id, 0) <> ?
-		ORDER BY au_rank DESC
+			WHERE u.id NOT IN ($exclude_users)
+		) t
+		WHERE t.au_rank > 0
+		ORDER BY t.au_rank DESC
 		LIMIT ?
 		|,
-		[Psy::Group::PLAGIARIST, $p{limit} || 15],
+		[$p{limit} || 15],
         {error_msg => "Активность пациэнтов не поддается анализу!"}
 	);
 
