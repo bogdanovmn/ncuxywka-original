@@ -17,7 +17,7 @@
 		</TMPL_IF>
 		<p>
 			Время SQL:
-			<b><TMPL_VAR profiler_sql_time></b> (<TMPL_VAR profiler_sql_count> q)
+			<b><TMPL_VAR profiler_sql_time></b> (<a href='/doctor/sql_details/'><TMPL_VAR profiler_sql_count> q</a>)
 		</p>
 		<p>
 			Время Memcached:

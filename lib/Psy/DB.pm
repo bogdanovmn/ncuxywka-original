@@ -16,8 +16,10 @@ my $__STATISTIC = {
 	sql_time        => 0,
 	db_connect_time => 0,
 	db_connections  => 0,
-	queries_details => []
 };
+
+my $__SHOW_SQL_DETAILS = 0;
+my @__SQL_DETAILS;
 
 my $__DBH = undef;
 
@@ -58,7 +60,8 @@ sub connect {
 #
 sub query {
 	my ($self, $sql, $params, $settings) = @_;
-	
+
+	$settings ||= {};
 	my @caller = caller(1);
 	
 	my $sql_error_msg = 
@@ -80,12 +83,21 @@ sub query {
 	
 	my $begin_time = Time::HiRes::time;
 	my $sth = $self->_execute_sql($sql, $params, $settings);
-	$__STATISTIC->{sql_time} += Time::HiRes::time - $begin_time;
+	my $sql_time = Time::HiRes::time - $begin_time;
+	$__STATISTIC->{sql_time} += $sql_time;
 	$__STATISTIC->{sql_count}++;
 
 	# Explain statistic BEGIN
-	#$settings->{explain_statistic} = 1;
-	#$self->explain_query($sql, $params, $settings);
+	if ($__SHOW_SQL_DETAILS) {
+		push @__SQL_DETAILS, {
+			sql      => $sql,
+			sql_time => $sql_time,
+			#params  => $params,
+			($sql =~ /^\s*select/i) 
+				? (%{$self->explain_query($sql, $params, $settings)}) 
+				: ()
+		};
+	}
 	# Explain statistic END
 
 	if ($return_last_id and $sql =~ /^\s*insert/i) {
@@ -116,33 +128,26 @@ sub explain_query {
 
 	my $sth = $self->_execute_sql('EXPLAIN '. $sql, $params, $settings);
 
-	my @result = ();
+	my @result;
 	my $total_rows = 1;
 	my $extra_total = '';
 	my $type_total = '';
+
 	while (my $line = $sth->fetchrow_hashref) {
-		$total_rows *= $line->{rows};
-		$extra_total .= $line->{Extra};
-		$type_total .= $line->{type};
-		push(@result, $line);
+		$total_rows *= ($line->{rows} || 1);
+		#$extra_total .= $line->{Extra};
+		#$type_total .= $line->{type};
+		push @result, $line;
 	}
 	
 	$sth->finish;
 
-	my $explain_data = {
+	return {
 		caller          => (caller(2))[3],
-		details         => \@result, 
-		nice_total_rows => short_number($total_rows),
-		total_rows      => $total_rows 
+		explain_details         => \@result, 
+		explain_nice_total_rows => short_number($total_rows),
+		explain_total_rows      => $total_rows 
 	};
-	if ($settings->{explain_statistic}) {
-		if ($total_rows > 100 or $type_total =~ /ALL/ or $extra_total =~ /temporary|filesort/) {
-			push(@{$__STATISTIC->{queries_details}}, $explain_data);
-		}
-	}
-	else {
-		debug_sql_explain([$explain_data]);
-	}
 }
 #
 # Execute sql
@@ -183,8 +188,24 @@ sub clear_db_statistic {
 		sql_time        => 0,
 		db_connect_time => 0,
 		db_connections  => $__STATISTIC->{db_connections},
-		queries_details => []
 	};
+	@__SQL_DETAILS = ();
+}
+#
+# Enable sql details
+#
+sub show_sql_details {
+	my ($class, $flag) = @_;
+
+	if (defined $flag) {
+		$__SHOW_SQL_DETAILS = $flag;
+	}
+
+	return $__SHOW_SQL_DETAILS;
+}
+
+sub get_sql_details {
+	return \@__SQL_DETAILS;
 }
 #
 # Set error msg and return 0

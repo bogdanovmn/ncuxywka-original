@@ -8,7 +8,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Controller '0.152';
 
 use Carp;
-#$SIG{__DIE__} = sub { confess(@_) };
+$SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
 
@@ -61,6 +61,7 @@ use PsyApp::Action::PersonalMessages::Post;
 
 use PsyApp::Action::ProcedureSet;
 
+use PsyApp::Action::Admin::SqlDetails;
 use PsyApp::Action::Admin::Bot::Comment::Template;
 use PsyApp::Action::Admin::Bot::Comment::Template::Post;
 
@@ -92,6 +93,8 @@ hook 'before' => sub {
 		env        => request->env,
 		path       => request->path
 	);
+
+	Psy::DB->show_sql_details(vars->{psy}->is_god);
 
 	var ban_left_time => vars->{psy}->banned;
 	if (not request->path =~ '^/proc_room' and vars->{ban_left_time}) {
@@ -126,6 +129,14 @@ hook 'before_template_render' => sub {
 		$statistic = vars->{psy}->cache->statistic;
 		while (my ($k, $v) = each %$statistic) {
 			$template_params->{'profiler_cache_'.$k} = $v;
+		}
+
+		if (Psy::DB->show_sql_details) {
+			vars->{psy}->cache->try_get(
+				'sql_details', 
+				sub { Psy::DB->get_sql_details },
+				10
+			);
 		}
 
 		$template_params->{profiler_gen_time} = sprintf('%.3f', Time::HiRes::time - vars->{profiler_gen_time});
@@ -570,9 +581,20 @@ get '/maindoctor/' => sub {
 	controller( template => 'maindoctor', action => 'Maindoctor' ) 
 };
 
+###
+### Admin
+###
+
 #
-# Admin
+# SQL details
 #
+get '/doctor/sql_details/' => sub { 
+	controller(
+		template => 'admin/sql_details', 
+		action   => 'Admin::SqlDetails',
+		layout   => 'minimal'
+	) 
+};
 
 #
 # Bot comments template
