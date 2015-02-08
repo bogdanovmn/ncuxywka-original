@@ -131,6 +131,8 @@ sub most_commented_creo_list {
     $p{count} ||= 10;
 	my $sort_order = (defined $p{sort_order} and $p{sort_order} eq 'asc') ? '' : 'DESC';
 
+	my $banned_users = join ', ', @{$self->users_to_exclude};
+
     my $list = $self->query(qq|
         SELECT
             c.id mccl_id, 
@@ -140,13 +142,12 @@ sub most_commented_creo_list {
         FROM creo c 
 		JOIN creo_stats cs ON cs.creo_id = c.id
         JOIN users u ON u.id = c.user_id
-		LEFT JOIN user_group ug ON ug.user_id = u.id
 		WHERE c.type = 0
-		AND IFNULL(ug.group_id, 0) <> ?
+		AND c.user_id NOT IN ($banned_users)
         ORDER BY mccl_cnt $sort_order
         LIMIT ?
 		|,
-		[Psy::Group::PLAGIARIST, $p{count}],
+		[$p{count}],
         {error_msg => "Самые говорливые психи ускакали прочь!"}
 	);
 
