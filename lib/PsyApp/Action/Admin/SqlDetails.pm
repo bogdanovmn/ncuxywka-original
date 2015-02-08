@@ -16,10 +16,36 @@ sub main {
 	}
 
 	my $sql_details = $psy->cache->try_get('sql_details', sub { [] }, 1);
-
+	
 	return {
-		sql_details => $sql_details
+		sql_details => [
+			map  {
+				$_->{sql} = $self->_sql_to_html($_->{sql});
+				$_;
+			}
+			sort { 
+				$b->{sql_time} <=> $a->{sql_time}
+				or
+				$b->{explain_total_rows} <=> $a->{explain_total_rows}
+			}
+			@$sql_details
+		]
 	};
+}
+
+sub _sql_to_html {
+	my ($self, $sql) = @_;
+
+	$sql =~ s#(\W)(
+		SELECT|UPDATE|DELETE|INSERT|
+		FROM|ORDER BY|GROUP BY|HAVING|
+		JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|ON|
+		WHERE|AND|OR|IN|BETWEEN|INTERVAL|
+		LIMIT|DESC|
+		CASE|WHEN|THEN|ELSE|END
+	)(\W)#$1<span class=sql_word>$2</span>$3#igmox;
+
+	return $sql;
 }
 
 1;

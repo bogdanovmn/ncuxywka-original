@@ -10,7 +10,7 @@ my $SKINS = {
 			main => "auto_main.css"
 		},
 		pic => {
-			main => "main201402.png",
+			main => "main201502.gif",
 			logo => "ncuxywka_com.jpg",
 			lozung => "medical_car_green.gif",
 			gb => "gb.jpg",
@@ -29,7 +29,7 @@ my $SKINS = {
 	neo => {
 		css => {
 			main => "auto_neo.css"
-		},
+			},
 		pic => {
 			main => "main201309.png",
 			lozung => "medical_car_green.gif",

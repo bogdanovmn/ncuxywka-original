@@ -1,11 +1,31 @@
 <TMPL_IF sql_details>
-	<h1>SQL details</h1>
+	<h1>SQL</h1>
+
+	<a id=contents></a>
+	<h2>Contents</h2>
+	<table class=sql_details_head>
 	<TMPL_LOOP sql_details>
+		<tr>
+			<td><TMPL_VAR sql_time>
+			<td><TMPL_VAR explain_total_rows>
+			<td><TMPL_VAR extra>
+			<td><a href="#<TMPL_VAR __counter__>"><TMPL_VAR caller DEFAULT='???'></a>
+	</TMPL_LOOP>
+	</table>
+		
+	<h2>Details</h2>
+
+	<TMPL_LOOP sql_details>
+		<a id=<TMPL_VAR __counter__>></a>
 		<div class=sql_details>
-			<p><b>caller:</b> <TMPL_VAR caller>
-			<br><b>sql:</b> <pre><TMPL_VAR sql></pre>
-			<br><b>time:</b> <TMPL_VAR sql_time>
+			<p>
+			<b>caller:</b> <TMPL_VAR caller>
 			<br>
+			<b>time:</b> <TMPL_VAR sql_time>
+			<br>
+			<b>sql:</b> <pre><TMPL_VAR sql ESCAPE=NONE></pre>
+			<br>
+			<b>explain:</b>
 			<table>
 				<tr>
 					<th>select_type
@@ -30,6 +50,7 @@
 			</TMPL_LOOP>
 			</table>
 				
+		<a href=#contents>up</a>
 		</div>
 	</TMPL_LOOP>
 <TMPL_ELSE>

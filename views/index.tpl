@@ -35,7 +35,7 @@
 	
 	</center>
 <td>
-	<center><img width=475px alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR skin_pic_main>'></center>
+	<center><img width=465px alt='ПСИХУЮШКА.COM' src='/img/<TMPL_VAR skin_pic_main>'></center>
 </table>		
 
 <table class=news>

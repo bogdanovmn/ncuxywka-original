@@ -107,7 +107,7 @@ hook 'before_template_render' => sub {
 
 
 	if (vars->{psy}) {
-		my $skin_name = 'new_year';#'original';
+		my $skin_name = 'original';
 
 		if (vars->{set_neo_skin} or $template_params->{c_neofuturism}) {
 			$skin_name = 'neo';
@@ -135,7 +135,7 @@ hook 'before_template_render' => sub {
 			vars->{psy}->cache->try_get(
 				'sql_details', 
 				sub { Psy::DB->get_sql_details },
-				10
+				20
 			);
 		}
 
