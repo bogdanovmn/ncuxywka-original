@@ -79,26 +79,27 @@ sub enter {
 sub get_user_name_by_id {
 	my ($self, $user_id, $second) = @_;
 
-	unless (defined $self->{helper}->{users}) {
-		$self->{helper}->{users} = $self->cache->try_get(
-			'helper__users',
-			sub {+{ 
-				map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
-				@{ $self->query(q| SELECT id, name, type FROM users |) }
-			}},
-			Cache::FRESH_TIME_HOUR*6
-		);
+	if ($user_id) {
+		unless (defined $self->{helper}->{users}) {
+			$self->{helper}->{users} = $self->cache->try_get(
+				'helper__users',
+				sub {+{ 
+					map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
+					@{ $self->query(q| SELECT id, name, type FROM users |) }
+				}},
+				Cache::FRESH_TIME_HOUR*6
+			);
+		}
+		
+		if ($self->{helper}->{users}->{$user_id}) {
+			return $self->{helper}->{users}->{$user_id}->{name};
+		}
+		elsif (not $second) {
+			undef $self->{helper}->{users};
+			$self->cache->clear('helper__users');
+			return $self->get_user_name_by_id($user_id, 'yes');
+		}
 	}
-	
-	if ($self->{helper}->{users}->{$user_id}) {
-		return $self->{helper}->{users}->{$user_id}->{name};
-	}
-	elsif (not $second) {
-		undef $self->{helper}->{users};
-		$self->cache->clear('helper__users');
-		return $self->get_user_name_by_id($user_id, 'yes');
-	}
-
 	return '???';
 }
 
@@ -221,7 +222,23 @@ sub comments {
 		$where .= 'AND cr.type IN (' . join(', ', @{$p{creo_types}}).") ";
 	}
 
-    my $comments = $self->query(qq| 
+    my $comment_ids = $self->query(qq| 
+        SELECT cm.id
+        FROM   comments cm
+		JOIN   creo cr ON cm.creo_id = cr.id
+		WHERE 1 = 1
+		$where
+        ORDER BY cm.post_date DESC 
+		LIMIT ?, ?
+		|,
+		[ @params, $offset, OP_RECS_PER_PAGE ],
+		{ list_field => 'id' }
+    );
+
+	return [] unless @$comment_ids;
+
+	my $where_comments = sprintf 'WHERE cm.id IN (%s)', join(',', @$comment_ids);
+	my $comments = $self->query(qq| 
         SELECT 
             cm.id lc_id,
             cm.alias lc_alias,
@@ -229,12 +246,10 @@ sub comments {
             DATE_FORMAT(cm.post_date, '%Y-%m-%d %H:%i') lc_post_date,
 			cm.user_id lc_user_id,
 			
-			u.name lc_user_name,
-
-			cr.id lc_creo_id,
-			cru.name lc_creo_alias,
-			cr.title lc_creo_title,
-			cr.type lc_creo_type,
+			cr.id      lc_creo_id,
+			cr.title   lc_creo_title,
+			cr.type    lc_creo_type,
+			cr.user_id lc_creo_user_id,
 			CASE cr.type WHEN 1 THEN 1 ELSE 0 END lc_quarantine,
 			g.name lc_group_name,
 			g.comment_phrase lc_comment_phrase,
@@ -242,17 +257,10 @@ sub comments {
         FROM comments cm
 		JOIN creo cr ON cm.creo_id = cr.id
 		LEFT JOIN users u ON u.id = cm.user_id
-		JOIN users cru ON cru.id = cr.user_id
-		LEFT JOIN user_group ug ON ug.user_id = u.id
+		LEFT JOIN user_group ug ON ug.user_id = cm.user_id
 		LEFT JOIN `group` g ON g.id = ug.group_id AND g.type > 0
-		WHERE 1 = 1
-		$where
-        ORDER BY cm.post_date DESC 
-		LIMIT ?, ?
-		|,
-		[ @params, $offset, OP_RECS_PER_PAGE ],
-		{ error_msg => "Диагнозы нечитабельны!" }
-    );
+		$where_comments
+	|);
 
     foreach my $row (@$comments) {
 		my $text_original_length = length $row->{lc_msg};
@@ -268,9 +276,12 @@ sub comments {
 		$row->{lc_alias} = OP_ANONIM_NAME unless $row->{lc_alias};
 		
 		$row->{lc_major} = 1 if $row->{lc_user_id} and $row->{lc_user_id} eq Psy::Auth::MAIN_DOCTOR_ID;
+
+		$row->{lc_creo_alias} = $self->get_user_name_by_id($row->{lc_creo_user_id});
+		$row->{lc_user_name}  = $self->get_user_name_by_id($row->{lc_user_id});
     }
 
-    return $comments;
+	return [ sort { $b->{lc_post_date} cmp $a->{lc_post_date} } @$comments ];
 }
 #
 # Load last N creos (for main page)

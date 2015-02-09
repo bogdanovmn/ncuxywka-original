@@ -201,12 +201,12 @@ sub creo_list {
 		LEFT JOIN vote sv ON sv.creo_id = c.id AND sv.user_id = ?
 		WHERE c.user_id = ?
 		$where_type
-		ORDER BY c.post_date DESC
 		|,
 		[$looker_user_id, $looker_user_id, $looker_user_id, $self->{id}],
 		{error_msg => "Список анализов утонул в сливном бочке!"}
 	);
 
+	$list = [ sort { $b->{cl_post_date} cmp $a->{cl_post_date} } @$list ];
 	my $count = @$list;
 	if ($p{cut}) {
 		my @filtred_list;
@@ -292,7 +292,7 @@ sub selected_creo_list {
         JOIN users u ON u.id = c.user_id
         WHERE sc.user_id = ?
         AND c.type IN (0, 1)
-        ORDER BY c.post_date DESC
+        -- ORDER BY c.post_date DESC
 		|,
 		[$self->{id}],
         {error_msg => "Список избранных анализов прорпал за углом!"}
@@ -302,7 +302,7 @@ sub selected_creo_list {
 		$list->[$i]->{scl_can_delete} = 1 if ($self->{id} eq $p{looker_user_id});
     }
 
-    return $list;
+	return [ sort { $b->{scl_post_date} cmp $a->{scl_post_date} } @$list ];
 }
 
 sub set_group {
