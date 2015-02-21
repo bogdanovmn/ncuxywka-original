@@ -25,7 +25,6 @@ sub main {
 		sub { $self->_top(count => 10, anti => 1, users_to_exclude => $users_to_exclude) },
 		Cache::FRESH_TIME_HOUR
 	);
-
 	my $new_users = $psy->cache->try_get(
 		'new_users',
 		sub { $psy->new_users(count => 3) },
@@ -53,7 +52,65 @@ sub _top {
 	
 	$p{min_votes} ||= 4;
     $p{count}     ||= 10;
+
+	my $where_users = @{$p{users_to_exclude}}
+		? sprintf 'AND c.user_id NOT IN (%s)', join ', ', @{$p{users_to_exclude}}
+		: '';
+
+	my $creo_id_list = $self->psy->query(qq|
+		SELECT c.id
+		FROM creo c
+		WHERE c.type = 0
+		AND c.post_date >= NOW() - INTERVAL ? MONTH
+		$where_users
+		|,
+		[36],
+		{ list_field => 'id' }
+	);
+
+	return [] unless @$creo_id_list;
 	
+	my $where_creo_id = sprintf 'WHERE cs.creo_id IN (%s)', join ', ', @$creo_id_list;
+	my $direct        = $p{anti} ? 'DESC' : 'ASC';
+
+	my $creo_id_list_sorted = $self->psy->query(qq|
+		SELECT cs.creo_id
+		FROM creo_stats cs
+		$where_creo_id
+		AND cs.votes > ?
+		ORDER BY cs.votes_rank $direct, cs.votes DESC
+		LIMIT ?
+		|,
+		[$p{min_votes}, $p{count}],
+		{ list_field => 'creo_id' }
+	);
+
+	return [] unless @$creo_id_list_sorted;
+	
+	$where_creo_id = sprintf 'WHERE c.id IN (%s)', join ', ', @$creo_id_list_sorted;
+	return [ 
+		sort { $a->{tcl_title} cmp $b->{tcl_title} }
+		map  { $_->{tcl_alias} = $self->psy->get_user_name_by_id($_->{user_id}); $_; }
+		@{
+			$self->psy->query(qq|
+				SELECT 
+					c.id    tcl_id,
+					c.title tcl_title,
+					c.user_id
+				FROM creo c
+				$where_creo_id
+				|
+			)
+		}
+	];
+}
+
+sub _top2 {
+	my ($self, %p) = @_;
+	
+	$p{min_votes} ||= 4;
+    $p{count}     ||= 10;
+
 	my $list = $self->creos->list_by_cond(
 		{
 			type       => 0,
@@ -83,12 +140,11 @@ sub _top {
 		order_by     => [
 			{ ($p{anti} ? 'desc' : 'asc') => 'creo_stats.votes_rank' },
 			{ desc => 'creo_stats.votes' },
-			'title'
 		],
 		limit => $p{count},
 	);
 
-    return $list;
+    return [ sort { $a->{tcl_title} cmp $b->{tcl_title} } @$list ];
 
 }
 

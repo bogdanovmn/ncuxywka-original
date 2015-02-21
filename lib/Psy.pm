@@ -298,7 +298,6 @@ sub load_last_creos {
 		SELECT 
 			c.id          lc_id,
 			c.user_id     lc_user_id,
-			u.name        lc_alias,
 			c.title       lc_title,
 			c.body        lc_body,
 			c.neofuturism lc_neofuturism,
@@ -312,10 +311,9 @@ sub load_last_creos {
 			
 		FROM creo c
 		JOIN creo_stats cs ON c.id = cs.creo_id
-		JOIN users u ON u.id = c.user_id
 		WHERE c.type = 0
 		$users_to_exclude_cond
-		ORDER BY c.post_date DESC 
+		ORDER BY c.id DESC 
 		LIMIT 35 
 		|,
 		[],
@@ -340,6 +338,8 @@ sub load_last_creos {
 			
 			my $user = Psy::User->choose($row->{lc_user_id});
 			$row->{lc_avatar} = $user->avatar_file_name;
+
+			$row->{lc_alias} = $self->get_user_name_by_id($row->{lc_user_id});
 		
 			push(@creo, $row);
 			$i++;

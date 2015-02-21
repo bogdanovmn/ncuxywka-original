@@ -226,7 +226,7 @@ sub last_comment {
             IFNULL(u.name, cm.alias) lcm_alias
         FROM comments cm
         LEFT JOIN users u ON u.id = cm.user_id
-		ORDER BY cm.post_date DESC
+		ORDER BY cm.id DESC
 		LIMIT 1
 		|,
         [],
@@ -248,7 +248,7 @@ sub last_gb_comment {
             IFNULL(u.name, gb.alias) lgbc_alias
         FROM gb
         LEFT JOIN users u ON u.id = gb.user_id
-        ORDER BY gb.post_date DESC
+        ORDER BY gb.id DESC
         LIMIT 1
 		|,
 		[],
@@ -263,22 +263,31 @@ sub last_comment_for_me {
 
 	return undef if $self->is_annonimus;
 
-    my $result_set = $self->query(qq|
-        SELECT
-            cm.post_date lcfm_post_date,
-            IFNULL(u.name, cm.alias) lcfm_alias
-        FROM comments cm
-		JOIN creo c ON c.id = cm.creo_id
-        LEFT JOIN users u ON u.id = cm.user_id
-        WHERE c.user_id = ?
-		ORDER BY cm.post_date DESC
-		LIMIT 1
+	my $user_creo_id_list = $self->query(qq|
+		SELECT c.id
+		FROM creo c
+		WHERE c.user_id = ?
 		|,
 		[$self->user_id],
-        {error_msg => "Сплетни про вас не найдены!"}
+		{ list_field => 'id' }
 	);
 
-    if (scalar @$result_set > 0 and defined $result_set->[0]->{lcfm_post_date}) {
+	return undef unless @$user_creo_id_list;
+
+	my $where_creo_id = sprintf 'WHERE cm.creo_id IN (%s)', join ', ', @$user_creo_id_list;
+	my $result_set = $self->query(qq|
+		SELECT
+			cm.post_date lcfm_post_date,
+			cm.user_id   lcfm_user_id
+        FROM comments cm
+		$where_creo_id
+		ORDER BY cm.id DESC
+		LIMIT 1
+		|,
+	);
+
+	if (scalar @$result_set > 0) {
+		$result_set->[0]->{lcfm_alias} = $self->get_user_name_by_id($result_set->[0]->{lcfm_user_id});
 		return %{$result_set->[0]};
 	}
 	else {
