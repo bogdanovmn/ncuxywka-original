@@ -261,7 +261,7 @@ sub last_gb_comment {
 sub last_comment_for_me {
     my ($self, %p) = @_;
 
-	return undef if $self->is_annonimus;
+	return if $self->is_annonimus;
 
 	my $user_creo_id_list = $self->query(qq|
 		SELECT c.id
@@ -272,7 +272,7 @@ sub last_comment_for_me {
 		{ list_field => 'id' }
 	);
 
-	return undef unless @$user_creo_id_list;
+	return unless @$user_creo_id_list;
 
 	my $where_creo_id = sprintf 'WHERE cm.creo_id IN (%s)', join ', ', @$user_creo_id_list;
 	my $result_set = $self->query(qq|
@@ -291,7 +291,7 @@ sub last_comment_for_me {
 		return %{$result_set->[0]};
 	}
 	else {
-		return (1 => 1);
+		return;
 	}
 }
 
