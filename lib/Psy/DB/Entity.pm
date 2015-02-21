@@ -108,7 +108,7 @@ sub list_by_id {
 	my $result = $self->query(
 		'SELECT '. $select. ' '. $from. 
 		' WHERE '. $self->_table_name.'.id IN ('. join(', ', @$id_list). ')'.
-		$order,
+		'',#$order,
 		[],
 		{ debug => 0 }
 	);
