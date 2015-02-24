@@ -5,7 +5,6 @@ use warnings;
 use utf8; 
 
 use Psy;
-use Psy::News;
 use Utils;
 
 sub main {
@@ -32,9 +31,11 @@ sub main {
 	);
 
 	my $news = $psy->cache->try_get(
-		'last_news',
-		sub { Psy::News->constructor->load(2) },
-		Cache::FRESH_TIME_HOUR
+		'last_news11',
+		sub { 
+			PsyApp::Action::News::View::last($self, 2);
+		},
+		1#Cache::FRESH_TIME_HOUR
 	);
 
 	return {

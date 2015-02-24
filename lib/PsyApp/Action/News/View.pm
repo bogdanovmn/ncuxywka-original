@@ -12,43 +12,33 @@ sub main {
 
 	my $news_data = $self->psy->cache->try_get(
 		'news',
-		sub { 
-			$self->schema->resultset('News')->search(
-				{ visible  => 1    },
-				{ order_by => { -desc => 'id' } }
-			);
+		sub { $self->last },
+	);
+	return {
+		news => $news_data
+	};
+
+}
+
+sub last {
+	my ($self, $count) = @_;
+
+	$self->schema_select(
+		'News',
+		{ visible  => 1 },
+		{ 
+			order_by => { -desc => 'id' },
+			$count 
+				? ( rows => $count )
+				: ()
 		},
-		1
+		[qw/ id msg user_id post_date /],
+		'n_',
+		{
+			date_field => 'post_date',
+			user_id    => 'user_name'
+		}
 	);
-
-	while (my $n = $news_data->next) {
-	}
-	#$news_data = [ map { $_->{god} = 1 if $self->psy->is_god; $_; } @$news_data ];
-
-	return {
-	#	news => $news_data,
-	};
-
 }
-
-sub main111 {
-	my ($self) = @_;
-
-	my $psy  = $self->params->{psy};
-	my $news = Psy::News->constructor;
-
-	my $news_data = $psy->cache->try_get(
-		'news',
-		sub { $news->load }
-	);
-
-	$news_data = [ map { $_->{god} = 1 if $psy->is_god; $_; } @$news_data ];
-
-	return {
-		news => $news_data,
-	};
-
-}
-
 
 1;
