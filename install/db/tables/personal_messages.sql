@@ -5,7 +5,7 @@ CREATE TABLE personal_messages (
 	to_user_id    smallint unsigned NOT NULL,
 	msg           text              NOT NULL,
 	post_date     timestamp         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	new           tinyint           NOT NULL DEFAULT '1',
+	is_new        tinyint           NOT NULL DEFAULT '1',
 	
 	PRIMARY KEY (id),
 
