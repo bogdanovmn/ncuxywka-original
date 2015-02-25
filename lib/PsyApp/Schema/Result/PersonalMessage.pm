@@ -40,9 +40,8 @@ __PACKAGE__->add_columns(
     default_value => \"current_timestamp",
     is_nullable => 0,
   },
-  "new",
+  "is_new",
   {
-    accessor      => undef,
     data_type     => "tinyint",
     default_value => 1,
     is_nullable   => 0,
