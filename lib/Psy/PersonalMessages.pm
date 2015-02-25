@@ -25,7 +25,7 @@ sub news_count {
 	my $result = $self->query(qq|
 		SELECT COUNT(id) cnt FROM personal_messages 
 		WHERE to_user_id = ?
-		AND new = 1
+		AND is_new = 1
 		|,
 		[$self->{user_id}],
         {
@@ -42,7 +42,7 @@ sub mark_as_read {
 
     $self->query(qq|
         UPDATE personal_messages
-		SET new = 0
+		SET is_new = 0
         WHERE to_user_id = ?
 		|,
 		[$self->{user_id}],
@@ -80,7 +80,7 @@ sub load {
 			pm.from_user_id lm_user_id,
 			pm.to_user_id lm_to_user_id,
 			pm.post_date lm_date,
-			pm.new lm_new
+			pm.is_new lm_new
 		FROM personal_messages pm
 		LEFT JOIN users u ON u.id = pm.from_user_id
 		LEFT JOIN users tu ON tu.id = pm.to_user_id
@@ -133,7 +133,7 @@ sub load_dialog {
 			u.name dm_user_name,
 			pm.from_user_id dm_user_id,
 			pm.post_date dm_date,
-			pm.new dm_new
+			pm.is_new dm_new
 		FROM personal_messages pm
 		LEFT JOIN users u ON u.id = pm.from_user_id
 		WHERE (pm.to_user_id = ? AND pm.from_user_id = ?)
