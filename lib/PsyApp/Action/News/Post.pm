@@ -4,27 +4,41 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::News;
-
 
 sub main {
 	my ($self) = @_;
 
 	my $msg = $self->params->{msg};
-	my $psy = $self->params->{psy};
 	
-	my $news = Psy::News->constructor;
-
-	unless ($psy->is_god) {
-		return $psy->error("Врачей не наипешь!");
+	unless ($self->psy->is_god) {
+		return $self->psy->error("Врачей не наипешь!");
 	}
 
-	$news->add(
-		user_id => $psy->user_id,
+	$self->schema->resultset('News')->create({
+		user_id => $self->psy->user_id,
 		msg     => $msg
-	);
+	});
 
-	return not $psy->error;
+	return not $self->psy->error;
 }
+
+sub _can_add {
+	my ($self, $user_id) = @_;
+
+	#my $last_post_date = $self->query(q|
+	#	SELECT MAX(post_date) last_post_date 
+	#	FROM news
+	#	WHERE user_id = ?
+	#	|,
+	#	[$user_id],
+	#	{only_field => 'last_post_date'}
+	#);
+
+	#return (
+	#	not defined $last_post_date or 
+	#	(time - $last_post_date) > 60*60*24
+	#);
+}	
+
 
 1;

@@ -31,11 +31,11 @@ sub main {
 	);
 
 	my $news = $psy->cache->try_get(
-		'last_news11',
+		'last_news',
 		sub { 
 			PsyApp::Action::News::View::last($self, 2);
 		},
-		1#Cache::FRESH_TIME_HOUR
+		Cache::FRESH_TIME_HOUR
 	);
 
 	return {
@@ -104,49 +104,6 @@ sub _top {
 			)
 		}
 	];
-}
-
-sub _top2 {
-	my ($self, %p) = @_;
-	
-	$p{min_votes} ||= 4;
-    $p{count}     ||= 10;
-
-	my $list = $self->creos->list_by_cond(
-		{
-			type       => 0,
-			post_date  => { '>=' => \["NOW() - INTERVAL ? MONTH", 36] },
-			creo_stats => {
-				votes => { '>'  => $p{min_votes} }
-			},
-			
-			scalar @{$p{users_to_exclude}}
-				? ( user_id => { -not_in => $p{users_to_exclude} } )
-				: (),
-		},
-		
-		fields => {
-			me => [ 
-				qw| id title |,
-			],
-			users => [
-				{ name => 'alias' }
-			],
-			creo_stats => [
-				{ votes      => 'cnt'     },
-				{ votes_rank => 'average' },
-			]
-		},
-		field_prefix => 'tcl_',
-		order_by     => [
-			{ ($p{anti} ? 'desc' : 'asc') => 'creo_stats.votes_rank' },
-			{ desc => 'creo_stats.votes' },
-		],
-		limit => $p{count},
-	);
-
-    return [ sort { $a->{tcl_title} cmp $b->{tcl_title} } @$list ];
-
 }
 
 

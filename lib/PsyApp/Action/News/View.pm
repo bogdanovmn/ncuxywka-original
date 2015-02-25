@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::News;
-use Utils;
 
 sub main {
 	my ($self) = @_;
