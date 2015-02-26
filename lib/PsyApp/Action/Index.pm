@@ -10,27 +10,26 @@ use Utils;
 sub main {
 	my ($self) = @_;
 	
-	my $psy = $self->params->{psy};
-	my $users_to_exclude = $psy->users_to_exclude;
+	my $users_to_exclude = $self->psy->users_to_exclude;
 
-	my $top_creo_list = $psy->cache->try_get(
-		'top_creo_list__for_user_'. $psy->user_id,
+	my $top_creo_list = $self->psy->cache->try_get(
+		'top_creo_list__for_user_'. $self->psy->user_id,
 		sub { $self->_top(count => 10, users_to_exclude => $users_to_exclude) },
 		Cache::FRESH_TIME_HOUR
 	);
 
-	my $anti_top_creo_list = $psy->cache->try_get(
-		'anti_top_creo_list__for_user_'. $psy->user_id,
+	my $anti_top_creo_list = $self->psy->cache->try_get(
+		'anti_top_creo_list__for_user_'. $self->psy->user_id,
 		sub { $self->_top(count => 10, anti => 1, users_to_exclude => $users_to_exclude) },
 		Cache::FRESH_TIME_HOUR
 	);
-	my $new_users = $psy->cache->try_get(
+	my $new_users = $self->psy->cache->try_get(
 		'new_users',
-		sub { $psy->new_users(count => 3) },
+		sub { $self->_new_users(count => 3) },
 		Cache::FRESH_TIME_HOUR
 	);
 
-	my $news = $psy->cache->try_get(
+	my $news = $self->psy->cache->try_get(
 		'last_news',
 		sub { 
 			PsyApp::Action::News::View::last($self, 2);
@@ -39,13 +38,147 @@ sub main {
 	);
 
 	return {
-		last_creos         => $psy->load_last_creos(10),
+		last_creos         => $self->psy->load_last_creos(10),
 		top_creo_list      => $top_creo_list,
 		anti_top_creo_list => $anti_top_creo_list,
-		#popular_creo_list => $psy->popular_creo_list(count => 10), 
+		#popular_creo_list => $self->psy->popular_creo_list(count => 10), 
 		new_users          => $new_users,
 		news               => $news,
 	};
+}
+
+sub _load_last_creos {
+    my ($self, $n, $users_to_exclude) = @_;
+
+
+	my $creos = $self->schema_select('Creo',
+		{ 
+			type    => 0, 
+			user_id => { -not_in => $users_to_exclude } 
+		},
+		{
+			order_by => { -desc => 'id' },
+			rows     => 35
+		},
+		[qw/ id user_id /],
+		'lc_'
+	);
+
+	my @creo;
+	my @creo_ids_all;
+	my @creo_ids_full;
+	my @creo_ids_short;
+
+	my $i = 1;
+	my $prev_user_id = 0;
+    for my $row (@$creos) {
+		if ($prev_user_id eq $row->{lc_user_id}) {
+			push @{$creo[@creo - 1]->{lc_more}}, { lc_id => $row->{lc_id} };
+			push @creo_ids_short, $row->{lc_id};
+		}
+		else {
+			push @creo, $row;
+			push @creo_ids_full, $row->{lc_id};
+			$i++;
+			$prev_user_id = $row->{lc_user_id};
+		}
+		push @creo_ids_all, $row->{lc_id};
+		
+		last if $i > $n;
+    }
+
+	my %creo_comments =
+		map { $_->{creo_id} => $_->{comments} }
+		@{
+			$self->schema_select('CreoStat',
+				{ creo_id => { -in => \@creo_ids_all } },
+				undef,
+				[qw/ creo_id comments /]
+			)
+		};
+
+	my %full_creos = 
+		map { $_->{lc_id} => $_ }
+		@{
+			$self->schema_select('Creo',
+				{ id => { -in => \@creo_ids_full } },
+				undef,
+				[qw/ id title body post_date user_id /],
+				'lc_',
+				{ 
+					user_id         => 'alias',
+					nice_date_field => 'post_date' 
+				}
+			)
+		};
+	
+	my %short_creos = 
+		map { $_->{lc_id} => $_ }
+		@{
+			$self->schema_select('Creo',
+				{ id => { -in => \@creo_ids_full } },
+				undef,
+				[qw/ id title post_date /],
+				'lc_',
+				{ nice_date_field => 'post_date' }
+			)
+		};
+
+
+    for my $row (@$creos) {
+		$row = { %$row, %{$full_creos{$row->{lc_id}}} };
+		if ($row->{lc_more}) {
+			foreach (my $i = 0; $i < @{$row->{lc_more}}; $i++) {
+				$row->{lc_more}->[$i] = $short_creos{$row->{lc_more}->[$i]->{lc_id}};
+			}
+		}
+
+		my $text_original_length = length $row->{lc_body};
+		
+		#$row->{lc_body} = Psy::Text::Shuffle::text($row->{lc_body}, words_power => 30, chars_power => 5);
+
+		$row->{lc_body} = Psy::Text::convert_to_html($row->{lc_body});
+		$row->{lc_body} = Psy::Text::cut_top_lines($row->{lc_body}, Psy::TM_PREVIEW_LINES);
+		$row->{lc_body} = Psy::Text::cut_first_chars($row->{lc_body}, Psy::TM_PREVIEW_MAX_SIZE);
+		
+		$row->{lc_cuted} = 1 if $text_original_length > length $row->{lc_body};
+		
+		my $user = Psy::User->choose($row->{lc_user_id});
+		$row->{lc_avatar} = $user->avatar_file_name;
+    }
+
+    return \@creo;
+}
+sub _new_users {
+    my ($self, %p) = @_;
+
+	my $user_ids = $self->schema_select(
+		'UserStat',
+		{ 
+			-or => {
+				comments_out  => { '>' => 0 },
+				spec_comments => { '>' => 0 },
+				gb_comments   => { '>' => 0 },
+				creo_post     => { '>' => 0 },
+			}
+		},
+		{ 
+			order_by => { -desc => 'user_id' },
+			rows     => $p{count} || 3
+		},
+		['user_id'],
+	);
+
+	my $users = $self->schema_select(
+		'User',
+		{ id => { -in => $user_ids } },
+		undef,
+		[qw/ id name reg_date /],
+		'nu_',
+		{ date_field => 'reg_date' }
+	);
+
+	return $users;
 }
 
 sub _top {
@@ -54,53 +187,54 @@ sub _top {
 	$p{min_votes} ||= 4;
     $p{count}     ||= 10;
 
-	my $where_users = @{$p{users_to_exclude}}
-		? sprintf 'AND c.user_id NOT IN (%s)', join ', ', @{$p{users_to_exclude}}
-		: '';
-
-	my $creo_id_list = $self->psy->query(qq|
-		SELECT c.id
-		FROM creo c
-		WHERE c.type = 0
-		AND c.post_date >= NOW() - INTERVAL ? MONTH
-		$where_users
-		|,
-		[36],
-		{ list_field => 'id' }
+	my $creo_id_list = $self->schema_select(
+		'Creo',
+		{ 
+			type      => 0,
+			post_date =>  { '>' => \'NOW() - INTERVAL 36 MONTH' },
+			$p{users_to_exclude} 
+				? ( user_id => { -not_in => $p{users_to_exclude} } )
+				: ()
+		},
+		undef,
+		['id']
 	);
 
 	return [] unless @$creo_id_list;
 	
 	my $where_creo_id = sprintf 'WHERE cs.creo_id IN (%s)', join ', ', @$creo_id_list;
-	my $direct        = $p{anti} ? 'DESC' : 'ASC';
+	my $direct        = $p{anti} ? '-desc' : '-asc';
 
-	my $creo_id_list_sorted = $self->psy->query(qq|
-		SELECT cs.creo_id
-		FROM creo_stats cs
-		$where_creo_id
-		AND cs.votes > ?
-		ORDER BY cs.votes_rank $direct, cs.votes DESC
-		LIMIT ?
-		|,
-		[$p{min_votes}, $p{count}],
-		{ list_field => 'creo_id' }
+	my $creo_id_list_sorted = $self->schema_select(
+		'CreoStat',
+		{
+			votes   => { '>' => $p{min_votes} },
+			creo_id => { -in => $creo_id_list }
+		},
+		{
+			order_by => [
+				{ $direct => 'votes_rank' },
+				{ -desc   => 'votes' }
+			],
+			rows => $p{count}
+		},
+		['creo_id']
+
 	);
 
 	return [] unless @$creo_id_list_sorted;
 	
-	$where_creo_id = sprintf 'WHERE c.id IN (%s)', join ', ', @$creo_id_list_sorted;
 	return [ 
 		sort { $a->{tcl_title} cmp $b->{tcl_title} }
-		map  { $_->{tcl_alias} = $self->psy->get_user_name_by_id($_->{user_id}); $_; }
+		map  { $_->{tcl_alias} = $self->psy->get_user_name_by_id($_->{tcl_user_id}); $_; }
 		@{
-			$self->psy->query(qq|
-				SELECT 
-					c.id    tcl_id,
-					c.title tcl_title,
-					c.user_id
-				FROM creo c
-				$where_creo_id
-				|
+			$self->schema_select(
+				'Creo',
+				{ id =>  { -in => $creo_id_list_sorted } },
+				undef,
+				[qw/ id title user_id /],
+				'tcl_',
+				{ user_id => 'alias' }
 			)
 		}
 	];

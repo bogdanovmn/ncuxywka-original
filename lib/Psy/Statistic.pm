@@ -295,7 +295,6 @@ sub last_comment_for_me {
 	}
 }
 
-
 sub users_by_rank {
     my ($self, %p) = @_;
     my $users = $self->query(qq|
@@ -342,37 +341,6 @@ sub users_by_rank {
         push(@{$list{'rank_'.$u->{ru_rank}}}, $u);
     }
     return %list; 
-}
-
-sub new_users {
-    my ($self, %p) = @_;
-
-    my $users = $self->query(qq|
-        SELECT 
-            u.id nu_id, 
-            u.name nu_name,
-			DATE_FORMAT(u.reg_date, '%Y-%m-%d') nu_reg_date
-        FROM users u
-		JOIN user_stats us ON us.user_id = u.id
-		LEFT JOIN user_group ug ON ug.user_id = u.id
-		WHERE IFNULL(ug.group_id, 0) <> ?
-		AND (
-			us.comments_out > 0 
-			OR 
-			us.spec_comments > 0 
-			OR 
-			us.gb_comments > 0 
-			OR
-			us.creo_post > 0
-		)
-		ORDER BY u.reg_date DESC
-		LIMIT ?
-		|,
-		[Psy::Group::PLAGIARIST, $p{count} || 3],
-        {error_msg => "История поступления больных уничтожена!"}
-	);
-    
-	return $users;
 }
 
 sub most_active_users {
