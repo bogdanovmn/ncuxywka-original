@@ -33,7 +33,7 @@ sub constructor {
 sub try_get {
 	my ($self, $id, $get_value_sub, $fresh_time) = @_;
 
-	#return &$get_value_sub();
+	return &$get_value_sub();
 	my $t = Time::HiRes::time;
 	my $value = $self->{storage}->get($id);
 	$self->{statistic}->{get_total_time} += Time::HiRes::time - $t;

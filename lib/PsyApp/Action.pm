@@ -7,6 +7,8 @@ use utf8;
 use PsyApp::Schema;
 use PSY_DB_CONF;
 use Time::Piece;
+use Utils;
+
 
 my $__SCHEMA;
 
@@ -42,7 +44,7 @@ sub schema {
 		#$__STATISTIC->{db_connect_time} += sprintf('%.3f', Time::HiRes::time - $begin_time);
 		#$__STATISTIC->{db_connections}++;
 
-		$__SCHEMA->storage->debug(1);
+			#$__SCHEMA->storage->debug(1);
 	}
 
 	return $__SCHEMA;
@@ -50,7 +52,7 @@ sub schema {
 
 sub schema_select {
 	my ($self, $class, $cond, $attrs, $fields, $fields_prefix, $params) = @_;
-
+	
 	$fields_prefix ||= '';
 	$attrs         ||= {};
 	$attrs = {
@@ -70,7 +72,7 @@ sub schema_select {
 
 	my @result = $self->schema->resultset($class)->search($cond, $attrs)->all;
 
-	if ($params->{date_field} or $params->{user_id}) {
+	if ($params->{date_field} or $params->{user_id} or $params->{nice_date_field}) {
 		@result = map {
 			if ($params->{date_field}) {
 				$_->{$fields_prefix.$params->{date_field}} =~ s/ .*$//;

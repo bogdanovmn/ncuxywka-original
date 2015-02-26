@@ -38,7 +38,7 @@ sub main {
 	);
 
 	return {
-		last_creos         => $self->psy->load_last_creos(10),
+		last_creos         => $self->_load_last_creos(10, $users_to_exclude),
 		top_creo_list      => $top_creo_list,
 		anti_top_creo_list => $anti_top_creo_list,
 		#popular_creo_list => $self->psy->popular_creo_list(count => 10), 
@@ -116,7 +116,7 @@ sub _load_last_creos {
 		map { $_->{lc_id} => $_ }
 		@{
 			$self->schema_select('Creo',
-				{ id => { -in => \@creo_ids_full } },
+				{ id => { -in => \@creo_ids_short } },
 				undef,
 				[qw/ id title post_date /],
 				'lc_',
@@ -124,12 +124,11 @@ sub _load_last_creos {
 			)
 		};
 
-
-    for my $row (@$creos) {
+    for my $row (@creo) {
 		$row = { %$row, %{$full_creos{$row->{lc_id}}} };
 		if ($row->{lc_more}) {
-			foreach (my $i = 0; $i < @{$row->{lc_more}}; $i++) {
-				$row->{lc_more}->[$i] = $short_creos{$row->{lc_more}->[$i]->{lc_id}};
+			for my $more (@{$row->{lc_more}}) {
+				$more = { %$more, %{$short_creos{$more->{lc_id}}} };
 			}
 		}
 
@@ -145,6 +144,7 @@ sub _load_last_creos {
 		
 		my $user = Psy::User->choose($row->{lc_user_id});
 		$row->{lc_avatar} = $user->avatar_file_name;
+		$row->{lc_comments_count} = $creo_comments{$row->{lc_id}};
     }
 
     return \@creo;
