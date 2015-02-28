@@ -21,7 +21,7 @@ sub main {
 sub last {
 	my ($self, $count) = @_;
 
-	$self->schema_select(
+	$self->psy->schema_select(
 		'News',
 		{ visible  => 1 },
 		{ 

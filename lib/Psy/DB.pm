@@ -6,10 +6,12 @@ use warnings;
 use utf8;
 
 use PSY_DB_CONF;
+use PsyApp::Schema;
 use Time::HiRes;
 use Psy::Errors;
 use Utils;
 use Format::LongNumber;
+use Time::Piece;
 
 my $__STATISTIC = {
 	sql_count       => 0,
@@ -21,14 +23,14 @@ my $__STATISTIC = {
 my $__SHOW_SQL_DETAILS = 0;
 my @__SQL_DETAILS;
 
-my $__DBH = undef;
+my $__SCHEMA;
 
 sub connect {
 	my ($class, %p) = @_;
 	
-	unless ($__DBH) {
+	unless ($__SCHEMA) {
 		my $begin_time = Time::HiRes::time;
-		$__DBH = DBI->connect(
+		$__SCHEMA = PsyApp::Schema->connect(
 			sprintf('dbi:mysql:%s:%s', PSY_DB_CONF::NAME, PSY_DB_CONF::HOST), 
 			PSY_DB_CONF::USER, 
 			PSY_DB_CONF::PASS,
@@ -38,16 +40,12 @@ sub connect {
 				mysql_enable_utf8    => 1
 			}
 		) or die $!;
-		#$__DBH->{mysql_enable_utf8} = 1;
-		#$__DBH->do("SET NAMES utf8");
-		
-		#$__DBH->do("SET SQL_BIG_SELECTS=1");
-		
+
 		$__STATISTIC->{db_connect_time} += sprintf('%.3f', Time::HiRes::time - $begin_time);
 		$__STATISTIC->{db_connections}++;
 	}
 	my $self = { 
-		dbh              => $__DBH, 
+		dbh              => $__SCHEMA->storage->dbh, 
 		sql_empty_result => 1,
 	};
 	
@@ -55,6 +53,62 @@ sub connect {
 
 	return bless $self, $class;
 }
+
+sub schema {
+	my ($self) = @_;
+	return $__SCHEMA;
+}
+
+sub schema_select {
+	my ($self, $class, $cond, $attrs, $fields, $fields_prefix, $params) = @_;
+	
+	$fields_prefix ||= '';
+	$attrs         ||= {};
+	$attrs = {
+		%$attrs,
+		select       => $fields,
+		as           => [ map { $fields_prefix.$_ } @$fields ],
+		result_class => 'DBIx::Class::ResultClass::HashRefInflator'
+	};
+
+	my $now_date;
+	my $yesterday_date;
+	if ($params->{nice_date_field}) {
+		my $t = localtime;
+		$now_date       = $t->ymd;
+		$yesterday_date = ($t - 86400)->ymd;
+	}
+
+	my @result = $self->schema->resultset($class)->search($cond, $attrs)->all;
+
+	if ($params->{date_field} or $params->{user_id} or $params->{nice_date_field}) {
+		@result = map {
+			if ($params->{date_field}) {
+				$_->{$fields_prefix.$params->{date_field}} =~ s/ .*$//;
+			}
+			if ($params->{nice_date_field}) {
+				my $f = $fields_prefix.$params->{nice_date_field};
+				$_->{$f} =~ s/ .*$//;
+				if ($_->{$f} eq $now_date) {
+					$_->{$f} = 'Сегодня';
+				}
+				elsif ($_->{$f} eq $yesterday_date) {
+					$_->{$f} = 'Вчера';
+				}
+			}
+			if ($params->{user_id}) {
+				$_->{$fields_prefix.$params->{user_id}} = $self->get_user_name_by_id($_->{$fields_prefix.'user_id'});
+			}
+			$_;
+		}
+		@result;
+	}
+	return (@result and 1 == keys %{$result[0]})
+		? [ map { values $_ } @result ]
+		: \@result;
+}
+
+
 #
 #
 #

@@ -51,7 +51,7 @@ sub _load_last_creos {
     my ($self, $n, $users_to_exclude) = @_;
 
 
-	my $creos = $self->schema_select('Creo',
+	my $creos = $self->psy->schema_select('Creo',
 		{ 
 			type    => 0, 
 			user_id => { -not_in => $users_to_exclude } 
@@ -90,7 +90,7 @@ sub _load_last_creos {
 	my %creo_comments =
 		map { $_->{creo_id} => $_->{comments} }
 		@{
-			$self->schema_select('CreoStat',
+			$self->psy->schema_select('CreoStat',
 				{ creo_id => { -in => \@creo_ids_all } },
 				undef,
 				[qw/ creo_id comments /]
@@ -100,7 +100,7 @@ sub _load_last_creos {
 	my %full_creos = 
 		map { $_->{lc_id} => $_ }
 		@{
-			$self->schema_select('Creo',
+			$self->psy->schema_select('Creo',
 				{ id => { -in => \@creo_ids_full } },
 				undef,
 				[qw/ id title body post_date user_id /],
@@ -115,7 +115,7 @@ sub _load_last_creos {
 	my %short_creos = 
 		map { $_->{lc_id} => $_ }
 		@{
-			$self->schema_select('Creo',
+			$self->psy->schema_select('Creo',
 				{ id => { -in => \@creo_ids_short } },
 				undef,
 				[qw/ id title post_date /],
@@ -152,7 +152,7 @@ sub _load_last_creos {
 sub _new_users {
     my ($self, %p) = @_;
 
-	my $user_ids = $self->schema_select(
+	my $user_ids = $self->psy->schema_select(
 		'UserStat',
 		{ 
 			-or => {
@@ -169,7 +169,7 @@ sub _new_users {
 		['user_id'],
 	);
 
-	my $users = $self->schema_select(
+	my $users = $self->psy->schema_select(
 		'User',
 		{ id => { -in => $user_ids } },
 		undef,
@@ -187,7 +187,7 @@ sub _top {
 	$p{min_votes} ||= 4;
     $p{count}     ||= 10;
 
-	my $creo_id_list = $self->schema_select(
+	my $creo_id_list = $self->psy->schema_select(
 		'Creo',
 		{ 
 			type      => 0,
@@ -205,7 +205,7 @@ sub _top {
 	my $where_creo_id = sprintf 'WHERE cs.creo_id IN (%s)', join ', ', @$creo_id_list;
 	my $direct        = $p{anti} ? '-desc' : '-asc';
 
-	my $creo_id_list_sorted = $self->schema_select(
+	my $creo_id_list_sorted = $self->psy->schema_select(
 		'CreoStat',
 		{
 			votes   => { '>' => $p{min_votes} },
@@ -228,7 +228,7 @@ sub _top {
 		sort { $a->{tcl_title} cmp $b->{tcl_title} }
 		map  { $_->{tcl_alias} = $self->psy->get_user_name_by_id($_->{tcl_user_id}); $_; }
 		@{
-			$self->schema_select(
+			$self->psy->schema_select(
 				'Creo',
 				{ id =>  { -in => $creo_id_list_sorted } },
 				undef,

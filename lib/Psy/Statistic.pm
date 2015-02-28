@@ -435,41 +435,6 @@ sub top_users_by_creos_count {
     return $users;
 }
 
-sub ban_total_list {
-    my ($self, %p) = @_;
-
-    my $sql = qq|
-    SELECT 
-		IFNULL(u.name, 'Неизвестный пациэнт') btl_name,
-		u.id btl_user_id,
-		SUM(UNIX_TIMESTAMP(b.end) - UNIX_TIMESTAMP(b.begin)) btl_time
-	FROM 
-		ban b 
-	LEFT JOIN 
-		users u ON u.id = b.user_id
-	GROUP BY 
-		name
-	ORDER BY btl_time DESC 
-	|;
-
-    my $sth = $p{psy}->{dbh}->prepare($sql);
-    $sth->execute;
-
-    if ($sth->err) {
-        ERRORS::html_error("Процедурная в панике!");
-    }
-
-    my @list = ();
-    while (my $row = $sth->fetchrow_hashref) {
-		$row->{btl_time} = short_time($row->{btl_time});
-        push(@list, $row);
-    }
-
-    $sth->finish;
-
-    return \@list;
-}
-
 sub anti_top_votes {
     my ($self, %p) = @_;
 
