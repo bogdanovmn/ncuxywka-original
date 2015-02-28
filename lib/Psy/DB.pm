@@ -1,33 +1,30 @@
 package Psy::DB;
 
-use DBI;
 use strict;
 use warnings;
 use utf8;
 
 use PSY_DB_CONF;
 use PsyApp::Schema;
+use Psy::DB::Profiler;
 use Time::HiRes;
 use Psy::Errors;
 use Utils;
 use Format::LongNumber;
 use Time::Piece;
 
-my $__STATISTIC = {
-	sql_count       => 0,
-	sql_time        => 0,
-	db_connect_time => 0,
-	db_connections  => 0,
-};
-
 my $__SHOW_SQL_DETAILS = 0;
 my @__SQL_DETAILS;
-
 my $__SCHEMA;
+
 
 sub connect {
 	my ($class, %p) = @_;
 	
+	my $self = { 
+		sql_empty_result => 1,
+	};
+
 	unless ($__SCHEMA) {
 		my $begin_time = Time::HiRes::time;
 		$__SCHEMA = PsyApp::Schema->connect(
@@ -41,13 +38,15 @@ sub connect {
 			}
 		) or die $!;
 
-		$__STATISTIC->{db_connect_time} += sprintf('%.3f', Time::HiRes::time - $begin_time);
-		$__STATISTIC->{db_connections}++;
+		$self->{dbh}      = $__SCHEMA->storage->dbh;
+		$self->{profiler} = Psy::DB::Profiler->new;
+		
+		$self->{profiler}->statistic_inc('db_connect_time', sprintf('%.3f', Time::HiRes::time - $begin_time));
+		$self->{profiler}->statistic_inc('db_connections');
+
+		$__SCHEMA->storage->debugobj($self->{profiler});
+		$__SCHEMA->storage->debug(1);
 	}
-	my $self = { 
-		dbh              => $__SCHEMA->storage->dbh, 
-		sql_empty_result => 1,
-	};
 	
 	$self->{console} = $p{console} || 0;
 
@@ -108,10 +107,6 @@ sub schema_select {
 		: \@result;
 }
 
-
-#
-#
-#
 sub query {
 	my ($self, $sql, $params, $settings) = @_;
 
@@ -138,25 +133,20 @@ sub query {
 	my $begin_time = Time::HiRes::time;
 	my $sth = $self->_execute_sql($sql, $params, $settings);
 	my $sql_time = Time::HiRes::time - $begin_time;
-	$__STATISTIC->{sql_time} += $sql_time;
-	$__STATISTIC->{sql_count}++;
 
 	# Explain statistic BEGIN
 	if ($__SHOW_SQL_DETAILS) {
-		push @__SQL_DETAILS, {
+		$self->{profiler}->add_sql({
 			sql      => $sql,
 			sql_time => sprintf('%.4f', $sql_time),
-			#params  => $params,
-			($sql =~ /^\s*select/i) 
-				? (%{$self->explain_query($sql, $params, $settings)}) 
-				: ()
-		};
+			params   => $params,
+		});
 	}
 	# Explain statistic END
 
 	if ($return_last_id and $sql =~ /^\s*insert/i) {
 		$sth->finish;
-		return $self->{dbh}->last_insert_id(undef, undef, undef, undef);
+		return $self->{dbh}->last_insert_id;
 	}
 	if ($sql =~ /^\s*(select|show)/i) {	
 		my @result;
@@ -173,38 +163,6 @@ sub query {
 	}
 		
 	return 1;
-}
-#
-# Explain command
-#
-sub explain_query {
-	my ($self, $sql, $params, $settings) = @_;
-
-	my $sth = $self->_execute_sql('EXPLAIN '. $sql, $params, $settings);
-
-	my @result;
-	my $total_rows = 1;
-	my %extra;
-	my $type_total = '';
-
-	while (my $line = $sth->fetchrow_hashref) {
-		foreach my $e (split /\s*;\s*/, $line->{Extra}) {
-			undef $extra{$e};
-		}
-
-		$total_rows *= ($line->{rows} || 1);
-		push @result, $line;
-	}
-	
-	$sth->finish;
-
-	return {
-		caller                  => (caller(2))[3] || (caller(1))[3],
-		explain_details         => \@result, 
-		explain_nice_total_rows => short_number($total_rows),
-		explain_total_rows      => $total_rows,
-		extra                   => join('; ', sort keys %extra)
-	};
 }
 #
 # Execute sql
@@ -234,19 +192,16 @@ sub empty_result_set {
 # Return statistic data
 #
 sub db_statistic {
-	return $__STATISTIC;
+	my ($self) = @_;
+	return $self->{profiler}->get_statistic;
 }
 #
 # Crear statistic
 #
 sub clear_db_statistic {
-	$__STATISTIC = {
-		sql_count       => 0,
-		sql_time        => 0,
-		db_connect_time => 0,
-		db_connections  => $__STATISTIC->{db_connections},
-	};
-	@__SQL_DETAILS = ();
+	my ($self) = @_;
+
+	$self->{profiler}->clear;
 }
 #
 # Enable sql details
@@ -262,7 +217,8 @@ sub show_sql_details {
 }
 
 sub get_sql_details {
-	return \@__SQL_DETAILS;
+	my ($self) = @_;
+	return $self->{profiler}->get_sql_details;
 }
 #
 # Set error msg and return 0
