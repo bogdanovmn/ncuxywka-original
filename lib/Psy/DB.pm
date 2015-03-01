@@ -39,7 +39,7 @@ sub connect {
 		) or die $!;
 
 		$self->{dbh}      = $__SCHEMA->storage->dbh;
-		$self->{profiler} = Psy::DB::Profiler->new;
+		$self->{profiler} = Psy::DB::Profiler->new(dbh => $self->{dbh});
 		
 		$self->{profiler}->statistic_inc('db_connect_time', sprintf('%.3f', Time::HiRes::time - $begin_time));
 		$self->{profiler}->statistic_inc('db_connections');

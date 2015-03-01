@@ -202,8 +202,7 @@ sub _top {
 
 	return [] unless @$creo_id_list;
 	
-	my $where_creo_id = sprintf 'WHERE cs.creo_id IN (%s)', join ', ', @$creo_id_list;
-	my $direct        = $p{anti} ? '-desc' : '-asc';
+	my $direct = $p{anti} ? '-desc' : '-asc';
 
 	my $creo_id_list_sorted = $self->psy->schema_select(
 		'CreoStat',

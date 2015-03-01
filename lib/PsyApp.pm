@@ -78,20 +78,15 @@ sub show_error { controller(template => 'error', action => 'Error') }
 
 
 hook 'before' => sub {
-	Psy::DB->clear_db_statistic;
 	var profiler_gen_time => Time::HiRes::time;
 
-	set 'session_options' => {
-		dbh   => sub { Psy::DB->connect->{dbh} },
-		table => 'session'
-	};
-	
 	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR} || '';
 	var psy => Psy->enter(
 		session    => sub { Dancer::session(@_) },
 		ip         => $ip,
 		env        => request->env,
-		path       => request->path
+		path       => request->path,
+		clear_stat => 1
 	);
 
 	Psy::DB->show_sql_details(vars->{psy}->is_god);

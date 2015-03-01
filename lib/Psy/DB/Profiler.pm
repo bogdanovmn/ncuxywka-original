@@ -19,6 +19,15 @@ my $__STATISTIC = {
 };
 
 
+sub new {
+	my ($class, %p) = @_;
+
+	my $self = $class->SUPER::new();
+	$self->{dbh} = $p{dbh};
+
+	return $self;
+}
+
 sub query_start {
 	my ($self, $sql, @params) = @_;
 
@@ -36,7 +45,7 @@ sub query_end {
 		sql      => $sql,
 		sql_time => $elapsed,
 		params   => \@params,
-		$self->explain_query($sql, \@params)
+		#$self->explain_query($sql, \@params)
 	});
 
 	$__EXEC_START_TIME = undef;
@@ -63,7 +72,7 @@ sub add_sql {
 
 sub explain_query {
 	my ($self, $sql, $params) = @_;
-
+#use Utils; debug $sql;	
 	my $sth = $self->{dbh}->prepare('EXPLAIN '.$sql);
 	$sth->execute(@$params);
 	
