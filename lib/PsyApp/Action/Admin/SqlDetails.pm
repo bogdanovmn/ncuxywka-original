@@ -16,7 +16,6 @@ sub main {
 	}
 
 	my $sql_details = $psy->cache->try_get('sql_details', sub { [] }, 1);
-	
 	return {
 		sql_details => [
 			map  {

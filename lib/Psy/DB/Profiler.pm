@@ -45,7 +45,6 @@ sub query_end {
 		sql      => $sql,
 		sql_time => $elapsed,
 		params   => \@params,
-		#$self->explain_query($sql, \@params)
 	});
 
 	$__EXEC_START_TIME = undef;
@@ -64,7 +63,8 @@ sub add_sql {
 	if ($data->{sql} =~ /^\s*select/i) {
 		$data = { %$data, $self->explain_query($data->{sql}, $data->{params}) }; 
 	}
-	push @__SQL_DATA, $data;
+
+	push @__SQL_DATA, $data; 
 	
 	$self->statistic_inc('sql_time', $data->{sql_time});
 	$self->statistic_inc('sql_count');
@@ -72,7 +72,9 @@ sub add_sql {
 
 sub explain_query {
 	my ($self, $sql, $params) = @_;
-#use Utils; debug $sql;	
+	
+	$params = [ map { $_ =~ s/'//g; $_ } @$params ];
+	
 	my $sth = $self->{dbh}->prepare('EXPLAIN '.$sql);
 	$sth->execute(@$params);
 	
@@ -93,7 +95,7 @@ sub explain_query {
 	$sth->finish;
 
 	return (
-		caller                  => (caller(2))[3] || (caller(1))[3],
+		caller                  => (caller(3))[3] || (caller(1))[3],
 		explain_details         => \@result, 
 		explain_nice_total_rows => short_number($total_rows),
 		explain_total_rows      => $total_rows,

@@ -131,9 +131,9 @@ sub banned {
 		WHERE NOW() BETWEEN begin AND end
 		AND ($where)
 		|,
-		$self->success_in ? 
-			[$self->{user_data}->{user_id}, $self->{ip}] : 
-			[$self->{ip}],
+		$self->success_in 
+			? [$self->{user_data}->{user_id}, $self->{ip}] 
+			: [$self->{ip}],
 		{error_msg => "В процедурном кабинете бунт!"}
 	);
 	$self->{ban_left_time} = (

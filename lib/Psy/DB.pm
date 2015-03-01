@@ -16,6 +16,7 @@ use Time::Piece;
 my $__SHOW_SQL_DETAILS = 0;
 my @__SQL_DETAILS;
 my $__SCHEMA;
+my $__PROFILER;
 
 
 sub connect {
@@ -38,16 +39,19 @@ sub connect {
 			}
 		) or die $!;
 
-		$self->{dbh}      = $__SCHEMA->storage->dbh;
-		$self->{profiler} = Psy::DB::Profiler->new(dbh => $self->{dbh});
+		$__PROFILER = Psy::DB::Profiler->new(dbh => $__SCHEMA->storage->dbh);
 		
-		$self->{profiler}->statistic_inc('db_connect_time', sprintf('%.3f', Time::HiRes::time - $begin_time));
-		$self->{profiler}->statistic_inc('db_connections');
+		$__PROFILER->statistic_inc('db_connect_time', sprintf('%.3f', Time::HiRes::time - $begin_time));
+		$__PROFILER->statistic_inc('db_connections');
 
-		$__SCHEMA->storage->debugobj($self->{profiler});
+		$__SCHEMA->storage->debugobj($__PROFILER);
 		$__SCHEMA->storage->debug(1);
 	}
 	
+	if ($p{clear_stat}) {
+		$__PROFILER->clear;
+	}
+
 	$self->{console} = $p{console} || 0;
 
 	return bless $self, $class;
@@ -136,7 +140,7 @@ sub query {
 
 	# Explain statistic BEGIN
 	if ($__SHOW_SQL_DETAILS) {
-		$self->{profiler}->add_sql({
+		$__PROFILER->add_sql({
 			sql      => $sql,
 			sql_time => sprintf('%.4f', $sql_time),
 			params   => $params,
@@ -170,7 +174,7 @@ sub query {
 sub _execute_sql {
 	my ($self, $sql, $params, $settings) = @_;
 	
-	my $sth = $self->{dbh}->prepare($sql);
+	my $sth = $__SCHEMA->storage->dbh->prepare($sql);
 	$sth->execute(@$params);
 	
 	if ($sth->err) {
@@ -192,16 +196,8 @@ sub empty_result_set {
 # Return statistic data
 #
 sub db_statistic {
-	my ($self) = @_;
-	return $self->{profiler}->get_statistic;
-}
-#
-# Crear statistic
-#
-sub clear_db_statistic {
-	my ($self) = @_;
-
-	$self->{profiler}->clear;
+	my ($class) = @_;
+	return $__PROFILER->get_statistic;
 }
 #
 # Enable sql details
@@ -218,7 +214,7 @@ sub show_sql_details {
 
 sub get_sql_details {
 	my ($self) = @_;
-	return $self->{profiler}->get_sql_details;
+	return $__PROFILER->get_sql_details;
 }
 #
 # Set error msg and return 0
