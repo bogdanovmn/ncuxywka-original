@@ -35,7 +35,7 @@ sub _dumper {
 sub debug {
 	my ($var) = @_;
 	warn _dumper($var);
-	exit;
+	#exit;
 }
 
 sub webug {

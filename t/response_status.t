@@ -45,6 +45,7 @@ my @urls = qw|
 |;
 
 foreach my $url (@urls) {
+	route_exists       [GET => $url],      "Route $url exists";
 	response_status_is [GET => $url], 200, "GET $url status is 200";
 }
 	

@@ -4,27 +4,39 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::News;
-
 
 sub main {
 	my ($self) = @_;
 
-	my $psy  = $self->params->{psy};
-	my $news = Psy::News->constructor;
-
-	my $news_data = $psy->cache->try_get(
+	my $news_data = $self->psy->cache->try_get(
 		'news',
-		sub { $news->load }
+		sub { $self->last },
 	);
-
-	$news_data = [ map { $_->{god} = 1 if $psy->is_god; $_; } @$news_data ];
-
 	return {
-		news => $news_data,
+		news => $news_data
 	};
 
 }
 
+sub last {
+	my ($self, $count) = @_;
+
+	$self->psy->schema_select(
+		'News',
+		{ visible  => 1 },
+		{ 
+			order_by => { -desc => 'id' },
+			$count 
+				? ( rows => $count )
+				: ()
+		},
+		[qw/ id msg user_id post_date /],
+		'n_',
+		{
+			date_field => 'post_date',
+			user_id    => 'user_name'
+		}
+	);
+}
 
 1;
