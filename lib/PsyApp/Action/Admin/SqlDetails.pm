@@ -20,6 +20,7 @@ sub main {
 		sql_details => [
 			map  {
 				$_->{sql} = $self->_sql_to_html($_->{sql});
+				$_->{params} = [] unless $_->{params};
 				$_;
 			}
 			sort { 

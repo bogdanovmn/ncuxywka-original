@@ -150,7 +150,7 @@ sub query {
 
 	if ($return_last_id and $sql =~ /^\s*insert/i) {
 		$sth->finish;
-		return $self->{dbh}->last_insert_id;
+		return $__SCHEMA->storage->dbh->last_insert_id(undef, undef, undef, undef);
 	}
 	if ($sql =~ /^\s*(select|show)/i) {	
 		my @result;

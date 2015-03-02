@@ -94,8 +94,13 @@ sub explain_query {
 	
 	$sth->finish;
 
+	my $caller = (caller(3))[3];
+	if ($caller =~ /_query_end$/) {
+		$caller = (caller(20))[3];
+	}
+
 	return (
-		caller                  => (caller(3))[3] || (caller(1))[3],
+		caller                  => $caller, 
 		explain_details         => \@result, 
 		explain_nice_total_rows => short_number($total_rows),
 		explain_total_rows      => $total_rows,

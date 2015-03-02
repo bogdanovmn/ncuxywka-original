@@ -57,7 +57,7 @@ sub _load_last_creos {
 			user_id => { -not_in => $users_to_exclude } 
 		},
 		{
-			order_by => { -desc => 'id' },
+			order_by => { -desc => 'post_date' },
 			rows     => 35
 		},
 		[qw/ id user_id /],
