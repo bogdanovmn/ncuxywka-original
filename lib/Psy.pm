@@ -68,15 +68,15 @@ sub enter {
 
 	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{auditor}           = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
-	$self->{cache}             = Cache->constructor(
-		storage    => $FindBin::Bin. '/../cache',
-		fresh_time => 30
-	);
+	#$self->{cache}             = Cache->constructor(
+	##	storage    => $FindBin::Bin. '/../cache',
+	#	fresh_time => 30
+	#);
     
 	return $self;
 }
 
-sub get_user_name_by_id {
+sub get_user_name_by_id___moved {
 	my ($self, $user_id, $second) = @_;
 
 	if ($user_id) {
@@ -671,7 +671,7 @@ sub pm {
 #
 sub cache {
 	my ($self) = @_;
-	return $self->{cache};
+	return $self->cacher->cache;
 }
 #
 # Auditor object

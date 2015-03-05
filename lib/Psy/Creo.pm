@@ -19,15 +19,8 @@ use constant CT_ALEX_JILE  => 3;
 use constant CT_BLACK_COPY => 4;
 use constant CT_PLAGIARISM => 5;
 
-use base "Psy::DB::Entity";
+use base "Psy::DB";
 
-sub _table_name { 'creo' }
-sub _relations {
-	{
-		users      => { fkey => 'user_id' },
-		creo_stats => { fkey => 'id', pkey => 'creo_id' },
-	}
-}
 
 sub constructor {
 	my ($class, %p) = @_;
@@ -486,10 +479,11 @@ sub list_by_period {
 	$p{users_to_exclude} ||= [];
 	
 	
-	return $self->list_by_cond(
+	return $self->schema_select(
+		'Creo',
 		{
 			type => $p{type},
-			
+
 			$p{period} > 2009
 				? ( post_year => $p{period} )
 				: $p{period} > 0
@@ -504,26 +498,21 @@ sub list_by_period {
 				? ( user_id => { -not_in => $p{users_to_exclude} } )
 				: ()
 		},
-		fields => {
-			me => [
-				qw| id type user_id title |,
-				{ 
-					post_date => { 
-						post_date => sub { Psy::DB::Entity::nice_date(@_) }
-					}	
-				}
-			],
-			users => [
-				{ name => 'alias' }
-			],
-			creo_stats => [
-				{ comments   => 'comments_count' },
-				{ votes      => 'votes_count'    },
-				{ votes_rank => 'votes_rank'     },
-			]											 
+		{
+			join     => 'creo_stat',
+			order_by => { -desc => 'post_date' }
 		},
-		field_prefix => 'cl_',
-		order_by     => { desc => 'post_date' }
+		[qw/ id type user_id title post_date creo_stat.comments /],
+		'cl_',
+		{
+			date_field => 'post_date',
+			user_id    => 'alias'
+		}
+		#	creo_stats => [
+		#		{ comments   => 'comments_count' },
+		#		{ votes      => 'votes_count'    },
+		#		{ votes_rank => 'votes_rank'     },
+		#	]											 
 	);
 }
 
