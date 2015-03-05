@@ -4,24 +4,22 @@ use strict;
 use warnings;
 use utf8;
 
-use Psy::News;
-
 
 sub main {
 	my ($self) = @_;
 
-	my $id  = $self->params->{id};
-	my $psy = $self->params->{psy};
-	
-	my $news = Psy::News->constructor;
+	my $id   = $self->params->{id};
 
-	unless ($psy->is_god) {
-		return $psy->error("Врачей не наипешь!");
+	unless ($self->psy->is_god) {
+		return $self->psy->error("Врачей не наипешь!");
 	}
 
-	$news->hide($id);
+	$self->schema
+		->resultset('News')
+		->find({ id => $id })
+		->update({ visible => 0 });
 
-	return not $psy->error;
+	return not $self->psy->error;
 }
 
 1;

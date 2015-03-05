@@ -1,34 +1,34 @@
 package Psy::DB;
 
-use DBI;
 use strict;
 use warnings;
 use utf8;
 
 use PSY_DB_CONF;
+use PsyApp::Schema;
+use Psy::DB::Profiler;
 use Time::HiRes;
 use Psy::Errors;
 use Utils;
 use Format::LongNumber;
-
-my $__STATISTIC = {
-	sql_count       => 0,
-	sql_time        => 0,
-	db_connect_time => 0,
-	db_connections  => 0,
-};
+use Time::Piece;
 
 my $__SHOW_SQL_DETAILS = 0;
 my @__SQL_DETAILS;
+my $__SCHEMA;
+my $__PROFILER;
 
-my $__DBH = undef;
 
 sub connect {
 	my ($class, %p) = @_;
 	
-	unless ($__DBH) {
+	my $self = { 
+		sql_empty_result => 1,
+	};
+
+	unless ($__SCHEMA) {
 		my $begin_time = Time::HiRes::time;
-		$__DBH = DBI->connect(
+		$__SCHEMA = PsyApp::Schema->connect(
 			sprintf('dbi:mysql:%s:%s', PSY_DB_CONF::NAME, PSY_DB_CONF::HOST), 
 			PSY_DB_CONF::USER, 
 			PSY_DB_CONF::PASS,
@@ -38,26 +38,79 @@ sub connect {
 				mysql_enable_utf8    => 1
 			}
 		) or die $!;
-		#$__DBH->{mysql_enable_utf8} = 1;
-		#$__DBH->do("SET NAMES utf8");
+
+		$__PROFILER = Psy::DB::Profiler->new(dbh => $__SCHEMA->storage->dbh);
 		
-		#$__DBH->do("SET SQL_BIG_SELECTS=1");
-		
-		$__STATISTIC->{db_connect_time} += sprintf('%.3f', Time::HiRes::time - $begin_time);
-		$__STATISTIC->{db_connections}++;
+		$__PROFILER->statistic_inc('db_connect_time', sprintf('%.3f', Time::HiRes::time - $begin_time));
+		$__PROFILER->statistic_inc('db_connections');
+
+		$__SCHEMA->storage->debugobj($__PROFILER);
+		$__SCHEMA->storage->debug(1);
 	}
-	my $self = { 
-		dbh              => $__DBH, 
-		sql_empty_result => 1,
-	};
 	
+	if ($p{clear_stat}) {
+		$__PROFILER->clear;
+	}
+
 	$self->{console} = $p{console} || 0;
 
 	return bless $self, $class;
 }
-#
-#
-#
+
+sub schema {
+	my ($self) = @_;
+	return $__SCHEMA;
+}
+
+sub schema_select {
+	my ($self, $class, $cond, $attrs, $fields, $fields_prefix, $params) = @_;
+	
+	$fields_prefix ||= '';
+	$attrs         ||= {};
+	$attrs = {
+		%$attrs,
+		select       => $fields,
+		as           => [ map { $fields_prefix.$_ } @$fields ],
+		result_class => 'DBIx::Class::ResultClass::HashRefInflator'
+	};
+
+	my $now_date;
+	my $yesterday_date;
+	if ($params->{nice_date_field}) {
+		my $t = localtime;
+		$now_date       = $t->ymd;
+		$yesterday_date = ($t - 86400)->ymd;
+	}
+
+	my @result = $self->schema->resultset($class)->search($cond, $attrs)->all;
+
+	if ($params->{date_field} or $params->{user_id} or $params->{nice_date_field}) {
+		@result = map {
+			if ($params->{date_field}) {
+				$_->{$fields_prefix.$params->{date_field}} =~ s/ .*$//;
+			}
+			if ($params->{nice_date_field}) {
+				my $f = $fields_prefix.$params->{nice_date_field};
+				$_->{$f} =~ s/ .*$//;
+				if ($_->{$f} eq $now_date) {
+					$_->{$f} = 'Сегодня';
+				}
+				elsif ($_->{$f} eq $yesterday_date) {
+					$_->{$f} = 'Вчера';
+				}
+			}
+			if ($params->{user_id}) {
+				$_->{$fields_prefix.$params->{user_id}} = $self->get_user_name_by_id($_->{$fields_prefix.'user_id'});
+			}
+			$_;
+		}
+		@result;
+	}
+	return (@result and 1 == keys %{$result[0]})
+		? [ map { values $_ } @result ]
+		: \@result;
+}
+
 sub query {
 	my ($self, $sql, $params, $settings) = @_;
 
@@ -84,25 +137,20 @@ sub query {
 	my $begin_time = Time::HiRes::time;
 	my $sth = $self->_execute_sql($sql, $params, $settings);
 	my $sql_time = Time::HiRes::time - $begin_time;
-	$__STATISTIC->{sql_time} += $sql_time;
-	$__STATISTIC->{sql_count}++;
 
 	# Explain statistic BEGIN
 	if ($__SHOW_SQL_DETAILS) {
-		push @__SQL_DETAILS, {
+		$__PROFILER->add_sql({
 			sql      => $sql,
 			sql_time => sprintf('%.4f', $sql_time),
-			#params  => $params,
-			($sql =~ /^\s*select/i) 
-				? (%{$self->explain_query($sql, $params, $settings)}) 
-				: ()
-		};
+			params   => $params,
+		});
 	}
 	# Explain statistic END
 
 	if ($return_last_id and $sql =~ /^\s*insert/i) {
 		$sth->finish;
-		return $self->{dbh}->last_insert_id(undef, undef, undef, undef);
+		return $__SCHEMA->storage->dbh->last_insert_id(undef, undef, undef, undef);
 	}
 	if ($sql =~ /^\s*(select|show)/i) {	
 		my @result;
@@ -121,44 +169,12 @@ sub query {
 	return 1;
 }
 #
-# Explain command
-#
-sub explain_query {
-	my ($self, $sql, $params, $settings) = @_;
-
-	my $sth = $self->_execute_sql('EXPLAIN '. $sql, $params, $settings);
-
-	my @result;
-	my $total_rows = 1;
-	my %extra;
-	my $type_total = '';
-
-	while (my $line = $sth->fetchrow_hashref) {
-		foreach my $e (split /\s*;\s*/, $line->{Extra}) {
-			undef $extra{$e};
-		}
-
-		$total_rows *= ($line->{rows} || 1);
-		push @result, $line;
-	}
-	
-	$sth->finish;
-
-	return {
-		caller                  => (caller(2))[3] || (caller(1))[3],
-		explain_details         => \@result, 
-		explain_nice_total_rows => short_number($total_rows),
-		explain_total_rows      => $total_rows,
-		extra                   => join('; ', sort keys %extra)
-	};
-}
-#
 # Execute sql
 #
 sub _execute_sql {
 	my ($self, $sql, $params, $settings) = @_;
 	
-	my $sth = $self->{dbh}->prepare($sql);
+	my $sth = $__SCHEMA->storage->dbh->prepare($sql);
 	$sth->execute(@$params);
 	
 	if ($sth->err) {
@@ -180,19 +196,8 @@ sub empty_result_set {
 # Return statistic data
 #
 sub db_statistic {
-	return $__STATISTIC;
-}
-#
-# Crear statistic
-#
-sub clear_db_statistic {
-	$__STATISTIC = {
-		sql_count       => 0,
-		sql_time        => 0,
-		db_connect_time => 0,
-		db_connections  => $__STATISTIC->{db_connections},
-	};
-	@__SQL_DETAILS = ();
+	my ($class) = @_;
+	return $__PROFILER->get_statistic;
 }
 #
 # Enable sql details
@@ -208,7 +213,8 @@ sub show_sql_details {
 }
 
 sub get_sql_details {
-	return \@__SQL_DETAILS;
+	my ($self) = @_;
+	return $__PROFILER->get_sql_details;
 }
 #
 # Set error msg and return 0

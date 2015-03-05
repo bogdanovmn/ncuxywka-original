@@ -16,11 +16,11 @@ sub main {
 	}
 
 	my $sql_details = $psy->cache->try_get('sql_details', sub { [] }, 1);
-	
 	return {
 		sql_details => [
 			map  {
 				$_->{sql} = $self->_sql_to_html($_->{sql});
+				$_->{params} = [] unless $_->{params};
 				$_;
 			}
 			sort { 

@@ -17,4 +17,10 @@ sub creos {
 	return Psy::Creo->constructor;
 }
 
+sub schema {
+	my ($self) = @_;
+
+	return $self->psy->schema;
+}
+
 1;
