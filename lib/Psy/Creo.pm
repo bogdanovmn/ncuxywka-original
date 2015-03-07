@@ -491,7 +491,7 @@ sub list_by_period {
 			type => $p{type},
 			
 			$p{period} > 2009
-				? ( "DATE_FORMAT(post_date, '%Y')" => $p{period} )
+				? ( post_year => $p{period} )
 				: $p{period} > 0
 					? ( post_date => { '>=' => \["NOW() - INTERVAL ? DAY", $p{period}] } )
 					: (),
@@ -523,7 +523,7 @@ sub list_by_period {
 			]											 
 		},
 		field_prefix => 'cl_',
-		order_by     => { desc => 'id' }
+		order_by     => { desc => 'post_date' }
 	);
 }
 

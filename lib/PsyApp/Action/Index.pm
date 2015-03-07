@@ -15,13 +15,13 @@ sub main {
 	my $top_creo_list = $self->psy->cache->try_get(
 		'top_creo_list__for_user_'. $self->psy->user_id,
 		sub { $self->_top(count => 10, users_to_exclude => $users_to_exclude) },
-		Cache::FRESH_TIME_HOUR
+		Cache::FRESH_TIME_HOUR*24
 	);
 
 	my $anti_top_creo_list = $self->psy->cache->try_get(
 		'anti_top_creo_list__for_user_'. $self->psy->user_id,
 		sub { $self->_top(count => 10, anti => 1, users_to_exclude => $users_to_exclude) },
-		Cache::FRESH_TIME_HOUR
+		Cache::FRESH_TIME_HOUR*24
 	);
 	my $new_users = $self->psy->cache->try_get(
 		'new_users',

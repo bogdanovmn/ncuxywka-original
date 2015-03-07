@@ -197,7 +197,9 @@ sub empty_result_set {
 #
 sub db_statistic {
 	my ($class) = @_;
-	return $__PROFILER->get_statistic;
+	return $__SHOW_SQL_DETAILS 
+		? $__PROFILER->get_statistic
+		: undef;
 }
 #
 # Enable sql details
@@ -207,6 +209,7 @@ sub show_sql_details {
 
 	if (defined $flag) {
 		$__SHOW_SQL_DETAILS = $flag;
+		$__SCHEMA->storage->debug($flag ? 1 : 0);
 	}
 
 	return $__SHOW_SQL_DETAILS;
@@ -214,7 +217,9 @@ sub show_sql_details {
 
 sub get_sql_details {
 	my ($self) = @_;
-	return $__PROFILER->get_sql_details;
+	return $__SHOW_SQL_DETAILS
+		? $__PROFILER->get_sql_details
+		: undef;
 }
 #
 # Set error msg and return 0
