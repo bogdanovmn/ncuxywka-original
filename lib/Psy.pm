@@ -76,33 +76,6 @@ sub enter {
 	return $self;
 }
 
-sub get_user_name_by_id___moved {
-	my ($self, $user_id, $second) = @_;
-
-	if ($user_id) {
-		unless (defined $self->{helper}->{users}) {
-			$self->{helper}->{users} = $self->cache->try_get(
-				'helper__users',
-				sub {+{ 
-					map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
-					@{ $self->query(q| SELECT id, name, type FROM users |) }
-				}},
-				Cache::FRESH_TIME_HOUR*6
-			);
-		}
-		
-		if ($self->{helper}->{users}->{$user_id}) {
-			return $self->{helper}->{users}->{$user_id}->{name};
-		}
-		elsif (not $second) {
-			undef $self->{helper}->{users};
-			$self->cache->clear('helper__users');
-			return $self->get_user_name_by_id($user_id, 'yes');
-		}
-	}
-	return '???';
-}
-
 sub common_info {
 	my ($self, %p) = @_;
 	

@@ -7,8 +7,7 @@ use utf8;
 use Dancer ':syntax';
 use Dancer::Plugin::Controller '0.152';
 
-use Carp;
-$SIG{__DIE__} = sub { confess(@_) };
+#use Carp; $SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
 
