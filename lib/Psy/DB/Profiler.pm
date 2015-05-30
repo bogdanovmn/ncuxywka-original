@@ -31,7 +31,7 @@ sub new {
 sub query_start {
 	my ($self, $sql, @params) = @_;
 
-	$self->print("Executing $sql: ".join(', ', @params)."\n");
+	#$self->print("Executing $sql: ".join(', ', @params)."\n");
 	$__EXEC_START_TIME = time;
 }
 
