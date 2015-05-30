@@ -9,6 +9,7 @@ use PsyApp::Schema;
 use Psy::DB::Profiler;
 use Time::HiRes;
 use Psy::Errors;
+use Psy::Cache;
 use Utils;
 use Format::LongNumber;
 use Time::Piece;
@@ -17,6 +18,7 @@ my $__SHOW_SQL_DETAILS = 0;
 my @__SQL_DETAILS;
 my $__SCHEMA;
 my $__PROFILER;
+my $__CACHER;
 
 
 sub connect {
@@ -50,11 +52,47 @@ sub connect {
 	
 	if ($p{clear_stat}) {
 		$__PROFILER->clear;
+		$__CACHER = Psy::Cache->new;
 	}
 
 	$self->{console} = $p{console} || 0;
 
 	return bless $self, $class;
+}
+
+sub cacher {
+	my ($class) = @_;
+	return $__CACHER;
+}
+
+sub get_user_name_by_id {
+	my ($self, $user_id, $second) = @_;
+
+	if ($user_id) {
+		unless ($self->cacher->worker_cache('users')) {
+			$self->cacher->worker_cache(
+				'users',
+				$self->cacher->cache->try_get(
+					'helper__users',
+					sub {+{ 
+						map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
+						@{ $self->query(q| SELECT id, name, type FROM users |) }
+					}},
+					Cache::FRESH_TIME_HOUR*6
+				)
+			);
+		}
+		
+		if ($self->cacher->worker_cache('users')->{$user_id}) {
+			return $self->cacher->worker_cache('users')->{$user_id}->{name};
+		}
+		elsif (not $second) {
+			$self->cacher->worker_cache('users', 0);
+			$self->cacher->cache->clear('helper__users');
+			return $self->get_user_name_by_id($user_id, 'yes');
+		}
+	}
+	return '???';
 }
 
 sub schema {

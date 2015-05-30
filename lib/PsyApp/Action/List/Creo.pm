@@ -51,7 +51,7 @@ sub main {
 		neofuturism => $neofuturism,
 		users_to_exclude => $psy->users_to_exclude
 	);
-	
+debug $last_creos;	
 	my @jump_links = map { 
 		{
 			type     => "creos",

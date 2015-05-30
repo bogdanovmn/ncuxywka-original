@@ -68,39 +68,12 @@ sub enter {
 
 	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{auditor}           = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
-	$self->{cache}             = Cache->constructor(
-		storage    => $FindBin::Bin. '/../cache',
-		fresh_time => 30
-	);
+	#$self->{cache}             = Cache->constructor(
+	##	storage    => $FindBin::Bin. '/../cache',
+	#	fresh_time => 30
+	#);
     
 	return $self;
-}
-
-sub get_user_name_by_id {
-	my ($self, $user_id, $second) = @_;
-
-	if ($user_id) {
-		unless (defined $self->{helper}->{users}) {
-			$self->{helper}->{users} = $self->cache->try_get(
-				'helper__users',
-				sub {+{ 
-					map { $_->{id} => { name => $_->{name}, type => $_->{type} } }
-					@{ $self->query(q| SELECT id, name, type FROM users |) }
-				}},
-				Cache::FRESH_TIME_HOUR*6
-			);
-		}
-		
-		if ($self->{helper}->{users}->{$user_id}) {
-			return $self->{helper}->{users}->{$user_id}->{name};
-		}
-		elsif (not $second) {
-			undef $self->{helper}->{users};
-			$self->cache->clear('helper__users');
-			return $self->get_user_name_by_id($user_id, 'yes');
-		}
-	}
-	return '???';
 }
 
 sub common_info {
@@ -671,7 +644,7 @@ sub pm {
 #
 sub cache {
 	my ($self) = @_;
-	return $self->{cache};
+	return $self->cacher->cache;
 }
 #
 # Auditor object
