@@ -63,6 +63,7 @@
 			</TMPL_UNLESS>
 		<td class=comments>
 			<TMPL_VAR cl_comments_count>
+			<TMPL_VAR comments>
 		<td class=resume>
 			<TMPL_VAR cl_votes_count>
 </TMPL_LOOP>
