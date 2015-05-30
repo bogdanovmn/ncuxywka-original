@@ -47,7 +47,7 @@ sub connect {
 		$__PROFILER->statistic_inc('db_connections');
 
 		$__SCHEMA->storage->debugobj($__PROFILER);
-		$__SCHEMA->storage->debug(1);
+		$__SCHEMA->storage->debug(0);
 	}
 	
 	if ($p{clear_stat}) {
