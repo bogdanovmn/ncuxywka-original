@@ -26,7 +26,7 @@ sub text {
 
 	my $result = '';
 	foreach my $chunk (@{$self->{chunks}}) {
-		$result .= $chunk->text;
+		$result .= ' --- '. $chunk->text;
 	}
 
 	return $result;

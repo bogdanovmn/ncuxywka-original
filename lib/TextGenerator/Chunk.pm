@@ -29,7 +29,6 @@ sub last_token {
 
 sub text {
 	my ($self) = @_;
-use Utils;debug $self;
 	return join ' ', map { $_->value } @{$self->{tokens}};
 }
 

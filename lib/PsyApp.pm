@@ -60,6 +60,8 @@ use PsyApp::Action::PersonalMessages::Post;
 
 use PsyApp::Action::ProcedureSet;
 
+use PsyApp::Action::Lab::RandomCreo;
+
 use PsyApp::Action::Admin::SqlDetails;
 use PsyApp::Action::Admin::Bot::Comment::Template;
 use PsyApp::Action::Admin::Bot::Comment::Template::Post;
@@ -573,6 +575,12 @@ get qr#/procedure/user/(\d+)# => sub {
 get '/maindoctor/' => sub { 
 	#use Utils; debug(request->env);	
 	controller( template => 'maindoctor', action => 'Maindoctor' ) 
+};
+#
+# Random creo room
+#
+any '/lab/random_creo/' => sub {
+	controller( template => 'random_creo', action => 'Lab::RandomCreo' )
 };
 
 ###

@@ -7,7 +7,7 @@ use utf8;
 use base 'Psy::DB';
 
 use TextGenerator::Source;
-
+use List::Util;
 
 sub new {
 	my ($class, %p) = @_;
@@ -34,7 +34,7 @@ sub _load_text {
 		[qw/ body /],
 	);
 
-	foreach my $c (@$creos) {
+	foreach my $c (List::Util::shuffle @$creos) {
 		$self->{source}->add($c);
 	}
 }
