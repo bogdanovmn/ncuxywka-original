@@ -39,7 +39,7 @@ sub convert_to_html {
 	$text = cut_long_words($text, 65);
 	$text = replace_multi_spaces($text);
 	$text = replace_html_direct_symbols($text);
-	$text =~ s/\r\n/<br>/g;
+	$text =~ s/\r?\n/<br>/g;
 
 	return $text;
 }

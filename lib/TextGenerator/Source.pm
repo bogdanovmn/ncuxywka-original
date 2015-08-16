@@ -31,8 +31,8 @@ sub _prepare_tokens {
 
 	return if exists $self->{tokens};
 
-	$self->{text} =~ s/(\w)(\W)/$1 $2/g;
-	$self->{text} =~ s/(\W)(\w)/$1 $2/g;
+	$self->{text} =~ s/([\w-])(\W)/$1 $2/g;
+	$self->{text} =~ s/(\W)([\w-])/$1 $2/g;
 	$self->{text} =~ s/ {2,}/ /g;
 	$self->{text} =~ s/\r//g;
 
@@ -137,9 +137,9 @@ sub create {
 	
 	my $chunk = $self->_get_first_chunk;
 	if ($chunk) {
-		my $result = TextGenerator::Result->new;
+		my $result = TextGenerator::Result->new(chunks_count => 250 / $self->{chunk_length});
 		$result->add($chunk);
-		while (my $next_chunk = $self->_get_next_chunk($chunk)) {
+		while (my $next_chunk = $self->_get_next_chunk($chunk) and not $result->is_done) {
 			$result->add($next_chunk);
 			$chunk = $next_chunk;
 		}

@@ -3,7 +3,7 @@
 </center>
 
 <form method=post>
-	<table>
+	<table class=form>
 	<tr>
 	<td>
 		Пациэнт
@@ -25,11 +25,12 @@
 				</option>
 			</TMPL_LOOP>
 		</select>
+	<tr>
 	<td>
-		<input type=submit value='Испытать'>
+		<input type=submit value='Испытать лекарство'>
 	</table>
 </form>
 
 <h1>Вот что получилось</h1>
 
-<div class=creo_body><TMPL_VAR text></div>
+<div class=creo_body><TMPL_VAR ESCAPE=NONE text></div>

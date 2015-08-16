@@ -27,6 +27,12 @@ sub last_token {
 	return $self->{tokens}->[-1];
 }
 
+sub first_token {
+	my ($self) = @_;
+
+	return $self->{tokens}->[0];
+}
+
 sub text {
 	my ($self) = @_;
 	return join ' ', map { $_->value } @{$self->{tokens}};
