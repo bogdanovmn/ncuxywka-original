@@ -26,6 +26,7 @@ sub _dumper {
 		no warnings 'redefine';
 		sub Data::Dumper::qquote {
 			my $s = shift;
+			utf8::encode($s);
 			return "'$s'";
 		}
 	}
