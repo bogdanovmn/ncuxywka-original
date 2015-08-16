@@ -31,8 +31,9 @@ sub _prepare_tokens {
 
 	return if exists $self->{tokens};
 
-	$self->{text} =~ s/([\w-])(\W)/$1 $2/g;
-	$self->{text} =~ s/(\W)([\w-])/$1 $2/g;
+	$self->{text} =~ s/([!;:?+=.,])/ $1/g;
+	#$self->{text} =~ s/([\w-])(\W)/$1 $2/g;
+	#$self->{text} =~ s/(\W)([\w-])/$1 $2/g;
 	$self->{text} =~ s/ {2,}/ /g;
 	$self->{text} =~ s/\r//g;
 

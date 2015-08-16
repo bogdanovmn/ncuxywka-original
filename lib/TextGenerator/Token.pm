@@ -34,7 +34,7 @@ sub position {
 sub is_word {
 	my ($self) = @_;
 
-	return $self->value =~ /^\w+$/;
+	return $self->value =~ /^[a-zа-я]+$/i;
 }
 
 1;
