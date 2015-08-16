@@ -102,6 +102,8 @@ sub chunks {
 sub set_selected_flag {
 	my ($list, $selected_value, $key) = @_;
 
+	return $list unless defined $selected_value;
+
 	$key ||= 'id';
 
 	return [ 
