@@ -42,6 +42,12 @@ sub text {
 	return $result;
 }
 
+sub is_empty {
+	my ($self) = @_;
+
+	return 0 == @{$self->{chunks}};
+}
+
 sub is_done {
 	my ($self) = @_;
 
