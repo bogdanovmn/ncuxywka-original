@@ -10,6 +10,8 @@ use TextGenerator::Token;
 use TextGenerator::Chunk;
 use TextGenerator::Result;
 
+use constant ATTEMPT_COUNT => 10;
+
 sub new {
 	my ($class, $text) = @_;
 
@@ -31,8 +33,9 @@ sub _prepare_tokens {
 
 	return if exists $self->{tokens};
 
-	$self->{text} =~ s/([\w-])(\W)/$1 $2/g;
-	$self->{text} =~ s/(\W)([\w-])/$1 $2/g;
+	$self->{text} =~ s/([!;:?+=.,])/ $1/g;
+	#$self->{text} =~ s/([\w-])(\W)/$1 $2/g;
+	#$self->{text} =~ s/(\W)([\w-])/$1 $2/g;
 	$self->{text} =~ s/ {2,}/ /g;
 	$self->{text} =~ s/\r//g;
 
@@ -134,17 +137,20 @@ sub create {
 	$self->{chunk_length} = $p{chunk_length} || 5;
 
 	$self->_prepare_tokens;
-	
-	my $chunk = $self->_get_first_chunk;
-	if ($chunk) {
-		my $result = TextGenerator::Result->new(chunks_count => 250 / $self->{chunk_length});
-		$result->add($chunk);
-		while (my $next_chunk = $self->_get_next_chunk($chunk) and not $result->is_done) {
-			$result->add($next_chunk);
-			$chunk = $next_chunk;
-		}
 
-		return $result->text;
+	
+	for (my $attempt = 0; $attempt < ATTEMPT_COUNT; $attempt++) {
+		my $chunk = $self->_get_first_chunk;
+		if ($chunk) {
+			my $result = TextGenerator::Result->new(chunks_count => 250 / $self->{chunk_length});
+			$result->add($chunk);
+			while (my $next_chunk = $self->_get_next_chunk($chunk) and not $result->is_done) {
+				$result->add($next_chunk);
+				$chunk = $next_chunk;
+			}
+
+			return $result->text unless $result->is_empty;
+		}
 	}
 }
 

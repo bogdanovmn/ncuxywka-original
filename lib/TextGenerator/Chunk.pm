@@ -35,7 +35,11 @@ sub first_token {
 
 sub text {
 	my ($self) = @_;
-	return join ' ', map { $_->value } @{$self->{tokens}};
+	
+	my $result = join ' ', map { $_->value } @{$self->{tokens}};
+	$result =~ s/ ([.!,;:-])/$1/g;
+
+	return $result;
 }
 
 1;
