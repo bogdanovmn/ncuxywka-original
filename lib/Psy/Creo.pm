@@ -479,41 +479,46 @@ sub list_by_period {
 	$p{users_to_exclude} ||= [];
 	
 	
-	return $self->schema_select(
-		'Creo',
-		{
-			type => $p{type},
-
-			$p{period} > 2009
-				? ( post_year => $p{period} )
-				: $p{period} > 0
-					? ( post_date => { '>=' => \["NOW() - INTERVAL ? DAY", $p{period}] } )
-					: (),
-				
-			$p{neofuturism} 
-				? ( neofuturism => 1 ) 
-				: (),
-			
-			scalar @{$p{users_to_exclude}}
-				? ( user_id => { -not_in => $p{users_to_exclude} } )
-				: ()
-		},
-		{
-			join     => 'creo_stat',
-			order_by => { -desc => 'post_date' }
-		},
-		[qw/ id type user_id title post_date creo_stat.comments /],
-		'cl_',
-		{
-			date_field => 'post_date',
-			user_id    => 'alias'
+	return [
+		map {
+			$_->{cl_votes}    = $_->{cl_creo_stat}->{votes};
+			$_->{cl_comments} = $_->{cl_creo_stat}->{comments};
+			delete $_->{cl_creo_stat};
+			$_;
 		}
-		#	creo_stats => [
-		#		{ comments   => 'comments_count' },
-		#		{ votes      => 'votes_count'    },
-		#		{ votes_rank => 'votes_rank'     },
-		#	]											 
-	);
+		@{
+			$self->schema_select(
+				'Creo',
+				{
+					type => $p{type},
+
+					$p{period} > 2009
+						? ( post_year => $p{period} )
+						: $p{period} > 0
+							? ( post_date => { '>=' => \["NOW() - INTERVAL ? DAY", $p{period}] } )
+							: (),
+						
+					$p{neofuturism} 
+						? ( neofuturism => 1 ) 
+						: (),
+					
+					scalar @{$p{users_to_exclude}}
+						? ( user_id => { -not_in => $p{users_to_exclude} } )
+						: ()
+				},
+				{
+					join     => 'creo_stat',
+					order_by => { -desc => 'post_date' }
+				},
+				[qw/ id type user_id title post_date creo_stat.comments creo_stat.votes /],
+				'cl_',
+				{
+					date_field => 'post_date',
+					user_id    => 'alias'
+				}
+			)
+		}
+	];
 }
 
 
