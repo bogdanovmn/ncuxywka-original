@@ -62,10 +62,9 @@
 				<span class=subnote>?</span>
 			</TMPL_UNLESS>
 		<td class=comments>
-			<TMPL_VAR cl_comments_count>
-			<TMPL_VAR comments>
+			<TMPL_VAR cl_comments>
 		<td class=resume>
-			<TMPL_VAR cl_votes_count>
+			<TMPL_VAR cl_votes>
 </TMPL_LOOP>
 </table>
 

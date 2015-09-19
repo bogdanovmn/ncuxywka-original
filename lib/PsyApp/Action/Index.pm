@@ -113,7 +113,10 @@ sub _load_last_creos {
 		};
 	
 	my %short_creos = 
-		map { $_->{lc_id} => $_ }
+		map { 
+			$_->{lc_comments_count} = $creo_comments{$_->{lc_id}};
+			$_->{lc_id} => $_ 
+		}
 		@{
 			$self->psy->schema_select('Creo',
 				{ id => { -in => \@creo_ids_short } },
