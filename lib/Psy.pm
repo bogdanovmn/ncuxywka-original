@@ -68,10 +68,6 @@ sub enter {
 
 	$self->{personal_messages} = Psy::PersonalMessages->constructor(user_id => $self->{user_data}->{user_id});
 	$self->{auditor}           = Psy::Auditor->constructor(user_id => $self->{user_data}->{user_id});
-	#$self->{cache}             = Cache->constructor(
-	##	storage    => $FindBin::Bin. '/../cache',
-	#	fresh_time => 30
-	#);
     
 	return $self;
 }

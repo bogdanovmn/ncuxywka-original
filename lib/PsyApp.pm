@@ -10,6 +10,7 @@ use Dancer::Plugin::Controller '0.152';
 #use Carp; $SIG{__DIE__} = sub { confess(@_) };
 
 use Psy;
+use Psy::DB;
 
 use PsyApp::Action;
 use PsyApp::Action::Index;
@@ -80,6 +81,11 @@ sub show_error { controller(template => 'error', action => 'Error') }
 
 hook 'before' => sub {
 	var profiler_gen_time => Time::HiRes::time;
+
+	set 'session_options' => { 
+		dbh   => sub { Psy::DB::schema->storage->dbh },
+		table => 'session',
+	};
 
 	my ($ip) = split /, /, request->env->{HTTP_X_FORWARDED_FOR} || '';
 	var psy => Psy->enter(
