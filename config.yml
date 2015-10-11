@@ -23,8 +23,9 @@ engines:
         loop_context_vars: 1
         default_escape: 'HTML'
 
-session: "memcached"
-memcached_servers: "127.0.0.1:11211"
+session: "DBI"
+session_options:
+    table: "session"
 
 plugins:
     "Controller":

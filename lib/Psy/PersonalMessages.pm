@@ -129,15 +129,19 @@ sub load_dialog {
 	
 	my $messages = $self->query(qq|
 		SELECT 
-			pm.msg dm_msg,
-			u.name dm_user_name,
+			pm.msg          dm_msg,
+			u.name          dm_user_name,
 			pm.from_user_id dm_user_id,
-			pm.post_date dm_date,
-			pm.is_new dm_new
+			pm.post_date    dm_date,
+			pm.is_new       dm_new
 		FROM personal_messages pm
 		LEFT JOIN users u ON u.id = pm.from_user_id
-		WHERE (pm.to_user_id = ? AND pm.from_user_id = ?)
-		OR (pm.to_user_id = ? AND pm.from_user_id = ?)
+		WHERE (
+			pm.to_user_id = ? AND pm.from_user_id = ?
+		)
+		OR (
+			pm.to_user_id = ? AND pm.from_user_id = ?
+		)
 		ORDER BY pm.post_date DESC
 		LIMIT ?, ?
 		|,
