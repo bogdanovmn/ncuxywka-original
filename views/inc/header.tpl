@@ -46,7 +46,7 @@
 	</TMPL_IF>	
 </head>
 
-<body onload="/*new SnowFall().run()*/">
+<body onload="new SnowFall().run()">
 
 <!--LiveInternet counter-->
 <script type="text/javascript">
