@@ -10,7 +10,7 @@ my $SKINS = {
 			main => "auto_main.css"
 		},
 		pic => {
-			main => "main201502.gif",
+			main => "main201601.png",
 			logo => "ncuxywka_com.jpg",
 			lozung => "medical_car_green.gif",
 			gb => "gb.jpg",
