@@ -194,7 +194,7 @@ sub _top {
 		'Creo',
 		{ 
 			type      => 0,
-			post_date =>  { '>' => \'NOW() - INTERVAL 36 MONTH' },
+#			post_date =>  { '>' => \'NOW() - INTERVAL 36 MONTH' },
 			$p{users_to_exclude} 
 				? ( user_id => { -not_in => $p{users_to_exclude} } )
 				: ()
