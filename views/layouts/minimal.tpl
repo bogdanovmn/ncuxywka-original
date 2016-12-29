@@ -12,7 +12,7 @@
     <hr>
     <table class=bottom>
         <tr>
-            <td class=copyright>&copy;2010-2015 ncuxywka.com
+            <td class=copyright>&copy;2010-2017 ncuxywka.com
             <td class=note>Минздрав предупреждает: использование Психуюшки опасно для вашего здоровья!
     </table>
     <p>&nbsp;
