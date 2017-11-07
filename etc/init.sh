@@ -14,7 +14,7 @@
 
 # Source function library.
 . /lib/lsb/init-functions
-. /lib/init/vars.sh
+#. /lib/init/vars.sh
 
 . /etc/backend/ncuxywka.conf
 

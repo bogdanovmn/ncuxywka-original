@@ -77,7 +77,7 @@ sub _main_sql {
     my ($self, $sub_sql, $params, $settings) = @_;
 
     my $list = $self->query(qq|
-        SELECT UNIX_TIMESTAMP(STR_TO_DATE(cal.str_value, $self->{date_format})) k, IFNULL(data.v, 0) v 
+        SELECT UNIX_TIMESTAMP(CONCAT(cal.str_value, '-01')) k, IFNULL(data.v, 0) v 
 		FROM ($sub_sql) data
 		RIGHT JOIN ( 
 			SELECT DISTINCT DATE_FORMAT(value, $self->{date_format}) str_value 
